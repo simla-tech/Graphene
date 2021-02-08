@@ -29,7 +29,7 @@ public struct GraphQLError: Error {
         
         self.rawData = json
         self.message = message
-        if let locations = json["locations"] as? [[String: Int]]{
+        if let locations = json["locations"] as? [[String: Int]] {
             self.locations = locations.compactMap({
                 if let line = $0["line"], let column = $0["column"] {
                     return Location(line: line, column: column)
@@ -58,7 +58,7 @@ extension GraphQLError: CustomNSError {
     public static var errorDomain: String {
         return "Graphene.GraphQLError"
     }
-    public var errorUserInfo: [String : Any] {
+    public var errorUserInfo: [String: Any] {
         return self.rawData
     }
 }

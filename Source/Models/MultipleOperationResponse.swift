@@ -8,7 +8,7 @@
 import Foundation
 
 public struct MultipleOperationResponse<T> {
-    public typealias ResponseType = [String : T]
+    public typealias ResponseType = [String: T]
     private var data: ResponseType = [:]
 }
 

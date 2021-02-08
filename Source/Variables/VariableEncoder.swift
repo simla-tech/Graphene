@@ -23,7 +23,7 @@ public class VariableEncoder {
         return VariableEncoderContainer(self)
     }
     
-    public func container<Key>(keyedBy type: Key.Type) -> VariableEncoderKeyedContainer<Key> where Key : CodingKey {
+    public func container<Key>(keyedBy type: Key.Type) -> VariableEncoderKeyedContainer<Key> where Key: CodingKey {
         return VariableEncoderKeyedContainer<Key>(self)
     }
     

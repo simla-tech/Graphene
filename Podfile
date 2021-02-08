@@ -6,6 +6,7 @@ inhibit_all_warnings!
 
 target 'Graphene' do
     pod 'Alamofire', '~> 5.4'
+    pod 'SwiftLint'
 end
 
 target 'GrapheneTests' do

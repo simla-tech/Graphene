@@ -19,6 +19,7 @@ extension RawRepresentable where Self: Variable {
 
 public typealias Variables = [String: Variable?]
 
+// swiftlint:disable:next syntactic_sugar
 extension Dictionary: Variable where Key == String, Value == Optional<Variable> {
     public var json: Any? {
         return self.mapValues({ $0?.json })

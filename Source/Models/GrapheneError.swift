@@ -79,7 +79,7 @@ extension GrapheneError: CustomNSError {
         return self.statusCode ?? 0
     }
     
-    public var errorUserInfo: [String : Any] {
+    public var errorUserInfo: [String: Any] {
         if let rawResponse = self.rawResponse {
             return ["raw_response": rawResponse]
         }

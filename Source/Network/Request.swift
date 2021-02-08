@@ -13,7 +13,7 @@ public class CancelableRequest {
     internal init(_ requst: Alamofire.DataRequest) {
         self.requst = requst
     }
-    public func cancel(){
+    public func cancel() {
         self.requst.cancel()
     }
 }
@@ -67,27 +67,26 @@ internal struct Request<O: Operation> {
         
         var currentObj = data
         
-        for pathComponent in key.split(separator: ".").map({ String($0) }){
+        for pathComponent in key.split(separator: ".").map({ String($0) }) {
             
             if let index = Int(pathComponent) {
                 
                 if let dict = currentObj as? [Any], index < dict.count {
                     currentObj = dict[index]
                     
-                }else{
+                } else {
                     throw GrapheneError.unknownKey(pathComponent)
                 }
                 
-                
-            }else{
+            } else {
                 
                 if let dict = currentObj as? [String: Any?], let nextObj = dict[pathComponent] {
-                    if let nextObj = nextObj{
+                    if let nextObj = nextObj {
                         currentObj = nextObj
-                    }else{
+                    } else {
                         throw GrapheneError.unknownKey(pathComponent)
                     }
-                }else{
+                } else {
                     throw GrapheneError.unknownKey(pathComponent)
                 }
                 
@@ -111,22 +110,25 @@ internal struct Request<O: Operation> {
                 result[resultPath] = value
             } else if let value = variable as? EncodableVariable {
                 let newResults = self.searchUploads(in: value.variables, currentPath: path)
-                result.merge(newResults, uniquingKeysWith: { a, _ in return a })
+                result.merge(newResults, uniquingKeysWith: { aVar, _ in return aVar })
             } else if let value = variable as? Variables {
                 let newResults = self.searchUploads(in: value, currentPath: path)
-                result.merge(newResults, uniquingKeysWith: { a, _ in return a })
+                result.merge(newResults, uniquingKeysWith: { aVar, _ in return aVar })
             }
         }
         return result
     }
 
-    private static func prepareFormData(_ multipartFormData: MultipartFormData, for operation: O, logger: LoggerProtocol, loggerQueue: DispatchQueue) throws {
+    private static func prepareFormData(_ multipartFormData: MultipartFormData,
+                                        for operation: O,
+                                        logger: LoggerProtocol,
+                                        loggerQueue: DispatchQueue) throws {
         
         let field = operation.asField
         
         // Encode variables
         let variables = field.variables
-        let variablesJson = variables.reduce(into: [String : Any](), { $0[$1.key] = $1.value.json })
+        let variablesJson = variables.reduce(into: [String: Any](), { $0[$1.key] = $1.value.json })
         let variablesData = try JSONSerialization.data(withJSONObject: variablesJson, options: [])
         let variablesJsonString = String(data: variablesData, encoding: .utf8) ?? "{}"
 
@@ -172,7 +174,10 @@ internal struct Request<O: Operation> {
             multipartFormData.append(data, withName: "map")
         }
         for (index, upload) in uploads.enumerated() {
-            multipartFormData.append(upload.value.data, withName: "\(index)", fileName: upload.value.name, mimeType: MimeType(path: upload.value.name).value)
+            multipartFormData.append(upload.value.data,
+                                     withName: "\(index)",
+                                     fileName: upload.value.name,
+                                     mimeType: MimeType(path: upload.value.name).value)
         }
         
     }
@@ -233,14 +238,14 @@ extension Request where O.QueryModel: Decodable {
         
         return self.executeAny(queue: .global(qos: .utility)) { result in
             
-            do{
+            do {
                 
                 let response = try result.get()
                 var mappedData: O.QueryModel?
                 
                 if let data = response.data as? O.QueryModel {
                     mappedData = data
-                }else if let data = response.data {
+                } else if let data = response.data {
                     let data = try JSONSerialization.data(withJSONObject: data, options: [])
                     mappedData = try self.configuration.decoder.decode(O.QueryModel.self, from: data)
                 }
@@ -253,7 +258,7 @@ extension Request where O.QueryModel: Decodable {
                     completionHandler(.success(newResponse))
                 }
                 
-            }catch{
+            } catch {
                 
                 if self.configuration.muteCanceledRequests,
                    ((error.asAFError?.isExplicitlyCancelledError ?? false) || self.dataRequest.isCancelled) {

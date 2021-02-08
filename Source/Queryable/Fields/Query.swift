@@ -14,7 +14,11 @@ public struct Query<T: Queryable>: Field {
     public let arguments: Arguments
     private(set) public var childrenFields: [Field]
        
-    public init(_ name: String, alias: String? = nil, on type: T.Type? = nil, args: Arguments = [:], _ builder: @escaping QueryBuilder<T>) {
+    public init(_ name: String,
+                alias: String? = nil,
+                on type: T.Type? = nil,
+                args: Arguments = [:],
+                _ builder: @escaping QueryBuilder<T>) {
         self.name = name
         self.alias = alias
         self.arguments = args
@@ -25,17 +29,27 @@ public struct Query<T: Queryable>: Field {
         }
     }
     
-    public init<Key: CodingKey>(_ key: Key, alias: String? = nil, on type: T.Type? = nil, args: Arguments = [:], _ builder: @escaping QueryBuilder<T>) {
+    public init<Key: CodingKey>(_ key: Key,
+                                alias: String? = nil,
+                                on type: T.Type? = nil,
+                                args: Arguments = [:],
+                                _ builder: @escaping QueryBuilder<T>) {
         self.init(key.stringValue, alias: alias, on: type, args: args, builder)
     }
     
-    public init<F: Fragment>(_ name: String, alias: String? = nil, args: Arguments = [:], fragment: F.Type) where F.FragmentModel == T {
+    public init<F: Fragment>(_ name: String,
+                             alias: String? = nil,
+                             args: Arguments = [:],
+                             fragment: F.Type) where F.FragmentModel == T {
         self.init(name, alias: alias, args: args) { builder in
             builder += .fragment(fragment)
         }
     }
     
-    public init<Key: CodingKey, F: Fragment>(_ key: Key, alias: String? = nil, args: Arguments = [:], fragment: F.Type) where F.FragmentModel == T {
+    public init<Key: CodingKey, F: Fragment>(_ key: Key,
+                                             alias: String? = nil,
+                                             args: Arguments = [:],
+                                             fragment: F.Type) where F.FragmentModel == T {
         self.init(key.stringValue, alias: alias, args: args, fragment: fragment)
     }
     
