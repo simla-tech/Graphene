@@ -73,7 +73,6 @@ jobs:
           ${{ runner.os }}-pods-
 
     - name: 📦 Build Pods
-      if: steps.cache-pods.outputs.cache-hit != 'true'
       run: bundle exec pod install
 
     - name: Run tests
