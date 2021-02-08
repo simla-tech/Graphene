@@ -7,11 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    name: Build & Test
+  lint: Lint code
     runs-on: macos-latest
-
-    steps:
     - uses: actions/checkout@v2
 
     - name: 💎 Cache Gems
@@ -42,6 +39,39 @@ jobs:
 
     - name: Lint
       run: bundle exec fastlane lint
+
+  test:
+    name: Unit tests
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: 💎 Cache Gems
+      id: cache-gems
+      uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+
+    - name: 📦 Bundle Gems
+      if: steps.cache-gems.outputs.cache-hit != 'true'
+      run: bundle install
+
+    - name: 🍫 Cache Pods
+      id: cache-pods
+      uses: actions/cache@v1
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+
+    - name: 📦 Build Pods
+      if: steps.cache-pods.outputs.cache-hit != 'true'
+      run: bundle exec pod install
 
     - name: Run tests
       run: bundle exec fastlane test
