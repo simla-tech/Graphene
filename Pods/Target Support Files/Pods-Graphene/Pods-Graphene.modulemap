@@ -1,6 +1,0 @@
-framework module Pods_Graphene {
-  umbrella header "Pods-Graphene-umbrella.h"
-
-  export *
-  module * { export * }
-}
