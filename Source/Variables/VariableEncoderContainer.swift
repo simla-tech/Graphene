@@ -16,11 +16,14 @@ public class VariableEncoderContainer {
     
     fileprivate var encoder: VariableEncoder
     
-    internal init(_ encoder: VariableEncoder){
+    internal init(_ encoder: VariableEncoder) {
         self.encoder = encoder
     }
     
-    private func applyChangeSet(to value: Variable?, forKey key: AnyHashable, changeSet: ChangeSet?, policy: ChangeSetEncodingPolicy) -> ApplyChangeSetResult {
+    private func applyChangeSet(to value: Variable?,
+                                forKey key: AnyHashable,
+                                changeSet: ChangeSet?,
+                                policy: ChangeSetEncodingPolicy) -> ApplyChangeSetResult {
         
         guard let changeSet = changeSet else {
             return .value(value)
@@ -87,7 +90,6 @@ public class VariableEncoderContainer {
             break
         }
     }
-    
     
     public func encodeIfPresent(_ value: Variable?, forKey key: String, changeSetPolicy: ChangeSetEncodingPolicy = .default) {
         guard let value = value else { return }

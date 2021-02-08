@@ -7,7 +7,7 @@
 
 import Foundation
 
-private let DEFAULT_MIME_TYPE = "application/octet-stream"
+private let defaultMimeType = "application/octet-stream"
 private let mimeTypes = [
     "html": "text/html",
     "htm": "text/html",
@@ -118,9 +118,9 @@ internal struct MimeType {
     let ext: String?
     public var value: String {
         guard let ext = self.ext else {
-            return DEFAULT_MIME_TYPE
+            return defaultMimeType
         }
-        return mimeTypes[ext.lowercased()] ?? DEFAULT_MIME_TYPE
+        return mimeTypes[ext.lowercased()] ?? defaultMimeType
     }
     public init(path: String) {
         ext = NSString(string: path).pathExtension

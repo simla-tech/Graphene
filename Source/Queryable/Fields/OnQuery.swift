@@ -23,7 +23,7 @@ public struct OnQuery<T: Queryable & SchemaType>: Field {
         self.init(builder, schemaType: T.schemaType)
     }
     
-    public var fieldString: String  {
+    public var fieldString: String {
         var res = [String]()
         res.append("...on \(self.schemaType) {")
         res.append(self.childrenFields.map({ $0.fieldString }).joined(separator: ","))

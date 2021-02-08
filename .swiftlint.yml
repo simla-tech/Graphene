@@ -1,0 +1,21 @@
+included: 
+  - Source
+  - Tests
+
+warning_threshold: 15
+
+identifier_name:
+  excluded:
+    - id
+    - i
+
+disabled_rules:
+  - trailing_whitespace
+  - type_name
+  - cyclomatic_complexity
+
+function_body_length:
+  warning: 200
+
+line_length:
+  warning: 180

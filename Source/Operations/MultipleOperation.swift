@@ -41,7 +41,6 @@ public struct MultipleOperation<O: Graphene.Operation>: Graphene.Operation {
         self.operations = operations
     }
     
-    
     /// Mode is equal to child operations
     public static var mode: OperationMode {
         return O.mode

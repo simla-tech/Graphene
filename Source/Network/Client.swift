@@ -18,7 +18,7 @@ public class Client: SessionDelegate {
     public var logger: LoggerProtocol = Logger()
     
     /// Create graphus client
-    public init(url: URLConvertible, configuration: Configuration = .default){
+    public init(url: URLConvertible, configuration: Configuration = .default) {
         self.url = url
         self.configuration = configuration
         self.session = Session(configuration: URLSessionConfiguration.af.default,

@@ -41,7 +41,5 @@ extension Field {
         }
         return result
     }
-    
-    
-    
+
 }
