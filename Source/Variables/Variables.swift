@@ -12,7 +12,7 @@ public protocol Variable {
 }
 
 extension RawRepresentable where Self: Variable {
-    var json: Any? {
+    public var json: Any? {
         return self.rawValue
     }
 }

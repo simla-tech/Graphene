@@ -25,7 +25,7 @@ public protocol Operation {
      
      Using for logging to identify multiple requests responses
      */
-    var operationIdentifier: String { get }
+    static var operationName: String { get }
     
     /**
      Universal representation of result sendable field
@@ -73,8 +73,8 @@ extension Operation {
     }
     
     // Default value
-    public var operationIdentifier: String {
-        return self.query.name
+    public static var operationName: String {
+        return String(describing: self)
     }
     
 }

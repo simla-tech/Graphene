@@ -8,16 +8,6 @@
 import Foundation
 import Alamofire
 
-public class CancelableRequest {
-    private let requst: Alamofire.DataRequest
-    internal init(_ requst: Alamofire.DataRequest) {
-        self.requst = requst
-    }
-    public func cancel() {
-        self.requst.cancel()
-    }
-}
-
 internal struct Request<O: Operation> {
     
     private let operation: O
@@ -133,7 +123,7 @@ internal struct Request<O: Operation> {
         let variablesJsonString = String(data: variablesData, encoding: .utf8) ?? "{}"
 
         // Prepare query string
-        var queryStr = type(of: operation).mode.rawValue
+        var queryStr = "\(O.mode.rawValue) \(O.operationName)"
         if !variables.isEmpty {
             let variablesStr = variables.map { variable -> String in
                 return "$\(variable.key): \(variable.schemaType)!"
@@ -158,9 +148,9 @@ internal struct Request<O: Operation> {
                 guard let variablesLoggerData = try? JSONSerialization.data(withJSONObject: variablesJson, options: [.prettyPrinted, .sortedKeys]) else {
                     return
                 }
-                logger.requestSended(query: queryStr, variablesJson: String(data: variablesLoggerData, encoding: .utf8))
+                logger.requestSended(operation: O.operationName, query: queryStr, variablesJson: String(data: variablesLoggerData, encoding: .utf8))
             } else {
-                logger.requestSended(query: queryStr, variablesJson: nil)
+                logger.requestSended(operation: O.operationName, query: queryStr, variablesJson: nil)
             }
         }
         
@@ -191,7 +181,7 @@ extension Request {
             do {
                                 
                 self.loggerQueue.async {
-                    self.logger.responseRecived(id: self.operation.operationIdentifier,
+                    self.logger.responseRecived(operation: O.operationName,
                                                 statusCode: response.response?.statusCode ?? -999,
                                                 interval: response.metrics?.taskInterval ?? DateInterval())
                 }

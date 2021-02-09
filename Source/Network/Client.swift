@@ -8,9 +8,9 @@
 import Foundation
 import Alamofire
 
-public class Client: SessionDelegate {
+public class Client: Alamofire.SessionDelegate {
     
-    internal let session: Session
+    internal let session: Alamofire.Session
     internal let loggerQueue = DispatchQueue(label: "Graphene.LoggerQueue", qos: .utility)
     
     public let configuration: Configuration

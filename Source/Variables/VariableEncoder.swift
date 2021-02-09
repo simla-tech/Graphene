@@ -9,8 +9,7 @@ import Foundation
 
 public class VariableEncoder {
     
-    public var variables = Variables()
-    public var dateFormatter = DateFormatter()
+    internal var variables = Variables()
     private(set) internal var changeSet: ChangeSet?
 
     internal init() {}

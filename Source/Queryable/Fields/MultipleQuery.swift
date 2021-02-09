@@ -9,12 +9,10 @@ import Foundation
 
 struct MultipleQuery<T: Queryable>: Field {
     
-    let key: String
     var childrenFields: [Field] = []
     let arguments: Arguments = [:]
 
-    init(_ key: String, _ builder: QueryBuilder<T>) {
-        self.key = key
+    init(_ builder: QueryBuilder<T>) {
         let container = QueryContainer<T>(builder)
         self.childrenFields = container.fields
     }

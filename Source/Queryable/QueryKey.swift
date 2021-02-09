@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class QueryKey {
+open class QueryKey {
         
     internal let object: Field
 

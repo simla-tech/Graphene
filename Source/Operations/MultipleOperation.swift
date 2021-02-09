@@ -45,9 +45,6 @@ public struct MultipleOperation<O: Graphene.Operation>: Graphene.Operation {
     public static var mode: OperationMode {
         return O.mode
     }
-    
-    /// Equal to automatically generated UUID string
-    public let operationIdentifier: String = UUID().uuidString
         
     /// Equal to null
     public let decoderRootKey: String? = nil
@@ -59,11 +56,15 @@ public struct MultipleOperation<O: Graphene.Operation>: Graphene.Operation {
     }
     
     public var query: Query<QueryModel> {
-        return Query(self.operationIdentifier, self.buildQuery)
+        return Query("", self.buildQuery)
     }
     
     public var asField: Field {
-        return MultipleQuery<QueryModel>(self.operationIdentifier, self.buildQuery)
+        return MultipleQuery<QueryModel>(self.buildQuery)
+    }
+    
+    public static var operationName: String {
+        return "Multiple_\(O.operationName)"
     }
     
 }

@@ -54,6 +54,7 @@
 		F36F3E5E25CAC3360024641C /* QueryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E5D25CAC3360024641C /* QueryKey.swift */; };
 		F36F3E6225CAC34F0024641C /* QueryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E6125CAC34F0024641C /* QueryContainer.swift */; };
 		F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E6625CAC3860024641C /* SchemaType.swift */; };
+		F37E966125D2AFA000A5927E /* CancellableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37E966025D2AFA000A5927E /* CancellableRequest.swift */; };
 		F39A61DC25CAE02600464DC9 /* OnQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61DB25CAE02600464DC9 /* OnQuery.swift */; };
 		F39A61E625CB250C00464DC9 /* AbstractDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61E525CB250C00464DC9 /* AbstractDecodable.swift */; };
 		F39A61EA25CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61E925CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift */; };
@@ -151,6 +152,7 @@
 		F36F3E5D25CAC3360024641C /* QueryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryKey.swift; sourceTree = "<group>"; };
 		F36F3E6125CAC34F0024641C /* QueryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryContainer.swift; sourceTree = "<group>"; };
 		F36F3E6625CAC3860024641C /* SchemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaType.swift; sourceTree = "<group>"; };
+		F37E966025D2AFA000A5927E /* CancellableRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableRequest.swift; sourceTree = "<group>"; };
 		F39A61DB25CAE02600464DC9 /* OnQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnQuery.swift; sourceTree = "<group>"; };
 		F39A61E525CB250C00464DC9 /* AbstractDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDecodable.swift; sourceTree = "<group>"; };
 		F39A61E925CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleValueDecodingContainer + Decode.swift"; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				F3B167BC25C2BBA00068E6C9 /* Client.swift */,
 				F3B167C025C2BBF60068E6C9 /* Logger.swift */,
 				F3B167C425C2BD1D0068E6C9 /* Request.swift */,
+				F37E966025D2AFA000A5927E /* CancellableRequest.swift */,
 				F3B167CC25C2C4330068E6C9 /* Response.swift */,
 				F3B167D425C2C6C00068E6C9 /* ResponseValidator.swift */,
 			);
@@ -665,6 +668,7 @@
 				F3CF4B6225CC266E00161B2C /* MultipleQuery.swift in Sources */,
 				F35ED0D425C2F4BA00244CA4 /* EncodableVariable.swift in Sources */,
 				F39A61EA25CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift in Sources */,
+				F37E966125D2AFA000A5927E /* CancellableRequest.swift in Sources */,
 				F324230625BAED7E00111C5B /* Queryable.swift in Sources */,
 				F3B167DD25C2C76D0068E6C9 /* MimeType.swift in Sources */,
 				F346C29125D151B6005C1BC1 /* MutationOperation.swift in Sources */,
@@ -930,7 +934,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3305AD919A0121BB7B10B1BC /* Pods-GrapheneTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48KFD5698Q;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -951,7 +955,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82C786AA962461F2626F8454 /* Pods-GrapheneTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48KFD5698Q;
 				INFOPLIST_FILE = Tests/Info.plist;

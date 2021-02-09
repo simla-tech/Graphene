@@ -9,22 +9,22 @@ import Foundation
 import os.log
 
 public protocol LoggerProtocol {
-    func requestSended(query: String, variablesJson: String?)
-    func responseRecived(id: String, statusCode: Int, interval: DateInterval)
+    func requestSended(operation: String, query: String, variablesJson: String?)
+    func responseRecived(operation: String, statusCode: Int, interval: DateInterval)
 }
 
 internal class Logger: LoggerProtocol {
     
-    func requestSended(query: String, variablesJson: String?) {
+    func requestSended(operation: String, query: String, variablesJson: String?) {
         if let variables = variablesJson {
-            os_log("[Graphene] Request sended:\n%@\nvariables: %@", query, variables)
+            os_log("[Graphene] Request \"%@\" sended:\n%@\nvariables: %@", operation, query, variables)
         } else {
-            os_log("[Graphene] Request sended:\n%@", query)
+            os_log("[Graphene] Request \"%@\" sended:\n%@", operation, query)
         }
     }
     
-    func responseRecived(id: String, statusCode: Int, interval: DateInterval) {
-        os_log("[Graphene] Response \"%@\" recived. Code: %d. Duration: %.3f", id, statusCode, interval.duration)
+    func responseRecived(operation: String, statusCode: Int, interval: DateInterval) {
+        os_log("[Graphene] Response \"%@\" recived. Code: %d. Duration: %.3f", operation, statusCode, interval.duration)
     }
     
 }

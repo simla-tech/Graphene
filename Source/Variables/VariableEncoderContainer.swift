@@ -77,26 +77,7 @@ public class VariableEncoderContainer {
         }
     }
     
-    public func encode(_ value: Date?, forKey key: String, changeSetPolicy: ChangeSetEncodingPolicy = .default) {
-        guard let value = value else {
-            self.encode(nil as Variable?, forKey: key)
-            return
-        }
-        let dateValue = self.encoder.dateFormatter.string(from: value)
-        switch self.applyChangeSet(to: dateValue, forKey: key, changeSet: self.encoder.changeSet, policy: changeSetPolicy) {
-        case .value(let newValue):
-            self.encoder.variables.updateValue(newValue, forKey: key)
-        default:
-            break
-        }
-    }
-    
     public func encodeIfPresent(_ value: Variable?, forKey key: String, changeSetPolicy: ChangeSetEncodingPolicy = .default) {
-        guard let value = value else { return }
-        self.encode(value, forKey: key, changeSetPolicy: changeSetPolicy)
-    }
-    
-    public func encodeIfPresent(_ value: Date?, forKey key: String, changeSetPolicy: ChangeSetEncodingPolicy = .default) {
         guard let value = value else { return }
         self.encode(value, forKey: key, changeSetPolicy: changeSetPolicy)
     }
