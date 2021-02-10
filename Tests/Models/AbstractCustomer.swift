@@ -45,11 +45,11 @@ extension AbstractCustomer: Queryable {
         static let createdAt = QueryKeys("createdAt")
 
         static func onCustomer(_ builder: @escaping QueryBuilder<Customer>) -> QueryKeys {
-            return QueryKeys(OnQuery(builder))
+            return On(Customer.self, builder).asKey()
         }
         
         static func onCorporateCustomer(_ builder: @escaping QueryBuilder<CustomerCorporate>) -> QueryKeys {
-            return QueryKeys(OnQuery(builder))
+            return On(CustomerCorporate.self, builder).asKey()
         }
         
     }

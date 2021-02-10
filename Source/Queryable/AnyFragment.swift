@@ -13,7 +13,7 @@ internal struct AnyFragment: Field, Hashable {
     var fragmentName: String
     var childrenFields: [Field]
     
-    var fieldString: String {
+    func buildField() -> String {
         return "...\(self.fragmentName)"
     }
     
@@ -31,7 +31,7 @@ internal struct AnyFragment: Field, Hashable {
     var fragmentBody: String {
         var result = [String]()
         result.append("fragment \(self.fragmentName) on \(self.schemaType) {")
-        result.append(self.childrenFields.map({ $0.fieldString }).joined(separator: ","))
+        result.append(self.childrenFields.map({ $0.buildField() }).joined(separator: ","))
         result.append("}")
         return result.joined()
     }

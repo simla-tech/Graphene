@@ -16,7 +16,7 @@ extension EditOrderPayload: Queryable {
     
     public class QueryKeys: QueryKey {
         static func order(_ builder: @escaping QueryBuilder<Order>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.order, builder))
+            return Query(CodingKeys.order, builder).asKey()
         }
     }
     

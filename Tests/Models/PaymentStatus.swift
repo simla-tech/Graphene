@@ -34,7 +34,7 @@ extension PaymentStatus: Queryable {
         static let ordering         = QueryKeys(CodingKeys.ordering)
         
         static func paymentTypes(_ builder: @escaping QueryBuilder<PaymentType>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.paymentTypes, builder))
+            return Query(CodingKeys.paymentTypes, builder).asKey()
         }
         
     }

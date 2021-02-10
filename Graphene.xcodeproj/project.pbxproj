@@ -21,6 +21,8 @@
 		F324230E25BAEDA200111C5B /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324230D25BAEDA200111C5B /* Operation.swift */; };
 		F324231A25BAEEFB00111C5B /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231925BAEEFB00111C5B /* Arguments.swift */; };
 		F324231E25BAEF5000111C5B /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231D25BAEF5000111C5B /* Field.swift */; };
+		F33C6F8D25D3CB3000BE7C7D /* AnyQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C6F8C25D3CB3000BE7C7D /* AnyQuery.swift */; };
+		F33C6F9125D3CB3A00BE7C7D /* FragmentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C6F9025D3CB3A00BE7C7D /* FragmentQuery.swift */; };
 		F346C28D25D151A8005C1BC1 /* QueryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346C28C25D151A7005C1BC1 /* QueryOperation.swift */; };
 		F346C29125D151B6005C1BC1 /* MutationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346C29025D151B6005C1BC1 /* MutationOperation.swift */; };
 		F346C29525D151D0005C1BC1 /* OperationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346C29425D151D0005C1BC1 /* OperationMode.swift */; };
@@ -73,9 +75,10 @@
 		F3B167DD25C2C76D0068E6C9 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167DC25C2C76D0068E6C9 /* MimeType.swift */; };
 		F3B2667325CD91510089A903 /* String + Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2667225CD91510089A903 /* String + Field.swift */; };
 		F3B2667925CD94090089A903 /* OrderProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2667825CD94090089A903 /* OrderProduct.swift */; };
+		F3C2527D25D3C2F300E78787 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C2527C25D3C2F300E78787 /* Alias.swift */; };
 		F3CF4B4425CBFD4000161B2C /* MultipleOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B4325CBFD4000161B2C /* MultipleOperation.swift */; };
 		F3CF4B4E25CBFF4100161B2C /* MultipleOperationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B4D25CBFF4100161B2C /* MultipleOperationResponse.swift */; };
-		F3CF4B5225CC0C4C00161B2C /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B5125CC0C4C00161B2C /* Pagination.swift */; };
+		F3CF4B5225CC0C4C00161B2C /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B5125CC0C4C00161B2C /* Connection.swift */; };
 		F3CF4B5625CC129200161B2C /* OrderListQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B5525CC129200161B2C /* OrderListQuery.swift */; };
 		F3CF4B5A25CC15ED00161B2C /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B5925CC15ED00161B2C /* PageInfo.swift */; };
 		F3CF4B5E25CC164400161B2C /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B5D25CC164400161B2C /* Node.swift */; };
@@ -119,6 +122,8 @@
 		F324230D25BAEDA200111C5B /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		F324231925BAEEFB00111C5B /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		F324231D25BAEF5000111C5B /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		F33C6F8C25D3CB3000BE7C7D /* AnyQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyQuery.swift; sourceTree = "<group>"; };
+		F33C6F9025D3CB3A00BE7C7D /* FragmentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentQuery.swift; sourceTree = "<group>"; };
 		F346C28C25D151A7005C1BC1 /* QueryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryOperation.swift; sourceTree = "<group>"; };
 		F346C29025D151B6005C1BC1 /* MutationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationOperation.swift; sourceTree = "<group>"; };
 		F346C29425D151D0005C1BC1 /* OperationMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationMode.swift; sourceTree = "<group>"; };
@@ -171,9 +176,10 @@
 		F3B167DC25C2C76D0068E6C9 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		F3B2667225CD91510089A903 /* String + Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Field.swift"; sourceTree = "<group>"; };
 		F3B2667825CD94090089A903 /* OrderProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProduct.swift; sourceTree = "<group>"; };
+		F3C2527C25D3C2F300E78787 /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
 		F3CF4B4325CBFD4000161B2C /* MultipleOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperation.swift; sourceTree = "<group>"; };
 		F3CF4B4D25CBFF4100161B2C /* MultipleOperationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperationResponse.swift; sourceTree = "<group>"; };
-		F3CF4B5125CC0C4C00161B2C /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
+		F3CF4B5125CC0C4C00161B2C /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		F3CF4B5525CC129200161B2C /* OrderListQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListQuery.swift; sourceTree = "<group>"; };
 		F3CF4B5925CC15ED00161B2C /* PageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
 		F3CF4B5D25CC164400161B2C /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
@@ -340,7 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				F36F3E5325CA8B030024641C /* Identity.swift */,
-				F3CF4B5125CC0C4C00161B2C /* Pagination.swift */,
+				F3CF4B5125CC0C4C00161B2C /* Connection.swift */,
 				F3CF4B5925CC15ED00161B2C /* PageInfo.swift */,
 				F3CF4B5D25CC164400161B2C /* Node.swift */,
 			);
@@ -433,6 +439,9 @@
 				F3CF4B6125CC266E00161B2C /* MultipleQuery.swift */,
 				F39A61DB25CAE02600464DC9 /* OnQuery.swift */,
 				F3B2667225CD91510089A903 /* String + Field.swift */,
+				F3C2527C25D3C2F300E78787 /* Alias.swift */,
+				F33C6F8C25D3CB3000BE7C7D /* AnyQuery.swift */,
+				F33C6F9025D3CB3A00BE7C7D /* FragmentQuery.swift */,
 			);
 			path = Fields;
 			sourceTree = "<group>";
@@ -661,6 +670,8 @@
 				F35ED0E025C2F4EC00244CA4 /* VariableEncoderContainer.swift in Sources */,
 				F3B2667325CD91510089A903 /* String + Field.swift in Sources */,
 				F346C28D25D151A8005C1BC1 /* QueryOperation.swift in Sources */,
+				F33C6F8D25D3CB3000BE7C7D /* AnyQuery.swift in Sources */,
+				F3C2527D25D3C2F300E78787 /* Alias.swift in Sources */,
 				F3CF4B9D25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift in Sources */,
 				F324231A25BAEEFB00111C5B /* Arguments.swift in Sources */,
 				F39A61E625CB250C00464DC9 /* AbstractDecodable.swift in Sources */,
@@ -693,6 +704,7 @@
 				F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */,
 				F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */,
 				F3CF4B4E25CBFF4100161B2C /* MultipleOperationResponse.swift in Sources */,
+				F33C6F9125D3CB3A00BE7C7D /* FragmentQuery.swift in Sources */,
 				F3B167D125C2C5C00068E6C9 /* GrapheneError.swift in Sources */,
 				F3B167C925C2C3BB0068E6C9 /* GraphQLError.swift in Sources */,
 				F324230225BAED6A00111C5B /* Query.swift in Sources */,
@@ -707,7 +719,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3CF4B5225CC0C4C00161B2C /* Pagination.swift in Sources */,
+				F3CF4B5225CC0C4C00161B2C /* Connection.swift in Sources */,
 				F36F3E2625C947B90024641C /* Contragent.swift in Sources */,
 				F36DDC8225CBD5BC00BBCA6B /* CheckPhoneQuery.swift in Sources */,
 				F36F3E0C25C846B50024641C /* PaymentStatus.swift in Sources */,

@@ -130,7 +130,7 @@ internal struct Request<O: Operation> {
             }
             queryStr += "(\(variablesStr.joined(separator: ",")))"
         }
-        queryStr += "{\(field.fieldString)}"
+        queryStr += "{\(field.buildField())}"
         
         let fragments = field.fragments
         if !fragments.isEmpty {

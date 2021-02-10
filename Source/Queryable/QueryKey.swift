@@ -9,14 +9,14 @@ import Foundation
 
 open class QueryKey {
         
-    internal let object: Field
+    fileprivate(set) internal var object: Field
 
     public required init<T: Field>(_ field: T) {
         self.object = field
     }
     
-    public required init<T: CodingKey>(_ key: T) {
+    public init<T: CodingKey>(_ key: T) {
         self.object = key.stringValue
     }
-
+    
 }

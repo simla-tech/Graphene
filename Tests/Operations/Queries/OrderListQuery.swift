@@ -16,7 +16,7 @@ final class OrderListQuery: QueryOperation {
         self.arguments = ["first": first, "after": after, "filter": filter]
     }
             
-    lazy var query = Query<Pagination<Order>>("orders", args: self.arguments) { builder in
+    lazy var query = Query<Connection<Order>>("orders", args: self.arguments) { builder in
         builder += .totalCount
         builder += .pageInfo
         builder += .edges({ order in

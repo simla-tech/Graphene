@@ -22,17 +22,17 @@ extension Payment: Queryable {
     
     public class QueryKeys: QueryKey {
                 
-        static let id      = QueryKeys(CodingKeys.id)
-        static let amount  = QueryKeys(Query(CodingKeys.amount, fragment: Money.self))
+        static var id      = QueryKeys(CodingKeys.id)
+        static let amount  = QueryKeys(FragmentQuery(CodingKeys.amount, fragment: Money.self))
         static let paidAt  = QueryKeys(CodingKeys.paidAt)
         static let comment = QueryKeys(CodingKeys.comment)
         
         static func status(_ builder: @escaping QueryBuilder<PaymentStatus>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.status, builder))
+            return Query(CodingKeys.status, builder).asKey()
         }
         
         static func type(_ builder: @escaping QueryBuilder<PaymentType>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.type, builder))
+            return Query(CodingKeys.type, builder).asKey()
         }
         
     }
@@ -45,7 +45,6 @@ extension Payment: EncodableVariable {
         let container = encoder.container(keyedBy: CodingKeys.self)
         container.encode(self.id, forKey: .id, changeSetPolicy: .required)
         container.encode(self.amount?.amount, forKey: .amount)
-        container.encode(self.paidAt, forKey: .paidAt)
         container.encode(self.comment, forKey: .comment)
         container.encode(self.status?.id, forKey: .status)
         container.encode(self.type.id, forKey: .type, changeSetPolicy: .required)

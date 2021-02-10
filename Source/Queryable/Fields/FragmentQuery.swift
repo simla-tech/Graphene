@@ -1,13 +1,13 @@
 //
-//  BaseQuery.swift
+//  FragmentQuery.swift
 //  Graphene
 //
-//  Created by Ilya Kharlamov on 22.01.2021.
+//  Created by Ilya Kharlamov on 10.02.2021.
 //
 
 import Foundation
 
-public struct Query<T: Queryable>: AnyQuery {
+public struct FragmentQuery<T: Fragment>: AnyQuery where T.FragmentModel == T {
     
     public let name: String
     internal(set) public var alias: String?
@@ -16,36 +16,36 @@ public struct Query<T: Queryable>: AnyQuery {
     
     public init(_ name: String,
                 args: Arguments = [:],
-                _ builder: @escaping QueryBuilder<T>) {
+                fragment: T.Type) {
         self.name = name
         self.alias = nil
         self.arguments = args
-        let container = QueryContainer<T>(builder)
-        self.childrenFields = container.fields
+        self.childrenFields = [AnyFragment(fragment)]
         if T.self is AbstractDecodable.Type {
             self.childrenFields.insert("__typename", at: 0)
         }
     }
     
+    public init<Key: CodingKey>(_ key: Key,
+                                args: Arguments = [:],
+                                fragment: T.Type) {
+        self.init(key.stringValue, args: args, fragment: fragment)
+    }
+    
     public init(alias: String,
                 name: String,
                 args: Arguments = [:],
-                _ builder: @escaping QueryBuilder<T>) {
-        self.init(name, args: args, builder)
+                fragment: T.Type) {
+        self.init(name, args: args, fragment: fragment)
         self.alias = alias
-    }
-    
-    public init<Key: CodingKey>(_ key: Key,
-                                args: Arguments = [:],
-                                _ builder: @escaping QueryBuilder<T>) {
-        self.init(key.stringValue, args: args, builder)
     }
     
     public init<Key: CodingKey>(alias: Key,
                                 name: String,
                                 args: Arguments = [:],
-                                _ builder: @escaping QueryBuilder<T>) {
-        self.init(alias: alias.stringValue, name: name, args: args, builder)
+                                fragment: T.Type) {
+        self.init(name, args: args, fragment: fragment)
+        self.alias = alias.stringValue
     }
     
 }

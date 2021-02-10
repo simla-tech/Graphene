@@ -33,7 +33,6 @@ extension CustomerCorporate: EncodableVariable {
     public func encode(to encoder: VariableEncoder) {
         let container = encoder.container(keyedBy: CodingKeys.self)
         container.encode(self.id, forKey: .id)
-        container.encode(self.createdAt, forKey: .createdAt)
         container.encode(self.vip, forKey: .vip)
         container.encode(self.bad, forKey: .bad)
         container.encode(self.nickName, forKey: .nickName)

@@ -14,7 +14,7 @@ struct UploadAttachmentPayload: Decodable, Queryable {
     
     class QueryKeys: QueryKey {
         static func attachments(_ builder: @escaping QueryBuilder<Attachment>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.attachments, builder))
+            return Query(CodingKeys.attachments, builder).asKey()
         }
     }
     

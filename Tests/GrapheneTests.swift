@@ -54,7 +54,7 @@ class GrapheneTests: XCTestCase {
         let expectedResult = """
         orders(first: 10,after: null,filter: null){totalCount,pageInfo{...PageInfoFragment},edges{node{id,number,unionCustomer{__typename,id,createdAt}}}}
         """
-        XCTAssertEqual(operation.query.fieldString, expectedResult)
+        XCTAssertEqual(operation.query.buildField(), expectedResult)
     }
     
     func testFragments() throws {

@@ -22,4 +22,6 @@ final class OrderEditMutation: MutationOperation {
         })
     }
     
+    static let decodableModel = EditOrderPayload.self
+    
 }

@@ -23,7 +23,7 @@ public struct Order: Decodable, Identifiable, SchemaType {
     public var updateStateDate: String?
     public var contragent: Contragent?
     public var unionCustomer: AbstractCustomer?
-    public var orderProducts: Pagination<OrderProduct>?
+    public var orderProducts: Connection<OrderProduct>?
 }
 
 // MARK: - Queryable
@@ -43,27 +43,27 @@ extension Order: Queryable {
         static let externalId       = QueryKeys(CodingKeys.externalId)
 
         static func payments(_ builder: @escaping QueryBuilder<Payment>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.payments, builder))
+            return Query(CodingKeys.payments, builder).asKey()
         }
         
         static func manager(_ builder: @escaping QueryBuilder<User>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.manager, builder))
+            return Query(CodingKeys.manager, builder).asKey()
         }
         
         static func orderType(_ builder: @escaping QueryBuilder<OrderType>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.orderType, builder))
+            return Query(CodingKeys.orderType, builder).asKey()
         }
         
         static func contragent(_ builder: @escaping QueryBuilder<Contragent>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.contragent, builder))
+            return Query(CodingKeys.contragent, builder).asKey()
         }
         
         static func unionCustomer(_ builder: @escaping QueryBuilder<AbstractCustomer>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.unionCustomer, builder))
+            return Query(CodingKeys.unionCustomer, builder).asKey()
         }
         
-        static func orderProducts(first: Int? = nil, after: String? = nil, _ builder: @escaping QueryBuilder<Pagination<OrderProduct>>) -> QueryKeys {
-            return QueryKeys(Query(CodingKeys.orderProducts, args: ["first": first, "after": after], builder))
+        static func orderProducts(first: Int? = nil, after: String? = nil, _ builder: @escaping QueryBuilder<Connection<OrderProduct>>) -> QueryKeys {
+            return Query(CodingKeys.orderProducts, args: ["first": first, "after": after], builder).asKey()
         }
         
     }

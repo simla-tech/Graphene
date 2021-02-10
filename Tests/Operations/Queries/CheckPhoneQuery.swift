@@ -13,7 +13,9 @@ struct CheckPhoneQuery: QueryOperation {
     let query: Query<CheckPhone>
         
     init(phone: String) {
-        self.query = Query("checkPhone", args: ["phone": phone], fragment: CheckPhone.self)
+        self.query = Query<CheckPhone>("checkPhone", args: ["phone": phone]) { builder in
+            builder += .fragment(CheckPhone.self)
+        }
     }
         
 }

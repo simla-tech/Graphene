@@ -9,7 +9,7 @@ import Foundation
 
 struct MultipleQuery<T: Queryable>: Field {
     
-    var childrenFields: [Field] = []
+    let childrenFields: [Field]
     let arguments: Arguments = [:]
 
     init(_ builder: QueryBuilder<T>) {
@@ -17,8 +17,8 @@ struct MultipleQuery<T: Queryable>: Field {
         self.childrenFields = container.fields
     }
 
-    var fieldString: String {
-        return self.childrenFields.map({ $0.fieldString }).joined()
+    public func buildField() -> String {
+        return self.childrenFields.map({ $0.buildField() }).joined()
     }
     
 }

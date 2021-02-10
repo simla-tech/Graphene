@@ -1,5 +1,5 @@
 //
-//  Pagination.swift
+//  Connection.swift
 //  GrapheneTests
 //
 //  Created by Ilya Kharlamov on 04.02.2021.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct Pagination<T> {
+public struct Connection<T> {
     public var totalCount: Int?
     public var pageInfo: PageInfo?
     private var edges: [T]
@@ -24,19 +24,19 @@ public struct Pagination<T> {
     }
 }
 
-extension Pagination: CustomStringConvertible {
+extension Connection: CustomStringConvertible {
     public var description: String {
         return "\(self.edges)"
     }
 }
 
-extension Pagination: ExpressibleByArrayLiteral {
+extension Connection: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: T...) {
         self.edges = elements
     }
 }
 
-extension Pagination: Collection {
+extension Connection: Collection {
     
     // The upper and lower bounds of the collection, used in iterations
     public var startIndex: Int { return self.edges.startIndex }
@@ -59,7 +59,7 @@ extension Pagination: Collection {
     
 }
 
-extension Pagination: Queryable {
+extension Connection: Queryable {
     
     public class QueryKeys: QueryKey {
                 
@@ -68,22 +68,22 @@ extension Pagination: Queryable {
         }
         
         static var pageInfo: QueryKeys {
-            QueryKeys(Query(CodingKeys.pageInfo, fragment: PageInfo.self))
+            QueryKeys(FragmentQuery(CodingKeys.pageInfo, fragment: PageInfo.self))
         }
 
     }
     
 }
 
-extension Pagination.QueryKeys where T: Queryable {
-    static func edges(_ builder: @escaping QueryBuilder<T>) -> Pagination.QueryKeys {
-        return .init(Query<Node<T>>(Pagination.CodingKeys.edges) { nodeBuilder in
+extension Connection.QueryKeys where T: Queryable {
+    static func edges(_ builder: @escaping QueryBuilder<T>) -> Connection.QueryKeys {
+        return .init(Query<Node<T>>(Connection.CodingKeys.edges) { nodeBuilder in
             nodeBuilder += .node(builder)
         })
     }
 }
 
-extension Pagination: Decodable where T: Decodable {
+extension Connection: Decodable where T: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.pageInfo = try container.decodeIfPresent(PageInfo.self, forKey: .pageInfo)
@@ -98,7 +98,7 @@ extension Pagination: Decodable where T: Decodable {
     }
 }
 
-extension Pagination: Encodable where T: Encodable {
+extension Connection: Encodable where T: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.pageInfo, forKey: .pageInfo)

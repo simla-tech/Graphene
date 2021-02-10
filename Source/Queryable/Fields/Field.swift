@@ -10,7 +10,7 @@ import Foundation
 public protocol Field {
     var childrenFields: [Field] { get }
     var arguments: Arguments { get }
-    var fieldString: String { get }
+    func buildField() -> String
 }
 
 extension Field {
@@ -40,6 +40,10 @@ extension Field {
             result.formUnion(self.searchFragments(in: field.childrenFields))
         }
         return result
+    }
+    
+    public func asKey<T: QueryKey>(_ type: T.Type = T.self) -> T {
+        return T.init(self)
     }
 
 }
