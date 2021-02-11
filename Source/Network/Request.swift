@@ -8,49 +8,103 @@
 import Foundation
 import Alamofire
 
-internal struct Request<O: Operation> {
+public struct Request<ResponseType: Decodable> {
     
-    private let operation: O
     private let configuration: Client.Configuration
     private let loggerQueue: DispatchQueue
     private let logger: LoggerProtocol
-    internal var initError: Error?
+    private var initError: Error?
     internal var dataRequest: Alamofire.DataRequest
-
-    internal init(operation: O, client: Client) {
-        self.operation = operation
+    
+    public var operationName: String
+    public var query: String
+    public var variables: String?
+    public var decoderRootKey: String?
+    
+    internal init<O: Operation>(operation: O, client: Client) {
+        
+        self.operationName = O.operationName
+        self.decoderRootKey = operation.decoderRootKey
         self.configuration = client.configuration
         self.loggerQueue = client.loggerQueue
         self.logger = client.logger
         
-        var httpHeaders = self.configuration.httpHeaders ?? []
+        let field = operation.asField
+        
+        // Encode variables
+        let variables = field.variables
+        var variablesJsonString = "{}"
+        if !variables.isEmpty {
+            let variablesJson = variables.reduce(into: [String: Any](), { $0[$1.key] = $1.value.json })
+            do {
+                let variablesData = try JSONSerialization.data(withJSONObject: variablesJson, options: [])
+                variablesJsonString = String(data: variablesData, encoding: .utf8) ?? "{}"
+            } catch {
+                self.initError = error
+            }
+            if let variablesDataPretty = try? JSONSerialization.data(withJSONObject: variablesJson, options: [.prettyPrinted, .sortedKeys]) {
+                self.variables = String(data: variablesDataPretty, encoding: .utf8)
+            }
+        }
+        
+        // Prepare query string
+        self.query = "\(O.mode.rawValue) \(O.operationName)"
+        if !variables.isEmpty {
+            let variablesStr = variables.map { variable -> String in
+                return "$\(variable.key): \(variable.schemaType)!"
+            }
+            self.query += "(\(variablesStr.joined(separator: ",")))"
+        }
+        self.query += "{\(field.buildField())}"
+        
+        let fragments = field.fragments
+        if !fragments.isEmpty {
+            self.query += fragments.map({ $0.fragmentBody }).joined()
+        }
+        
+        var httpHeaders = client.configuration.httpHeaders ?? []
         if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
            let version = Bundle(for: Client.self).infoDictionary?["CFBundleShortVersionString"] as? String {
             httpHeaders.add(name: "User-Agent", value: "Graphene /\(version)")
         }
         
-        var storedError: Error?
+        let operations = String(format: "{\"query\": \"%@\",\"variables\": %@, \"operationName\": null}", self.query.escaped, variablesJsonString)
+        
         self.dataRequest = client.session.upload(
             multipartFormData: { multipartFormData in
-                do {
-                    try Self.prepareFormData(multipartFormData, for: operation, logger: client.logger, loggerQueue: client.loggerQueue)
-                } catch {
-                    storedError = error
+                if let data = operations.data(using: .utf8) {
+                    multipartFormData.append(data, withName: "operations")
+                }
+                
+                // Map & attach uploads
+                let dictVariables = variables.reduce(into: Variables(), { $0[$1.key] = $1.value })
+                let uploads = Self.searchUploads(in: dictVariables, currentPath: [])
+                let mapStr = uploads.enumerated().map({ (index, upload) -> String in
+                    return "\"\(index)\": [\"variables.\(upload.key)\"]"
+                }).joined(separator: ",")
+                if let data = "{\(mapStr)}".data(using: .utf8) {
+                    multipartFormData.append(data, withName: "map")
+                }
+                for (index, upload) in uploads.enumerated() {
+                    multipartFormData.append(upload.value.data,
+                                             withName: "\(index)",
+                                             fileName: upload.value.name,
+                                             mimeType: MimeType(path: upload.value.name).value)
                 }
             },
             to: client.url,
             usingThreshold: MultipartFormData.encodingMemoryThreshold,
             method: .post,
             headers: httpHeaders,
-            requestModifier: self.configuration.requestModifier
+            requestModifier: client.configuration.requestModifier
         )
-        self.initError = storedError
         
         // Set up validators
-        if let customValidation = self.configuration.validation {
+        if let customValidation = client.configuration.validation {
             self.dataRequest = self.dataRequest.validate(customValidation)
         }
         self.dataRequest = self.dataRequest.validate(ResponseValidator.validateStatus(request:response:data:)).validate()
+        
     }
     
     private func extractObject(for key: String, from data: Any) throws -> Any {
@@ -109,79 +163,26 @@ internal struct Request<O: Operation> {
         return result
     }
 
-    private static func prepareFormData(_ multipartFormData: MultipartFormData,
-                                        for operation: O,
-                                        logger: LoggerProtocol,
-                                        loggerQueue: DispatchQueue) throws {
-        
-        let field = operation.asField
-        
-        // Encode variables
-        let variables = field.variables
-        let variablesJson = variables.reduce(into: [String: Any](), { $0[$1.key] = $1.value.json })
-        let variablesData = try JSONSerialization.data(withJSONObject: variablesJson, options: [])
-        let variablesJsonString = String(data: variablesData, encoding: .utf8) ?? "{}"
-
-        // Prepare query string
-        var queryStr = "\(O.mode.rawValue) \(O.operationName)"
-        if !variables.isEmpty {
-            let variablesStr = variables.map { variable -> String in
-                return "$\(variable.key): \(variable.schemaType)!"
-            }
-            queryStr += "(\(variablesStr.joined(separator: ",")))"
-        }
-        queryStr += "{\(field.buildField())}"
-        
-        let fragments = field.fragments
-        if !fragments.isEmpty {
-            queryStr += fragments.map({ $0.fragmentBody }).joined()
-        }
-        
-        let operations = String(format: "{\"query\": \"%@\",\"variables\": %@, \"operationName\": null}", queryStr.escaped, variablesJsonString)
-        if let data = operations.data(using: .utf8) {
-            multipartFormData.append(data, withName: "operations")
-        }
-        
-        // Log request
-        loggerQueue.async {
-            if !variables.isEmpty {
-                guard let variablesLoggerData = try? JSONSerialization.data(withJSONObject: variablesJson, options: [.prettyPrinted, .sortedKeys]) else {
-                    return
-                }
-                logger.requestSended(operation: O.operationName, query: queryStr, variablesJson: String(data: variablesLoggerData, encoding: .utf8))
-            } else {
-                logger.requestSended(operation: O.operationName, query: queryStr, variablesJson: nil)
-            }
-        }
-        
-        // Map & attach uploads
-        let dictVariables = variables.reduce(into: Variables(), { $0[$1.key] = $1.value })
-        let uploads = self.searchUploads(in: dictVariables, currentPath: [])
-        let mapStr = uploads.enumerated().map({ (index, upload) -> String in
-            return "\"\(index)\": [\"variables.\(upload.key)\"]"
-        }).joined(separator: ",")
-        if let data = "{\(mapStr)}".data(using: .utf8) {
-            multipartFormData.append(data, withName: "map")
-        }
-        for (index, upload) in uploads.enumerated() {
-            multipartFormData.append(upload.value.data,
-                                     withName: "\(index)",
-                                     fileName: upload.value.name,
-                                     mimeType: MimeType(path: upload.value.name).value)
-        }
-        
-    }
-    
 }
 
 extension Request {
     
-    internal func execute(queue: DispatchQueue = .main, completionHandler: @escaping (Result<GrapheneResponse<O.DecodableResponse>, Error>) -> Void) {
+    @discardableResult
+    public func perform(queue: DispatchQueue = .main, completionHandler: @escaping (Result<ResponseType, Error>) -> Void) -> CancelableRequest {
+        if let initError = self.initError {
+            queue.async {
+                completionHandler(.failure(initError))
+            }
+            return .init(self.dataRequest)
+        }
+        self.loggerQueue.async {
+            self.logger.requestSended(operation: self.operationName, query: self.query, variablesJson: self.variables)
+        }
         self.dataRequest.responseJSON(queue: .global(qos: .utility)) { response in
             do {
                                 
                 self.loggerQueue.async {
-                    self.logger.responseRecived(operation: O.operationName,
+                    self.logger.responseRecived(operation: self.operationName,
                                                 statusCode: response.response?.statusCode ?? -999,
                                                 interval: response.metrics?.taskInterval ?? DateInterval())
                 }
@@ -189,31 +190,48 @@ extension Request {
                 let value = try response.result.get()
 
                 var key = self.configuration.rootResponseKey
-                if let rootKey = self.operation.decoderRootKey {
+                if let rootKey = self.decoderRootKey {
                     key += ".\(rootKey)"
                 }
                 let result = try? self.extractObject(for: key, from: value)
 
-                var mappedData: O.DecodableResponse?
-                
-                if let data = result as? O.DecodableResponse {
-                    mappedData = data
-                } else if let data = result {
-                    let data = try JSONSerialization.data(withJSONObject: data, options: [])
-                    mappedData = try self.configuration.decoder.decode(O.DecodableResponse.self, from: data)
+                let checkGraphQLErrors = {
+                    if let errorsKey = self.configuration.rootErrorsKey,
+                        let dict = value as? [AnyHashable: Any],
+                        let errorsRaw = dict[errorsKey] as? [Any] {
+                        let errors = errorsRaw.compactMap({ GraphQLError($0) })
+                        if !errors.isEmpty {
+                            if errors.count == 1, let error = errors.first {
+                                throw error
+                            }
+                            throw GraphQLErrors(errors)
+                        }
+                    }
                 }
                 
-                var grapheneResponse = GrapheneResponse<O.DecodableResponse>(data: mappedData)
+                var mappedData: ResponseType?
+                if let data = result as? ResponseType {
+                    mappedData = data
+                } else if let data = result {
+                    do {
+                        let data = try JSONSerialization.data(withJSONObject: data, options: [])
+                        mappedData = try self.configuration.decoder.decode(ResponseType.self, from: data)
+                    } catch {
+                        if !(error is DecodingError) {
+                            try checkGraphQLErrors()
+                        }
+                        throw error
+                    }
+                }
                 
-                if let errorsKey = self.configuration.rootErrorsKey,
-                    let dict = value as? [AnyHashable: Any],
-                    let errors = dict[errorsKey] as? [Any] {
-                    grapheneResponse.errors = errors.compactMap({ GraphQLError($0) })
+                guard let successData = mappedData else {
+                    try checkGraphQLErrors()
+                    throw GrapheneError.responseDataIsNull
                 }
                 
                 if self.configuration.muteCanceledRequests, self.dataRequest.isCancelled { return }
                 queue.async {
-                    completionHandler(.success(grapheneResponse))
+                    completionHandler(.success(successData))
                 }
                 
             } catch {
@@ -226,6 +244,7 @@ extension Request {
                 }
             }
         }
+        return .init(self.dataRequest)
     }
     
 }

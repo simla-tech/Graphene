@@ -21,6 +21,7 @@
 		F324230E25BAEDA200111C5B /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324230D25BAEDA200111C5B /* Operation.swift */; };
 		F324231A25BAEEFB00111C5B /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231925BAEEFB00111C5B /* Arguments.swift */; };
 		F324231E25BAEF5000111C5B /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231D25BAEF5000111C5B /* Field.swift */; };
+		F3362ADD25D574FE00AC3A72 /* GraphQLErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3362ADC25D574FE00AC3A72 /* GraphQLErrors.swift */; };
 		F33C6F8D25D3CB3000BE7C7D /* AnyQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C6F8C25D3CB3000BE7C7D /* AnyQuery.swift */; };
 		F33C6F9125D3CB3A00BE7C7D /* FragmentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C6F9025D3CB3A00BE7C7D /* FragmentQuery.swift */; };
 		F346C28D25D151A8005C1BC1 /* QueryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346C28C25D151A7005C1BC1 /* QueryOperation.swift */; };
@@ -68,7 +69,6 @@
 		F3B167C125C2BBF60068E6C9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C025C2BBF60068E6C9 /* Logger.swift */; };
 		F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C425C2BD1D0068E6C9 /* Request.swift */; };
 		F3B167C925C2C3BB0068E6C9 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */; };
-		F3B167CD25C2C4330068E6C9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167CC25C2C4330068E6C9 /* Response.swift */; };
 		F3B167D125C2C5C00068E6C9 /* GrapheneError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */; };
 		F3B167D525C2C6C00068E6C9 /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167D425C2C6C00068E6C9 /* ResponseValidator.swift */; };
 		F3B167D925C2C74E0068E6C9 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167D825C2C74E0068E6C9 /* Upload.swift */; };
@@ -122,6 +122,7 @@
 		F324230D25BAEDA200111C5B /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		F324231925BAEEFB00111C5B /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		F324231D25BAEF5000111C5B /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		F3362ADC25D574FE00AC3A72 /* GraphQLErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrors.swift; sourceTree = "<group>"; };
 		F33C6F8C25D3CB3000BE7C7D /* AnyQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyQuery.swift; sourceTree = "<group>"; };
 		F33C6F9025D3CB3A00BE7C7D /* FragmentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentQuery.swift; sourceTree = "<group>"; };
 		F346C28C25D151A7005C1BC1 /* QueryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryOperation.swift; sourceTree = "<group>"; };
@@ -169,7 +170,6 @@
 		F3B167C025C2BBF60068E6C9 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		F3B167C425C2BD1D0068E6C9 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
-		F3B167CC25C2C4330068E6C9 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
 		F3B167D425C2C6C00068E6C9 /* ResponseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
 		F3B167D825C2C74E0068E6C9 /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
@@ -389,7 +389,6 @@
 				F3B167C025C2BBF60068E6C9 /* Logger.swift */,
 				F3B167C425C2BD1D0068E6C9 /* Request.swift */,
 				F37E966025D2AFA000A5927E /* CancellableRequest.swift */,
-				F3B167CC25C2C4330068E6C9 /* Response.swift */,
 				F3B167D425C2C6C00068E6C9 /* ResponseValidator.swift */,
 			);
 			path = Network;
@@ -414,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */,
+				F3362ADC25D574FE00AC3A72 /* GraphQLErrors.swift */,
 				F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */,
 				F3B167D825C2C74E0068E6C9 /* Upload.swift */,
 				F3B167DC25C2C76D0068E6C9 /* MimeType.swift */,
@@ -687,7 +687,6 @@
 				F3B167D525C2C6C00068E6C9 /* ResponseValidator.swift in Sources */,
 				F324230E25BAEDA200111C5B /* Operation.swift in Sources */,
 				F36F3E5E25CAC3360024641C /* QueryKey.swift in Sources */,
-				F3B167CD25C2C4330068E6C9 /* Response.swift in Sources */,
 				F3B167D925C2C74E0068E6C9 /* Upload.swift in Sources */,
 				F3B167C125C2BBF60068E6C9 /* Logger.swift in Sources */,
 				F35ED0C525C2E59900244CA4 /* Change.swift in Sources */,
@@ -709,6 +708,7 @@
 				F3B167C925C2C3BB0068E6C9 /* GraphQLError.swift in Sources */,
 				F324230225BAED6A00111C5B /* Query.swift in Sources */,
 				F36F3E6225CAC34F0024641C /* QueryContainer.swift in Sources */,
+				F3362ADD25D574FE00AC3A72 /* GraphQLErrors.swift in Sources */,
 				F36F3E2A25C9681A0024641C /* Identifiable.swift in Sources */,
 				F346C29525D151D0005C1BC1 /* OperationMode.swift in Sources */,
 				F31EF64725C30A7600522D81 /* VariableEncoderKeyedContainer.swift in Sources */,

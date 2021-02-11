@@ -34,13 +34,16 @@ public class Client: Alamofire.SessionDelegate {
                                eventMonitors: configuration.eventMonitors)
     }
     
+    public func prepareRequest<O: Operation>(for operation: O) -> Request<O.DecodableResponse> {
+        return Request<O.DecodableResponse>(operation: operation, client: self)
+    }
+    
     @discardableResult
-    func execute<O: Operation>(_ operation: O,
-                               queue: DispatchQueue = .main,
-                               _ completionHandler: @escaping (Result<GrapheneResponse<O.DecodableResponse>, Error>) -> Void) -> CancelableRequest {
-        let request = Request(operation: operation, client: self)
-        request.execute(queue: queue, completionHandler: completionHandler)
-        return .init(request.dataRequest)
+    public func execute<O: Operation>(_ operation: O,
+                                      queue: DispatchQueue = .main,
+                                      _ completionHandler: @escaping (Result<O.DecodableResponse, Error>) -> Void) -> CancelableRequest {
+        let request = Request<O.DecodableResponse>(operation: operation, client: self)
+        return request.perform(queue: queue, completionHandler: completionHandler)
     }
     
 }
