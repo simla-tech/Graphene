@@ -31,9 +31,11 @@ import Foundation
  
  **Notice**: You have to have the same operations to execute them
  */
-public struct MultipleOperation<O: Graphene.Operation>: Graphene.Operation {
-    
-    public typealias QueryModel = MultipleOperationResponse<O.QueryModel>
+public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation {
+        
+    public static var responseModel: MultipleOperationResponse<O.DecodableResponse>.Type {
+        return MultipleOperationResponse<O.DecodableResponse>.self
+    }
     
     private var operations: [String: O]
 
@@ -49,18 +51,12 @@ public struct MultipleOperation<O: Graphene.Operation>: Graphene.Operation {
     /// Equal to null
     public let decoderRootKey: String? = nil
     
-    private func buildQuery(_ builder: QueryContainer<QueryModel>) {
-        for (operationKey, operation) in self.operations {
-            builder += .childrenOperation(key: operationKey, operation: operation)
-        }
-    }
-    
-    public var query: Query<QueryModel> {
-        return Query("", self.buildQuery)
-    }
-    
     public var asField: Field {
-        return MultipleQuery<QueryModel>(self.buildQuery)
+        return MultipleQuery<MultipleOperationResponse<O.DecodableResponse>>({ builder in
+            for (operationKey, operation) in self.operations {
+                builder += .childrenOperation(key: operationKey, operation: operation)
+            }
+        })
     }
     
     public static var operationName: String {

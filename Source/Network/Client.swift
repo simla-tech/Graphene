@@ -35,18 +35,9 @@ public class Client: Alamofire.SessionDelegate {
     }
     
     @discardableResult
-    func executeAny<O: Operation>(_ operation: O,
-                                  queue: DispatchQueue = .main,
-                                  _ completionHandler: @escaping (Result<GrapheneResponse<Any>, Error>) -> Void) -> CancelableRequest {
-        let request = Request(operation: operation, client: self)
-        request.executeAny(queue: queue, completionHandler: completionHandler)
-        return .init(request.dataRequest)
-    }
-    
-    @discardableResult
     func execute<O: Operation>(_ operation: O,
                                queue: DispatchQueue = .main,
-                               _ completionHandler: @escaping (Result<GrapheneResponse<O.QueryModel>, Error>) -> Void) -> CancelableRequest where O.QueryModel: Decodable {
+                               _ completionHandler: @escaping (Result<GrapheneResponse<O.DecodableResponse>, Error>) -> Void) -> CancelableRequest {
         let request = Request(operation: operation, client: self)
         request.execute(queue: queue, completionHandler: completionHandler)
         return .init(request.dataRequest)

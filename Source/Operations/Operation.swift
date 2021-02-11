@@ -11,7 +11,7 @@ import Foundation
 public protocol Operation {
     
     /// Type associated with some Queryable model
-    associatedtype QueryModel: Queryable
+    associatedtype DecodableResponse: Decodable
     
     /**
      Operation Mode
@@ -41,40 +41,6 @@ public protocol Operation {
      */
     var decoderRootKey: String? { get }
     
-    /**
-     Query for this operation
-     
-     Example:
-     ```
-     var query = Query<SomeModel>("detail", args: ["id": 2]) { builder in
-        builder += .id
-        builder += .number
-        builder += .unionCustomer { builder in
-            builder += .id
-            builder += .createdAt
-        }
-     }
-     ```
-     */
-    var query: Query<QueryModel> { get }
-    
-}
-
-extension Operation {
-    
-    // Default value
-    public var decoderRootKey: String? {
-        return self.query.name
-    }
-    
-    // Default value
-    public var asField: Field {
-        return self.query
-    }
-    
-    // Default value
-    public static var operationName: String {
-        return String(describing: self)
-    }
+    static var responseModel: DecodableResponse.Type { get }
     
 }

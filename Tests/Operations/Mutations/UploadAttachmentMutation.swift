@@ -10,6 +10,8 @@ import Foundation
 
 final class UploadAttachmentMutation: MutationOperation {
     
+    typealias DecodableResponse = UploadAttachmentPayload
+    
     let input: UploadAttachmentInput
     
     init(input: UploadAttachmentInput) {

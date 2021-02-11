@@ -19,7 +19,7 @@ public struct Alias: AnyQuery {
         self.alias = alias
     }
     
-    public init<Key: CodingKey>( alias: Key, source: String) {
+    public init<Key: CodingKey>(_ alias: Key, source: String) {
         self.name = source
         self.alias = alias.stringValue
     }

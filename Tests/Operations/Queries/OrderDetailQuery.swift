@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 final class OrderDetailQuery: QueryOperation {
-            
+        
     let orderId: Order.ID
     
     init(orderId: Order.ID) {
@@ -19,5 +19,7 @@ final class OrderDetailQuery: QueryOperation {
     lazy var query = Query<Order>("order", args: ["id": self.orderId]) { builder in
         builder += .fragment(OrderDetailFragment.self)
     }
-        
+    
+    typealias DecodableResponse = Order
+
 }

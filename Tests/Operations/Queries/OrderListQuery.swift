@@ -9,6 +9,8 @@ import Foundation
 @testable import Graphene
 
 final class OrderListQuery: QueryOperation {
+    
+    typealias DecodableResponse = Connection<Order>
 
     let arguments: Arguments
     

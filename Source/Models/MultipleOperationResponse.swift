@@ -58,7 +58,7 @@ extension MultipleOperationResponse: Collection {
 
 extension MultipleOperationResponse: Queryable {
     public class QueryKeys: QueryKey {
-        static func childrenOperation<O: Graphene.Operation>(key: String, operation: O) -> QueryKeys {
+        static func childrenOperation<O: Graphene.QueryOperation>(key: String, operation: O) -> QueryKeys {
             var query = operation.query
             query.alias = key
             return QueryKeys(query)

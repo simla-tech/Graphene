@@ -176,7 +176,7 @@ internal struct Request<O: Operation> {
 
 extension Request {
     
-    internal func executeAny(queue: DispatchQueue = .main, completionHandler: @escaping (Result<GrapheneResponse<Any>, Error>) -> Void) {
+    internal func execute(queue: DispatchQueue = .main, completionHandler: @escaping (Result<GrapheneResponse<O.DecodableResponse>, Error>) -> Void) {
         self.dataRequest.responseJSON(queue: .global(qos: .utility)) { response in
             do {
                                 
@@ -194,7 +194,16 @@ extension Request {
                 }
                 let result = try? self.extractObject(for: key, from: value)
 
-                var grapheneResponse = GrapheneResponse<Any>(data: result)
+                var mappedData: O.DecodableResponse?
+                
+                if let data = result as? O.DecodableResponse {
+                    mappedData = data
+                } else if let data = result {
+                    let data = try JSONSerialization.data(withJSONObject: data, options: [])
+                    mappedData = try self.configuration.decoder.decode(O.DecodableResponse.self, from: data)
+                }
+                
+                var grapheneResponse = GrapheneResponse<O.DecodableResponse>(data: mappedData)
                 
                 if let errorsKey = self.configuration.rootErrorsKey,
                     let dict = value as? [AnyHashable: Any],
@@ -217,50 +226,6 @@ extension Request {
                 }
             }
         }
-    }
-    
-}
-
-extension Request where O.QueryModel: Decodable {
-
-    internal func execute(queue: DispatchQueue = .main,
-                          completionHandler: @escaping (Result<GrapheneResponse<O.QueryModel>, Error>) -> Void) {
-        
-        return self.executeAny(queue: .global(qos: .utility)) { result in
-            
-            do {
-                
-                let response = try result.get()
-                var mappedData: O.QueryModel?
-                
-                if let data = response.data as? O.QueryModel {
-                    mappedData = data
-                } else if let data = response.data {
-                    let data = try JSONSerialization.data(withJSONObject: data, options: [])
-                    mappedData = try self.configuration.decoder.decode(O.QueryModel.self, from: data)
-                }
-                
-                var newResponse = GrapheneResponse<O.QueryModel>(data: mappedData)
-                newResponse.errors = response.errors
-                
-                if self.configuration.muteCanceledRequests, self.dataRequest.isCancelled { return }
-                queue.async {
-                    completionHandler(.success(newResponse))
-                }
-                
-            } catch {
-                
-                if self.configuration.muteCanceledRequests,
-                   ((error.asAFError?.isExplicitlyCancelledError ?? false) || self.dataRequest.isCancelled) {
-                    return
-                }
-                queue.async {
-                    completionHandler(.failure(error.asAFError?.underlyingError ?? error))
-                }
-            }
-            
-        }
-        
     }
     
 }

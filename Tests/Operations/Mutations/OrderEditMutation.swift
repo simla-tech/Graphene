@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 final class OrderEditMutation: MutationOperation {
-            
+     
     let editOrderInput: EditOrderInput
     
     init(order: Order, changeSet: ChangeSet?) {
@@ -21,7 +21,5 @@ final class OrderEditMutation: MutationOperation {
             builder += .fragment(OrderDetailFragment.self)
         })
     }
-    
-    static let decodableModel = EditOrderPayload.self
-    
+        
 }
