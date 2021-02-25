@@ -9,12 +9,12 @@ import Foundation
 
 public struct InputVariable: Argument, Variable {
     
-    let schemaType: String
-    let value: Variable
-    let key: String
+    public let schemaType: String
+    public let value: Variable
+    public let key: String
     
-    init<T: Variable & SchemaType>(key: String = .random(length: 6), _ value: T) {
-        self.key = key
+    public init<T: Variable & SchemaType>(key: String? = nil, _ value: T) {
+        self.key = key ?? .random(length: 12)
         self.value = value
         self.schemaType = type(of: value).schemaType
     }
@@ -31,7 +31,7 @@ public struct InputVariable: Argument, Variable {
 
 private extension String {
     static func random(length: Int) -> String {
-      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
       return String((0..<length).map { _ in letters.randomElement()! })
     }
 }

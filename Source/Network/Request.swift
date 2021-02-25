@@ -55,7 +55,7 @@ public struct Request<ResponseType: Decodable> {
             }
             self.query += "(\(variablesStr.joined(separator: ",")))"
         }
-        self.query += "{\(field.buildField())}"
+        self.query += " {\(field.buildField())}"
         
         let fragments = field.fragments
         if !fragments.isEmpty {
