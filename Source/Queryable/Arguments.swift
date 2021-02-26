@@ -7,16 +7,10 @@
 
 import Foundation
 
-public typealias Arguments = KeyValuePairs<String, Argument>
+public typealias Arguments = [String: Argument]
 
 public protocol Argument {
     var rawValue: String { get }
-}
-
-extension KeyValuePairs: Argument where Key == String, Value == Argument {
-    public var rawValue: String {
-        return "{\(map({ "\($0): \($1.rawValue)" }).joined(separator: ","))}"
-    }
 }
 
 extension Dictionary: Argument where Key == String, Value == Argument {

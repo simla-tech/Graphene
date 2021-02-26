@@ -24,9 +24,26 @@ extension Field {
     }
     
     private static func searchVariables(in field: Field) -> [InputVariable] {
-        var result: [InputVariable] = field.arguments.compactMap({ $0.value as? InputVariable })
+        var result: [InputVariable] = self.searchVariables(in: Array(field.arguments.values))
         for field in field.childrenFields {
             result.append(contentsOf: self.searchVariables(in: field))
+        }
+        return result
+    }
+    
+    private static func searchVariables(in arguments: [Argument]) -> [InputVariable] {
+        var result: [InputVariable] = []
+        for argument in arguments {
+            switch argument {
+            case let inputVariable as InputVariable:
+                result.append(inputVariable)
+            case let argsArr as [Argument]:
+                result.append(contentsOf: self.searchVariables(in: argsArr))
+            case let args as Arguments:
+                result.append(contentsOf: self.searchVariables(in: Array(args.values)))
+            default:
+                continue
+            }
         }
         return result
     }

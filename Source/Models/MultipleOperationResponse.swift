@@ -40,6 +40,10 @@ extension MultipleOperationResponse: Collection {
     public subscript(bounds: Range<Index>) -> SubSequence { return self.data[bounds] }
     public var indices: Indices { return self.data.indices }
     
+    public var values: ResponseType.Values {
+        return self.data.values
+    }
+    
     // Required subscript, based on a dictionary index
     public subscript(index: Index) -> T {
         return self.data[index].value
