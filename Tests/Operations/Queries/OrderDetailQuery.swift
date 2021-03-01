@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-final class OrderDetailQuery: QueryOperation {
+final class OrderDetailQuery: QueryOperation {    
         
     let orderId: Order.ID
     
@@ -20,6 +20,4 @@ final class OrderDetailQuery: QueryOperation {
         builder += .fragment(OrderDetailFragment.self)
     }
     
-    typealias DecodableResponse = Order
-
 }

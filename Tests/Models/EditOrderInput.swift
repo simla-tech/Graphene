@@ -17,7 +17,7 @@ struct EditOrderInput: EncodableVariable, SchemaType {
         let container = encoder.container()
         container.encode(self.order.id, forKey: "id")
         container.encode(self.order.updateStateDate, forKey: "updateStateDate")
-        self.order.encodeVariable(to: encoder, with: self.changeSet)
+        self.order.encode(to: encoder, with: self.changeSet)
     }
     
 }

@@ -41,6 +41,6 @@ public protocol Operation {
      */
     var decoderRootKey: String? { get }
     
-    static var responseModel: DecodableResponse.Type { get }
+    var decoderRootObject: DecodableResponse.Type { get }
     
 }

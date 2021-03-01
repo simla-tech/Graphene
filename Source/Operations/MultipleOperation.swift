@@ -33,7 +33,7 @@ import Foundation
  */
 public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation {
         
-    public static var responseModel: MultipleOperationResponse<O.DecodableResponse>.Type {
+    public var decoderRootObject: MultipleOperationResponse<O.DecodableResponse>.Type {
         return MultipleOperationResponse<O.DecodableResponse>.self
     }
     
@@ -49,7 +49,7 @@ public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation 
     }
         
     /// Equal to null
-    public let decoderRootKey: String? = nil
+    public var decoderRootKey: String?
     
     public var asField: Field {
         return MultipleQuery<MultipleOperationResponse<O.DecodableResponse>>({ builder in

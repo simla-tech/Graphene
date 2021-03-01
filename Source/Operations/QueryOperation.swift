@@ -64,7 +64,7 @@ extension QueryOperation {
 }
 
 extension QueryOperation where QueryModel: Decodable {
-    public static var responseModel: QueryModel.Type {
+    public var decoderRootObject: QueryModel.Type {
         return QueryModel.self
     }
 }
