@@ -18,13 +18,13 @@ extension AnyQuery {
         var res = [String]()
         
         if let alias = self.alias {
-            res.append("\(alias): \(self.name)")
+            res.append("\(alias):\(self.name)")
         } else {
             res.append(self.name)
         }
         if !self.arguments.isEmpty {
             let argumentsStr = self.arguments
-                .map({ "\($0): \($1.rawValue)" })
+                .map({ "\($0):\($1.rawValue)" })
                 .joined(separator: ",")
             res.append("(\(argumentsStr))")
         }

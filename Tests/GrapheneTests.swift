@@ -11,8 +11,8 @@ import Alamofire
 
 class GrapheneTests: XCTestCase {
     
-    lazy var client: Client = {
-        var config: Client.Configuration = .default
+    lazy var client: Graphene.Session = {
+        var config: Graphene.Session.Configuration = .default
         config.httpHeaders = ["Authorization": "Bearer XXX"]
         config.validation = Self.customValidationBlock
         config.decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -21,7 +21,7 @@ class GrapheneTests: XCTestCase {
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "ru_RU")
         config.decoder.dateDecodingStrategy = .formatted(formatter)
-        return Client(url: "https://localhost:3241/app/api", configuration: config)
+        return Session(url: "https://localhost:3241/app/api", configuration: config)
     }()
     
     static let customValidationBlock: DataRequest.Validation = { _, _, data in
@@ -51,10 +51,15 @@ class GrapheneTests: XCTestCase {
     
     func testQuery() throws {
         let operation = OrderListQuery(first: 10, after: nil, filter: nil)
-        let expectedResult = """
-        orders(first: 10,after: null,filter: null){totalCount,pageInfo{...PageInfoFragment},edges{node{id,number,unionCustomer{__typename,id,createdAt}}}}
+        let expectedQuery = """
+        {totalCount,pageInfo{...PageInfoFragment},edges{node{id,number,unionCustomer{__typename,id,createdAt}}}}
         """
-        XCTAssertEqual(operation.query.buildField(), expectedResult)
+        let field = operation.query.buildField()
+        XCTAssertTrue(field.contains(expectedQuery))
+        XCTAssertTrue(field.contains("after:null"))
+        XCTAssertTrue(field.contains("first:10"))
+        XCTAssertTrue(field.contains("filter:null"))
+
     }
     
     func testFragments() throws {

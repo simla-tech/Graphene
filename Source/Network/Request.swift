@@ -10,9 +10,8 @@ import Alamofire
 
 public struct Request<ResponseType: Decodable> {
     
-    private let configuration: Client.Configuration
-    private let loggerQueue: DispatchQueue
-    private let logger: LoggerProtocol
+    private let configuration: Session.Configuration
+    private let delegateQueue = DispatchQueue(label: "com.graphene.sessionDelegate", qos: .utility)
     private var initError: Error?
     internal var dataRequest: Alamofire.DataRequest
     
@@ -21,13 +20,11 @@ public struct Request<ResponseType: Decodable> {
     public var variables: String?
     public var decoderRootKey: String?
     
-    internal init<O: Operation>(operation: O, client: Client) {
+    internal init<O: Operation>(operation: O, session: Session) {
         
         self.operationName = O.operationName
         self.decoderRootKey = operation.decoderRootKey
-        self.configuration = client.configuration
-        self.loggerQueue = client.loggerQueue
-        self.logger = client.logger
+        self.configuration = session.configuration
         
         let field = operation.asField
         
@@ -51,7 +48,7 @@ public struct Request<ResponseType: Decodable> {
         self.query = "\(O.mode.rawValue) \(O.operationName)"
         if !variables.isEmpty {
             let variablesStr = variables.map { variable -> String in
-                return "$\(variable.key): \(variable.schemaType)!"
+                return "$\(variable.key):\(variable.schemaType)!"
             }
             self.query += "(\(variablesStr.joined(separator: ",")))"
         }
@@ -62,15 +59,15 @@ public struct Request<ResponseType: Decodable> {
             self.query += fragments.map({ $0.fragmentBody }).joined()
         }
         
-        var httpHeaders = client.configuration.httpHeaders ?? []
+        var httpHeaders = session.configuration.httpHeaders ?? []
         if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
-           let version = Bundle(for: Client.self).infoDictionary?["CFBundleShortVersionString"] as? String {
+           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
             httpHeaders.add(name: "User-Agent", value: "Graphene /\(version)")
         }
         
         let operations = String(format: "{\"query\": \"%@\",\"variables\": %@, \"operationName\": null}", self.query.escaped, variablesJsonString)
         
-        self.dataRequest = client.session.upload(
+        self.dataRequest = session.alamofireSession.upload(
             multipartFormData: { multipartFormData in
                 if let data = operations.data(using: .utf8) {
                     multipartFormData.append(data, withName: "operations")
@@ -92,15 +89,15 @@ public struct Request<ResponseType: Decodable> {
                                              mimeType: MimeType(path: upload.value.name).value)
                 }
             },
-            to: client.url,
+            to: session.url,
             usingThreshold: MultipartFormData.encodingMemoryThreshold,
             method: .post,
             headers: httpHeaders,
-            requestModifier: client.configuration.requestModifier
+            requestModifier: session.configuration.requestModifier
         )
         
         // Set up validators
-        if let customValidation = client.configuration.validation {
+        if let customValidation = session.configuration.validation {
             self.dataRequest = self.dataRequest.validate(customValidation)
         }
         self.dataRequest = self.dataRequest.validate(ResponseValidator.validateStatus(request:response:data:)).validate()
@@ -175,16 +172,16 @@ extension Request {
             }
             return .init(self.dataRequest)
         }
-        self.loggerQueue.async {
-            self.logger.requestSended(operation: self.operationName, query: self.query, variablesJson: self.variables)
+        self.delegateQueue.async {
+            self.configuration.delegate?.requestSended?(operation: self.operationName, query: self.query, variablesJson: self.variables)
         }
         self.dataRequest.responseJSON(queue: .global(qos: .utility)) { response in
             do {
-                                
-                self.loggerQueue.async {
-                    self.logger.responseRecived(operation: self.operationName,
-                                                statusCode: response.response?.statusCode ?? -999,
-                                                interval: response.metrics?.taskInterval ?? DateInterval())
+                
+                self.delegateQueue.async {
+                    self.configuration.delegate?.responseRecived?(operation: self.operationName,
+                                                                  statusCode: response.response?.statusCode ?? -999,
+                                                                  interval: response.metrics?.taskInterval ?? DateInterval())
                 }
                 
                 let value = try response.result.get()

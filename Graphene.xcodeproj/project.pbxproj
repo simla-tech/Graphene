@@ -65,8 +65,8 @@
 		F39A620025CBCFEF00464DC9 /* AbstractCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61FF25CBCFEF00464DC9 /* AbstractCustomer.swift */; };
 		F39A620425CBCFF900464DC9 /* CustomerCorporate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A620325CBCFF900464DC9 /* CustomerCorporate.swift */; };
 		F39A620825CBD00400464DC9 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A620725CBD00300464DC9 /* Customer.swift */; };
-		F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167BC25C2BBA00068E6C9 /* Client.swift */; };
-		F3B167C125C2BBF60068E6C9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C025C2BBF60068E6C9 /* Logger.swift */; };
+		F3B167BD25C2BBA00068E6C9 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167BC25C2BBA00068E6C9 /* Session.swift */; };
+		F3B167C125C2BBF60068E6C9 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C025C2BBF60068E6C9 /* SessionDelegate.swift */; };
 		F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C425C2BD1D0068E6C9 /* Request.swift */; };
 		F3B167C925C2C3BB0068E6C9 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */; };
 		F3B167D125C2C5C00068E6C9 /* GrapheneError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */; };
@@ -166,8 +166,8 @@
 		F39A61FF25CBCFEF00464DC9 /* AbstractCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCustomer.swift; sourceTree = "<group>"; };
 		F39A620325CBCFF900464DC9 /* CustomerCorporate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCorporate.swift; sourceTree = "<group>"; };
 		F39A620725CBD00300464DC9 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
-		F3B167BC25C2BBA00068E6C9 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		F3B167C025C2BBF60068E6C9 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		F3B167BC25C2BBA00068E6C9 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		F3B167C025C2BBF60068E6C9 /* SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
 		F3B167C425C2BD1D0068E6C9 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
 		F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
@@ -385,8 +385,8 @@
 		F3B167E025C2CA840068E6C9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				F3B167BC25C2BBA00068E6C9 /* Client.swift */,
-				F3B167C025C2BBF60068E6C9 /* Logger.swift */,
+				F3B167BC25C2BBA00068E6C9 /* Session.swift */,
+				F3B167C025C2BBF60068E6C9 /* SessionDelegate.swift */,
 				F3B167C425C2BD1D0068E6C9 /* Request.swift */,
 				F37E966025D2AFA000A5927E /* CancellableRequest.swift */,
 				F3B167D425C2C6C00068E6C9 /* ResponseValidator.swift */,
@@ -688,7 +688,7 @@
 				F324230E25BAEDA200111C5B /* Operation.swift in Sources */,
 				F36F3E5E25CAC3360024641C /* QueryKey.swift in Sources */,
 				F3B167D925C2C74E0068E6C9 /* Upload.swift in Sources */,
-				F3B167C125C2BBF60068E6C9 /* Logger.swift in Sources */,
+				F3B167C125C2BBF60068E6C9 /* SessionDelegate.swift in Sources */,
 				F35ED0C525C2E59900244CA4 /* Change.swift in Sources */,
 				F3CF4B6B25CC26DC00161B2C /* Fragment.swift in Sources */,
 				F35ED0C925C2E79800244CA4 /* ChangeSet.swift in Sources */,
@@ -698,7 +698,7 @@
 				F3CF4B9925CD3AAE00161B2C /* ChangeSetVariable.swift in Sources */,
 				F324231E25BAEF5000111C5B /* Field.swift in Sources */,
 				F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */,
-				F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */,
+				F3B167BD25C2BBA00068E6C9 /* Session.swift in Sources */,
 				F3CF4B8825CC446000161B2C /* InputVariable.swift in Sources */,
 				F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */,
 				F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */,

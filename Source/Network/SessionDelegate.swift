@@ -8,13 +8,13 @@
 import Foundation
 import os.log
 
-public protocol LoggerProtocol {
-    func requestSended(operation: String, query: String, variablesJson: String?)
-    func responseRecived(operation: String, statusCode: Int, interval: DateInterval)
+@objc public protocol SessionDelegate: AnyObject {
+    @objc optional func requestSended(operation: String, query: String, variablesJson: String?)
+    @objc optional func responseRecived(operation: String, statusCode: Int, interval: DateInterval)
 }
 
-internal class Logger: LoggerProtocol {
-    
+internal class DefaultSessionDelegate: SessionDelegate {
+        
     func requestSended(operation: String, query: String, variablesJson: String?) {
         if let variables = variablesJson {
             os_log("[Graphene] Request \"%@\" sended:\n%@\nvariables: %@", operation, query, variables)
