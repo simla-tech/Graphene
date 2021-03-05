@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-public class Session: NSObject {
+public class Client: NSObject {
     
     internal let alamofireSession: Alamofire.Session
     
@@ -21,31 +21,24 @@ public class Session: NSObject {
         self.configuration = configuration
         self.alamofireSession = Alamofire.Session(configuration: URLSessionConfiguration.af.default,
                                                   delegate: Alamofire.SessionDelegate(),
-                                                  rootQueue: DispatchQueue(label: "com.graphene.session.rootQueue"),
+                                                  rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
                                                   startRequestsImmediately: true,
-                                                  requestQueue: DispatchQueue(label: "com.graphene.session.requestQueue"),
-                                                  serializationQueue: DispatchQueue(label: "com.graphene.session.serializationQueue"),
+                                                  requestQueue: nil,
+                                                  serializationQueue: nil,
                                                   interceptor: configuration.interceptor,
                                                   serverTrustManager: configuration.serverTrustManager,
                                                   redirectHandler: configuration.redirectHandler,
                                                   cachedResponseHandler: configuration.cachedResponseHandler,
                                                   eventMonitors: configuration.eventMonitors)
     }
-    
-    public func prepareRequest<O: Operation>(for operation: O) -> Request<O.DecodableResponse> {
-        return Request<O.DecodableResponse>(operation: operation, session: self)
-    }
-    
-    @discardableResult
-    public func execute<O: Operation>(_ operation: O,
-                                      queue: DispatchQueue = .main,
-                                      _ completionHandler: @escaping (Result<O.DecodableResponse, Error>) -> Void) -> CancelableRequest {
-        return self.prepareRequest(for: operation).perform(queue: queue, completionHandler: completionHandler)
+
+    public func execute<O: Operation>(_ operation: O, queue: DispatchQueue = .main) -> Request<O.DecodableResponse> {
+        return Request<O.DecodableResponse>(operation: operation, client: self, queue: queue)
     }
     
 }
 
-extension Session {
+extension Client {
     public struct Configuration {
         public static var `default` = Configuration()
         public var eventMonitors: [EventMonitor] = []
@@ -55,13 +48,13 @@ extension Session {
         public var interceptor: RequestInterceptor?
         public var requestModifier: Alamofire.Session.RequestModifier?
         public var requestTimeout: TimeInterval = 60
-        public var muteCanceledRequests: Bool = false
         public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
+        // swiftlint:disable:next weak_delegate
+        public var loggerDelegate: LoggerDelegate? = DefaultLoggerDelegate()
+        public var muteCanceledRequests: Bool = true
         public var rootResponseKey: String = "data"
         public var rootErrorsKey: String? = "errors"
         public var decoder: JSONDecoder = JSONDecoder()
-        // swiftlint:disable:next weak_delegate
-        public var delegate: SessionDelegate? = DefaultSessionDelegate()
     }
 }

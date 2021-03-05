@@ -57,7 +57,10 @@
 		F36F3E5E25CAC3360024641C /* QueryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E5D25CAC3360024641C /* QueryKey.swift */; };
 		F36F3E6225CAC34F0024641C /* QueryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E6125CAC34F0024641C /* QueryContainer.swift */; };
 		F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E6625CAC3860024641C /* SchemaType.swift */; };
-		F37E966125D2AFA000A5927E /* CancellableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37E966025D2AFA000A5927E /* CancellableRequest.swift */; };
+		F3887E6C25F005F10006B675 /* Callbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E6B25F005F10006B675 /* Callbacks.swift */; };
+		F3887E7225F0222B0006B675 /* CancelableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7125F0222B0006B675 /* CancelableRequest.swift */; };
+		F3887E7625F022460006B675 /* FinishableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7525F022460006B675 /* FinishableRequest.swift */; };
+		F3887E7A25F0225E0006B675 /* FailureableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7925F0225E0006B675 /* FailureableRequest.swift */; };
 		F39A61DC25CAE02600464DC9 /* OnQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61DB25CAE02600464DC9 /* OnQuery.swift */; };
 		F39A61E625CB250C00464DC9 /* AbstractDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61E525CB250C00464DC9 /* AbstractDecodable.swift */; };
 		F39A61EA25CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61E925CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift */; };
@@ -65,8 +68,8 @@
 		F39A620025CBCFEF00464DC9 /* AbstractCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61FF25CBCFEF00464DC9 /* AbstractCustomer.swift */; };
 		F39A620425CBCFF900464DC9 /* CustomerCorporate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A620325CBCFF900464DC9 /* CustomerCorporate.swift */; };
 		F39A620825CBD00400464DC9 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A620725CBD00300464DC9 /* Customer.swift */; };
-		F3B167BD25C2BBA00068E6C9 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167BC25C2BBA00068E6C9 /* Session.swift */; };
-		F3B167C125C2BBF60068E6C9 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C025C2BBF60068E6C9 /* SessionDelegate.swift */; };
+		F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167BC25C2BBA00068E6C9 /* Client.swift */; };
+		F3B167C125C2BBF60068E6C9 /* LoggerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C025C2BBF60068E6C9 /* LoggerDelegate.swift */; };
 		F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C425C2BD1D0068E6C9 /* Request.swift */; };
 		F3B167C925C2C3BB0068E6C9 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */; };
 		F3B167D125C2C5C00068E6C9 /* GrapheneError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */; };
@@ -158,7 +161,10 @@
 		F36F3E5D25CAC3360024641C /* QueryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryKey.swift; sourceTree = "<group>"; };
 		F36F3E6125CAC34F0024641C /* QueryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryContainer.swift; sourceTree = "<group>"; };
 		F36F3E6625CAC3860024641C /* SchemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaType.swift; sourceTree = "<group>"; };
-		F37E966025D2AFA000A5927E /* CancellableRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableRequest.swift; sourceTree = "<group>"; };
+		F3887E6B25F005F10006B675 /* Callbacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callbacks.swift; sourceTree = "<group>"; };
+		F3887E7125F0222B0006B675 /* CancelableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelableRequest.swift; sourceTree = "<group>"; };
+		F3887E7525F022460006B675 /* FinishableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableRequest.swift; sourceTree = "<group>"; };
+		F3887E7925F0225E0006B675 /* FailureableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureableRequest.swift; sourceTree = "<group>"; };
 		F39A61DB25CAE02600464DC9 /* OnQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnQuery.swift; sourceTree = "<group>"; };
 		F39A61E525CB250C00464DC9 /* AbstractDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDecodable.swift; sourceTree = "<group>"; };
 		F39A61E925CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleValueDecodingContainer + Decode.swift"; sourceTree = "<group>"; };
@@ -166,8 +172,8 @@
 		F39A61FF25CBCFEF00464DC9 /* AbstractCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCustomer.swift; sourceTree = "<group>"; };
 		F39A620325CBCFF900464DC9 /* CustomerCorporate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCorporate.swift; sourceTree = "<group>"; };
 		F39A620725CBD00300464DC9 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
-		F3B167BC25C2BBA00068E6C9 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		F3B167C025C2BBF60068E6C9 /* SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
+		F3B167BC25C2BBA00068E6C9 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		F3B167C025C2BBF60068E6C9 /* LoggerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDelegate.swift; sourceTree = "<group>"; };
 		F3B167C425C2BD1D0068E6C9 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
 		F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
@@ -385,11 +391,14 @@
 		F3B167E025C2CA840068E6C9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				F3B167BC25C2BBA00068E6C9 /* Session.swift */,
-				F3B167C025C2BBF60068E6C9 /* SessionDelegate.swift */,
-				F3B167C425C2BD1D0068E6C9 /* Request.swift */,
-				F37E966025D2AFA000A5927E /* CancellableRequest.swift */,
+				F3B167BC25C2BBA00068E6C9 /* Client.swift */,
+				F3B167C025C2BBF60068E6C9 /* LoggerDelegate.swift */,
 				F3B167D425C2C6C00068E6C9 /* ResponseValidator.swift */,
+				F3887E6B25F005F10006B675 /* Callbacks.swift */,
+				F3B167C425C2BD1D0068E6C9 /* Request.swift */,
+				F3887E7125F0222B0006B675 /* CancelableRequest.swift */,
+				F3887E7525F022460006B675 /* FinishableRequest.swift */,
+				F3887E7925F0225E0006B675 /* FailureableRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -675,20 +684,21 @@
 				F3CF4B9D25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift in Sources */,
 				F324231A25BAEEFB00111C5B /* Arguments.swift in Sources */,
 				F39A61E625CB250C00464DC9 /* AbstractDecodable.swift in Sources */,
+				F3887E7A25F0225E0006B675 /* FailureableRequest.swift in Sources */,
 				F39A61F825CB2D0B00464DC9 /* QueryBuilder.swift in Sources */,
 				F3CF4B6225CC266E00161B2C /* MultipleQuery.swift in Sources */,
 				F35ED0D425C2F4BA00244CA4 /* EncodableVariable.swift in Sources */,
 				F39A61EA25CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift in Sources */,
-				F37E966125D2AFA000A5927E /* CancellableRequest.swift in Sources */,
 				F324230625BAED7E00111C5B /* Queryable.swift in Sources */,
 				F3B167DD25C2C76D0068E6C9 /* MimeType.swift in Sources */,
 				F346C29125D151B6005C1BC1 /* MutationOperation.swift in Sources */,
+				F3887E6C25F005F10006B675 /* Callbacks.swift in Sources */,
 				F35ED0C125C2DFD400244CA4 /* Variables.swift in Sources */,
 				F3B167D525C2C6C00068E6C9 /* ResponseValidator.swift in Sources */,
 				F324230E25BAEDA200111C5B /* Operation.swift in Sources */,
 				F36F3E5E25CAC3360024641C /* QueryKey.swift in Sources */,
 				F3B167D925C2C74E0068E6C9 /* Upload.swift in Sources */,
-				F3B167C125C2BBF60068E6C9 /* SessionDelegate.swift in Sources */,
+				F3B167C125C2BBF60068E6C9 /* LoggerDelegate.swift in Sources */,
 				F35ED0C525C2E59900244CA4 /* Change.swift in Sources */,
 				F3CF4B6B25CC26DC00161B2C /* Fragment.swift in Sources */,
 				F35ED0C925C2E79800244CA4 /* ChangeSet.swift in Sources */,
@@ -698,10 +708,11 @@
 				F3CF4B9925CD3AAE00161B2C /* ChangeSetVariable.swift in Sources */,
 				F324231E25BAEF5000111C5B /* Field.swift in Sources */,
 				F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */,
-				F3B167BD25C2BBA00068E6C9 /* Session.swift in Sources */,
+				F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */,
 				F3CF4B8825CC446000161B2C /* InputVariable.swift in Sources */,
 				F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */,
 				F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */,
+				F3887E7225F0222B0006B675 /* CancelableRequest.swift in Sources */,
 				F3CF4B4E25CBFF4100161B2C /* MultipleOperationResponse.swift in Sources */,
 				F33C6F9125D3CB3A00BE7C7D /* FragmentQuery.swift in Sources */,
 				F3B167D125C2C5C00068E6C9 /* GrapheneError.swift in Sources */,
@@ -709,6 +720,7 @@
 				F324230225BAED6A00111C5B /* Query.swift in Sources */,
 				F36F3E6225CAC34F0024641C /* QueryContainer.swift in Sources */,
 				F3362ADD25D574FE00AC3A72 /* GraphQLErrors.swift in Sources */,
+				F3887E7625F022460006B675 /* FinishableRequest.swift in Sources */,
 				F36F3E2A25C9681A0024641C /* Identifiable.swift in Sources */,
 				F346C29525D151D0005C1BC1 /* OperationMode.swift in Sources */,
 				F31EF64725C30A7600522D81 /* VariableEncoderKeyedContainer.swift in Sources */,

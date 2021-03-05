@@ -11,17 +11,21 @@ import Alamofire
 
 class GrapheneTests: XCTestCase {
     
-    lazy var client: Graphene.Session = {
-        var config: Graphene.Session.Configuration = .default
-        config.httpHeaders = ["Authorization": "Bearer XXX"]
-        config.validation = Self.customValidationBlock
-        config.decoder.keyDecodingStrategy = .convertFromSnakeCase
+    private var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "ru_RU")
-        config.decoder.dateDecodingStrategy = .formatted(formatter)
-        return Session(url: "https://localhost:3241/app/api", configuration: config)
+        return .formatted(formatter)
+    }()
+    
+    lazy var client: Client = {
+        var config: Client.Configuration = .default
+        config.httpHeaders = ["Authorization": "Bearer XXX"]
+        config.validation = Self.customValidationBlock
+        config.decoder.keyDecodingStrategy = .convertFromSnakeCase
+        config.decoder.dateDecodingStrategy = self.dateDecodingStrategy
+        return Client(url: "https://localhost:3241/app/api", configuration: config)
     }()
     
     static let customValidationBlock: DataRequest.Validation = { _, _, data in
