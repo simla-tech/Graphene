@@ -61,3 +61,14 @@ extension Float: Variable {
         return self
     }
 }
+
+extension Optional: Variable where Wrapped: Variable {
+    public var json: Any? {
+        switch self {
+        case .some(let value):
+            return value.json
+        case .none:
+            return nil
+        }
+    }
+}

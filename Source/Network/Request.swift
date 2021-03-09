@@ -10,33 +10,33 @@ import Alamofire
 
 open class Request<ResponseType: Decodable>: FailureableRequest {
     
-    private var callback: SuccessableCallback<ResponseType> {
-        return self.storedCallback as! SuccessableCallback<ResponseType>
+    private var callback: SuccessableCallback<ResponseType>? {
+        return self.storedCallback as? SuccessableCallback<ResponseType>
     }
     
-    internal init<O>(operation: O, client: Client, queue: DispatchQueue) where O : Operation {
+    internal init<O>(operation: O, client: Client, queue: DispatchQueue) where O: Operation {
         super.init(operation: operation, client: client, queue: queue, callback: SuccessableCallback<ResponseType>())
     }
     
     @discardableResult
     public func onSuccess(_ callback: @escaping SuccessableCallback<ResponseType>.Closure) -> FailureableRequest {
-        self.callback.success = callback
+        self.callback?.success = callback
         self.fetchTargetJson { result in
             do {
                 let (targetJson, gqlError) = try result.get()
                 let successData = try self.decodeResponse(from: targetJson, gqlError: gqlError)
                 
                 self.performResponseBlock(error: nil) {
-                    self.callback.success?(successData)
+                    self.callback?.success?(successData)
                 }
                 
             } catch {
                 self.performResponseBlock(error: error) {
-                    self.callback.failure?(error)
+                    self.callback?.failure?(error)
                 }
             }
             self.performResponseBlock(error: nil) {
-                self.callback.finish?()
+                self.callback?.finish?()
             }
         }
         return self

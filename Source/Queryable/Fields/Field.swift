@@ -19,23 +19,23 @@ extension Field {
         return Self.searchFragments(in: self.childrenFields)
     }
     
-    internal var variables: [InputVariable] {
+    internal var variables: [SomeInputVariable] {
         return Self.searchVariables(in: self)
     }
     
-    private static func searchVariables(in field: Field) -> [InputVariable] {
-        var result: [InputVariable] = self.searchVariables(in: Array(field.arguments.values))
+    private static func searchVariables(in field: Field) -> [SomeInputVariable] {
+        var result: [SomeInputVariable] = self.searchVariables(in: Array(field.arguments.values))
         for field in field.childrenFields {
             result.append(contentsOf: self.searchVariables(in: field))
         }
         return result
     }
     
-    private static func searchVariables(in arguments: [Argument]) -> [InputVariable] {
-        var result: [InputVariable] = []
+    private static func searchVariables(in arguments: [Argument]) -> [SomeInputVariable] {
+        var result: [SomeInputVariable] = []
         for argument in arguments {
             switch argument {
-            case let inputVariable as InputVariable:
+            case let inputVariable as SomeInputVariable:
                 result.append(inputVariable)
             case let argsArr as [Argument]:
                 result.append(contentsOf: self.searchVariables(in: argsArr))

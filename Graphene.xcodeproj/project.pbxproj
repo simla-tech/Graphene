@@ -57,6 +57,7 @@
 		F36F3E5E25CAC3360024641C /* QueryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E5D25CAC3360024641C /* QueryKey.swift */; };
 		F36F3E6225CAC34F0024641C /* QueryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E6125CAC34F0024641C /* QueryContainer.swift */; };
 		F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F3E6625CAC3860024641C /* SchemaType.swift */; };
+		F379356325F76FE8004908AC /* InputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F379356225F76FE8004908AC /* InputVariable.swift */; };
 		F3887E6C25F005F10006B675 /* Callbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E6B25F005F10006B675 /* Callbacks.swift */; };
 		F3887E7225F0222B0006B675 /* CancelableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7125F0222B0006B675 /* CancelableRequest.swift */; };
 		F3887E7625F022460006B675 /* FinishableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7525F022460006B675 /* FinishableRequest.swift */; };
@@ -88,7 +89,7 @@
 		F3CF4B6225CC266E00161B2C /* MultipleQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B6125CC266E00161B2C /* MultipleQuery.swift */; };
 		F3CF4B6B25CC26DC00161B2C /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B6A25CC26DC00161B2C /* Fragment.swift */; };
 		F3CF4B7625CC2BB000161B2C /* OrderDetailFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B7525CC2BB000161B2C /* OrderDetailFragment.swift */; };
-		F3CF4B8825CC446000161B2C /* InputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B8725CC446000161B2C /* InputVariable.swift */; };
+		F3CF4B8825CC446000161B2C /* SomeInputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B8725CC446000161B2C /* SomeInputVariable.swift */; };
 		F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B9025CC504000161B2C /* AnyFragment.swift */; };
 		F3CF4B9925CD3AAE00161B2C /* ChangeSetVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B9825CD3AAE00161B2C /* ChangeSetVariable.swift */; };
 		F3CF4B9D25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B9C25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift */; };
@@ -161,6 +162,7 @@
 		F36F3E5D25CAC3360024641C /* QueryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryKey.swift; sourceTree = "<group>"; };
 		F36F3E6125CAC34F0024641C /* QueryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryContainer.swift; sourceTree = "<group>"; };
 		F36F3E6625CAC3860024641C /* SchemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaType.swift; sourceTree = "<group>"; };
+		F379356225F76FE8004908AC /* InputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVariable.swift; sourceTree = "<group>"; };
 		F3887E6B25F005F10006B675 /* Callbacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callbacks.swift; sourceTree = "<group>"; };
 		F3887E7125F0222B0006B675 /* CancelableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelableRequest.swift; sourceTree = "<group>"; };
 		F3887E7525F022460006B675 /* FinishableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableRequest.swift; sourceTree = "<group>"; };
@@ -192,7 +194,7 @@
 		F3CF4B6125CC266E00161B2C /* MultipleQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleQuery.swift; sourceTree = "<group>"; };
 		F3CF4B6A25CC26DC00161B2C /* Fragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragment.swift; sourceTree = "<group>"; };
 		F3CF4B7525CC2BB000161B2C /* OrderDetailFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailFragment.swift; sourceTree = "<group>"; };
-		F3CF4B8725CC446000161B2C /* InputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVariable.swift; sourceTree = "<group>"; };
+		F3CF4B8725CC446000161B2C /* SomeInputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInputVariable.swift; sourceTree = "<group>"; };
 		F3CF4B9025CC504000161B2C /* AnyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyFragment.swift; sourceTree = "<group>"; };
 		F3CF4B9825CD3AAE00161B2C /* ChangeSetVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetVariable.swift; sourceTree = "<group>"; };
 		F3CF4B9C25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetEncodingPolicy.swift; sourceTree = "<group>"; };
@@ -298,7 +300,8 @@
 				F35ED0DB25C2F4DC00244CA4 /* VariableEncoder.swift */,
 				F35ED0DF25C2F4EC00244CA4 /* VariableEncoderContainer.swift */,
 				F31EF64625C30A7600522D81 /* VariableEncoderKeyedContainer.swift */,
-				F3CF4B8725CC446000161B2C /* InputVariable.swift */,
+				F3CF4B8725CC446000161B2C /* SomeInputVariable.swift */,
+				F379356225F76FE8004908AC /* InputVariable.swift */,
 			);
 			path = Variables;
 			sourceTree = "<group>";
@@ -692,6 +695,7 @@
 				F324230625BAED7E00111C5B /* Queryable.swift in Sources */,
 				F3B167DD25C2C76D0068E6C9 /* MimeType.swift in Sources */,
 				F346C29125D151B6005C1BC1 /* MutationOperation.swift in Sources */,
+				F379356325F76FE8004908AC /* InputVariable.swift in Sources */,
 				F3887E6C25F005F10006B675 /* Callbacks.swift in Sources */,
 				F35ED0C125C2DFD400244CA4 /* Variables.swift in Sources */,
 				F3B167D525C2C6C00068E6C9 /* ResponseValidator.swift in Sources */,
@@ -709,7 +713,7 @@
 				F324231E25BAEF5000111C5B /* Field.swift in Sources */,
 				F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */,
 				F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */,
-				F3CF4B8825CC446000161B2C /* InputVariable.swift in Sources */,
+				F3CF4B8825CC446000161B2C /* SomeInputVariable.swift in Sources */,
 				F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */,
 				F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */,
 				F3887E7225F0222B0006B675 /* CancelableRequest.swift in Sources */,

@@ -10,3 +10,7 @@ import Foundation
 public protocol Queryable {
     associatedtype QueryKeys: QueryKey
 }
+
+extension Array: Queryable where Element: Queryable {
+    public typealias QueryKeys = Element.QueryKeys
+}

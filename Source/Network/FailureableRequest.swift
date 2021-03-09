@@ -10,17 +10,17 @@ import Alamofire
 
 open class FailureableRequest: FinishableRequest {
     
-    private var callback: FailureableCallback {
-        return self.storedCallback as! FailureableCallback
+    private var callback: FailureableCallback? {
+        return self.storedCallback as? FailureableCallback
     }
     
-    internal init<O>(operation: O, client: Client, queue: DispatchQueue, callback: FailureableCallback = FailureableCallback()) where O : Operation {
+    internal init<O>(operation: O, client: Client, queue: DispatchQueue, callback: FailureableCallback = FailureableCallback()) where O: Operation {
         super.init(operation: operation, client: client, queue: queue, callback: callback)
     }
     
     @discardableResult
     public func onFailure(_ completionHandler: @escaping FailureableCallback.Closure) -> FinishableRequest {
-        self.callback.failure = completionHandler
+        self.callback?.failure = completionHandler
         self.fetchTargetJson({ result in
             do {
                 let (targetJson, gqlError) = try result.get()
@@ -29,11 +29,11 @@ open class FailureableRequest: FinishableRequest {
                 }
             } catch {
                 self.performResponseBlock(error: error) {
-                    self.callback.failure?(error)
+                    self.callback?.failure?(error)
                 }
             }
             self.performResponseBlock(error: nil) {
-                self.callback.finish?()
+                self.callback?.finish?()
             }
         })
         return self

@@ -38,7 +38,9 @@ open class FinishableRequest: CancelableRequest {
         let variablesArr = field.variables
         var variablesJsonString = "{}"
         if !variablesArr.isEmpty {
-            let variablesJson = variablesArr.reduce(into: [String: Any](), { $0[$1.key] = $1.value.json })
+            let variablesJson = variablesArr.reduce(into: [String: Any](), {
+                if let value = $1.value { $0[$1.key] = value.json }
+            })
             do {
                 let variablesData = try JSONSerialization.data(withJSONObject: variablesJson, options: [])
                 variablesJsonString = String(data: variablesData, encoding: .utf8) ?? "{}"
@@ -182,10 +184,7 @@ open class FinishableRequest: CancelableRequest {
             return
         }
         if let error = error {
-            print(1)
             self.loggerDelegateQueue.async {
-                print(2, self.configuration.loggerDelegate?.errorCatched)
-                
                 self.configuration.loggerDelegate?.errorCatched?(error, operation: self.operationName, query: self.query, variablesJson: self.variables)
             }
         }
