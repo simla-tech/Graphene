@@ -16,15 +16,11 @@ public protocol SomeInputVariable: Argument {
 extension SomeInputVariable {
     
     public var rawValue: String {
-        if self.value == nil {
+        if self.value != nil {
             return "$\(self.key)"
         } else {
             return "null"
         }
-    }
-    
-    public var json: Any? {
-        return [self.key: self.value?.json]
     }
     
 }

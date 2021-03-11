@@ -23,8 +23,8 @@ extension AnyQuery {
             res.append(self.name)
         }
         if !self.arguments.isEmpty {
-            let argumentsStr = self.arguments
-                .map({ "\($0):\($1.rawValue)" })
+            let argumentsStr = self.arguments.filter({ $0.value.rawValue != "null" })
+                .map({ "\($0.key):\($0.value.rawValue)" })
                 .joined(separator: ",")
             res.append("(\(argumentsStr))")
         }

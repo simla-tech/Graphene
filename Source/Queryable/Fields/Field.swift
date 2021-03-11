@@ -36,6 +36,9 @@ extension Field {
         for argument in arguments {
             switch argument {
             case let inputVariable as SomeInputVariable:
+                guard inputVariable.value != nil else {
+                    continue
+                }
                 result.append(inputVariable)
             case let argsArr as [Argument]:
                 result.append(contentsOf: self.searchVariables(in: argsArr))

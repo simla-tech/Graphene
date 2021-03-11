@@ -77,7 +77,7 @@ open class FinishableRequest: CancelableRequest {
             httpHeaders.add(name: "User-Agent", value: "Graphene /\(version)")
         }
         
-        let operations = String(format: "{\"query\": \"%@\",\"variables\": %@, \"operationName\": null}", query.escaped, variablesJsonString)
+        let operations = String(format: "{\"query\":\"%@\",\"variables\": %@,\"operationName\":\"%@\"}", query.escaped, variablesJsonString, O.operationName)
         
         let dataRequest = client.alamofireSession.upload(
             multipartFormData: { multipartFormData in
