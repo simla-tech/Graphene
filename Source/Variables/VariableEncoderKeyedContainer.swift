@@ -11,14 +11,14 @@ public class VariableEncoderKeyedContainer<Key: CodingKey>: VariableEncoderConta
 
     public func encodeIfPresent(_ value: Variable?,
                                 forKey key: KeyedEncodingContainer<Key>.Key,
-                                changeSetPolicy: ChangeSetEncodingPolicy = .default) {
-        self.encodeIfPresent(value, forKey: key.stringValue, changeSetPolicy: changeSetPolicy)
+                                required: Bool = false) {
+        self.encodeIfPresent(value, forKey: key.stringValue, required: required)
     }
     
     public func encode(_ value: Variable?,
                        forKey key: KeyedEncodingContainer<Key>.Key,
-                       changeSetPolicy: ChangeSetEncodingPolicy = .default) {
-        self.encode(value, forKey: key.stringValue, changeSetPolicy: changeSetPolicy)
+                       required: Bool = false) {
+        self.encode(value, forKey: key.stringValue, required: required)
     }
 
 }

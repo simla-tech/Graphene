@@ -23,13 +23,13 @@ public class VariableEncoderContainer {
     private func applyChangeSet(to value: Variable?,
                                 forKey key: AnyHashable,
                                 changeSet: ChangeSet?,
-                                policy: ChangeSetEncodingPolicy) -> ApplyChangeSetResult {
+                                required: Bool) -> ApplyChangeSetResult {
         
         guard let changeSet = changeSet else {
             return .value(value)
         }
         
-        guard policy != .required else {
+        guard !required else {
             return .value(value)
         }
             
@@ -48,7 +48,7 @@ public class VariableEncoderContainer {
             } else if let values = (value as Any) as? [AnyIdentifiableVariable] {
                 
                 let variables = values.compactMap({ value -> Variable? in
-                    switch self.applyChangeSet(to: value, forKey: "\(value.anyIdentifier)", changeSet: childChangeSet, policy: policy) {
+                    switch self.applyChangeSet(to: value, forKey: "\(value.anyIdentifier)", changeSet: childChangeSet, required: false) {
                     case .value(let variable): return variable
                     default: return nil
                     }
@@ -68,8 +68,8 @@ public class VariableEncoderContainer {
         
     }
     
-    public func encode(_ value: Variable?, forKey key: String, changeSetPolicy: ChangeSetEncodingPolicy = .default) {
-        switch self.applyChangeSet(to: value, forKey: key, changeSet: self.encoder.changeSet, policy: changeSetPolicy) {
+    public func encode(_ value: Variable?, forKey key: String, required: Bool = false) {
+        switch self.applyChangeSet(to: value, forKey: key, changeSet: self.encoder.changeSet, required: required) {
         case .value(let newValue):
             self.encoder.variables.updateValue(newValue, forKey: key)
         default:
@@ -77,9 +77,9 @@ public class VariableEncoderContainer {
         }
     }
     
-    public func encodeIfPresent(_ value: Variable?, forKey key: String, changeSetPolicy: ChangeSetEncodingPolicy = .default) {
+    public func encodeIfPresent(_ value: Variable?, forKey key: String, required: Bool = false) {
         guard let value = value else { return }
-        self.encode(value, forKey: key, changeSetPolicy: changeSetPolicy)
+        self.encode(value, forKey: key, required: required)
     }
 
 }
