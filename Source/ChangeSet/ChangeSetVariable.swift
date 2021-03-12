@@ -10,7 +10,7 @@ import Foundation
 public struct ChangeSetVariable: EncodableVariable {
     
     public let variable: EncodableVariable
-    public let changeSet: ChangeSet
+    public let changeSet: SomeChangeSet
     
     public func encode(to encoder: VariableEncoder) {
         encoder.apply(changeSet: self.changeSet)

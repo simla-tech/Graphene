@@ -23,7 +23,7 @@ extension EncodableVariable {
         return encoder.variables
     }
     
-    public func encode(to encoder: VariableEncoder, with changeSet: ChangeSet?) {
+    public func encode(to encoder: VariableEncoder, with changeSet: ChangeSet<Self>?) {
         encoder.apply(changeSet: changeSet)
         self.encode(to: encoder)
     }

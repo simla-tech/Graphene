@@ -22,7 +22,7 @@ public class VariableEncoderContainer {
     
     private func applyChangeSet(to value: Variable?,
                                 forKey key: AnyHashable,
-                                changeSet: ChangeSet?,
+                                changeSet: SomeChangeSet?,
                                 required: Bool) -> ApplyChangeSetResult {
         
         guard let changeSet = changeSet else {
@@ -39,7 +39,7 @@ public class VariableEncoderContainer {
         
         switch change {
         case let rootChange as RootChange:
-            let childChangeSet = ChangeSet(changes: rootChange.childChanges)
+            let childChangeSet = AnyChangeSet(changes: rootChange.childChanges)
                         
             if let value = value as? EncodableVariable {
                 let diffVariable = ChangeSetVariable(variable: value, changeSet: childChangeSet)

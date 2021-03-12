@@ -79,6 +79,8 @@
 		F3B167DD25C2C76D0068E6C9 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167DC25C2C76D0068E6C9 /* MimeType.swift */; };
 		F3B2667325CD91510089A903 /* String + Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2667225CD91510089A903 /* String + Field.swift */; };
 		F3B2667925CD94090089A903 /* OrderProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2667825CD94090089A903 /* OrderProduct.swift */; };
+		F3BC026325FB47C50079DECD /* AnyChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BC026225FB47C50079DECD /* AnyChangeSet.swift */; };
+		F3BC026725FB47D50079DECD /* SomeChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BC026625FB47D50079DECD /* SomeChangeSet.swift */; };
 		F3C2527D25D3C2F300E78787 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C2527C25D3C2F300E78787 /* Alias.swift */; };
 		F3CF4B4425CBFD4000161B2C /* MultipleOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B4325CBFD4000161B2C /* MultipleOperation.swift */; };
 		F3CF4B4E25CBFF4100161B2C /* MultipleOperationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B4D25CBFF4100161B2C /* MultipleOperationResponse.swift */; };
@@ -92,7 +94,6 @@
 		F3CF4B8825CC446000161B2C /* SomeInputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B8725CC446000161B2C /* SomeInputVariable.swift */; };
 		F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B9025CC504000161B2C /* AnyFragment.swift */; };
 		F3CF4B9925CD3AAE00161B2C /* ChangeSetVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B9825CD3AAE00161B2C /* ChangeSetVariable.swift */; };
-		F3CF4B9D25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B9C25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +185,8 @@
 		F3B167DC25C2C76D0068E6C9 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		F3B2667225CD91510089A903 /* String + Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Field.swift"; sourceTree = "<group>"; };
 		F3B2667825CD94090089A903 /* OrderProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProduct.swift; sourceTree = "<group>"; };
+		F3BC026225FB47C50079DECD /* AnyChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyChangeSet.swift; sourceTree = "<group>"; };
+		F3BC026625FB47D50079DECD /* SomeChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeChangeSet.swift; sourceTree = "<group>"; };
 		F3C2527C25D3C2F300E78787 /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
 		F3CF4B4325CBFD4000161B2C /* MultipleOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperation.swift; sourceTree = "<group>"; };
 		F3CF4B4D25CBFF4100161B2C /* MultipleOperationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperationResponse.swift; sourceTree = "<group>"; };
@@ -197,7 +200,6 @@
 		F3CF4B8725CC446000161B2C /* SomeInputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInputVariable.swift; sourceTree = "<group>"; };
 		F3CF4B9025CC504000161B2C /* AnyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyFragment.swift; sourceTree = "<group>"; };
 		F3CF4B9825CD3AAE00161B2C /* ChangeSetVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetVariable.swift; sourceTree = "<group>"; };
-		F3CF4B9C25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetEncodingPolicy.swift; sourceTree = "<group>"; };
 		FB6BDD73D28CAE12FD932767 /* Pods-Graphene.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Graphene.release.xcconfig"; path = "Target Support Files/Pods-Graphene/Pods-Graphene.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -465,7 +467,8 @@
 				F35ED0C425C2E59900244CA4 /* Change.swift */,
 				F35ED0C825C2E79800244CA4 /* ChangeSet.swift */,
 				F3CF4B9825CD3AAE00161B2C /* ChangeSetVariable.swift */,
-				F3CF4B9C25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift */,
+				F3BC026225FB47C50079DECD /* AnyChangeSet.swift */,
+				F3BC026625FB47D50079DECD /* SomeChangeSet.swift */,
 			);
 			path = ChangeSet;
 			sourceTree = "<group>";
@@ -684,12 +687,12 @@
 				F346C28D25D151A8005C1BC1 /* QueryOperation.swift in Sources */,
 				F33C6F8D25D3CB3000BE7C7D /* AnyQuery.swift in Sources */,
 				F3C2527D25D3C2F300E78787 /* Alias.swift in Sources */,
-				F3CF4B9D25CD3ABD00161B2C /* ChangeSetEncodingPolicy.swift in Sources */,
 				F324231A25BAEEFB00111C5B /* Arguments.swift in Sources */,
 				F39A61E625CB250C00464DC9 /* AbstractDecodable.swift in Sources */,
 				F3887E7A25F0225E0006B675 /* FailureableRequest.swift in Sources */,
 				F39A61F825CB2D0B00464DC9 /* QueryBuilder.swift in Sources */,
 				F3CF4B6225CC266E00161B2C /* MultipleQuery.swift in Sources */,
+				F3BC026725FB47D50079DECD /* SomeChangeSet.swift in Sources */,
 				F35ED0D425C2F4BA00244CA4 /* EncodableVariable.swift in Sources */,
 				F39A61EA25CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift in Sources */,
 				F324230625BAED7E00111C5B /* Queryable.swift in Sources */,
@@ -715,6 +718,7 @@
 				F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */,
 				F3CF4B8825CC446000161B2C /* SomeInputVariable.swift in Sources */,
 				F3B167C525C2BD1D0068E6C9 /* Request.swift in Sources */,
+				F3BC026325FB47C50079DECD /* AnyChangeSet.swift in Sources */,
 				F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */,
 				F3887E7225F0222B0006B675 /* CancelableRequest.swift in Sources */,
 				F3CF4B4E25CBFF4100161B2C /* MultipleOperationResponse.swift in Sources */,
