@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct FragmentQuery<T: Fragment>: AnyQuery where T.FragmentModel == T {
+public struct FragmentQuery<T: Fragment>: AnyQuery {
     
     public let name: String
     internal(set) public var alias: String?
