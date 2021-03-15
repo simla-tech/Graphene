@@ -43,11 +43,11 @@ extension Payment: EncodableVariable {
     
     public func encode(to encoder: VariableEncoder) {
         let container = encoder.container(keyedBy: CodingKeys.self)
-        container.encode(self.id, forKey: .id, changeSetPolicy: .required)
+        container.encode(self.id, forKey: .id, required: true)
         container.encode(self.amount?.amount, forKey: .amount)
         container.encode(self.comment, forKey: .comment)
         container.encode(self.status?.id, forKey: .status)
-        container.encode(self.type.id, forKey: .type, changeSetPolicy: .required)
+        container.encode(self.type.id, forKey: .type, required: true)
         container.encode(self.deleted, forKey: .deleted)
     }
 

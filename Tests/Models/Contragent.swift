@@ -38,7 +38,7 @@ extension Contragent: EncodableVariable {
 
     public func encode(to encoder: VariableEncoder) {
         let container = encoder.container(keyedBy: CodingKeys.self)
-        container.encode(self.contragentType, forKey: .contragentType, changeSetPolicy: .required)
+        container.encode(self.contragentType, forKey: .contragentType, required: true)
         container.encode(self.legalName, forKey: .legalName)
         container.encode(self.legalAddress, forKey: .legalAddress)
         container.encode(self.INN, forKey: .INN)

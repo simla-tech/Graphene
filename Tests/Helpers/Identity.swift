@@ -12,7 +12,7 @@ import Foundation
 /// Protocol used to mark a given type as being identifiable, meaning
 /// that it has a type-safe identifier, backed by a raw value, which
 /// defaults to String.
-public protocol Identifiable: Graphene.Identifiable {
+public protocol Identifiable: DifferenceIdentifiable {
     /// Shorthand type alias for this type's identifier.
     typealias ID = Identifier<Self>
     /// The ID of this instance.

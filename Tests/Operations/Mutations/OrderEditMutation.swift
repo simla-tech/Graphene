@@ -12,7 +12,7 @@ final class OrderEditMutation: MutationOperation {
      
     let editOrderInput: EditOrderInput
     
-    init(order: Order, changeSet: ChangeSet?) {
+    init(order: Order, changeSet: ChangeSet<Order>?) {
         self.editOrderInput = EditOrderInput(order: order, changeSet: changeSet)
     }
 

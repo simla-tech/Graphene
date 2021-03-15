@@ -11,7 +11,7 @@ import Foundation
 struct EditOrderInput: EncodableVariable, SchemaType {
     
     let order: Order
-    let changeSet: ChangeSet?
+    let changeSet: ChangeSet<Order>?
     
     func encode(to encoder: VariableEncoder) {
         let container = encoder.container()
