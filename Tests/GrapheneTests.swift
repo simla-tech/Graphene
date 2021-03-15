@@ -60,9 +60,7 @@ class GrapheneTests: XCTestCase {
         """
         let field = operation.query.buildField()
         XCTAssertTrue(field.contains(expectedQuery))
-        XCTAssertTrue(field.contains("after:null"))
         XCTAssertTrue(field.contains("first:10"))
-        XCTAssertTrue(field.contains("filter:null"))
 
     }
     

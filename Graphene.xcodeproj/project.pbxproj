@@ -21,6 +21,9 @@
 		F324230E25BAEDA200111C5B /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324230D25BAEDA200111C5B /* Operation.swift */; };
 		F324231A25BAEEFB00111C5B /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231925BAEEFB00111C5B /* Arguments.swift */; };
 		F324231E25BAEF5000111C5B /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231D25BAEF5000111C5B /* Field.swift */; };
+		F3328DA925FFAC0A00163FF0 /* MoneyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3328DA825FFAC0A00163FF0 /* MoneyFragment.swift */; };
+		F3328DAD25FFAC5C00163FF0 /* CheckPhoneFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3328DAC25FFAC5C00163FF0 /* CheckPhoneFragment.swift */; };
+		F3328DB125FFACB700163FF0 /* PageInfoFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3328DB025FFACB700163FF0 /* PageInfoFragment.swift */; };
 		F3362ADD25D574FE00AC3A72 /* GraphQLErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3362ADC25D574FE00AC3A72 /* GraphQLErrors.swift */; };
 		F33C6F8D25D3CB3000BE7C7D /* AnyQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C6F8C25D3CB3000BE7C7D /* AnyQuery.swift */; };
 		F33C6F9125D3CB3A00BE7C7D /* FragmentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C6F9025D3CB3A00BE7C7D /* FragmentQuery.swift */; };
@@ -127,6 +130,9 @@
 		F324230D25BAEDA200111C5B /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		F324231925BAEEFB00111C5B /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		F324231D25BAEF5000111C5B /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		F3328DA825FFAC0A00163FF0 /* MoneyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFragment.swift; sourceTree = "<group>"; };
+		F3328DAC25FFAC5C00163FF0 /* CheckPhoneFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhoneFragment.swift; sourceTree = "<group>"; };
+		F3328DB025FFACB700163FF0 /* PageInfoFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfoFragment.swift; sourceTree = "<group>"; };
 		F3362ADC25D574FE00AC3A72 /* GraphQLErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrors.swift; sourceTree = "<group>"; };
 		F33C6F8C25D3CB3000BE7C7D /* AnyQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyQuery.swift; sourceTree = "<group>"; };
 		F33C6F9025D3CB3A00BE7C7D /* FragmentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentQuery.swift; sourceTree = "<group>"; };
@@ -441,6 +447,9 @@
 			isa = PBXGroup;
 			children = (
 				F3CF4B7525CC2BB000161B2C /* OrderDetailFragment.swift */,
+				F3328DA825FFAC0A00163FF0 /* MoneyFragment.swift */,
+				F3328DAC25FFAC5C00163FF0 /* CheckPhoneFragment.swift */,
+				F3328DB025FFACB700163FF0 /* PageInfoFragment.swift */,
 			);
 			path = Fragments;
 			sourceTree = "<group>";
@@ -748,6 +757,7 @@
 				F36F3E3F25CA84540024641C /* Attachment.swift in Sources */,
 				F36F3E0825C846530024641C /* Money.swift in Sources */,
 				F3CF4B5A25CC15ED00161B2C /* PageInfo.swift in Sources */,
+				F3328DB125FFACB700163FF0 /* PageInfoFragment.swift in Sources */,
 				F36F3E4325CA845E0024641C /* UploadAttachmentPayload.swift in Sources */,
 				F36F3E1625C852480024641C /* EditOrderInput.swift in Sources */,
 				F36DDC7E25CBD4FA00BBCA6B /* CheckPhone.swift in Sources */,
@@ -758,6 +768,7 @@
 				F36F3E4725CA84690024641C /* UploadAttachmentInput.swift in Sources */,
 				F36F3E0025C844710024641C /* User.swift in Sources */,
 				F36DDC7825CBD31700BBCA6B /* Enums.swift in Sources */,
+				F3328DA925FFAC0A00163FF0 /* MoneyFragment.swift in Sources */,
 				F36F3E3B25CA84460024641C /* UploadAttachmentMutation.swift in Sources */,
 				F36F3E3125CA842E0024641C /* OrderDetailQuery.swift in Sources */,
 				F36F3E1025C846BE0024641C /* PaymentType.swift in Sources */,
@@ -769,6 +780,7 @@
 				F36F3E5425CA8B030024641C /* Identity.swift in Sources */,
 				F32422EE25BAEC6F00111C5B /* GrapheneTests.swift in Sources */,
 				F3CF4B7625CC2BB000161B2C /* OrderDetailFragment.swift in Sources */,
+				F3328DAD25FFAC5C00163FF0 /* CheckPhoneFragment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

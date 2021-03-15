@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct Money: Codable, Fragment {
+public struct Money: Codable {
     
     public var amount: Double = 0
     public var currency: String = "rub"
@@ -16,11 +16,6 @@ public struct Money: Codable, Fragment {
     public init(amount: Double, currency: String = "rub") {
         self.amount = amount
         self.currency = currency
-    }
-    
-    public static func fragmentQuery(_ builder: QueryContainer<Money>) {
-        builder += .amount
-        builder += .currency
     }
     
 }

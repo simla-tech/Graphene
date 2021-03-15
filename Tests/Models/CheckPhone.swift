@@ -25,13 +25,3 @@ extension CheckPhone: Queryable {
         static let providerName   = QueryKeys(CodingKeys.providerName)
     }
 }
-
-extension CheckPhone: Fragment {
-    public static func fragmentQuery(_ builder: QueryContainer<CheckPhone>) {
-        builder += .phone
-        builder += .isValid
-        builder += .region
-        builder += .timezoneOffset
-        builder += .providerName
-    }
-}
