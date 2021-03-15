@@ -52,7 +52,7 @@ open class FailureableRequest: FinishableRequest {
                 let gqlErrors = self.searchGraphQLErrors(in: value)
                 completion(.success((result, gqlErrors)))
             } catch {
-                completion(.failure(error))
+                completion(.failure(error.asAFError?.underlyingError ?? error))
             }
         })
     }

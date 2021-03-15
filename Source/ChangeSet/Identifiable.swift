@@ -11,18 +11,18 @@ public protocol AnyIdentifiable {
     var anyIdentifier: AnyHashable { get }
 }
 
-public protocol Identifiable: AnyIdentifiable {
+public protocol DifferenceIdentifiable: AnyIdentifiable {
     associatedtype DifferenceIdentifier: Hashable
     var identifier: DifferenceIdentifier { get }
 }
 
-public extension Identifiable {
+public extension DifferenceIdentifiable {
     var anyIdentifier: AnyHashable {
         return self.identifier
     }
 }
 
-public extension Identifiable where Self: Hashable {
+public extension DifferenceIdentifiable where Self: Hashable {
     var identifier: Int {
         return self.hashValue
     }

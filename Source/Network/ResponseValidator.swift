@@ -8,9 +8,9 @@
 import Foundation
 import Alamofire
 
-internal class ResponseValidator {
+public class GrapheneStatusValidator {
     
-    static func validateStatus(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
+    public static func validateStatus(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
         var rawResponse: String?
         if let data = data {
             rawResponse = String(decoding: data, as: UTF8.self)

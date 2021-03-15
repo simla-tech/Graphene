@@ -116,7 +116,7 @@ open class FinishableRequest: CancelableRequest {
         if let customValidation = client.configuration.validation {
             self.dataRequest = self.dataRequest.validate(customValidation)
         }
-        self.dataRequest = self.dataRequest.validate(ResponseValidator.validateStatus(request:response:data:)).validate()
+        self.dataRequest = self.dataRequest.validate(GrapheneStatusValidator.validateStatus(request:response:data:)).validate()
         
     }
 
