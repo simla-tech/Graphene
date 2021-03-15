@@ -40,8 +40,6 @@ extension Field {
                     continue
                 }
                 result.append(inputVariable)
-            case let argsArr as [Argument]:
-                result.append(contentsOf: self.searchVariables(in: argsArr))
             case let args as Arguments:
                 result.append(contentsOf: self.searchVariables(in: Array(args.values)))
             default:
