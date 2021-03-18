@@ -8,13 +8,21 @@
 import Foundation
 
 internal struct AnyChangeSet: SomeChangeSet {
-    internal let changes: [Change]
+    
+    typealias SubSequence = ArraySlice<Change>
 
-    internal init(changes: [Change]) {
+    let changes: [Change]
+
+    init(changes: [Change]) {
         self.changes = changes
     }
     
-    public init(source: EncodableVariable, target: EncodableVariable) {
+    init?<C: SomeChangeSet>(_ anotherChangeSet: C?) {
+        guard let anotherChangeSet = anotherChangeSet else { return nil }
+        self.changes = anotherChangeSet.changes
+    }
+    
+    init(source: EncodableVariable, target: EncodableVariable) {
         
         // Get new fields
         let newEncoder = VariableEncoder()
@@ -30,4 +38,5 @@ internal struct AnyChangeSet: SomeChangeSet {
         self.init(changes: changes)
         
     }
+    
 }

@@ -22,7 +22,7 @@ public class VariableEncoderContainer {
     
     private func applyChangeSet(to value: Variable?,
                                 forKey key: AnyHashable,
-                                changeSet: SomeChangeSet?,
+                                changeSet: AnyChangeSet?,
                                 required: Bool) -> ApplyChangeSetResult {
         
         guard let changeSet = changeSet else {

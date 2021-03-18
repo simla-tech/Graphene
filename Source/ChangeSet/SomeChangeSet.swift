@@ -7,9 +7,51 @@
 
 import Foundation
 
-public protocol SomeChangeSet {
+public protocol SomeChangeSet: CustomDebugStringConvertible, RandomAccessCollection where Indices == Range<Int>, SubSequence == Array<Change>.SubSequence {
     var changes: [Change] { get }
 }
+
+extension SomeChangeSet {
+
+    public var startIndex: Index { return self.changes.startIndex }
+    public var endIndex: Index { return self.changes.endIndex }
+    
+    public subscript(bounds: Range<Index>) -> SubSequence {
+        return self.changes[bounds]
+    }
+    
+    public subscript(position: Index) -> Element {
+        return self.changes[position]
+    }
+    
+    public func index(after i: Index) -> Index {
+        return self.changes.index(after: i)
+    }
+    
+    public func index(before i: Index) -> Index {
+        return self.changes.index(before: i)
+    }
+    
+    public func contains(where key: AnyHashable) -> Bool {
+        return self.contains(where: { $0.key == key })
+    }
+    
+    public func first(where key: AnyHashable) -> Change? {
+        return self.first(where: { $0.key == key })
+    }
+    
+}
+
+
+extension SomeChangeSet {
+    public var debugDescription: String {
+        let changesDesc = self.enumerated().map({
+            $1.description(padding: 1, isLast: $0 == self.changes.endIndex - 1)
+        })
+        return "{\n\(changesDesc.joined(separator: "\n"))\n}"
+    }
+}
+
 
 extension SomeChangeSet {
     internal static func searchChanges(oldFields: Variables, newFields: Variables) -> [Change] {
@@ -69,14 +111,6 @@ extension SomeChangeSet {
             
         }
         return changes
-    }
-    
-    public func contains(where key: AnyHashable) -> Bool {
-        return self.changes.contains(where: { $0.key == key })
-    }
-    
-    public func first(where key: AnyHashable) -> Change? {
-        return self.changes.first(where: { $0.key == key })
     }
     
 }

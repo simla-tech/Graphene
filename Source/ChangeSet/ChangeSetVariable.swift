@@ -7,12 +7,12 @@
 
 import Foundation
 
-public struct ChangeSetVariable: EncodableVariable {
+internal struct ChangeSetVariable: EncodableVariable {
     
-    public let variable: EncodableVariable
-    public let changeSet: SomeChangeSet
+    let variable: EncodableVariable
+    let changeSet: AnyChangeSet
     
-    public func encode(to encoder: VariableEncoder) {
+    func encode(to encoder: VariableEncoder) {
         encoder.apply(changeSet: self.changeSet)
         self.variable.encode(to: encoder)
     }

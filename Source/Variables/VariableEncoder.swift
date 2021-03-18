@@ -10,13 +10,13 @@ import Foundation
 public class VariableEncoder {
     
     internal var variables = Variables()
-    private(set) internal var changeSet: SomeChangeSet?
+    private(set) internal var changeSet: AnyChangeSet?
 
     internal init() {}
     
-    public func apply(changeSet: SomeChangeSet?) {
+    public func apply<C: SomeChangeSet>(changeSet: C?) {
         if self.changeSet == nil {
-            self.changeSet = changeSet
+            self.changeSet = AnyChangeSet(changeSet)
         }
     }
     

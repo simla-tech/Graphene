@@ -7,15 +7,11 @@
 
 import Foundation
 
-public struct ChangeSet<T: EncodableVariable>: Codable, Collection, SomeChangeSet {
+public struct ChangeSet<T: EncodableVariable>: SomeChangeSet {
+    
+    public typealias SubSequence = ArraySlice<Change>
     
     public let changes: [Change]
-    
-    public init(from decoder: Decoder) throws {
-        self.changes = []
-    }
-    
-    public func encode(to encoder: Encoder) throws {}
 
     internal init(changes: [Change]) {
         self.changes = changes
@@ -38,31 +34,12 @@ public struct ChangeSet<T: EncodableVariable>: Codable, Collection, SomeChangeSe
         
     }
 
-    // MARK: - Collection
-
-    // The upper and lower bounds of the collection, used in iterations
-    public var startIndex: Int { return self.changes.startIndex }
-    public var endIndex: Int { return self.changes.endIndex }
-    
-    // Required subscript, based on a dictionary index
-    public subscript(index: Int) -> Change {
-        return self.changes[index]
-    }
-    
-    // Method that returns the next index when iterating
-    public func index(after i: Int) -> Int {
-        return self.changes.index(after: i)
-    }
-    
 }
 
-extension ChangeSet: CustomDebugStringConvertible {
-    
-    public var debugDescription: String {
-        let changesDesc = self.changes.enumerated().map({
-            $1.description(padding: 1, isLast: $0 == self.changes.endIndex - 1)
-        })
-        return "{\n\(changesDesc.joined(separator: "\n"))\n}"
+extension ChangeSet: Codable {
+    public init(from decoder: Decoder) throws {
+        self.changes = []
     }
     
+    public func encode(to encoder: Encoder) throws {}
 }
