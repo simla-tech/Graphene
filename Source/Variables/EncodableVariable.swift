@@ -28,4 +28,12 @@ extension EncodableVariable {
         self.encode(to: encoder)
     }
     
+    public func compare(with anotherInstance: Self) -> ChangeSet<Self> {
+        return ChangeSet(source: anotherInstance, target: self)
+    }
+    
+    public func equal(to anotherInstance: Self) -> Bool {
+        return self.compare(with: anotherInstance).isEmpty
+    }
+    
 }

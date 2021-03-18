@@ -42,7 +42,6 @@ extension SomeChangeSet {
     
 }
 
-
 extension SomeChangeSet {
     public var debugDescription: String {
         let changesDesc = self.enumerated().map({
@@ -51,7 +50,6 @@ extension SomeChangeSet {
         return "{\n\(changesDesc.joined(separator: "\n"))\n}"
     }
 }
-
 
 extension SomeChangeSet {
     internal static func searchChanges(oldFields: Variables, newFields: Variables) -> [Change] {
