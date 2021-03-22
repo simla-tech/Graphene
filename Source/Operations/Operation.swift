@@ -39,7 +39,7 @@ public protocol Operation {
      
      By default equals to the curent query variable name
      */
-    var decoderRootKey: String? { get }
+    var decoderRootKey: String { get }
     
     var decoderRootObject: DecodableResponse.Type { get }
     

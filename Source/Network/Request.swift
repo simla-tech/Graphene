@@ -21,13 +21,27 @@ open class Request<ResponseType: Decodable>: FailureableRequest {
     @discardableResult
     public func onSuccess(_ callback: @escaping SuccessableCallback<ResponseType>.Closure) -> FailureableRequest {
         self.callback?.success = callback
-        self.fetchTargetJson { result in
+        self.fetchDataErrors { result in
             do {
-                let (targetJson, gqlError) = try result.get()
-                let successData = try self.decodeResponse(from: targetJson, gqlError: gqlError)
+                let (rawData, gqlError) = try result.get()
                 
-                self.performResponseBlock(error: nil) {
-                    self.callback?.success?(successData)
+                if let rawData = rawData {
+                    let decoder = JSONDecoder()
+                    var key = self.configuration.rootResponseKey
+                    if let rootKey = self.decoderRootKey?.trimmingCharacters(in: .whitespacesAndNewlines), !rootKey.isEmpty {
+                        key += ".\(rootKey)"
+                    }
+                    do {
+                        let result = try decoder.decode(ResponseType.self, from: rawData, keyPath: key, keyPathSeparator: ".")
+                        self.performResponseBlock(error: nil) {
+                            self.callback?.success?(result)
+                        }
+                    } catch {
+                        throw gqlError ?? error
+                    }
+                    
+                } else {
+                    throw gqlError ?? GrapheneError.responseDataIsNull
                 }
                 
             } catch {

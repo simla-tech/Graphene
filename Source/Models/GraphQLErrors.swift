@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GraphQLErrors: LocalizedError {
+public struct GraphQLErrors: LocalizedError, Codable {
     
     private let errors: [GraphQLError]
     

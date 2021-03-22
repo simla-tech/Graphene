@@ -47,7 +47,7 @@ extension QueryOperation {
     public static var mode: OperationMode { .query }
     
     // Default value
-    public var decoderRootKey: String? {
+    public var decoderRootKey: String {
         return self.query.name
     }
     

@@ -7,42 +7,43 @@
 
 import Foundation
 
-public struct GraphQLError: Error {
+public struct GraphQLError: Error, Codable {
     
-    public struct Location {
+    public var message: String
+    public var locations: [Location]?
+    public var path: [String]?
+    public var extensions: Extensions?
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.message = try container.decode(String.self, forKey: .message)
+        self.locations = try? container.decodeIfPresent([Location].self, forKey: .locations)
+        self.path = try? container.decodeIfPresent([String].self, forKey: .path)
+        self.extensions = try? container.decodeIfPresent(Extensions.self, forKey: .extensions)
+    }
+    
+}
+
+extension GraphQLError {
+    public struct Location: Codable {
         public var line: Int
         public var column: Int
     }
-    
-    public var message: String
-    public var rawData: [String: Any]
-    public var locations: [Location]?
-    public var path: [String]?
-    public var extensions: Any?
-    
-    init?(_ json: Any) {
+}
 
-        guard let json = json as? [String: Any],
-            let message = json["message"] as? String else {
-            return nil
-        }
-        
-        self.rawData = json
-        self.message = message
-        if let locations = json["locations"] as? [[String: Int]] {
-            self.locations = locations.compactMap({
-                if let line = $0["line"], let column = $0["column"] {
-                    return Location(line: line, column: column)
-                }
-                return nil
-            })
-        }
-        
-        self.path = json["path"] as? [String]
-        self.extensions = json["extensions"]
-        
+extension GraphQLError {
+    public struct Extensions: Codable {
+        public var category: Category
+        public var field: String?
     }
-    
+}
+
+extension GraphQLError.Extensions {
+    public enum Category: String, Codable {
+        case graphql
+        case user
+        case server
+    }
 }
 
 extension GraphQLError: LocalizedError {
@@ -59,6 +60,16 @@ extension GraphQLError: CustomNSError {
         return "Graphene.GraphQLError"
     }
     public var errorUserInfo: [String: Any] {
-        return self.rawData
+        var result = [String: Any]()
+        if let locations = self.locations {
+            result["locations"] = locations
+        }
+        if let path = self.path {
+            result["path"] = path
+        }
+        if let extensions = self.extensions {
+            result["extensions"] = extensions
+        }
+        return result
     }
 }

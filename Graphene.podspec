@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Graphene'
-  s.version          = '1.0.5'
+  s.version          = '1.0.6'
   s.summary          = "Awesome strongly typed GraphQL client for Swift"
   s.homepage         = 'https://github.com/retailcrm/Graphene'
   s.social_media_url = 'https://retailcrm.pro'

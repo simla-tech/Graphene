@@ -123,7 +123,7 @@ open class FinishableRequest: CancelableRequest {
     @discardableResult
     public func onFinish(_ completionHandler: @escaping FinishableCallback.Closure) -> CancelableRequest {
         self.storedCallback.finish = completionHandler
-        self.fetchRawJson({ _ in
+        self.fetchRawData({ _ in
             self.performResponseBlock(error: nil) {
                 self.storedCallback.finish?()
             }
@@ -131,7 +131,7 @@ open class FinishableRequest: CancelableRequest {
         return self
     }
     
-    internal func fetchRawJson(_ completion: @escaping (Result<AFDataResponse<Any>, Error>) -> Void) {
+    internal func fetchRawData(_ completion: @escaping (Result<AFDataResponse<Data?>, Error>) -> Void) {
         
         guard !self.isSended, !self.dataRequest.isCancelled else { return }
         self.isSended = true
@@ -145,7 +145,8 @@ open class FinishableRequest: CancelableRequest {
         self.loggerDelegateQueue.async {
             self.configuration.loggerDelegate?.requestSended?(operation: self.operationName, query: self.query, variablesJson: self.variables)
         }
-        self.dataRequest.responseJSON(queue: .global(qos: .utility)) { response in
+    
+        self.dataRequest.response(queue: .global(qos: .utility)) { response in
             self.loggerDelegateQueue.async {
                 self.configuration.loggerDelegate?.responseRecived?(operation: self.operationName,
                                                       statusCode: response.response?.statusCode ?? -999,

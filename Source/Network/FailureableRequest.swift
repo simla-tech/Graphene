@@ -21,11 +21,13 @@ open class FailureableRequest: FinishableRequest {
     @discardableResult
     public func onFailure(_ completionHandler: @escaping FailureableCallback.Closure) -> FinishableRequest {
         self.callback?.failure = completionHandler
-        self.fetchTargetJson({ result in
+        self.fetchDataErrors({ result in
             do {
                 let (targetJson, gqlError) = try result.get()
-                if targetJson == nil {
-                    throw gqlError ?? GrapheneError.responseDataIsNull
+                if let gqlError = gqlError {
+                    throw gqlError
+                } else if targetJson == nil {
+                    throw GrapheneError.responseDataIsNull
                 }
             } catch {
                 self.performResponseBlock(error: error) {
@@ -39,67 +41,29 @@ open class FailureableRequest: FinishableRequest {
         return self
     }
     
-    internal func fetchTargetJson(_ completion: @escaping (Result<(Any?, Error?), Error>) -> Void) {
-        self.fetchRawJson({ result in
+    internal func fetchDataErrors(_ completion: @escaping (Result<(Data?, Error?), Error>) -> Void) {
+        self.fetchRawData({ result in
             do {
                 let response = try result.get()
                 let value = try response.result.get()
-                var key = self.configuration.rootResponseKey
-                if let rootKey = self.decoderRootKey {
-                    key += ".\(rootKey)"
-                }
-                let result = try? self.extractObject(for: key, from: value)
                 let gqlErrors = self.searchGraphQLErrors(in: value)
-                completion(.success((result, gqlErrors)))
+                completion(.success((value, gqlErrors)))
             } catch {
                 completion(.failure(error.asAFError?.underlyingError ?? error))
             }
         })
     }
     
-    private func searchGraphQLErrors(in response: Any) -> Error? {
-        guard let errorsKey = self.configuration.rootErrorsKey, let dict = response as? [AnyHashable: Any], let errorsRaw = dict[errorsKey] as? [Any] else {
+    private func searchGraphQLErrors(in response: Data?) -> Error? {
+        guard let data = response, let errorsKey = self.configuration.rootErrorsKey else { return nil }
+        let decoder = JSONDecoder()
+        guard let errors = try? decoder.decode([GraphQLError].self, from: data, keyPath: errorsKey), !errors.isEmpty else {
             return nil
         }
-        let errors = errorsRaw.compactMap({ GraphQLError($0) })
-        guard !errors.isEmpty else { return nil }
         if errors.count == 1, let error = errors.first {
             return error
         }
         return GraphQLErrors(errors)
     }
-    
-    private func extractObject(for key: String, from data: Any) throws -> Any {
-        
-        var currentObj = data
-        
-        for pathComponent in key.split(separator: ".").map({ String($0) }) {
-            
-            if let index = Int(pathComponent) {
-                
-                if let dict = currentObj as? [Any], index < dict.count {
-                    currentObj = dict[index]
-                    
-                } else {
-                    throw GrapheneError.unknownKey(pathComponent)
-                }
-                
-            } else {
-                
-                if let dict = currentObj as? [String: Any?], let nextObj = dict[pathComponent] {
-                    if let nextObj = nextObj {
-                        currentObj = nextObj
-                    } else {
-                        throw GrapheneError.unknownKey(pathComponent)
-                    }
-                } else {
-                    throw GrapheneError.unknownKey(pathComponent)
-                }
-                
-            }
-        }
-        
-        return currentObj
-    }
-    
+
 }

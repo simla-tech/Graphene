@@ -66,6 +66,7 @@
 		F3887E7225F0222B0006B675 /* CancelableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7125F0222B0006B675 /* CancelableRequest.swift */; };
 		F3887E7625F022460006B675 /* FinishableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7525F022460006B675 /* FinishableRequest.swift */; };
 		F3887E7A25F0225E0006B675 /* FailureableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3887E7925F0225E0006B675 /* FailureableRequest.swift */; };
+		F38E761D2608E725000D67D0 /* KeyPathWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38E761C2608E725000D67D0 /* KeyPathWrapper.swift */; };
 		F39A61DC25CAE02600464DC9 /* OnQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61DB25CAE02600464DC9 /* OnQuery.swift */; };
 		F39A61E625CB250C00464DC9 /* AbstractDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61E525CB250C00464DC9 /* AbstractDecodable.swift */; };
 		F39A61EA25CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61E925CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift */; };
@@ -177,6 +178,7 @@
 		F3887E7125F0222B0006B675 /* CancelableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelableRequest.swift; sourceTree = "<group>"; };
 		F3887E7525F022460006B675 /* FinishableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableRequest.swift; sourceTree = "<group>"; };
 		F3887E7925F0225E0006B675 /* FailureableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureableRequest.swift; sourceTree = "<group>"; };
+		F38E761C2608E725000D67D0 /* KeyPathWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPathWrapper.swift; sourceTree = "<group>"; };
 		F39A61DB25CAE02600464DC9 /* OnQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnQuery.swift; sourceTree = "<group>"; };
 		F39A61E525CB250C00464DC9 /* AbstractDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDecodable.swift; sourceTree = "<group>"; };
 		F39A61E925CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleValueDecodingContainer + Decode.swift"; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				F39A61E525CB250C00464DC9 /* AbstractDecodable.swift */,
 				F39A61E925CB252600464DC9 /* SingleValueDecodingContainer + Decode.swift */,
 				F3409CAD2600E5AC002D4F33 /* AbstractEncodable.swift */,
+				F38E761C2608E725000D67D0 /* KeyPathWrapper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				F3CF4B4425CBFD4000161B2C /* MultipleOperation.swift in Sources */,
 				F35ED0DC25C2F4DC00244CA4 /* VariableEncoder.swift in Sources */,
 				F39A61DC25CAE02600464DC9 /* OnQuery.swift in Sources */,
+				F38E761D2608E725000D67D0 /* KeyPathWrapper.swift in Sources */,
 				F3CF4B9925CD3AAE00161B2C /* ChangeSetVariable.swift in Sources */,
 				F324231E25BAEF5000111C5B /* Field.swift in Sources */,
 				F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */,

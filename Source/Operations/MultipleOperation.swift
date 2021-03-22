@@ -49,7 +49,7 @@ public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation 
     }
         
     /// Equal to null
-    public var decoderRootKey: String?
+    public let decoderRootKey: String = ""
     
     public var asField: Field {
         return MultipleQuery<MultipleOperationResponse<O.DecodableResponse>>({ builder in
