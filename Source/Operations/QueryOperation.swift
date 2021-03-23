@@ -47,7 +47,7 @@ extension QueryOperation {
     public static var mode: OperationMode { .query }
     
     // Default value
-    public var decoderRootKey: String {
+    public var decoderRootKey: String? {
         return self.query.name
     }
     
@@ -64,7 +64,7 @@ extension QueryOperation {
 }
 
 extension QueryOperation where QueryModel: Decodable {
-    public var decoderRootObject: QueryModel.Type {
-        return QueryModel.self
+    public static func mapResult(_ result: QueryModel) throws -> QueryModel {
+        return result
     }
 }

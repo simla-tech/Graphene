@@ -20,4 +20,8 @@ final class OrderDetailQuery: QueryOperation {
         builder += .fragment(OrderDetailFragment.self)
     }
     
+    static func mapResult(_ result: Order) throws -> OrderType? {
+        return result.orderType
+    }
+    
 }

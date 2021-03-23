@@ -8,18 +8,18 @@
 import Foundation
 import Alamofire
 
-open class Request<ResponseType: Decodable>: FailureableRequest {
+open class Request<O: Operation>: FailureableRequest {
     
-    private var callback: SuccessableCallback<ResponseType>? {
-        return self.storedCallback as? SuccessableCallback<ResponseType>
+    private var callback: SuccessableCallback<O.Result>? {
+        return self.storedCallback as? SuccessableCallback<O.Result>
     }
     
-    internal init<O>(operation: O, client: Client, queue: DispatchQueue) where O: Operation {
-        super.init(operation: operation, client: client, queue: queue, callback: SuccessableCallback<ResponseType>())
+    internal init(operation: O, client: Client, queue: DispatchQueue) {
+        super.init(operation: operation, client: client, queue: queue, callback: SuccessableCallback<O.Result>())
     }
     
     @discardableResult
-    public func onSuccess(_ callback: @escaping SuccessableCallback<ResponseType>.Closure) -> FailureableRequest {
+    public func onSuccess(_ callback: @escaping SuccessableCallback<O.Result>.Closure) -> FailureableRequest {
         self.callback?.success = callback
         self.fetchDataErrors { result in
             do {
@@ -32,7 +32,8 @@ open class Request<ResponseType: Decodable>: FailureableRequest {
                         key += ".\(rootKey)"
                     }
                     do {
-                        let result = try decoder.decode(ResponseType.self, from: rawData, keyPath: key, keyPathSeparator: ".")
+                        let response = try decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
+                        let result = try O.mapResult(response)
                         self.performResponseBlock(error: nil) {
                             self.callback?.success?(result)
                         }
@@ -54,27 +55,6 @@ open class Request<ResponseType: Decodable>: FailureableRequest {
             }
         }
         return self
-    }
-    
-    private func decodeResponse(from targetJson: Any?, gqlError: Error?) throws -> ResponseType {
-        var mappedData: ResponseType?
-        if let data = targetJson as? ResponseType {
-            mappedData = data
-        } else if let data = targetJson {
-            do {
-                let data = try JSONSerialization.data(withJSONObject: data, options: [])
-                mappedData = try self.configuration.decoder.decode(ResponseType.self, from: data)
-            } catch {
-                if !(error is DecodingError), let gqlError = gqlError {
-                    throw gqlError
-                }
-                throw error
-            }
-        }
-        guard let successData = mappedData else {
-            throw gqlError ?? GrapheneError.responseDataIsNull
-        }
-        return successData
     }
 
 }

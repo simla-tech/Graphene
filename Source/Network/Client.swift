@@ -32,8 +32,8 @@ public class Client: NSObject {
                                                   eventMonitors: configuration.eventMonitors)
     }
 
-    public func execute<O: Operation>(_ operation: O, queue: DispatchQueue = .main) -> Request<O.DecodableResponse> {
-        return Request<O.DecodableResponse>(operation: operation, client: self, queue: queue)
+    public func execute<O: Operation>(_ operation: O, queue: DispatchQueue = .main) -> Request<O> {
+        return Request<O>(operation: operation, client: self, queue: queue)
     }
     
 }

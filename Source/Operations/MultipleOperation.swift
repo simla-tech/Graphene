@@ -32,15 +32,12 @@ import Foundation
  **Notice**: You have to have the same operations to execute them
  */
 public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation {
-        
-    public var decoderRootObject: MultipleOperationResponse<O.DecodableResponse>.Type {
-        return MultipleOperationResponse<O.DecodableResponse>.self
-    }
-    
+  
     private var operations: [String: O]
 
     public init(_ operations: [String: O]) {
         self.operations = operations
+        self.decoderRootKey = nil
     }
     
     /// Mode is equal to child operations
@@ -49,7 +46,7 @@ public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation 
     }
         
     /// Equal to null
-    public let decoderRootKey: String = ""
+    public let decoderRootKey: String?
     
     public var asField: Field {
         return MultipleQuery<MultipleOperationResponse<O.DecodableResponse>>({ builder in
@@ -61,6 +58,10 @@ public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation 
     
     public static var operationName: String {
         return "Multiple_\(O.operationName)"
+    }
+    
+    public static func mapResult(_ result: MultipleOperationResponse<O.DecodableResponse>) throws -> [O.Result] {
+        return try result.values.map({ try O.mapResult($0) })
     }
     
 }

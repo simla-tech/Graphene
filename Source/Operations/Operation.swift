@@ -12,6 +12,7 @@ public protocol Operation {
     
     /// Type associated with some Queryable model
     associatedtype DecodableResponse: Decodable
+    associatedtype Result
     
     /**
      Operation Mode
@@ -39,8 +40,8 @@ public protocol Operation {
      
      By default equals to the curent query variable name
      */
-    var decoderRootKey: String { get }
+    var decoderRootKey: String? { get }
     
-    var decoderRootObject: DecodableResponse.Type { get }
+    static func mapResult(_ result: DecodableResponse) throws -> Result
     
 }
