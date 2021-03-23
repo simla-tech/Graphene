@@ -9,62 +9,14 @@ import Foundation
 
 public struct MultipleOperationResponse<T> {
     public typealias ResponseType = [String: T]
-    private var data: ResponseType = [:]
-}
-
-extension MultipleOperationResponse: CustomStringConvertible {
-    public var description: String {
-        return "\(self.data)"
-    }
-}
-
-extension MultipleOperationResponse: ExpressibleByDictionaryLiteral {
-    public init(dictionaryLiteral elements: (String, T)...) {
-        self.init()
-        elements.forEach { self.data.updateValue($0.1, forKey: $0.0) }
-    }
-}
-
-extension MultipleOperationResponse: Collection {
-    
-    public typealias Indices = ResponseType.Indices
-    public typealias Iterator = ResponseType.Iterator
-    public typealias SubSequence = ResponseType.SubSequence
-    public typealias Index = ResponseType.Index
-    
-    // The upper and lower bounds of the collection, used in iterations
-    public var startIndex: Index { return self.data.startIndex }
-    public var endIndex: Index { return self.data.endIndex }
-    
-    public subscript(position: Index) -> Iterator.Element { return self.data[position] }
-    public subscript(bounds: Range<Index>) -> SubSequence { return self.data[bounds] }
-    public var indices: Indices { return self.data.indices }
-    
-    public var values: ResponseType.Values {
-        return self.data.values
-    }
-    
-    // Required subscript, based on a dictionary index
-    public subscript(index: Index) -> T {
-        return self.data[index].value
-    }
-    
-    // Method that returns the next index when iterating
-    public func index(after i: Index) -> Index {
-        return self.data.index(after: i)
-    }
-    
-    public func makeIterator() -> Iterator {
-        return self.data.makeIterator()
-    }
-    
+    internal var data: ResponseType = [:]
 }
 
 extension MultipleOperationResponse: Queryable {
     public class QueryKeys: QueryKey {
-        static func childrenOperation<O: Graphene.QueryOperation>(key: String, operation: O) -> QueryKeys {
+        static func childrenOperation<O: Graphene.QueryOperation>(operation: O) -> QueryKeys {
             var query = operation.query
-            query.alias = key
+            query.alias = .random(length: 12)
             return QueryKeys(query)
         }
     }
