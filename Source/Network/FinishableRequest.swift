@@ -8,6 +8,19 @@
 import Foundation
 import Alamofire
 
+/*
+ - operations: String
+ - uploads: [String: Upload]
+ - rawQuery: String
+ - rawVariables: String
+ 
+ - uploads: [String: Upload]
+ - rawQuery: String
+ - rawVariables: String
+ - operationName
+ 
+ */
+
 open class FinishableRequest: CancelableRequest {
     
     private var initError: Error?
@@ -23,7 +36,7 @@ open class FinishableRequest: CancelableRequest {
 
     private(set) public var isSended: Bool = false
     
-    internal init<O: Operation>(operation: O, client: Client, queue: DispatchQueue, callback: FinishableCallback = FinishableCallback()) {
+    internal init<O: GraphQLOperation>(operation: O, client: Client, queue: DispatchQueue, callback: FinishableCallback = FinishableCallback()) {
         
         self.storedCallback = callback
         self.responseQueue = queue

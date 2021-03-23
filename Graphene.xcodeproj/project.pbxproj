@@ -18,7 +18,7 @@
 		F32422F025BAEC6F00111C5B /* Graphene.h in Headers */ = {isa = PBXBuildFile; fileRef = F32422E225BAEC6F00111C5B /* Graphene.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F324230225BAED6A00111C5B /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324230125BAED6A00111C5B /* Query.swift */; };
 		F324230625BAED7E00111C5B /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324230525BAED7E00111C5B /* Queryable.swift */; };
-		F324230E25BAEDA200111C5B /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324230D25BAEDA200111C5B /* Operation.swift */; };
+		F324230E25BAEDA200111C5B /* GraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324230D25BAEDA200111C5B /* GraphQLOperation.swift */; };
 		F324231A25BAEEFB00111C5B /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231925BAEEFB00111C5B /* Arguments.swift */; };
 		F324231E25BAEF5000111C5B /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324231D25BAEF5000111C5B /* Field.swift */; };
 		F3328DA925FFAC0A00163FF0 /* MoneyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3328DA825FFAC0A00163FF0 /* MoneyFragment.swift */; };
@@ -88,7 +88,7 @@
 		F3BC026325FB47C50079DECD /* AnyChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BC026225FB47C50079DECD /* AnyChangeSet.swift */; };
 		F3BC026725FB47D50079DECD /* SomeChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BC026625FB47D50079DECD /* SomeChangeSet.swift */; };
 		F3C2527D25D3C2F300E78787 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C2527C25D3C2F300E78787 /* Alias.swift */; };
-		F3CF4B4425CBFD4000161B2C /* MultipleOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B4325CBFD4000161B2C /* MultipleOperation.swift */; };
+		F3CF4B4425CBFD4000161B2C /* BatchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B4325CBFD4000161B2C /* BatchOperation.swift */; };
 		F3CF4B4E25CBFF4100161B2C /* MultipleOperationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B4D25CBFF4100161B2C /* MultipleOperationResponse.swift */; };
 		F3CF4B5225CC0C4C00161B2C /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B5125CC0C4C00161B2C /* Connection.swift */; };
 		F3CF4B5625CC129200161B2C /* OrderListQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CF4B5525CC129200161B2C /* OrderListQuery.swift */; };
@@ -130,7 +130,7 @@
 		F32422EF25BAEC6F00111C5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F324230125BAED6A00111C5B /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		F324230525BAED7E00111C5B /* Queryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queryable.swift; sourceTree = "<group>"; };
-		F324230D25BAEDA200111C5B /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		F324230D25BAEDA200111C5B /* GraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLOperation.swift; sourceTree = "<group>"; };
 		F324231925BAEEFB00111C5B /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
 		F324231D25BAEF5000111C5B /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 		F3328DA825FFAC0A00163FF0 /* MoneyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFragment.swift; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 		F3BC026225FB47C50079DECD /* AnyChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyChangeSet.swift; sourceTree = "<group>"; };
 		F3BC026625FB47D50079DECD /* SomeChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeChangeSet.swift; sourceTree = "<group>"; };
 		F3C2527C25D3C2F300E78787 /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
-		F3CF4B4325CBFD4000161B2C /* MultipleOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperation.swift; sourceTree = "<group>"; };
+		F3CF4B4325CBFD4000161B2C /* BatchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchOperation.swift; sourceTree = "<group>"; };
 		F3CF4B4D25CBFF4100161B2C /* MultipleOperationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperationResponse.swift; sourceTree = "<group>"; };
 		F3CF4B5125CC0C4C00161B2C /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		F3CF4B5525CC129200161B2C /* OrderListQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListQuery.swift; sourceTree = "<group>"; };
@@ -494,10 +494,10 @@
 		F3CF4BA125CD3AD900161B2C /* Operations */ = {
 			isa = PBXGroup;
 			children = (
-				F324230D25BAEDA200111C5B /* Operation.swift */,
-				F3CF4B4325CBFD4000161B2C /* MultipleOperation.swift */,
+				F324230D25BAEDA200111C5B /* GraphQLOperation.swift */,
 				F346C28C25D151A7005C1BC1 /* QueryOperation.swift */,
 				F346C29025D151B6005C1BC1 /* MutationOperation.swift */,
+				F3CF4B4325CBFD4000161B2C /* BatchOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -722,14 +722,14 @@
 				F35ED0C125C2DFD400244CA4 /* Variables.swift in Sources */,
 				F3B167D525C2C6C00068E6C9 /* ResponseValidator.swift in Sources */,
 				F39F04E62604C33300AD1704 /* SomeFragment.swift in Sources */,
-				F324230E25BAEDA200111C5B /* Operation.swift in Sources */,
+				F324230E25BAEDA200111C5B /* GraphQLOperation.swift in Sources */,
 				F36F3E5E25CAC3360024641C /* QueryKey.swift in Sources */,
 				F3B167D925C2C74E0068E6C9 /* Upload.swift in Sources */,
 				F3B167C125C2BBF60068E6C9 /* LoggerDelegate.swift in Sources */,
 				F35ED0C525C2E59900244CA4 /* Change.swift in Sources */,
 				F3CF4B6B25CC26DC00161B2C /* Fragment.swift in Sources */,
 				F35ED0C925C2E79800244CA4 /* ChangeSet.swift in Sources */,
-				F3CF4B4425CBFD4000161B2C /* MultipleOperation.swift in Sources */,
+				F3CF4B4425CBFD4000161B2C /* BatchOperation.swift in Sources */,
 				F35ED0DC25C2F4DC00244CA4 /* VariableEncoder.swift in Sources */,
 				F39A61DC25CAE02600464DC9 /* OnQuery.swift in Sources */,
 				F38E761D2608E725000D67D0 /* KeyPathWrapper.swift in Sources */,

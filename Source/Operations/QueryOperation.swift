@@ -7,36 +7,10 @@
 
 import Foundation
 
-/**
- Operation with `.query` mode
- 
- Example:
- ```
- struct SomeOperation: QueryOperation {
-    ...
-    var someQuery = Query<Model>("someObject") { ... }
- }
- ```
- */
-public protocol QueryOperation: Operation {
+public protocol QueryOperation: GraphQLOperation {
     
     associatedtype QueryModel: Queryable
     
-    /**
-     Query for this operation
-     
-     Example:
-     ```
-     var query = Query<SomeModel>("detail", args: ["id": 2]) { builder in
-     builder += .id
-     builder += .number
-     builder += .unionCustomer { builder in
-     builder += .id
-     builder += .createdAt
-     }
-     }
-     ```
-     */
     var query: Query<QueryModel> { get }
         
 }

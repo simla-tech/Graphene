@@ -32,7 +32,7 @@ public class Client: NSObject {
                                                   eventMonitors: configuration.eventMonitors)
     }
 
-    public func execute<O: Operation>(_ operation: O, queue: DispatchQueue = .main) -> Request<O> {
+    public func execute<O: GraphQLOperation>(_ operation: O, queue: DispatchQueue = .main) -> Request<O> {
         return Request<O>(operation: operation, client: self, queue: queue)
     }
     

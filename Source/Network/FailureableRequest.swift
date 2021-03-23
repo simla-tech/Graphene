@@ -14,7 +14,7 @@ open class FailureableRequest: FinishableRequest {
         return self.storedCallback as? FailureableCallback
     }
     
-    internal init<O>(operation: O, client: Client, queue: DispatchQueue, callback: FailureableCallback = FailureableCallback()) where O: Operation {
+    internal init<O>(operation: O, client: Client, queue: DispatchQueue, callback: FailureableCallback = FailureableCallback()) where O: GraphQLOperation {
         super.init(operation: operation, client: client, queue: queue, callback: callback)
     }
     

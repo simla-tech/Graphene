@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-open class Request<O: Operation>: FailureableRequest {
+open class Request<O: GraphQLOperation>: FailureableRequest {
     
     private var callback: SuccessableCallback<O.Result>? {
         return self.storedCallback as? SuccessableCallback<O.Result>

@@ -1,5 +1,5 @@
 //
-//  Operation.swift
+//  GraphQLOperation.swift
 //  Graphene
 //
 //  Created by Ilya Kharlamov on 22.01.2021.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// Basic operation protocol
-public protocol Operation {
+public protocol GraphQLOperation {
     
     /// Type associated with some Queryable model
     associatedtype DecodableResponse: Decodable

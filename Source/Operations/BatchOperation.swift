@@ -1,5 +1,5 @@
 //
-//  MultipleOperation.swift
+//  BatchOperation.swift
 //  Graphene
 //
 //  Created by Ilya Kharlamov on 04.02.2021.
@@ -7,31 +7,15 @@
 
 import Foundation
 
-/**
- Multiple operation. Use this object to create operation with child operations
- 
- Example GraphQL request:
- ```
- {
-   aOperation: someOperation(id: 1) {
-     number
-   }
-   bOperation: someOperation(id: 2) {
-     number
-   }
- }
- ```
- 
- You need to have dictionary of type `[String:Operation]` to initialize MultipleOperation:
- ```
- let aOperation = SomeOperation()
- let bOperation = SomeOperation()
- let multipleOperation = MultipleOperation(["a": aOperation, "b": bOperation])
- ```
- 
- **Notice**: You have to have the same operations to execute them
- */
-public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation {
+public struct BatchOperation<O: QueryOperation>: GraphQLOperation {
+    
+    private var operations: [O]
+    
+    
+}
+
+/*
+public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperation {
   
     private var operations: [String: O]
 
@@ -57,7 +41,7 @@ public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation 
     }
     
     public static var operationName: String {
-        return "Multiple_\(O.operationName)"
+        return "Batch_\(O.operationName)"
     }
     
     public static func mapResult(_ result: MultipleOperationResponse<O.DecodableResponse>) throws -> [O.Result] {
@@ -66,9 +50,10 @@ public struct MultipleOperation<O: Graphene.QueryOperation>: Graphene.Operation 
     
 }
 
-extension MultipleOperation: ExpressibleByDictionaryLiteral {
+extension BatchOperation: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, O)...) {
         self.init([:])
         elements.forEach { self.operations.updateValue($0.1, forKey: $0.0) }
     }
 }
+*/
