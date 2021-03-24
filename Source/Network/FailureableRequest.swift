@@ -56,8 +56,7 @@ open class FailureableRequest: FinishableRequest {
     
     private func searchGraphQLErrors(in response: Data?) -> Error? {
         guard let data = response, let errorsKey = self.configuration.rootErrorsKey else { return nil }
-        let decoder = JSONDecoder()
-        guard let errors = try? decoder.decode([GraphQLError].self, from: data, keyPath: errorsKey), !errors.isEmpty else {
+        guard let errors = try? self.configuration.decoder.decode([GraphQLError].self, from: data, keyPath: errorsKey), !errors.isEmpty else {
             return nil
         }
         if errors.count == 1, let error = errors.first {

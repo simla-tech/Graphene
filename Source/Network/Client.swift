@@ -55,6 +55,10 @@ extension Client {
         public var muteCanceledRequests: Bool = true
         public var rootResponseKey: String = "data"
         public var rootErrorsKey: String? = "errors"
-        public var decoder: JSONDecoder = JSONDecoder()
+        public var decoder: JSONDecoder = {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return decoder
+        }()
     }
 }

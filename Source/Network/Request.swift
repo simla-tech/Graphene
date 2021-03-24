@@ -26,13 +26,12 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                 let (rawData, gqlError) = try result.get()
                 
                 if let rawData = rawData {
-                    let decoder = JSONDecoder()
                     var key = self.configuration.rootResponseKey
                     if let rootKey = self.decoderRootKey?.trimmingCharacters(in: .whitespacesAndNewlines), !rootKey.isEmpty {
                         key += ".\(rootKey)"
                     }
                     do {
-                        let response = try decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
+                        let response = try self.configuration.decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
                         let result = try O.mapResult(response)
                         self.performResponseBlock(error: nil) {
                             self.callback?.success?(result)
