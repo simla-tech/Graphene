@@ -31,7 +31,10 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                         key += ".\(rootKey)"
                     }
                     do {
-                        let response = try self.configuration.decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = self.configuration.dateDecodingStrategy
+                        decoder.keyDecodingStrategy = self.configuration.keyDecodingStrategy
+                        let response = try decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
                         let result = try O.mapResult(response)
                         self.performResponseBlock(error: nil) {
                             self.callback?.success?(result)

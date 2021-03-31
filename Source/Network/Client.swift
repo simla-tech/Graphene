@@ -40,7 +40,7 @@ public class Client: NSObject {
 
 extension Client {
     public struct Configuration {
-        public static var `default` = Configuration()
+        public static let `default` = Configuration()
         public var eventMonitors: [EventMonitor] = []
         public var serverTrustManager: ServerTrustManager?
         public var cachedResponseHandler: CachedResponseHandler?
@@ -55,10 +55,7 @@ extension Client {
         public var muteCanceledRequests: Bool = true
         public var rootResponseKey: String = "data"
         public var rootErrorsKey: String? = "errors"
-        public var decoder: JSONDecoder = {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return decoder
-        }()
+        public var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
+        public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
     }
 }
