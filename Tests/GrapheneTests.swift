@@ -23,8 +23,8 @@ class GrapheneTests: XCTestCase {
         var config: Client.Configuration = .default
         config.httpHeaders = ["Authorization": "Bearer XXX"]
         config.validation = Self.customValidationBlock
-        config.decoder.keyDecodingStrategy = .convertFromSnakeCase
-        config.decoder.dateDecodingStrategy = self.dateDecodingStrategy
+        config.keyDecodingStrategy = .convertFromSnakeCase
+        config.dateDecodingStrategy = self.dateDecodingStrategy
         return Client(url: "https://localhost:3241/app/api", configuration: config)
     }()
     
