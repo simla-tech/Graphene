@@ -21,9 +21,9 @@ internal struct AnyFragment: Field, Hashable {
         return [:]
     }
     
-    init<T: SomeFragment>(_ fragment: T.Type) {
-        self.schemaType = fragment.schemaType
-        self.fragmentName = fragment.fragmentName
+    init<T: SomeFragment>(_ fragment: T) {
+        self.schemaType = T.schemaType
+        self.fragmentName = T.fragmentName
         self.childrenFields = fragment.childrenFields
     }
     

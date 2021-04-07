@@ -9,11 +9,11 @@ import Foundation
 
 public protocol Fragment: SomeFragment {
     associatedtype FragmentModel: Queryable
-    static func fragmentQuery(_ builder: QueryContainer<FragmentModel>)
+    func fragmentQuery(_ builder: QueryContainer<FragmentModel>)
 }
 
 extension Fragment {
-    public static var childrenFields: [Field] {
+    public var childrenFields: [Field] {
         let container = QueryContainer<FragmentModel>(self.fragmentQuery)
         return container.fields
     }

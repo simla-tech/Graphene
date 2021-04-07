@@ -15,11 +15,11 @@ public class QueryContainer<T: Queryable> {
         builder(self)
     }
     
-    public func append<F: Fragment>(_ fragment: FragmentContainer<F>) where F.FragmentModel == T {
-        self.fields.append(fragment.object)
+    public func append<F: Fragment>(_ fragment: F) where F.FragmentModel == T {
+        self.fields.append(AnyFragment(fragment))
     }
 
-    public static func +=<F: Fragment> (left: QueryContainer<T>, right: FragmentContainer<F>) where F.FragmentModel == T {
+    public static func +=<F: Fragment> (left: QueryContainer<T>, right: F) where F.FragmentModel == T {
         left.append(right)
     }
     
@@ -29,20 +29,6 @@ public class QueryContainer<T: Queryable> {
     
     public static func += (left: QueryContainer<T>, right: T.QueryKeys) {
         left.append(right)
-    }
-    
-}
-
-public struct FragmentContainer<Fr: Fragment> {
-    
-    private init() {}
-    
-    internal var object: AnyFragment {
-        return .init(Fr.self)
-    }
-        
-    public static func fragment(_ type: Fr.Type) -> FragmentContainer<Fr> {
-        return .init()
     }
     
 }

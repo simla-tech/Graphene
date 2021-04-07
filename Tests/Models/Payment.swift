@@ -23,7 +23,7 @@ extension Payment: Queryable {
     public class QueryKeys: QueryKey {
                 
         static var id      = QueryKeys(CodingKeys.id)
-        static let amount  = QueryKeys(FragmentQuery(CodingKeys.amount, fragment: MoneyFragment.self))
+        static let amount  = QueryKeys(FragmentQuery(CodingKeys.amount, fragment: MoneyFragment()))
         static let paidAt  = QueryKeys(CodingKeys.paidAt)
         static let comment = QueryKeys(CodingKeys.comment)
         

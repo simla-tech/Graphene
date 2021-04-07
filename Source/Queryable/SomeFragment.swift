@@ -9,7 +9,7 @@ import Foundation
 
 public protocol SomeFragment: SchemaType {
     static var fragmentName: String { get }
-    static var childrenFields: [Field] { get }
+    var childrenFields: [Field] { get }
 }
 
 extension SomeFragment {

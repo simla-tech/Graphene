@@ -18,7 +18,7 @@ final class OrderEditMutation: MutationOperation {
 
     lazy var query = Query<EditOrderPayload>("editOrder", args: ["input": InputVariable(self.editOrderInput)]) { builder in
         builder += .order({ builder in
-            builder += .fragment(OrderDetailFragment.self)
+            builder += OrderDetailFragment()
         })
     }
         

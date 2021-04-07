@@ -17,7 +17,7 @@ final class OrderDetailQuery: QueryOperation {
     }
 
     lazy var query = Query<Order>("order", args: ["id": self.orderId]) { builder in
-        builder += .fragment(OrderDetailFragment.self)
+        builder += OrderDetailFragment()
     }
     
     static func mapResult(_ result: Order) throws -> OrderType? {

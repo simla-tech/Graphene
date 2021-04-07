@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 struct MoneyFragment: Fragment {
-    static func fragmentQuery(_ builder: QueryContainer<Money>) {
+    func fragmentQuery(_ builder: QueryContainer<Money>) {
         builder += .amount
         builder += .currency
     }

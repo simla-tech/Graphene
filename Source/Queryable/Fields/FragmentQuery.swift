@@ -16,7 +16,7 @@ public struct FragmentQuery<T: Fragment>: AnyQuery {
     
     public init(_ name: String,
                 args: Arguments = [:],
-                fragment: T.Type) {
+                fragment: T) {
         self.name = name
         self.alias = nil
         self.arguments = args
@@ -28,14 +28,14 @@ public struct FragmentQuery<T: Fragment>: AnyQuery {
     
     public init<Key: CodingKey>(_ key: Key,
                                 args: Arguments = [:],
-                                fragment: T.Type) {
+                                fragment: T) {
         self.init(key.stringValue, args: args, fragment: fragment)
     }
     
     public init(alias: String,
                 name: String,
                 args: Arguments = [:],
-                fragment: T.Type) {
+                fragment: T) {
         self.init(name, args: args, fragment: fragment)
         self.alias = alias
     }
@@ -43,7 +43,7 @@ public struct FragmentQuery<T: Fragment>: AnyQuery {
     public init<Key: CodingKey>(alias: Key,
                                 name: String,
                                 args: Arguments = [:],
-                                fragment: T.Type) {
+                                fragment: T) {
         self.init(name, args: args, fragment: fragment)
         self.alias = alias.stringValue
     }
