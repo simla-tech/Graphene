@@ -18,15 +18,26 @@ extension SchemaType {
 }
 
 extension String: SchemaType {}
+
 extension Int: SchemaType {}
+
 extension Double: SchemaType {}
+
 extension Bool: SchemaType {
     public static var schemaType: String {
         return "Boolean"
     }
 }
+
 extension Float: SchemaType {
     public static var schemaType: String {
         return "Double"
     }
 }
+
+extension Array: SchemaType where Element: SchemaType {
+    public static var schemaType: String {
+        return "[\(Element.schemaType)]"
+    }
+}
+
