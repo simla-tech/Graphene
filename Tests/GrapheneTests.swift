@@ -72,6 +72,48 @@ class GrapheneTests: XCTestCase {
         XCTAssertTrue(fragments.contains("MoneyFragment"))
     }
     
+    func testInputVariablesTypes() {
+        
+        /*
+         Swift    | GraphQL
+         -------------------
+         Some     | Some!
+         Some?    | Some
+         [Some]   | [Some!]!
+         [Some]?  | [Some!]
+         [Some?]  | [Some]!
+         [Some?]? | [Some]
+         */
+
+        let variable = SomeVariable(qqq: "qwe")
+        XCTAssertEqual(InputVariable(variable).schemaType, "SomeVariable!")
+        
+        let variable2: SomeVariable? = SomeVariable(qqq: "qwe")
+        XCTAssertEqual(InputVariable(variable2).schemaType, "SomeVariable")
+        
+        let variable3: [SomeVariable] = [SomeVariable(qqq: "qwe")]
+        XCTAssertEqual(InputVariable(variable3).schemaType, "[SomeVariable!]!")
+        
+        let variable4: [SomeVariable]? = [SomeVariable(qqq: "qwe")]
+        XCTAssertEqual(InputVariable(variable4).schemaType, "[SomeVariable!]")
+        
+        let variable5: [SomeVariable?] = [SomeVariable(qqq: "qwe")]
+        XCTAssertEqual(InputVariable(variable5).schemaType, "[SomeVariable]!")
+        
+        let variable6: [SomeVariable?]? = [SomeVariable(qqq: "qwe")]
+        XCTAssertEqual(InputVariable(variable6).schemaType, "[SomeVariable]")
+        
+    }
+    
+}
+
+private struct SomeVariable: Codable, EncodableVariable, SchemaType {
+    var qqq: String
+    
+    func encode(to encoder: VariableEncoder) {
+        let container = encoder.container(keyedBy: CodingKeys.self)
+        container.encode(self.qqq, forKey: .qqq)
+    }
 }
 
 private struct TestError: LocalizedError {

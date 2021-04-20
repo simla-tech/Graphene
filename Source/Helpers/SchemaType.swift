@@ -34,10 +34,3 @@ extension Float: SchemaType {
         return "Double"
     }
 }
-
-extension Array: SchemaType where Element: SchemaType {
-    public static var schemaType: String {
-        return "[\(Element.schemaType)]"
-    }
-}
-
