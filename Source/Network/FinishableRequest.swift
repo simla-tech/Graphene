@@ -73,7 +73,7 @@ open class FinishableRequest: CancelableRequest {
         var query = "\(O.mode.rawValue) \(O.operationName)"
         if !variablesArr.isEmpty {
             let variablesStrCompact = variablesArr.map { variable -> String in
-                return "$\(variable.key):\(variable.schemaType)!"
+                return "$\(variable.key):\(variable.schemaType)"
             }
             query += "(\(variablesStrCompact.joined(separator: ",")))"
         }
