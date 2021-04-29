@@ -35,7 +35,7 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                         decoder.dateDecodingStrategy = self.configuration.dateDecodingStrategy
                         decoder.keyDecodingStrategy = self.configuration.keyDecodingStrategy
                         let response = try decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
-                        let result = try O.mapResult(response)
+                        let result = try O.handleSuccess(with: response)
                         self.performResponseBlock(error: nil) {
                             self.callback?.success?(result)
                         }
@@ -43,7 +43,7 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                         if let gqlError = gqlError {
                             throw gqlError
                         } else if case .valueNotFound(_, let context) = error as? DecodingError,
-                           context.codingPath.last?.stringValue == self.decoderRootKey {
+                                  context.codingPath.last?.stringValue == self.decoderRootKey {
                             throw GrapheneError.emptyResponse
                         } else {
                             throw error
@@ -55,8 +55,15 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                 }
                 
             } catch {
-                self.performResponseBlock(error: error) {
-                    self.callback?.failure?(error)
+                switch O.handleFailure(with: error) {
+                case .success(let result):
+                    self.performResponseBlock(error: nil) {
+                        self.callback?.success?(result)
+                    }
+                case .failure(let error):
+                    self.performResponseBlock(error: error) {
+                        self.callback?.failure?(error)
+                    }
                 }
             }
             self.performResponseBlock(error: nil) {

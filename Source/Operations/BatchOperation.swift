@@ -36,8 +36,8 @@ public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperat
         return "Batch_\(O.operationName)"
     }
     
-    public static func mapResult(_ result: MultipleOperationResponse<O.DecodableResponse>) throws -> [O.Result] {
-        return try result.data.values.map({ try O.mapResult($0) })
+    public static func handleSuccess(with result: MultipleOperationResponse<O.DecodableResponse>) throws -> [O.Result] {
+        return try result.data.values.map({ try O.handleSuccess(with: $0) })
     }
     
 }
