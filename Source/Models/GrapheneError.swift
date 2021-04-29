@@ -9,9 +9,9 @@ import Foundation
 
 public enum GrapheneError: Error {
     
+    case emptyResponse
     case unknownKey(String)
     case unknownSchemaType(String)
-    case responseDataIsNull
     case server(_ message: String, _ code: Int, _ rawResponse: String?)
     case authentication(_ message: String, _ code: Int, _ rawResponse: String?)
     case client(_ message: String, _ code: Int, _ rawResponse: String?)
@@ -50,7 +50,7 @@ extension GrapheneError: LocalizedError {
         switch self {
         case .authentication(let message, _, _):
             return message
-        case .responseDataIsNull:
+        case .emptyResponse:
             return "Response data is null"
         case .server(let message, _, _):
             return message

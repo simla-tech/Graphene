@@ -40,11 +40,18 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                             self.callback?.success?(result)
                         }
                     } catch {
-                        throw gqlError ?? error
+                        if let gqlError = gqlError {
+                            throw gqlError
+                        } else if case .valueNotFound(_, let context) = error as? DecodingError,
+                           context.codingPath.last?.stringValue == self.decoderRootKey {
+                            throw GrapheneError.emptyResponse
+                        } else {
+                            throw error
+                        }
                     }
                     
                 } else {
-                    throw gqlError ?? GrapheneError.responseDataIsNull
+                    throw gqlError ?? GrapheneError.emptyResponse
                 }
                 
             } catch {

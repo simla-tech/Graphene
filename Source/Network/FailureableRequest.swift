@@ -27,7 +27,7 @@ open class FailureableRequest: FinishableRequest {
                 if let gqlError = gqlError {
                     throw gqlError
                 } else if targetJson == nil {
-                    throw GrapheneError.responseDataIsNull
+                    throw GrapheneError.emptyResponse
                 }
             } catch {
                 self.performResponseBlock(error: error) {
