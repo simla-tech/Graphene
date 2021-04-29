@@ -38,7 +38,7 @@ extension QueryOperation {
 }
 
 extension QueryOperation where QueryModel: Decodable {
-    public static func handleSuccess(with result: QueryModel) throws -> QueryModel {
+    public func handleSuccess(with result: QueryModel) throws -> QueryModel {
         return result
     }
 }

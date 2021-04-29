@@ -10,11 +10,14 @@ import Alamofire
 
 open class Request<O: GraphQLOperation>: FailureableRequest {
     
+    private let operation: O
+    
     private var callback: SuccessableCallback<O.Result>? {
         return self.storedCallback as? SuccessableCallback<O.Result>
     }
     
     internal init(operation: O, client: Client, queue: DispatchQueue) {
+        self.operation = operation
         super.init(operation: operation, client: client, queue: queue, callback: SuccessableCallback<O.Result>())
     }
     
@@ -35,7 +38,7 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                         decoder.dateDecodingStrategy = self.configuration.dateDecodingStrategy
                         decoder.keyDecodingStrategy = self.configuration.keyDecodingStrategy
                         let response = try decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
-                        let result = try O.handleSuccess(with: response)
+                        let result = try self.operation.handleSuccess(with: response)
                         self.performResponseBlock(error: nil) {
                             self.callback?.success?(result)
                         }
@@ -55,7 +58,7 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                 }
                 
             } catch {
-                switch O.handleFailure(with: error) {
+                switch self.operation.handleFailure(with: error) {
                 case .success(let result):
                     self.performResponseBlock(error: nil) {
                         self.callback?.success?(result)

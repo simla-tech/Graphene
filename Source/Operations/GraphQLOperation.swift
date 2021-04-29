@@ -42,14 +42,14 @@ public protocol GraphQLOperation {
      */
     var decoderRootKey: String? { get }
     
-    static func handleSuccess(with result: DecodableResponse) throws -> Result
+    func handleSuccess(with result: DecodableResponse) throws -> Result
     
-    static func handleFailure(with error: Error) -> Swift.Result<Result, Error>
+    func handleFailure(with error: Error) -> Swift.Result<Result, Error>
 
 }
 
 extension GraphQLOperation {
-    public static func handleFailure(with error: Error) -> Swift.Result<Result, Error> {
+    public func handleFailure(with error: Error) -> Swift.Result<Result, Error> {
         return .failure(error)
     }
 }

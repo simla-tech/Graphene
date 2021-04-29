@@ -36,10 +36,13 @@ public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperat
         return "Batch_\(O.operationName)"
     }
     
-    public static func handleSuccess(with result: MultipleOperationResponse<O.DecodableResponse>) throws -> [O.Result] {
-        return try result.data.values.map({ try O.handleSuccess(with: $0) })
+    public func handleSuccess(with result: MultipleOperationResponse<O.DecodableResponse>) throws -> [O.Result] {
+        return try result.data.values.enumerated().compactMap({ (responseIndex, itemResult) in
+            guard responseIndex < self.operations.count else { return nil }
+            return try self.operations[responseIndex].handleSuccess(with: itemResult)
+        })
     }
-    
+
 }
 
 extension BatchOperation: ExpressibleByArrayLiteral {
