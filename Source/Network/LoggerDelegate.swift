@@ -8,28 +8,28 @@
 import Foundation
 import os.log
 
-@objc public protocol LoggerDelegate: AnyObject {
-    @objc optional func requestSended(operation: String, query: String, variablesJson: String?)
-    @objc optional func responseRecived(operation: String, statusCode: Int, interval: DateInterval)
-    @objc optional func errorCatched(_ error: Error, operation: String, query: String, variablesJson: String?)
+public protocol GrapheneLoggerDelegate: AnyObject {
+    func requestSended(context: OperationContext)
+    func responseRecived(statusCode: Int, interval: DateInterval, context: OperationContext)
+    func errorCatched(_ error: Error, context: OperationContext)
 }
 
-internal class DefaultLoggerDelegate: LoggerDelegate {
+internal class DefaultLoggerDelegate: GrapheneLoggerDelegate {
         
-    func requestSended(operation: String, query: String, variablesJson: String?) {
-        if let variables = variablesJson {
-            os_log("[Graphene] Request \"%@\" sended:\n%@\nvariables: %@", operation, query, variables)
+    func requestSended(context: OperationContext) {
+        if let variables = try? context.jsonVariablesString(prettyPrinted: true) {
+            os_log("[Graphene] Request \"%@\" sended:\n%@\nvariables: %@", context.operationName, context.query, variables)
         } else {
-            os_log("[Graphene] Request \"%@\" sended:\n%@", operation, query)
+            os_log("[Graphene] Request \"%@\" sended:\n%@", context.operationName, context.query)
         }
     }
     
-    func responseRecived(operation: String, statusCode: Int, interval: DateInterval) {
-        os_log("[Graphene] Response \"%@\" recived. Code: %d. Duration: %.3f", operation, statusCode, interval.duration)
+    func responseRecived(statusCode: Int, interval: DateInterval, context: OperationContext) {
+        os_log("[Graphene] Response \"%@\" recived. Code: %d. Duration: %.3f", context.operationName, statusCode, interval.duration)
     }
     
-    func errorCatched(_ error: Error, operation: String, query: String, variablesJson: String?) {
-        os_log("[Graphene] Catched error for \"%@\" operation: %@", operation, error.localizedDescription)
+    func errorCatched(_ error: Error, context: OperationContext) {
+        os_log("[Graphene] Catched error for \"%@\" operation: %@", context.operationName, error.localizedDescription)
     }
     
 }
