@@ -74,6 +74,8 @@
 		F39A620025CBCFEF00464DC9 /* AbstractCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A61FF25CBCFEF00464DC9 /* AbstractCustomer.swift */; };
 		F39A620425CBCFF900464DC9 /* CustomerCorporate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A620325CBCFF900464DC9 /* CustomerCorporate.swift */; };
 		F39A620825CBD00400464DC9 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39A620725CBD00300464DC9 /* Customer.swift */; };
+		F39CF27A2657C5F900923F9D /* GraphQLOperation+PrepareContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39CF2792657C5F900923F9D /* GraphQLOperation+PrepareContext.swift */; };
+		F39CF27C2657C60C00923F9D /* OperationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39CF27B2657C60C00923F9D /* OperationContext.swift */; };
 		F39F04E62604C33300AD1704 /* SomeFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F04E52604C33300AD1704 /* SomeFragment.swift */; };
 		F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167BC25C2BBA00068E6C9 /* Client.swift */; };
 		F3B167C125C2BBF60068E6C9 /* LoggerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B167C025C2BBF60068E6C9 /* LoggerDelegate.swift */; };
@@ -186,6 +188,8 @@
 		F39A61FF25CBCFEF00464DC9 /* AbstractCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCustomer.swift; sourceTree = "<group>"; };
 		F39A620325CBCFF900464DC9 /* CustomerCorporate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCorporate.swift; sourceTree = "<group>"; };
 		F39A620725CBD00300464DC9 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		F39CF2792657C5F900923F9D /* GraphQLOperation+PrepareContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GraphQLOperation+PrepareContext.swift"; sourceTree = "<group>"; };
+		F39CF27B2657C60C00923F9D /* OperationContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationContext.swift; sourceTree = "<group>"; };
 		F39F04E52604C33300AD1704 /* SomeFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeFragment.swift; sourceTree = "<group>"; };
 		F3B167BC25C2BBA00068E6C9 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		F3B167C025C2BBF60068E6C9 /* LoggerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDelegate.swift; sourceTree = "<group>"; };
@@ -441,6 +445,7 @@
 		F3B167E225C2CAC70068E6C9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F39CF27B2657C60C00923F9D /* OperationContext.swift */,
 				F3B167C825C2C3BB0068E6C9 /* GraphQLError.swift */,
 				F3362ADC25D574FE00AC3A72 /* GraphQLErrors.swift */,
 				F3B167D025C2C5C00068E6C9 /* GrapheneError.swift */,
@@ -494,6 +499,7 @@
 		F3CF4BA125CD3AD900161B2C /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				F39CF2792657C5F900923F9D /* GraphQLOperation+PrepareContext.swift */,
 				F324230D25BAEDA200111C5B /* GraphQLOperation.swift */,
 				F346C28C25D151A7005C1BC1 /* QueryOperation.swift */,
 				F346C29025D151B6005C1BC1 /* MutationOperation.swift */,
@@ -735,6 +741,7 @@
 				F38E761D2608E725000D67D0 /* KeyPathWrapper.swift in Sources */,
 				F3CF4B9925CD3AAE00161B2C /* ChangeSetVariable.swift in Sources */,
 				F324231E25BAEF5000111C5B /* Field.swift in Sources */,
+				F39CF27C2657C60C00923F9D /* OperationContext.swift in Sources */,
 				F36F3E6725CAC3860024641C /* SchemaType.swift in Sources */,
 				F3B167BD25C2BBA00068E6C9 /* Client.swift in Sources */,
 				F3CF4B8825CC446000161B2C /* SomeInputVariable.swift in Sources */,
@@ -743,6 +750,7 @@
 				F3CF4B9125CC504000161B2C /* AnyFragment.swift in Sources */,
 				F3887E7225F0222B0006B675 /* CancelableRequest.swift in Sources */,
 				F3CF4B4E25CBFF4100161B2C /* MultipleOperationResponse.swift in Sources */,
+				F39CF27A2657C5F900923F9D /* GraphQLOperation+PrepareContext.swift in Sources */,
 				F33C6F9125D3CB3A00BE7C7D /* FragmentQuery.swift in Sources */,
 				F3B167D125C2C5C00068E6C9 /* GrapheneError.swift in Sources */,
 				F3B167C925C2C3BB0068E6C9 /* GraphQLError.swift in Sources */,
