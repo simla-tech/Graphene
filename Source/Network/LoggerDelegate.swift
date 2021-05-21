@@ -17,7 +17,7 @@ public protocol GrapheneLoggerDelegate: AnyObject {
 internal class DefaultLoggerDelegate: GrapheneLoggerDelegate {
         
     func requestSended(context: OperationContext) {
-        if let variables = try? context.jsonVariablesString(prettyPrinted: true) {
+        if let variables = context.jsonVariablesString(prettyPrinted: true) {
             os_log("[Graphene] Request \"%@\" sended:\n%@\nvariables: %@", context.operationName, context.query, variables)
         } else {
             os_log("[Graphene] Request \"%@\" sended:\n%@", context.operationName, context.query)
