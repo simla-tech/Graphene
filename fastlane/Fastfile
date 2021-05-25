@@ -17,25 +17,15 @@ default_platform(:ios)
 
 platform :ios do
 
-  desc "Install environment"
-  lane :install do
-    cocoapods(try_repo_update_on_error: true, use_bundle_exec: true)
-  end
-
   desc "Test the framework"
   lane :test do
-    run_tests(
-      workspace: "Graphene.xcworkspace",
-      scheme: "Graphene",
-      clean: false
-    )
+    spm(command: "test")
   end
 
   desc "Lint the framework"
   lane :lint do
     swiftlint(
       mode: :lint,
-      executable: "./Pods/SwiftLint/swiftlint",
       raise_if_swiftlint_error: true,
       ignore_exit_status: false 
     )
