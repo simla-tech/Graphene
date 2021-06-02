@@ -8,14 +8,23 @@
 import Foundation
 
 public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperation {
-  
-    private var operations: [O]
-
+    
+    private let operations: [String: O]
+    
     public init(_ operations: [O]) {
+        var dict: [String: O] = [:]
+        for operation in operations {
+            let key: String = .random(length: 12)
+            dict[key] = operation
+        }
+        self.init(dict)
+    }
+    
+    public init(_ operations: [String: O]) {
         self.operations = operations
         self.decoderRootKey = nil
     }
-    
+
     /// Mode is equal to child operations
     public static var mode: OperationMode {
         return O.mode
@@ -27,7 +36,7 @@ public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperat
     public var asField: Field {
         return MultipleQuery<MultipleOperationResponse<O.DecodableResponse>>({ builder in
             for operation in self.operations {
-                builder += .childrenOperation(operation: operation)
+                builder += .childrenOperation(operation: operation.value, key: operation.key)
             }
         })
     }
@@ -36,11 +45,13 @@ public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperat
         return "Batch_\(O.operationName)"
     }
     
-    public func handleSuccess(with result: MultipleOperationResponse<O.DecodableResponse>) throws -> [O.Result] {
-        return try result.data.values.enumerated().compactMap({ (responseIndex, itemResult) in
-            guard responseIndex < self.operations.count else { return nil }
-            return try self.operations[responseIndex].handleSuccess(with: itemResult)
-        })
+    public func handleSuccess(with result: MultipleOperationResponse<O.DecodableResponse>) throws -> [String: O.Result] {
+        var newResult: [String: O.Result] = [:]
+        for (index, item) in result.data {
+            guard let operation = self.operations[index] else { continue }
+            newResult[index] = try operation.handleSuccess(with: item)
+        }
+        return newResult
     }
 
 }
@@ -51,48 +62,12 @@ extension BatchOperation: ExpressibleByArrayLiteral {
     }
 }
 
-extension BatchOperation: MutableCollection, RangeReplaceableCollection, RandomAccessCollection {
-    
-    public typealias Element = O
-    public typealias Index = Int
-    public typealias SubSequence = ArraySlice<O>
-    
-    public mutating func replaceSubrange<C, R>(_ subrange: R, with newElements: C) where C: Collection, R: RangeExpression, Self.Element == C.Element, Self.Index == R.Bound {
-        self.operations.replaceSubrange(subrange, with: newElements)
-    }
-    
-    public init() {
-        self.init([])
-    }
-    
-    // The upper and lower bounds of the collection, used in iterations
-    public var startIndex: Index { return self.operations.startIndex }
-    public var endIndex: Index { return self.operations.endIndex }
-    
-    public subscript(bounds: Range<Index>) -> SubSequence {
-        get {
-            return self.operations[bounds]
+extension BatchOperation: ExpressibleByDictionaryLiteral {
+    public init(dictionaryLiteral elements: (String, O)...) {
+        var dict: [String: O] = [:]
+        for element in elements {
+            dict[element.0] = element.1
         }
-        set(newValue) {
-            newValue.enumerated().forEach { self.operations[$0] = $1 }
-        }
+        self.init(dict)
     }
-
-    public subscript(position: Index) -> Element {
-        get {
-            return self.operations[position]
-        }
-        set(newValue) {
-            return self.operations[position] = newValue
-        }
-    }
-        
-    public func index(after i: Index) -> Index {
-        return self.operations.index(after: i)
-    }
-    
-    public func index(before i: Index) -> Index {
-        return self.operations.index(before: i)
-    }
-    
 }

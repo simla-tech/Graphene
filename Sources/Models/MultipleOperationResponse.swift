@@ -14,9 +14,9 @@ public struct MultipleOperationResponse<T> {
 
 extension MultipleOperationResponse: Queryable {
     public class QueryKeys: QueryKey {
-        static func childrenOperation<O: Graphene.QueryOperation>(operation: O) -> QueryKeys {
+        static func childrenOperation<O: Graphene.QueryOperation>(operation: O, key: String) -> QueryKeys {
             var query = operation.query
-            query.alias = .random(length: 12)
+            query.alias = key
             return QueryKeys(query)
         }
     }
