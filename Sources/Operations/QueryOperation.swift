@@ -9,7 +9,7 @@ import Foundation
 
 public protocol QueryOperation: GraphQLOperation {
     
-    associatedtype QueryModel: Queryable
+    associatedtype QueryModel
     
     var query: Query<QueryModel> { get }
         
