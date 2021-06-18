@@ -1,0 +1,873 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F385AE2E267CA530008617BF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F385AE2D267CA530008617BF /* Alamofire */; };
+		OBJ_212 /* AnyChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AnyChangeSet.swift */; };
+		OBJ_213 /* Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Change.swift */; };
+		OBJ_214 /* ChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ChangeSet.swift */; };
+		OBJ_215 /* ChangeSetVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ChangeSetVariable.swift */; };
+		OBJ_216 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Identifiable.swift */; };
+		OBJ_217 /* SomeChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* SomeChangeSet.swift */; };
+		OBJ_218 /* AbstractDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* AbstractDecodable.swift */; };
+		OBJ_219 /* AbstractEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* AbstractEncodable.swift */; };
+		OBJ_220 /* KeyPathWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* KeyPathWrapper.swift */; };
+		OBJ_221 /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* SchemaType.swift */; };
+		OBJ_222 /* SingleValueDecodingContainer + Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* SingleValueDecodingContainer + Decode.swift */; };
+		OBJ_223 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* GraphQLError.swift */; };
+		OBJ_224 /* GraphQLErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* GraphQLErrors.swift */; };
+		OBJ_225 /* GrapheneError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* GrapheneError.swift */; };
+		OBJ_226 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* MimeType.swift */; };
+		OBJ_227 /* MultipleOperationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* MultipleOperationResponse.swift */; };
+		OBJ_228 /* OperationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* OperationContext.swift */; };
+		OBJ_229 /* OperationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* OperationMode.swift */; };
+		OBJ_230 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* Upload.swift */; };
+		OBJ_231 /* Callbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Callbacks.swift */; };
+		OBJ_232 /* CancelableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* CancelableRequest.swift */; };
+		OBJ_233 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Client.swift */; };
+		OBJ_234 /* FailureableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* FailureableRequest.swift */; };
+		OBJ_235 /* FinishableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* FinishableRequest.swift */; };
+		OBJ_236 /* LoggerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* LoggerDelegate.swift */; };
+		OBJ_237 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* Request.swift */; };
+		OBJ_238 /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* ResponseValidator.swift */; };
+		OBJ_239 /* BatchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* BatchOperation.swift */; };
+		OBJ_240 /* GraphQLOperation+PrepareContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* GraphQLOperation+PrepareContext.swift */; };
+		OBJ_241 /* GraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* GraphQLOperation.swift */; };
+		OBJ_242 /* MutationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* MutationOperation.swift */; };
+		OBJ_243 /* QueryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* QueryOperation.swift */; };
+		OBJ_244 /* AnyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* AnyFragment.swift */; };
+		OBJ_245 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* Arguments.swift */; };
+		OBJ_246 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* Alias.swift */; };
+		OBJ_247 /* AnyQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* AnyQuery.swift */; };
+		OBJ_248 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* Field.swift */; };
+		OBJ_249 /* FragmentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* FragmentQuery.swift */; };
+		OBJ_250 /* MultipleQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* MultipleQuery.swift */; };
+		OBJ_251 /* OnQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* OnQuery.swift */; };
+		OBJ_252 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* Query.swift */; };
+		OBJ_253 /* String + Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* String + Field.swift */; };
+		OBJ_254 /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* Fragment.swift */; };
+		OBJ_255 /* QueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* QueryBuilder.swift */; };
+		OBJ_256 /* QueryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* QueryContainer.swift */; };
+		OBJ_257 /* QueryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* QueryKey.swift */; };
+		OBJ_258 /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* Queryable.swift */; };
+		OBJ_259 /* SomeFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* SomeFragment.swift */; };
+		OBJ_260 /* EncodableVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* EncodableVariable.swift */; };
+		OBJ_261 /* InputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* InputVariable.swift */; };
+		OBJ_262 /* SomeInputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* SomeInputVariable.swift */; };
+		OBJ_263 /* VariableEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* VariableEncoder.swift */; };
+		OBJ_264 /* VariableEncoderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* VariableEncoderContainer.swift */; };
+		OBJ_265 /* VariableEncoderKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* VariableEncoderKeyedContainer.swift */; };
+		OBJ_266 /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* Variables.swift */; };
+		OBJ_286 /* CheckPhoneFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* CheckPhoneFragment.swift */; };
+		OBJ_287 /* MoneyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* MoneyFragment.swift */; };
+		OBJ_288 /* OrderDetailFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* OrderDetailFragment.swift */; };
+		OBJ_289 /* PageInfoFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* PageInfoFragment.swift */; };
+		OBJ_290 /* GrapheneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* GrapheneTests.swift */; };
+		OBJ_291 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* Connection.swift */; };
+		OBJ_292 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* Identity.swift */; };
+		OBJ_293 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* Node.swift */; };
+		OBJ_294 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* PageInfo.swift */; };
+		OBJ_295 /* AbstractCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* AbstractCustomer.swift */; };
+		OBJ_296 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* Attachment.swift */; };
+		OBJ_297 /* CheckPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* CheckPhone.swift */; };
+		OBJ_298 /* Contragent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* Contragent.swift */; };
+		OBJ_299 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* Customer.swift */; };
+		OBJ_300 /* CustomerCorporate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* CustomerCorporate.swift */; };
+		OBJ_301 /* EditOrderInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* EditOrderInput.swift */; };
+		OBJ_302 /* EditOrderPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* EditOrderPayload.swift */; };
+		OBJ_303 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* Enums.swift */; };
+		OBJ_304 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* Money.swift */; };
+		OBJ_305 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* Order.swift */; };
+		OBJ_306 /* OrderProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* OrderProduct.swift */; };
+		OBJ_307 /* OrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* OrderType.swift */; };
+		OBJ_308 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* Payment.swift */; };
+		OBJ_309 /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* PaymentStatus.swift */; };
+		OBJ_310 /* PaymentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* PaymentType.swift */; };
+		OBJ_311 /* UploadAttachmentInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* UploadAttachmentInput.swift */; };
+		OBJ_312 /* UploadAttachmentPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* UploadAttachmentPayload.swift */; };
+		OBJ_313 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* User.swift */; };
+		OBJ_314 /* OrderEditMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* OrderEditMutation.swift */; };
+		OBJ_315 /* UploadAttachmentMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* UploadAttachmentMutation.swift */; };
+		OBJ_316 /* CheckPhoneQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* CheckPhoneQuery.swift */; };
+		OBJ_317 /* OrderDetailQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* OrderDetailQuery.swift */; };
+		OBJ_318 /* OrderListQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* OrderListQuery.swift */; };
+		OBJ_320 /* Graphene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Graphene::Graphene::Product" /* Graphene.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F385AE29267CA4B7008617BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Graphene::Graphene";
+			remoteInfo = Graphene;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		"Graphene::Graphene::Product" /* Graphene.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Graphene.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Graphene::GrapheneTests::Product" /* GrapheneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = GrapheneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_10 /* Change.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Change.swift; sourceTree = "<group>"; };
+		OBJ_100 /* UploadAttachmentInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentInput.swift; sourceTree = "<group>"; };
+		OBJ_101 /* UploadAttachmentPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentPayload.swift; sourceTree = "<group>"; };
+		OBJ_102 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		OBJ_105 /* OrderEditMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditMutation.swift; sourceTree = "<group>"; };
+		OBJ_106 /* UploadAttachmentMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentMutation.swift; sourceTree = "<group>"; };
+		OBJ_108 /* CheckPhoneQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhoneQuery.swift; sourceTree = "<group>"; };
+		OBJ_109 /* OrderDetailQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailQuery.swift; sourceTree = "<group>"; };
+		OBJ_11 /* ChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSet.swift; sourceTree = "<group>"; };
+		OBJ_110 /* OrderListQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListQuery.swift; sourceTree = "<group>"; };
+		OBJ_12 /* ChangeSetVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetVariable.swift; sourceTree = "<group>"; };
+		OBJ_13 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		OBJ_14 /* SomeChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeChangeSet.swift; sourceTree = "<group>"; };
+		OBJ_16 /* AbstractDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDecodable.swift; sourceTree = "<group>"; };
+		OBJ_17 /* AbstractEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEncodable.swift; sourceTree = "<group>"; };
+		OBJ_18 /* KeyPathWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPathWrapper.swift; sourceTree = "<group>"; };
+		OBJ_19 /* SchemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaType.swift; sourceTree = "<group>"; };
+		OBJ_20 /* SingleValueDecodingContainer + Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleValueDecodingContainer + Decode.swift"; sourceTree = "<group>"; };
+		OBJ_22 /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
+		OBJ_23 /* GraphQLErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrors.swift; sourceTree = "<group>"; };
+		OBJ_24 /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
+		OBJ_25 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		OBJ_26 /* MultipleOperationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperationResponse.swift; sourceTree = "<group>"; };
+		OBJ_27 /* OperationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationContext.swift; sourceTree = "<group>"; };
+		OBJ_28 /* OperationMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationMode.swift; sourceTree = "<group>"; };
+		OBJ_29 /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
+		OBJ_31 /* Callbacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callbacks.swift; sourceTree = "<group>"; };
+		OBJ_32 /* CancelableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelableRequest.swift; sourceTree = "<group>"; };
+		OBJ_33 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		OBJ_34 /* FailureableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureableRequest.swift; sourceTree = "<group>"; };
+		OBJ_35 /* FinishableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableRequest.swift; sourceTree = "<group>"; };
+		OBJ_36 /* LoggerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDelegate.swift; sourceTree = "<group>"; };
+		OBJ_37 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_38 /* ResponseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
+		OBJ_40 /* BatchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchOperation.swift; sourceTree = "<group>"; };
+		OBJ_41 /* GraphQLOperation+PrepareContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphQLOperation+PrepareContext.swift"; sourceTree = "<group>"; };
+		OBJ_42 /* GraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLOperation.swift; sourceTree = "<group>"; };
+		OBJ_43 /* MutationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationOperation.swift; sourceTree = "<group>"; };
+		OBJ_44 /* QueryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryOperation.swift; sourceTree = "<group>"; };
+		OBJ_46 /* AnyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyFragment.swift; sourceTree = "<group>"; };
+		OBJ_47 /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
+		OBJ_49 /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
+		OBJ_50 /* AnyQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyQuery.swift; sourceTree = "<group>"; };
+		OBJ_51 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		OBJ_52 /* FragmentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentQuery.swift; sourceTree = "<group>"; };
+		OBJ_53 /* MultipleQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleQuery.swift; sourceTree = "<group>"; };
+		OBJ_54 /* OnQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnQuery.swift; sourceTree = "<group>"; };
+		OBJ_55 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		OBJ_56 /* String + Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Field.swift"; sourceTree = "<group>"; };
+		OBJ_57 /* Fragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragment.swift; sourceTree = "<group>"; };
+		OBJ_58 /* QueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
+		OBJ_59 /* QueryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryContainer.swift; sourceTree = "<group>"; };
+		OBJ_60 /* QueryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryKey.swift; sourceTree = "<group>"; };
+		OBJ_61 /* Queryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queryable.swift; sourceTree = "<group>"; };
+		OBJ_62 /* SomeFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeFragment.swift; sourceTree = "<group>"; };
+		OBJ_64 /* EncodableVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableVariable.swift; sourceTree = "<group>"; };
+		OBJ_65 /* InputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVariable.swift; sourceTree = "<group>"; };
+		OBJ_66 /* SomeInputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInputVariable.swift; sourceTree = "<group>"; };
+		OBJ_67 /* VariableEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoder.swift; sourceTree = "<group>"; };
+		OBJ_68 /* VariableEncoderContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoderContainer.swift; sourceTree = "<group>"; };
+		OBJ_69 /* VariableEncoderKeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoderKeyedContainer.swift; sourceTree = "<group>"; };
+		OBJ_70 /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
+		OBJ_73 /* CheckPhoneFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhoneFragment.swift; sourceTree = "<group>"; };
+		OBJ_74 /* MoneyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFragment.swift; sourceTree = "<group>"; };
+		OBJ_75 /* OrderDetailFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailFragment.swift; sourceTree = "<group>"; };
+		OBJ_76 /* PageInfoFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfoFragment.swift; sourceTree = "<group>"; };
+		OBJ_77 /* GrapheneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneTests.swift; sourceTree = "<group>"; };
+		OBJ_79 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		OBJ_80 /* Identity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
+		OBJ_81 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		OBJ_82 /* PageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
+		OBJ_84 /* AbstractCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCustomer.swift; sourceTree = "<group>"; };
+		OBJ_85 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
+		OBJ_86 /* CheckPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhone.swift; sourceTree = "<group>"; };
+		OBJ_87 /* Contragent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contragent.swift; sourceTree = "<group>"; };
+		OBJ_88 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		OBJ_89 /* CustomerCorporate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCorporate.swift; sourceTree = "<group>"; };
+		OBJ_9 /* AnyChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyChangeSet.swift; sourceTree = "<group>"; };
+		OBJ_90 /* EditOrderInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrderInput.swift; sourceTree = "<group>"; };
+		OBJ_91 /* EditOrderPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrderPayload.swift; sourceTree = "<group>"; };
+		OBJ_92 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		OBJ_93 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		OBJ_94 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		OBJ_95 /* OrderProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProduct.swift; sourceTree = "<group>"; };
+		OBJ_96 /* OrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderType.swift; sourceTree = "<group>"; };
+		OBJ_97 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		OBJ_98 /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
+		OBJ_99 /* PaymentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentType.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_267 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				F385AE2E267CA530008617BF /* Alamofire in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_319 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_320 /* Graphene.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_103 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_104 /* Mutations */,
+				OBJ_107 /* Queries */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		OBJ_104 /* Mutations */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_105 /* OrderEditMutation.swift */,
+				OBJ_106 /* UploadAttachmentMutation.swift */,
+			);
+			path = Mutations;
+			sourceTree = "<group>";
+		};
+		OBJ_107 /* Queries */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_108 /* CheckPhoneQuery.swift */,
+				OBJ_109 /* OrderDetailQuery.swift */,
+				OBJ_110 /* OrderListQuery.swift */,
+			);
+			path = Queries;
+			sourceTree = "<group>";
+		};
+		OBJ_149 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"Graphene::Graphene::Product" /* Graphene.framework */,
+				"Graphene::GrapheneTests::Product" /* GrapheneTests.xctest */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_15 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_16 /* AbstractDecodable.swift */,
+				OBJ_17 /* AbstractEncodable.swift */,
+				OBJ_18 /* KeyPathWrapper.swift */,
+				OBJ_19 /* SchemaType.swift */,
+				OBJ_20 /* SingleValueDecodingContainer + Decode.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		OBJ_21 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_22 /* GraphQLError.swift */,
+				OBJ_23 /* GraphQLErrors.swift */,
+				OBJ_24 /* GrapheneError.swift */,
+				OBJ_25 /* MimeType.swift */,
+				OBJ_26 /* MultipleOperationResponse.swift */,
+				OBJ_27 /* OperationContext.swift */,
+				OBJ_28 /* OperationMode.swift */,
+				OBJ_29 /* Upload.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		OBJ_30 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_31 /* Callbacks.swift */,
+				OBJ_32 /* CancelableRequest.swift */,
+				OBJ_33 /* Client.swift */,
+				OBJ_34 /* FailureableRequest.swift */,
+				OBJ_35 /* FinishableRequest.swift */,
+				OBJ_36 /* LoggerDelegate.swift */,
+				OBJ_37 /* Request.swift */,
+				OBJ_38 /* ResponseValidator.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		OBJ_39 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_40 /* BatchOperation.swift */,
+				OBJ_41 /* GraphQLOperation+PrepareContext.swift */,
+				OBJ_42 /* GraphQLOperation.swift */,
+				OBJ_43 /* MutationOperation.swift */,
+				OBJ_44 /* QueryOperation.swift */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		OBJ_45 /* Queryable */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_46 /* AnyFragment.swift */,
+				OBJ_47 /* Arguments.swift */,
+				OBJ_48 /* Fields */,
+				OBJ_57 /* Fragment.swift */,
+				OBJ_58 /* QueryBuilder.swift */,
+				OBJ_59 /* QueryContainer.swift */,
+				OBJ_60 /* QueryKey.swift */,
+				OBJ_61 /* Queryable.swift */,
+				OBJ_62 /* SomeFragment.swift */,
+			);
+			path = Queryable;
+			sourceTree = "<group>";
+		};
+		OBJ_48 /* Fields */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_49 /* Alias.swift */,
+				OBJ_50 /* AnyQuery.swift */,
+				OBJ_51 /* Field.swift */,
+				OBJ_52 /* FragmentQuery.swift */,
+				OBJ_53 /* MultipleQuery.swift */,
+				OBJ_54 /* OnQuery.swift */,
+				OBJ_55 /* Query.swift */,
+				OBJ_56 /* String + Field.swift */,
+			);
+			path = Fields;
+			sourceTree = "<group>";
+		};
+		OBJ_5 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_7 /* Sources */,
+				OBJ_71 /* Tests */,
+				OBJ_149 /* Products */,
+			);
+			name = "";
+			sourceTree = "<group>";
+		};
+		OBJ_63 /* Variables */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_64 /* EncodableVariable.swift */,
+				OBJ_65 /* InputVariable.swift */,
+				OBJ_66 /* SomeInputVariable.swift */,
+				OBJ_67 /* VariableEncoder.swift */,
+				OBJ_68 /* VariableEncoderContainer.swift */,
+				OBJ_69 /* VariableEncoderKeyedContainer.swift */,
+				OBJ_70 /* Variables.swift */,
+			);
+			path = Variables;
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* ChangeSet */,
+				OBJ_15 /* Helpers */,
+				OBJ_21 /* Models */,
+				OBJ_30 /* Network */,
+				OBJ_39 /* Operations */,
+				OBJ_45 /* Queryable */,
+				OBJ_63 /* Variables */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_71 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_77 /* GrapheneTests.swift */,
+				OBJ_72 /* Fragments */,
+				OBJ_78 /* Helpers */,
+				OBJ_83 /* Models */,
+				OBJ_103 /* Operations */,
+			);
+			path = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_72 /* Fragments */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_73 /* CheckPhoneFragment.swift */,
+				OBJ_74 /* MoneyFragment.swift */,
+				OBJ_75 /* OrderDetailFragment.swift */,
+				OBJ_76 /* PageInfoFragment.swift */,
+			);
+			path = Fragments;
+			sourceTree = "<group>";
+		};
+		OBJ_78 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_79 /* Connection.swift */,
+				OBJ_80 /* Identity.swift */,
+				OBJ_81 /* Node.swift */,
+				OBJ_82 /* PageInfo.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		OBJ_8 /* ChangeSet */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_9 /* AnyChangeSet.swift */,
+				OBJ_10 /* Change.swift */,
+				OBJ_11 /* ChangeSet.swift */,
+				OBJ_12 /* ChangeSetVariable.swift */,
+				OBJ_13 /* Identifiable.swift */,
+				OBJ_14 /* SomeChangeSet.swift */,
+			);
+			path = ChangeSet;
+			sourceTree = "<group>";
+		};
+		OBJ_83 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_84 /* AbstractCustomer.swift */,
+				OBJ_85 /* Attachment.swift */,
+				OBJ_86 /* CheckPhone.swift */,
+				OBJ_87 /* Contragent.swift */,
+				OBJ_88 /* Customer.swift */,
+				OBJ_89 /* CustomerCorporate.swift */,
+				OBJ_90 /* EditOrderInput.swift */,
+				OBJ_91 /* EditOrderPayload.swift */,
+				OBJ_92 /* Enums.swift */,
+				OBJ_93 /* Money.swift */,
+				OBJ_94 /* Order.swift */,
+				OBJ_95 /* OrderProduct.swift */,
+				OBJ_96 /* OrderType.swift */,
+				OBJ_97 /* Payment.swift */,
+				OBJ_98 /* PaymentStatus.swift */,
+				OBJ_99 /* PaymentType.swift */,
+				OBJ_100 /* UploadAttachmentInput.swift */,
+				OBJ_101 /* UploadAttachmentPayload.swift */,
+				OBJ_102 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"Graphene::Graphene" /* Graphene */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_208 /* Build configuration list for PBXNativeTarget "Graphene" */;
+			buildPhases = (
+				OBJ_211 /* Sources */,
+				OBJ_267 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Graphene;
+			packageProductDependencies = (
+				F385AE2D267CA530008617BF /* Alamofire */,
+			);
+			productName = Graphene;
+			productReference = "Graphene::Graphene::Product" /* Graphene.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"Graphene::GrapheneTests" /* GrapheneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_282 /* Build configuration list for PBXNativeTarget "GrapheneTests" */;
+			buildPhases = (
+				OBJ_285 /* Sources */,
+				OBJ_319 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_322 /* PBXTargetDependency */,
+			);
+			name = GrapheneTests;
+			productName = GrapheneTests;
+			productReference = "Graphene::GrapheneTests::Product" /* GrapheneTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftMigration = 9999;
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Graphene" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5 /*  */;
+			packageReferences = (
+				F385AE2C267CA530008617BF /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
+			productRefGroup = OBJ_149 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"Graphene::Graphene" /* Graphene */,
+				"Graphene::GrapheneTests" /* GrapheneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_211 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_212 /* AnyChangeSet.swift in Sources */,
+				OBJ_213 /* Change.swift in Sources */,
+				OBJ_214 /* ChangeSet.swift in Sources */,
+				OBJ_215 /* ChangeSetVariable.swift in Sources */,
+				OBJ_216 /* Identifiable.swift in Sources */,
+				OBJ_217 /* SomeChangeSet.swift in Sources */,
+				OBJ_218 /* AbstractDecodable.swift in Sources */,
+				OBJ_219 /* AbstractEncodable.swift in Sources */,
+				OBJ_220 /* KeyPathWrapper.swift in Sources */,
+				OBJ_221 /* SchemaType.swift in Sources */,
+				OBJ_222 /* SingleValueDecodingContainer + Decode.swift in Sources */,
+				OBJ_223 /* GraphQLError.swift in Sources */,
+				OBJ_224 /* GraphQLErrors.swift in Sources */,
+				OBJ_225 /* GrapheneError.swift in Sources */,
+				OBJ_226 /* MimeType.swift in Sources */,
+				OBJ_227 /* MultipleOperationResponse.swift in Sources */,
+				OBJ_228 /* OperationContext.swift in Sources */,
+				OBJ_229 /* OperationMode.swift in Sources */,
+				OBJ_230 /* Upload.swift in Sources */,
+				OBJ_231 /* Callbacks.swift in Sources */,
+				OBJ_232 /* CancelableRequest.swift in Sources */,
+				OBJ_233 /* Client.swift in Sources */,
+				OBJ_234 /* FailureableRequest.swift in Sources */,
+				OBJ_235 /* FinishableRequest.swift in Sources */,
+				OBJ_236 /* LoggerDelegate.swift in Sources */,
+				OBJ_237 /* Request.swift in Sources */,
+				OBJ_238 /* ResponseValidator.swift in Sources */,
+				OBJ_239 /* BatchOperation.swift in Sources */,
+				OBJ_240 /* GraphQLOperation+PrepareContext.swift in Sources */,
+				OBJ_241 /* GraphQLOperation.swift in Sources */,
+				OBJ_242 /* MutationOperation.swift in Sources */,
+				OBJ_243 /* QueryOperation.swift in Sources */,
+				OBJ_244 /* AnyFragment.swift in Sources */,
+				OBJ_245 /* Arguments.swift in Sources */,
+				OBJ_246 /* Alias.swift in Sources */,
+				OBJ_247 /* AnyQuery.swift in Sources */,
+				OBJ_248 /* Field.swift in Sources */,
+				OBJ_249 /* FragmentQuery.swift in Sources */,
+				OBJ_250 /* MultipleQuery.swift in Sources */,
+				OBJ_251 /* OnQuery.swift in Sources */,
+				OBJ_252 /* Query.swift in Sources */,
+				OBJ_253 /* String + Field.swift in Sources */,
+				OBJ_254 /* Fragment.swift in Sources */,
+				OBJ_255 /* QueryBuilder.swift in Sources */,
+				OBJ_256 /* QueryContainer.swift in Sources */,
+				OBJ_257 /* QueryKey.swift in Sources */,
+				OBJ_258 /* Queryable.swift in Sources */,
+				OBJ_259 /* SomeFragment.swift in Sources */,
+				OBJ_260 /* EncodableVariable.swift in Sources */,
+				OBJ_261 /* InputVariable.swift in Sources */,
+				OBJ_262 /* SomeInputVariable.swift in Sources */,
+				OBJ_263 /* VariableEncoder.swift in Sources */,
+				OBJ_264 /* VariableEncoderContainer.swift in Sources */,
+				OBJ_265 /* VariableEncoderKeyedContainer.swift in Sources */,
+				OBJ_266 /* Variables.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_285 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_286 /* CheckPhoneFragment.swift in Sources */,
+				OBJ_287 /* MoneyFragment.swift in Sources */,
+				OBJ_288 /* OrderDetailFragment.swift in Sources */,
+				OBJ_289 /* PageInfoFragment.swift in Sources */,
+				OBJ_290 /* GrapheneTests.swift in Sources */,
+				OBJ_291 /* Connection.swift in Sources */,
+				OBJ_292 /* Identity.swift in Sources */,
+				OBJ_293 /* Node.swift in Sources */,
+				OBJ_294 /* PageInfo.swift in Sources */,
+				OBJ_295 /* AbstractCustomer.swift in Sources */,
+				OBJ_296 /* Attachment.swift in Sources */,
+				OBJ_297 /* CheckPhone.swift in Sources */,
+				OBJ_298 /* Contragent.swift in Sources */,
+				OBJ_299 /* Customer.swift in Sources */,
+				OBJ_300 /* CustomerCorporate.swift in Sources */,
+				OBJ_301 /* EditOrderInput.swift in Sources */,
+				OBJ_302 /* EditOrderPayload.swift in Sources */,
+				OBJ_303 /* Enums.swift in Sources */,
+				OBJ_304 /* Money.swift in Sources */,
+				OBJ_305 /* Order.swift in Sources */,
+				OBJ_306 /* OrderProduct.swift in Sources */,
+				OBJ_307 /* OrderType.swift in Sources */,
+				OBJ_308 /* Payment.swift in Sources */,
+				OBJ_309 /* PaymentStatus.swift in Sources */,
+				OBJ_310 /* PaymentType.swift in Sources */,
+				OBJ_311 /* UploadAttachmentInput.swift in Sources */,
+				OBJ_312 /* UploadAttachmentPayload.swift in Sources */,
+				OBJ_313 /* User.swift in Sources */,
+				OBJ_314 /* OrderEditMutation.swift in Sources */,
+				OBJ_315 /* UploadAttachmentMutation.swift in Sources */,
+				OBJ_316 /* CheckPhoneQuery.swift in Sources */,
+				OBJ_317 /* OrderDetailQuery.swift in Sources */,
+				OBJ_318 /* OrderListQuery.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_322 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Graphene::Graphene" /* Graphene */;
+			targetProxy = F385AE29267CA4B7008617BF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_209 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Graphene.xcodeproj/Graphene_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Graphene;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGET_NAME = Graphene;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_210 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Graphene.xcodeproj/Graphene_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Graphene;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGET_NAME = Graphene;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_283 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Graphene.xcodeproj/GrapheneTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = GrapheneTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		OBJ_284 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Graphene.xcodeproj/GrapheneTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = GrapheneTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+					"DEBUG=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_2 /* Build configuration list for PBXProject "Graphene" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_208 /* Build configuration list for PBXNativeTarget "Graphene" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_209 /* Debug */,
+				OBJ_210 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_282 /* Build configuration list for PBXNativeTarget "GrapheneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_283 /* Debug */,
+				OBJ_284 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F385AE2C267CA530008617BF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F385AE2D267CA530008617BF /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F385AE2C267CA530008617BF /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
