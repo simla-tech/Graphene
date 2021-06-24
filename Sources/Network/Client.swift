@@ -51,7 +51,7 @@ extension Client {
         public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
         // swiftlint:disable:next weak_delegate
-        public var loggerDelegate: GrapheneLoggerDelegate? = DefaultLoggerDelegate()
+        public var delegate: GrapheneDelegate? = DefaultDelegate()
         public var muteCanceledRequests: Bool = true
         public var rootResponseKey: String = "data"
         public var rootErrorsKey: String? = "errors"

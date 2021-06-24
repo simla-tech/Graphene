@@ -121,12 +121,12 @@ open class FinishableRequest: CancelableRequest {
         self.isSended = true
                 
         self.loggerDelegateQueue.async {
-            self.configuration.loggerDelegate?.requestSended(context: self.context)
+            self.configuration.delegate?.requestWillSend(context: self.context)
         }
     
         self.dataRequest.response(queue: .global(qos: .utility)) { response in
             self.loggerDelegateQueue.async {
-                self.configuration.loggerDelegate?.responseRecived(statusCode: response.response?.statusCode ?? -999,
+                self.configuration.delegate?.responseRecived(statusCode: response.response?.statusCode ?? -999,
                                                                    interval: response.metrics?.taskInterval ?? DateInterval(),
                                                                    context: self.context)
             }
@@ -141,7 +141,7 @@ open class FinishableRequest: CancelableRequest {
         }
         if let error = error {
             self.loggerDelegateQueue.async {
-                self.configuration.loggerDelegate?.errorCatched(error, context: self.context)
+                self.configuration.delegate?.errorCatched(error, context: self.context)
             }
         }
         self.responseQueue.sync {
