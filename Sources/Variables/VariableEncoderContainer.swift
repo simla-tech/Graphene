@@ -29,12 +29,8 @@ public class VariableEncoderContainer {
             return .value(value)
         }
         
-        guard !required else {
-            return .value(value)
-        }
-            
         guard let change = changeSet.first(where: key) else {
-            return .none
+            return required ? .value(value) : .none
         }
         
         switch change {
@@ -63,7 +59,7 @@ public class VariableEncoderContainer {
             return .value(fieldChange.newValue)
 
         default:
-            return .none
+            return required ? .value(value) : .none
         }
         
     }
