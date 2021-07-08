@@ -43,10 +43,11 @@ extension GraphQLErrors: Collection {
 }
 
 extension GraphQLErrors: CustomNSError {
-    public static var errorDomain: String {
-        return "Graphene.GraphQLErrors"
-    }
+
+    public static var errorDomain: String = "Graphene.GraphQLErrors"
+
     public var errorUserInfo: [String: Any] {
         return ["errors": self.errors.map({ $0.errorUserInfo })]
     }
+
 }

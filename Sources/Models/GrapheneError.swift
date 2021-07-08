@@ -71,9 +71,7 @@ extension GrapheneError: LocalizedError {
 
 extension GrapheneError: CustomNSError {
     
-    public static var errorDomain: String {
-        return "Graphene.GrapheneError"
-    }
+    public static var errorDomain: String = "Graphene.GrapheneError"
     
     public var errorCode: Int {
         return self.statusCode ?? 0

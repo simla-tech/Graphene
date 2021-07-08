@@ -56,9 +56,9 @@ extension GraphQLError: LocalizedError {
 }
 
 extension GraphQLError: CustomNSError {
-    public static var errorDomain: String {
-        return "Graphene.GraphQLError"
-    }
+    
+    public static var errorDomain: String = "Graphene.GraphQLError"
+    
     public var errorUserInfo: [String: Any] {
         var result = [String: Any]()
         if let locations = self.locations {
