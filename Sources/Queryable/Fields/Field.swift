@@ -14,15 +14,15 @@ public protocol Field {
 }
 
 extension Field {
-    
+
     internal var fragments: Set<AnyFragment> {
         return Self.searchFragments(in: self.childrenFields)
     }
-    
+
     internal var variables: [SomeInputVariable] {
         return Self.searchVariables(in: self)
     }
-    
+
     private static func searchVariables(in field: Field) -> [SomeInputVariable] {
         var result: [SomeInputVariable] = self.searchVariables(in: Array(field.arguments.values))
         for field in field.childrenFields {
@@ -30,7 +30,7 @@ extension Field {
         }
         return result
     }
-    
+
     private static func searchVariables(in arguments: [Argument]) -> [SomeInputVariable] {
         var result: [SomeInputVariable] = []
         for argument in arguments {
@@ -48,7 +48,7 @@ extension Field {
         }
         return result
     }
-    
+
     private static func searchFragments(in fields: [Field]) -> Set<AnyFragment> {
         var result: Set<AnyFragment> = []
         for field in fields {
@@ -59,7 +59,7 @@ extension Field {
         }
         return result
     }
-    
+
     public func asKey<T: QueryKey>(_ type: T.Type = T.self) -> T {
         return T.init(self)
     }

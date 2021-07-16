@@ -15,31 +15,31 @@ extension SomeChangeSet {
 
     public var startIndex: Index { return self.changes.startIndex }
     public var endIndex: Index { return self.changes.endIndex }
-    
+
     public subscript(bounds: Range<Index>) -> SubSequence {
         return self.changes[bounds]
     }
-    
+
     public subscript(position: Index) -> Element {
         return self.changes[position]
     }
-    
+
     public func index(after i: Index) -> Index {
         return self.changes.index(after: i)
     }
-    
+
     public func index(before i: Index) -> Index {
         return self.changes.index(before: i)
     }
-    
+
     public func contains(where key: AnyHashable) -> Bool {
         return self.contains(where: { $0.key == key })
     }
-    
+
     public func first(where key: AnyHashable) -> Change? {
         return self.first(where: { $0.key == key })
     }
-    
+
 }
 
 extension SomeChangeSet {
@@ -56,13 +56,13 @@ extension SomeChangeSet {
         var changes: [Change] = []
         // Compare earch new field with old field
         for newField in newFields {
-                        
+
             // If old fields doesnt exists, add FieldChange[ null -> newValue ]
             guard let oldField = oldFields.first(where: { $0.key == newField.key }) else {
                 changes.append(FieldChange(key: newField.key, oldValue: nil, newValue: newField.value))
                 continue
             }
-            
+
             // If old or new value is null
             guard let oldValue = oldField.value, let newValue = newField.value else {
                 if (oldField.value == nil && newField.value != nil) || (oldField.value != nil && newField.value == nil) {
@@ -70,7 +70,7 @@ extension SomeChangeSet {
                 }
                 continue
             }
-                        
+
             // Compare comparable object
             if let oldValue = oldValue as? EncodableVariable, let newValue = newValue as? EncodableVariable {
                 let childChangeSet = AnyChangeSet(source: oldValue, target: newValue)
@@ -80,7 +80,7 @@ extension SomeChangeSet {
                 }
                 continue
             }
-            
+
             // Compare identifiable arrays
             if let oldValues = (oldValue as Any) as? [AnyIdentifiableVariable], let newValues = (newValue as Any) as? [AnyIdentifiableVariable] {
                 let oldDict = oldValues.reduce(into: Variables()) { $0["\($1.anyIdentifier)"] = $1 }
@@ -93,7 +93,7 @@ extension SomeChangeSet {
                 }
                 continue
             }
-            
+
             // Compare hashable object
             if let oldValue = (oldValue as Any) as? AnyHashable, let newValue = (newValue as Any) as? AnyHashable {
                 if oldValue != newValue {
@@ -102,13 +102,13 @@ extension SomeChangeSet {
                 }
                 continue
             }
-            
+
             // Any other cases
             let fieldChange = FieldChange(key: newField.key, oldValue: oldField.value, newValue: newField.value)
             changes.append(fieldChange)
-            
+
         }
         return changes
     }
-    
+
 }

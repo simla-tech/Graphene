@@ -19,28 +19,28 @@ public struct Payment: Decodable, Identifiable {
 }
 
 extension Payment: Queryable {
-    
+
     public class QueryKeys: QueryKey {
-                
+
         static var id      = QueryKeys(CodingKeys.id)
         static let amount  = QueryKeys(FragmentQuery(CodingKeys.amount, fragment: MoneyFragment()))
         static let paidAt  = QueryKeys(CodingKeys.paidAt)
         static let comment = QueryKeys(CodingKeys.comment)
-        
+
         static func status(_ builder: @escaping QueryBuilder<PaymentStatus>) -> QueryKeys {
             return Query(CodingKeys.status, builder).asKey()
         }
-        
+
         static func type(_ builder: @escaping QueryBuilder<PaymentType>) -> QueryKeys {
             return Query(CodingKeys.type, builder).asKey()
         }
-        
+
     }
-    
+
 }
 
 extension Payment: EncodableVariable {
-    
+
     public func encode(to encoder: VariableEncoder) {
         let container = encoder.container(keyedBy: CodingKeys.self)
         container.encode(self.id, forKey: .id, required: true)

@@ -9,9 +9,9 @@ import Foundation
 @testable import Graphene
 
 final class OrderEditMutation: MutationOperation {
-     
+
     let editOrderInput: EditOrderInput
-    
+
     init(order: Order, changeSet: ChangeSet<Order>?) {
         self.editOrderInput = EditOrderInput(order: order, changeSet: changeSet)
     }
@@ -21,5 +21,5 @@ final class OrderEditMutation: MutationOperation {
             builder += OrderDetailFragment()
         })
     }
-        
+
 }

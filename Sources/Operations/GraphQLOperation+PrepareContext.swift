@@ -8,9 +8,9 @@
 import Foundation
 
 extension GraphQLOperation {
-    
+
     public func prepareContext() -> OperationContext {
-        
+
         let field = self.asField
         let variablesArr = field.variables
         let fragments = field.fragments
@@ -24,15 +24,15 @@ extension GraphQLOperation {
             query += "(\(variablesStrCompact.joined(separator: ",")))"
         }
         query += " {\(field.buildField())}"
-        
+
         if !fragments.isEmpty {
             query += fragments.map({ $0.fragmentBody }).joined()
         }
-        
+
         return OperationContext(operationName: Self.operationName,
                                 query: query,
                                 variables: variablesArr)
-        
+
     }
-    
+
 }

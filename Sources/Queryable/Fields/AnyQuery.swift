@@ -13,10 +13,10 @@ protocol AnyQuery: Field {
 }
 
 extension AnyQuery {
-    
+
     public func buildField() -> String {
         var res = [String]()
-        
+
         if let alias = self.alias {
             res.append("\(alias):\(self.name)")
         } else {
@@ -29,12 +29,12 @@ extension AnyQuery {
                 .joined(separator: ",")
             res.append("(\(argumentsStr))")
         }
-        
+
         if !self.childrenFields.isEmpty {
             res.append("{\(self.childrenFields.map({ $0.buildField() }).joined(separator: ","))}")
         }
-        
+
         return res.joined()
     }
-    
+
 }

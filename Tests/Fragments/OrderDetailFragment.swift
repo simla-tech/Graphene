@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 struct OrderDetailFragment: Fragment {
-    
+
     func fragmentQuery(_ builder: QueryContainer<Order>) {
         builder += .id
         builder += .number
@@ -80,5 +80,5 @@ struct OrderDetailFragment: Fragment {
             })
         })
     }
-    
+
 }

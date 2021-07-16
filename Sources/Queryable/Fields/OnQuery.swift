@@ -8,7 +8,7 @@
 import Foundation
 
 public struct On<T: Queryable & SchemaType>: Field {
-    
+
     public var childrenFields: [Field]
     public let arguments: Arguments = [:]
 
@@ -16,7 +16,7 @@ public struct On<T: Queryable & SchemaType>: Field {
         let container = QueryContainer<T>(builder)
         self.childrenFields = container.fields
     }
-    
+
     public func buildField() -> String {
         var res = [String]()
         res.append("...on \(T.schemaType) {")
@@ -24,5 +24,5 @@ public struct On<T: Queryable & SchemaType>: Field {
         res.append("}")
         return res.joined()
     }
-    
+
 }

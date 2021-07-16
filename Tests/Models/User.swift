@@ -45,5 +45,5 @@ extension User: Queryable {
         static let isMe             = QueryKeys(CodingKeys.isMe)
         static let isAdmin          = QueryKeys(CodingKeys.isAdmin)
     }
-    
+
 }

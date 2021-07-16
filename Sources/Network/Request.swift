@@ -9,25 +9,25 @@ import Foundation
 import Alamofire
 
 open class Request<O: GraphQLOperation>: FailureableRequest {
-    
+
     private let operation: O
-    
+
     private var callback: SuccessableCallback<O.Result>? {
         return self.storedCallback as? SuccessableCallback<O.Result>
     }
-    
+
     internal init(operation: O, client: Client, queue: DispatchQueue) {
         self.operation = operation
         super.init(operation: operation, client: client, queue: queue, callback: SuccessableCallback<O.Result>())
     }
-    
+
     @discardableResult
     public func onSuccess(_ callback: @escaping SuccessableCallback<O.Result>.Closure) -> FailureableRequest {
         self.callback?.success = callback
         self.fetchDataErrors { result in
             do {
                 let (rawData, gqlError) = try result.get()
-                
+
                 if let rawData = rawData {
                     var key = self.configuration.rootResponseKey
                     if let rootKey = self.decoderRootKey?.trimmingCharacters(in: .whitespacesAndNewlines), !rootKey.isEmpty {
@@ -52,11 +52,11 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                             throw error
                         }
                     }
-                    
+
                 } else {
                     throw gqlError ?? GrapheneError.emptyResponse
                 }
-                
+
             } catch {
                 switch self.operation.handleFailure(with: error) {
                 case .success(let result):

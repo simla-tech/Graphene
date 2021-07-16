@@ -45,29 +45,29 @@ extension Order: Queryable {
         static func payments(_ builder: @escaping QueryBuilder<Payment>) -> QueryKeys {
             return Query(CodingKeys.payments, builder).asKey()
         }
-        
+
         static func manager(_ builder: @escaping QueryBuilder<User>) -> QueryKeys {
             return Query(CodingKeys.manager, builder).asKey()
         }
-        
+
         static func orderType(_ builder: @escaping QueryBuilder<OrderType>) -> QueryKeys {
             return Query(CodingKeys.orderType, builder).asKey()
         }
-        
+
         static func contragent(_ builder: @escaping QueryBuilder<Contragent>) -> QueryKeys {
             return Query(CodingKeys.contragent, builder).asKey()
         }
-        
+
         static func unionCustomer(_ builder: @escaping QueryBuilder<AbstractCustomer>) -> QueryKeys {
             return Query(CodingKeys.unionCustomer, builder).asKey()
         }
-        
+
         static func orderProducts(first: Int? = nil, after: String? = nil, _ builder: @escaping QueryBuilder<Connection<OrderProduct>>) -> QueryKeys {
             return Query(CodingKeys.orderProducts, args: ["first": first, "after": after], builder).asKey()
         }
-        
+
     }
-    
+
 }
 
 // MARK: - Variable

@@ -9,15 +9,15 @@ import Foundation
 import Alamofire
 
 open class FailureableRequest: FinishableRequest {
-    
+
     private var callback: FailureableCallback? {
         return self.storedCallback as? FailureableCallback
     }
-    
+
     internal init<O>(operation: O, client: Client, queue: DispatchQueue, callback: FailureableCallback = FailureableCallback()) where O: GraphQLOperation {
         super.init(operation: operation, client: client, queue: queue, callback: callback)
     }
-    
+
     @discardableResult
     public func onFailure(_ completionHandler: @escaping FailureableCallback.Closure) -> FinishableRequest {
         self.callback?.failure = completionHandler
@@ -40,7 +40,7 @@ open class FailureableRequest: FinishableRequest {
         })
         return self
     }
-    
+
     internal func fetchDataErrors(_ completion: @escaping (Result<(Data?, Error?), Error>) -> Void) {
         self.fetchRawData({ result in
             do {
@@ -53,7 +53,7 @@ open class FailureableRequest: FinishableRequest {
             }
         })
     }
-    
+
     private func searchGraphQLErrors(in response: Data?) -> Error? {
         guard let data = response, let errorsKey = self.configuration.rootErrorsKey else { return nil }
         let decoder = JSONDecoder()

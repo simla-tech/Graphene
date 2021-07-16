@@ -12,11 +12,11 @@ public struct Connection<T> {
     public var totalCount: Int?
     public var pageInfo: PageInfo?
     private var edges: [T]
-    
+
     init() {
         self.edges = []
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case edges
         case pageInfo
@@ -37,11 +37,11 @@ extension Connection: ExpressibleByArrayLiteral {
 }
 
 extension Connection: Collection {
-    
+
     // The upper and lower bounds of the collection, used in iterations
     public var startIndex: Int { return self.edges.startIndex }
     public var endIndex: Int { return self.edges.endIndex }
-    
+
     // Required subscript, based on a dictionary index
     public subscript(index: Int) -> T {
         get {
@@ -51,28 +51,28 @@ extension Connection: Collection {
             return self.edges[index] = newValue
         }
     }
-    
+
     // Method that returns the next index when iterating
     public func index(after i: Int) -> Int {
         return self.edges.index(after: i)
     }
-    
+
 }
 
 extension Connection: Queryable {
-    
+
     public class QueryKeys: QueryKey {
-                
+
         static var totalCount: QueryKeys {
             QueryKeys(CodingKeys.totalCount)
         }
-        
+
         static var pageInfo: QueryKeys {
             QueryKeys(FragmentQuery(CodingKeys.pageInfo, fragment: PageInfoFragment()))
         }
 
     }
-    
+
 }
 
 extension Connection.QueryKeys where T: Queryable {

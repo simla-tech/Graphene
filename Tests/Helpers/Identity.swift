@@ -29,26 +29,26 @@ extension Identifiable {
 /// When backed by a `Codable` type, `Identifier` also becomes codable,
 /// and will be encoded into a single value according to its raw value.
 public struct Identifier<Value: Identifiable>: Hashable {
-    
+
     /// The raw value that is backing this identifier.
     public let idValue: String?
     public let vendorValue: UUID
-    
+
     public var isVendorValue: Bool {
         return self.idValue == nil
     }
-        
+
     /// Initialize an instance with a raw value.
     public init(_ value: String? = nil) {
         self.idValue = value
         self.vendorValue = UUID()
     }
-    
+
     public init<T: Identifiable>(_ someIdentifier: Identifier<T>) {
         self.idValue = someIdentifier.idValue
         self.vendorValue = someIdentifier.vendorValue
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         if let idValue = self.idValue {
             hasher.combine(idValue)
@@ -56,7 +56,7 @@ public struct Identifier<Value: Identifiable>: Hashable {
             hasher.combine(self.vendorValue)
         }
     }
-    
+
 }
 
 // MARK: - String literal support
@@ -93,7 +93,7 @@ extension Identifier: Equatable {
 // MARK: - Codable support
 
 extension Identifier: Codable {
-    
+
     public init(from decoder: Decoder) throws {
         self.vendorValue = UUID()
         if let container = try? decoder.singleValueContainer() {
@@ -102,12 +102,12 @@ extension Identifier: Codable {
             self.idValue = nil
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(self.rawValue)
     }
-    
+
 }
 
 extension Identifier: Argument {

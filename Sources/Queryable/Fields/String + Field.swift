@@ -8,17 +8,17 @@
 import Foundation
 
 extension String: Field {
-    
+
     public var childrenFields: [Field] {
         return []
     }
-    
+
     public var arguments: Arguments {
         return [:]
     }
-    
+
     public func buildField() -> String {
         return self
     }
-    
+
 }

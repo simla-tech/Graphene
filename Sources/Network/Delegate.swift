@@ -15,7 +15,7 @@ public protocol GrapheneDelegate: AnyObject {
 }
 
 internal class DefaultDelegate: GrapheneDelegate {
-        
+
     func requestWillSend(context: OperationContext) {
         if let variables = context.jsonVariablesString(prettyPrinted: true) {
             os_log("[Graphene.DefaultDelegate] Will send request \"%@\":\n%@\nvariables: %@", context.operationName, context.query, variables)
@@ -23,13 +23,13 @@ internal class DefaultDelegate: GrapheneDelegate {
             os_log("[Graphene.DefaultDelegate] Will send request \"%@\":\n%@", context.operationName, context.query)
         }
     }
-    
+
     func responseRecived(statusCode: Int, interval: DateInterval, context: OperationContext) {
         os_log("[Graphene.DefaultDelegate] Response \"%@\" recived. Code: %d. Duration: %.3f", context.operationName, statusCode, interval.duration)
     }
-    
+
     func errorCatched(_ error: Error, context: OperationContext) {
         os_log("[Graphene.DefaultDelegate] Catched error for \"%@\" operation: %@", context.operationName, error.localizedDescription)
     }
-    
+
 }

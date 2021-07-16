@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 public class GrapheneStatusValidator {
-    
+
     public static func validateStatus(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
         var rawResponse: String?
         if let data = data {
@@ -42,8 +42,8 @@ public class GrapheneStatusValidator {
         case 505: return .failure(GrapheneError.server("HTTP Version Not Supported", response.statusCode, rawResponse))
         default: break
         }
-        
+
         return .success(())
     }
-    
+
 }

@@ -27,5 +27,5 @@ extension PaymentType: Queryable {
         static let defaultForCrm    = QueryKeys(CodingKeys.defaultForCrm)
         static let defaultForApi    = QueryKeys(CodingKeys.defaultForApi)
     }
-    
+
 }

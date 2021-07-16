@@ -13,11 +13,11 @@ public struct EditOrderPayload: Decodable {
 }
 
 extension EditOrderPayload: Queryable {
-    
+
     public class QueryKeys: QueryKey {
         static func order(_ builder: @escaping QueryBuilder<Order>) -> QueryKeys {
             return Query(CodingKeys.order, builder).asKey()
         }
     }
-    
+
 }

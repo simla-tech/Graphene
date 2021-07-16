@@ -8,14 +8,14 @@
 import Foundation
 
 public enum GrapheneError: Error {
-    
+
     case emptyResponse
     case unknownKey(String)
     case unknownSchemaType(String)
     case server(_ message: String, _ code: Int, _ rawResponse: String?)
     case authentication(_ message: String, _ code: Int, _ rawResponse: String?)
     case client(_ message: String, _ code: Int, _ rawResponse: String?)
-    
+
     public var rawResponse: String? {
         switch self {
         case .authentication(_, _, let rawResponse):
@@ -28,7 +28,7 @@ public enum GrapheneError: Error {
             return nil
         }
     }
-    
+
     public var statusCode: Int? {
         switch self {
         case .authentication(_, let code, _):
@@ -41,11 +41,11 @@ public enum GrapheneError: Error {
             return nil
         }
     }
-    
+
 }
 
 extension GrapheneError: LocalizedError {
-    
+
     public var localizedDescription: String {
         switch self {
         case .authentication(let message, _, _):
@@ -62,26 +62,26 @@ extension GrapheneError: LocalizedError {
             return "Unknown GraphQL schema type \"\(schemaType)\""
         }
     }
-    
+
     public var errorDescription: String? {
         return self.localizedDescription
     }
-    
+
 }
 
 extension GrapheneError: CustomNSError {
-    
+
     public static var errorDomain: String = "Graphene.GrapheneError"
-    
+
     public var errorCode: Int {
         return self.statusCode ?? 0
     }
-    
+
     public var errorUserInfo: [String: Any] {
         if let rawResponse = self.rawResponse {
             return ["raw_response": rawResponse]
         }
         return [:]
     }
-    
+
 }

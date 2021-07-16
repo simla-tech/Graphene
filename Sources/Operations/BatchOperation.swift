@@ -8,9 +8,9 @@
 import Foundation
 
 public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperation {
-    
+
     private let operations: [String: O]
-    
+
     public init(_ operations: [O]) {
         var dict: [String: O] = [:]
         for operation in operations {
@@ -19,7 +19,7 @@ public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperat
         }
         self.init(dict)
     }
-    
+
     public init(_ operations: [String: O]) {
         self.operations = operations
         self.decoderRootKey = nil
@@ -29,10 +29,10 @@ public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperat
     public static var mode: OperationMode {
         return O.mode
     }
-        
+
     /// Equal to null
     public let decoderRootKey: String?
-    
+
     public var asField: Field {
         return MultipleQuery<MultipleOperationResponse<O.DecodableResponse>>({ builder in
             for operation in self.operations {
@@ -40,11 +40,11 @@ public struct BatchOperation<O: Graphene.QueryOperation>: Graphene.GraphQLOperat
             }
         })
     }
-    
+
     public static var operationName: String {
         return "Batch_\(O.operationName)"
     }
-    
+
     public func handleSuccess(with result: MultipleOperationResponse<O.DecodableResponse>) throws -> [String: O.Result] {
         var newResult: [String: O.Result] = [:]
         for (index, item) in result.data {

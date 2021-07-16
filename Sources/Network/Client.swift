@@ -9,12 +9,12 @@ import Foundation
 import Alamofire
 
 public class Client: NSObject {
-    
+
     internal let alamofireSession: Alamofire.Session
-    
+
     public let configuration: Configuration
     public let url: URLConvertible
-    
+
     /// Create graphus client
     public init(url: URLConvertible, configuration: Configuration = .default) {
         self.url = url
@@ -35,7 +35,7 @@ public class Client: NSObject {
     public func execute<O: GraphQLOperation>(_ operation: O, queue: DispatchQueue = .main) -> Request<O> {
         return Request<O>(operation: operation, client: self, queue: queue)
     }
-    
+
 }
 
 extension Client {

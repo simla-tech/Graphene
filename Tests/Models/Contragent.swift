@@ -20,7 +20,7 @@ public struct Contragent: Decodable {
 }
 
 extension Contragent: Queryable {
-    
+
     public class QueryKeys: QueryKey {
         static let contragentType   = QueryKeys(CodingKeys.contragentType)
         static let legalName        = QueryKeys(CodingKeys.legalName)
@@ -31,7 +31,7 @@ extension Contragent: Queryable {
         static let OGRN             = QueryKeys(CodingKeys.OGRN)
         static let OGRNIP           = QueryKeys(CodingKeys.OGRNIP)
     }
-    
+
 }
 
 extension Contragent: EncodableVariable {
@@ -47,5 +47,5 @@ extension Contragent: EncodableVariable {
         container.encode(self.OGRN, forKey: .OGRN)
         container.encode(self.OGRNIP, forKey: .OGRNIP)
     }
-    
+
 }

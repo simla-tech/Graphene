@@ -21,9 +21,9 @@ public struct PaymentStatus: Decodable, Identifiable {
 }
 
 extension PaymentStatus: Queryable {
-    
+
     public class QueryKeys: QueryKey {
-        
+
         static let id               = QueryKeys(CodingKeys.id)
         static let name             = QueryKeys(CodingKeys.name)
         static let active           = QueryKeys(CodingKeys.active)
@@ -32,11 +32,11 @@ extension PaymentStatus: Queryable {
         static let defaultForApi    = QueryKeys(CodingKeys.defaultForApi)
         static let paymentComplete  = QueryKeys(CodingKeys.paymentComplete)
         static let ordering         = QueryKeys(CodingKeys.ordering)
-        
+
         static func paymentTypes(_ builder: @escaping QueryBuilder<PaymentType>) -> QueryKeys {
             return Query(CodingKeys.paymentTypes, builder).asKey()
         }
-        
+
     }
-    
+
 }

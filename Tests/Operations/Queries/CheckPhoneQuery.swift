@@ -11,11 +11,11 @@ import Foundation
 struct CheckPhoneQuery: QueryOperation {
 
     let query: Query<CheckPhone>
-        
+
     init(phone: String) {
         self.query = Query<CheckPhone>("checkPhone", args: ["phone": phone]) { builder in
             builder += CheckPhoneFragment()
         }
     }
-        
+
 }

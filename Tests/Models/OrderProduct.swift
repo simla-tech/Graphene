@@ -19,5 +19,5 @@ extension OrderProduct: Queryable {
         static let id           = QueryKeys(CodingKeys.id)
         static let initialPrice = FragmentQuery(CodingKeys.initialPrice, fragment: MoneyFragment()).asKey(QueryKeys.self)
     }
-    
+
 }

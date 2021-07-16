@@ -9,15 +9,15 @@ import Foundation
 import Alamofire
 
 open class CancelableRequest {
-    
+
     internal var dataRequest: Alamofire.DataRequest
-    
+
     internal init(request: Alamofire.DataRequest) {
         self.dataRequest = request
     }
-    
+
     public func cancel() {
         self.dataRequest.cancel()
     }
-    
+
 }

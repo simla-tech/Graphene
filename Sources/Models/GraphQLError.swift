@@ -8,12 +8,12 @@
 import Foundation
 
 public struct GraphQLError: Error, Codable {
-    
+
     public var message: String
     public var locations: [Location]?
     public var path: [String]?
     public var extensions: Extensions?
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.message = try container.decode(String.self, forKey: .message)
@@ -21,7 +21,7 @@ public struct GraphQLError: Error, Codable {
         self.path = try? container.decodeIfPresent([String].self, forKey: .path)
         self.extensions = try? container.decodeIfPresent(Extensions.self, forKey: .extensions)
     }
-    
+
 }
 
 extension GraphQLError {
@@ -56,9 +56,9 @@ extension GraphQLError: LocalizedError {
 }
 
 extension GraphQLError: CustomNSError {
-    
+
     public static var errorDomain: String = "Graphene.GraphQLError"
-    
+
     public var errorUserInfo: [String: Any] {
         var result = [String: Any]()
         if let locations = self.locations {

@@ -13,15 +13,15 @@ public struct Alias: AnyQuery {
     public let alias: String?
     public let arguments: Arguments = [:]
     public let childrenFields: [Field] = []
-       
+
     public init(_ alias: String, source: String) {
         self.name = source
         self.alias = alias
     }
-    
+
     public init<Key: CodingKey>(_ alias: Key, source: String) {
         self.name = source
         self.alias = alias.stringValue
     }
-    
+
 }

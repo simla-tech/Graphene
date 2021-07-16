@@ -9,10 +9,10 @@ import Foundation
 @testable import Graphene
 
 public struct PageInfo: Codable, SchemaType {
-    
+
     public let hasNextPage: Bool
     public let endCursor: String?
-    
+
     init() {
         self.hasNextPage = false
         self.endCursor = nil
@@ -25,5 +25,5 @@ extension PageInfo: Queryable {
         public static let hasNextPage  = QueryKeys(CodingKeys.hasNextPage)
         public static let endCursor    = QueryKeys(CodingKeys.endCursor)
     }
-    
+
 }

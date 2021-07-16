@@ -125,11 +125,11 @@ internal struct MimeType {
     public init(path: String) {
         ext = NSString(string: path).pathExtension
     }
-    
+
     public init(path: NSString) {
         ext = path.pathExtension
     }
-    
+
     public init(url: URL) {
         ext = url.pathExtension
     }

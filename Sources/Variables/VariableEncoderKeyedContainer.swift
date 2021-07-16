@@ -14,7 +14,7 @@ public class VariableEncoderKeyedContainer<Key: CodingKey>: VariableEncoderConta
                                 required: Bool = false) {
         self.encodeIfPresent(value, forKey: key.stringValue, required: required)
     }
-    
+
     public func encode(_ value: Variable?,
                        forKey key: KeyedEncodingContainer<Key>.Key,
                        required: Bool = false) {

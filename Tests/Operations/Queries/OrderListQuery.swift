@@ -9,15 +9,15 @@ import Foundation
 @testable import Graphene
 
 final class OrderListQuery: QueryOperation {
-    
+
     typealias DecodableResponse = Connection<Order>
 
     let arguments: Arguments
-    
+
     init(first: Int? = nil, after: String? = nil, filter: Arguments? = nil) {
         self.arguments = ["first": first, "after": after, "filter": filter]
     }
-            
+
     lazy var query = Query<Connection<Order>>("orders", args: self.arguments) { builder in
         builder += .totalCount
         builder += .pageInfo
@@ -30,5 +30,5 @@ final class OrderListQuery: QueryOperation {
             })
         })
     }
-    
+
 }

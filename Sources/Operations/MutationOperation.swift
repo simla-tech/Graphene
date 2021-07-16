@@ -21,8 +21,8 @@ import Foundation
 public protocol MutationOperation: QueryOperation {}
 
 extension MutationOperation {
-    
+
     /// Equal to `.mutation` value
     public static var mode: OperationMode { .mutation }
-    
+
 }

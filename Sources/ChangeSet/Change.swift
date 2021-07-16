@@ -19,19 +19,19 @@ extension Change {
 }
 
 public struct FieldChange: Change, Hashable, Equatable {
-    
+
     public var key: AnyHashable
     public let oldValue: Variable?
     public let newValue: Variable?
-    
+
     public static func == (lhs: FieldChange, rhs: FieldChange) -> Bool {
         return lhs.key == rhs.key
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.key)
     }
-    
+
     public func description(padding: Int, isLast: Bool) -> String {
         var paddingStr = ""
         for _ in 0 ..< padding { paddingStr += "  " }
@@ -41,22 +41,22 @@ public struct FieldChange: Change, Hashable, Equatable {
             paddingStr, "\"\(self.key)\"", ":", "\(oldValue)", "→", "\(newValue)\(isLast ? "" : ",")"
         ].joined(separator: " ")
     }
-    
+
 }
 
 public struct RootChange: Change, Hashable, Equatable {
-    
+
     public var key: AnyHashable
     public let childChanges: [Change]
-    
+
     public static func == (lhs: RootChange, rhs: RootChange) -> Bool {
         return lhs.key == rhs.key
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.key)
     }
-    
+
     public func description(padding: Int, isLast: Bool) -> String {
         var paddingStr = ""
         for _ in 0..<padding { paddingStr += "  " }

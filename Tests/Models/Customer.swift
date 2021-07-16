@@ -18,7 +18,7 @@ public struct Customer: Decodable, Identifiable, SchemaType {
 }
 
 extension Customer: Queryable {
-    
+
     public class QueryKeys: QueryKey {
         static let id           = QueryKeys(CodingKeys.id)
         static let createdAt    = QueryKeys(CodingKeys.createdAt)
@@ -27,11 +27,11 @@ extension Customer: Queryable {
         static let firstName    = QueryKeys(CodingKeys.firstName)
         static let lastName     = QueryKeys(CodingKeys.lastName)
     }
-    
+
 }
 
 extension Customer: EncodableVariable {
-    
+
     public func encode(to encoder: VariableEncoder) {
         let container = encoder.container(keyedBy: CodingKeys.self)
         container.encode(self.id, forKey: .id)
@@ -40,5 +40,5 @@ extension Customer: EncodableVariable {
         container.encode(self.firstName, forKey: .firstName)
         container.encode(self.lastName, forKey: .lastName)
     }
-    
+
 }

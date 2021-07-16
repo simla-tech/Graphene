@@ -8,7 +8,7 @@
 import Foundation
 
 struct MultipleQuery<T: Queryable>: Field {
-    
+
     let childrenFields: [Field]
     let arguments: Arguments = [:]
 
@@ -20,5 +20,5 @@ struct MultipleQuery<T: Queryable>: Field {
     public func buildField() -> String {
         return self.childrenFields.map({ $0.buildField() }).joined()
     }
-    
+
 }

@@ -26,7 +26,7 @@ public struct Query<T>: AnyQuery {
         self.alias = alias
     }
 
-    public init<Key: CodingKey>(_ key: Key, args: Arguments = [:]){
+    public init<Key: CodingKey>(_ key: Key, args: Arguments = [:]) {
         self.init(key.stringValue, args: args)
     }
 
@@ -48,7 +48,7 @@ extension Query where T: Queryable {
             self.childrenFields.insert("__typename", at: 0)
         }
     }
-    
+
     public init(alias: String,
                 name: String,
                 args: Arguments = [:],
@@ -56,18 +56,18 @@ extension Query where T: Queryable {
         self.init(name, args: args, builder)
         self.alias = alias
     }
-    
+
     public init<Key: CodingKey>(_ key: Key,
                                 args: Arguments = [:],
                                 _ builder: @escaping QueryBuilder<T>) {
         self.init(key.stringValue, args: args, builder)
     }
-    
+
     public init<Key: CodingKey>(alias: Key,
                                 name: String,
                                 args: Arguments = [:],
                                 _ builder: @escaping QueryBuilder<T>) {
         self.init(alias: alias.stringValue, name: name, args: args, builder)
     }
-    
+
 }

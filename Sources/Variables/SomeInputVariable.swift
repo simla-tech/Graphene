@@ -14,7 +14,7 @@ public protocol SomeInputVariable: Argument {
 }
 
 extension SomeInputVariable {
-    
+
     public var rawValue: String {
         if self.value != nil {
             return "$\(self.key)"
@@ -22,5 +22,5 @@ extension SomeInputVariable {
             return "null"
         }
     }
-    
+
 }
