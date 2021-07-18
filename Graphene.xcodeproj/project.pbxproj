@@ -3,871 +3,1112 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F385AE2E267CA530008617BF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F385AE2D267CA530008617BF /* Alamofire */; };
-		OBJ_212 /* AnyChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AnyChangeSet.swift */; };
-		OBJ_213 /* Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Change.swift */; };
-		OBJ_214 /* ChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ChangeSet.swift */; };
-		OBJ_215 /* ChangeSetVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ChangeSetVariable.swift */; };
-		OBJ_216 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Identifiable.swift */; };
-		OBJ_217 /* SomeChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* SomeChangeSet.swift */; };
-		OBJ_218 /* AbstractDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* AbstractDecodable.swift */; };
-		OBJ_219 /* AbstractEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* AbstractEncodable.swift */; };
-		OBJ_220 /* KeyPathWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* KeyPathWrapper.swift */; };
-		OBJ_221 /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* SchemaType.swift */; };
-		OBJ_222 /* SingleValueDecodingContainer + Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* SingleValueDecodingContainer + Decode.swift */; };
-		OBJ_223 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* GraphQLError.swift */; };
-		OBJ_224 /* GraphQLErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* GraphQLErrors.swift */; };
-		OBJ_225 /* GrapheneError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* GrapheneError.swift */; };
-		OBJ_226 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* MimeType.swift */; };
-		OBJ_227 /* MultipleOperationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* MultipleOperationResponse.swift */; };
-		OBJ_228 /* OperationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* OperationContext.swift */; };
-		OBJ_229 /* OperationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* OperationMode.swift */; };
-		OBJ_230 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* Upload.swift */; };
-		OBJ_231 /* Callbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Callbacks.swift */; };
-		OBJ_232 /* CancelableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* CancelableRequest.swift */; };
-		OBJ_233 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Client.swift */; };
-		OBJ_234 /* FailureableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* FailureableRequest.swift */; };
-		OBJ_235 /* FinishableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* FinishableRequest.swift */; };
-		OBJ_236 /* LoggerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* LoggerDelegate.swift */; };
-		OBJ_237 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* Request.swift */; };
-		OBJ_238 /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* ResponseValidator.swift */; };
-		OBJ_239 /* BatchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* BatchOperation.swift */; };
-		OBJ_240 /* GraphQLOperation+PrepareContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* GraphQLOperation+PrepareContext.swift */; };
-		OBJ_241 /* GraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* GraphQLOperation.swift */; };
-		OBJ_242 /* MutationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* MutationOperation.swift */; };
-		OBJ_243 /* QueryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* QueryOperation.swift */; };
-		OBJ_244 /* AnyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* AnyFragment.swift */; };
-		OBJ_245 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* Arguments.swift */; };
-		OBJ_246 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* Alias.swift */; };
-		OBJ_247 /* AnyQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* AnyQuery.swift */; };
-		OBJ_248 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* Field.swift */; };
-		OBJ_249 /* FragmentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* FragmentQuery.swift */; };
-		OBJ_250 /* MultipleQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* MultipleQuery.swift */; };
-		OBJ_251 /* OnQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* OnQuery.swift */; };
-		OBJ_252 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* Query.swift */; };
-		OBJ_253 /* String + Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* String + Field.swift */; };
-		OBJ_254 /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* Fragment.swift */; };
-		OBJ_255 /* QueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* QueryBuilder.swift */; };
-		OBJ_256 /* QueryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* QueryContainer.swift */; };
-		OBJ_257 /* QueryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* QueryKey.swift */; };
-		OBJ_258 /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* Queryable.swift */; };
-		OBJ_259 /* SomeFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* SomeFragment.swift */; };
-		OBJ_260 /* EncodableVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* EncodableVariable.swift */; };
-		OBJ_261 /* InputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* InputVariable.swift */; };
-		OBJ_262 /* SomeInputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* SomeInputVariable.swift */; };
-		OBJ_263 /* VariableEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* VariableEncoder.swift */; };
-		OBJ_264 /* VariableEncoderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* VariableEncoderContainer.swift */; };
-		OBJ_265 /* VariableEncoderKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* VariableEncoderKeyedContainer.swift */; };
-		OBJ_266 /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* Variables.swift */; };
-		OBJ_286 /* CheckPhoneFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* CheckPhoneFragment.swift */; };
-		OBJ_287 /* MoneyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* MoneyFragment.swift */; };
-		OBJ_288 /* OrderDetailFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* OrderDetailFragment.swift */; };
-		OBJ_289 /* PageInfoFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* PageInfoFragment.swift */; };
-		OBJ_290 /* GrapheneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* GrapheneTests.swift */; };
-		OBJ_291 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* Connection.swift */; };
-		OBJ_292 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* Identity.swift */; };
-		OBJ_293 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* Node.swift */; };
-		OBJ_294 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* PageInfo.swift */; };
-		OBJ_295 /* AbstractCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* AbstractCustomer.swift */; };
-		OBJ_296 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* Attachment.swift */; };
-		OBJ_297 /* CheckPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* CheckPhone.swift */; };
-		OBJ_298 /* Contragent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* Contragent.swift */; };
-		OBJ_299 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* Customer.swift */; };
-		OBJ_300 /* CustomerCorporate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* CustomerCorporate.swift */; };
-		OBJ_301 /* EditOrderInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* EditOrderInput.swift */; };
-		OBJ_302 /* EditOrderPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* EditOrderPayload.swift */; };
-		OBJ_303 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* Enums.swift */; };
-		OBJ_304 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* Money.swift */; };
-		OBJ_305 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* Order.swift */; };
-		OBJ_306 /* OrderProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* OrderProduct.swift */; };
-		OBJ_307 /* OrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* OrderType.swift */; };
-		OBJ_308 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* Payment.swift */; };
-		OBJ_309 /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* PaymentStatus.swift */; };
-		OBJ_310 /* PaymentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* PaymentType.swift */; };
-		OBJ_311 /* UploadAttachmentInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* UploadAttachmentInput.swift */; };
-		OBJ_312 /* UploadAttachmentPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* UploadAttachmentPayload.swift */; };
-		OBJ_313 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* User.swift */; };
-		OBJ_314 /* OrderEditMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* OrderEditMutation.swift */; };
-		OBJ_315 /* UploadAttachmentMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* UploadAttachmentMutation.swift */; };
-		OBJ_316 /* CheckPhoneQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* CheckPhoneQuery.swift */; };
-		OBJ_317 /* OrderDetailQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* OrderDetailQuery.swift */; };
-		OBJ_318 /* OrderListQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* OrderListQuery.swift */; };
-		OBJ_320 /* Graphene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Graphene::Graphene::Product" /* Graphene.framework */; };
+		0026630922B3A99D8F78FA84 /* Fragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510F9D66F9E69B6222FA27 /* Fragment.swift */; };
+		01C6D136FB5003762DB1B02F /* CustomerCorporate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E58A4ACB3AB276B3713BADE /* CustomerCorporate.swift */; };
+		08D3700CC48FE11763DB81C2 /* VariableEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4B3FA64453D756DC73323A /* VariableEncoder.swift */; };
+		0CBF23C4B29A40C98D33C245 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E37F8DBE98D73759AA9EA1 /* Upload.swift */; };
+		0DC27B4C78A9FA5227BB29FE /* AnyChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A56352A60E3703EFE09C9E0 /* AnyChangeSet.swift */; };
+		1217B9C7A4682F3CC65EAEAA /* ChangeSetVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068CFC123C78FEF486FD223 /* ChangeSetVariable.swift */; };
+		1222211AF62F959510F17394 /* Callbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64F1302401A47EC97E3518A /* Callbacks.swift */; };
+		15C7F07FFB7BB67270E3B64E /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFCCABCD44BEFF27FD25ABF /* Customer.swift */; };
+		161CC0DC3B91C99C16AA09B9 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C722D10C655DBA329D42FF8 /* Identity.swift */; };
+		18569B5ABE8A00BDEFA53F5A /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0B2F350D750604729331F /* Query.swift */; };
+		1A25C959E63E9E5496B5DDF3 /* Graphene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2A20F0A45A91F75F2B7F39B /* Graphene.framework */; };
+		1A6A5D19BA2E3A74ED02A4D2 /* QueryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFFA0D5486A674611039A3E /* QueryOperation.swift */; };
+		1B14ED6C1F2D14D091C37A16 /* OrderListQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EAEAA6355A32E1D3CE62E8 /* OrderListQuery.swift */; };
+		1C4A4A999F923ED70AA703F3 /* AbstractDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FC6D80EA156B08FF3DDAC5 /* AbstractDecodable.swift */; };
+		1F25C8B4D47D9EF93466A1E4 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E3F7817DF0816D17DD406A /* GraphQLError.swift */; };
+		252BE7D45850A6D89EAC2B1B /* OrderEditMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D53BA4C0705A792BA18D52 /* OrderEditMutation.swift */; };
+		2D850F9DFE1FC98D71E7679F /* UploadAttachmentInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1212344BAF9D358C530E34 /* UploadAttachmentInput.swift */; };
+		2E8139F60F81ED9A99D8B2B2 /* EditOrderInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD02F2C5440F7EACEE1E736 /* EditOrderInput.swift */; };
+		30C3DF6A3B5106E76C2471AA /* MultipleOperationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35B3002D781E8BC64D02D1 /* MultipleOperationResponse.swift */; };
+		372429791785B4C51B2B0C9A /* CheckPhoneFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D1DF5E4FB590C3CBF1D2E6 /* CheckPhoneFragment.swift */; };
+		3954EB78079CAF9C1DA14DAD /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1A5F83B81F9FE0F9F273CC /* MimeType.swift */; };
+		3F8FC6773D9E8D3F15C7C719 /* FragmentQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F327F2A31940FB007FAD71B /* FragmentQuery.swift */; };
+		40D3F51C96291D43CC1A3C83 /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF87F9D11CDE66EBA7C2F9B /* Queryable.swift */; };
+		420A15F657FA10A238F0ABFC /* PageInfoFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322A292A40F280A952DB8239 /* PageInfoFragment.swift */; };
+		4249E818B8CEA16E202109D6 /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6563B2C83DFF176B4700867 /* SchemaType.swift */; };
+		465A6B4E23FEDAB895D10F2E /* VariableEncoderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075C3B199B39566DA9B6D40F /* VariableEncoderContainer.swift */; };
+		480FF6E295A9FEEDFDA3C466 /* QueryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C3C7F3306674C5075A494 /* QueryKey.swift */; };
+		49F8EB69DE3ED615FEC52BAD /* EditOrderPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D13582F838F07E036C06A /* EditOrderPayload.swift */; };
+		4A9372599AC8769FD50D2049 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC278AC1E78320F84A309D6 /* Connection.swift */; };
+		4EF87E359BE57A86DF0ADBF5 /* SomeInputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B16E7F493BD6C449D2A30 /* SomeInputVariable.swift */; };
+		50707897B8B19B0ED1A8D323 /* ChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB76570AA97B1A9EDCAB1E0 /* ChangeSet.swift */; };
+		531BB4231A3482EE744A7289 /* OperationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34E801A3135C6002B233CB0 /* OperationMode.swift */; };
+		5575461B2A5CFF41DE8E83BD /* Alamofire.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFD9C8F650197627BFB3847 /* Alamofire.xcframework */; };
+		5623CA3442DC047D7A48A75E /* QueryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9160C55EB5B86E46F087AA /* QueryContainer.swift */; };
+		5853F6E9C9574BB90F3F7A4C /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D78187C0C0CCCC08A58092 /* Money.swift */; };
+		58843BC198F2D9A2D5CAB414 /* OrderProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA3F04C8AF347483D05F84 /* OrderProduct.swift */; };
+		5B805F5F629BDEAF73E60CE7 /* InputVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBA7DFACD0E4BAF21A847F /* InputVariable.swift */; };
+		5E220E9C487D24312C428133 /* SomeFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C4E9856C0DB266C96734E /* SomeFragment.swift */; };
+		5E47C0F2D3F85A4EECA025D2 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28CE401C65938E77222E106 /* Node.swift */; };
+		632B1A5AD4E52C3F0D7FC69D /* MoneyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58A60FB8A4BFE5115E24D86 /* MoneyFragment.swift */; };
+		645AD72C93EB86A15CB0282D /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B23AEAF1545131E94804C9 /* Field.swift */; };
+		6585C2BF819EBA3F111E560A /* SingleValueDecodingContainer + Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE21D110A47671F29C264AA3 /* SingleValueDecodingContainer + Decode.swift */; };
+		66A9F016265CB2D284B81643 /* MutationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F1B8BC5EF5FA7714A5F07 /* MutationOperation.swift */; };
+		67B090A30CA70B91D4084723 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950F13BBAE52A8E555E6B8C9 /* Payment.swift */; };
+		688FC6B880CB8F44115D8B67 /* CheckPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15B143F9F0BD5E3823EE201 /* CheckPhone.swift */; };
+		6ACB9AAEAB5FA1A985CE00CA /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB33CC480D4870289CB3F93 /* Delegate.swift */; };
+		6C95CE15B26DA22CC06969FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D00A416FC38DD203F8DC8F /* User.swift */; };
+		739D2CC13D1C4763B4669C08 /* KeyPathWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D154B62E647A4B1BA7F53FA /* KeyPathWrapper.swift */; };
+		7645CE68F21A8FD8D5C6A482 /* OnQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3DC79BF168FF51B7847A25 /* OnQuery.swift */; };
+		78CA21469C2B07C4351AE975 /* EncodableVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C607E857121B258C060471A /* EncodableVariable.swift */; };
+		7E7E2876402DEFC27B706FD9 /* UploadAttachmentMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D411CBE98D3B67459F5F3F06 /* UploadAttachmentMutation.swift */; };
+		803416C76B65218F45386CD6 /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9B7A8A676AB1662DC4566 /* ResponseValidator.swift */; };
+		87992F92B4CBC7DDC459CC4C /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F551B306729518C93EF9E69 /* Identifiable.swift */; };
+		8CBD0643D382A063556C38E5 /* PaymentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFABB2EB7A9125220500C6B /* PaymentType.swift */; };
+		8D33CEF498598ED3516F583B /* AbstractCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED3DED4E3573C328A5F8ADB /* AbstractCustomer.swift */; };
+		94738811163C177B71E61262 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86464BEF63C9D1C4D2C0AEA1 /* Order.swift */; };
+		98D19411DCA60AA86C14E77B /* GraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C25C86236404BCD2C340A03 /* GraphQLOperation.swift */; };
+		9C49D4F85C88B17AB91F21A8 /* OperationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E027EDC752842F30C66001 /* OperationContext.swift */; };
+		A28C1B2217F3AB08DCA944B2 /* Change.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80BC4B007F2C0AAE6F2B378 /* Change.swift */; };
+		A4D7DEB20F45AEF65E103ECF /* MultipleQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548006A458C8BC352995EAD5 /* MultipleQuery.swift */; };
+		A6D2CD6071BD527475757F05 /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FEB10D5A2C4C376B8BA2B2 /* Variables.swift */; };
+		A77D55C243239E9293E86D23 /* GrapheneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2F7326BAA1A37210B72B75 /* GrapheneTests.swift */; };
+		A7BB757C0211125448F428CB /* FinishableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4509A987353B736DA57098FE /* FinishableRequest.swift */; };
+		AAE9EBD956A82C1636D4B5CC /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50C7EE06F351D742DDB3044 /* Client.swift */; };
+		AB9F61CBF89310BC40514C91 /* AnyQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6784E600888321AE6889E8 /* AnyQuery.swift */; };
+		ABE38E57A74C01B8EAF0E358 /* BatchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA331A09C0E2CFAEB4CC542 /* BatchOperation.swift */; };
+		B28A35A46841817D6B416972 /* SomeChangeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B3B00007B32885B01439E /* SomeChangeSet.swift */; };
+		B68BB6F293845B52B073FBB7 /* GraphQLOperation+PrepareContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6D20B0247AB439344E833F /* GraphQLOperation+PrepareContext.swift */; };
+		B92C317C2301F8AD357C80A2 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39653386C8E648DC869BBC49 /* Request.swift */; };
+		B9A3C3EC111D532C1B635034 /* QueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95997C6631D7523544BA16A7 /* QueryBuilder.swift */; };
+		BAF45CE88BF0EF474C5CEEB0 /* AbstractEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D11AD886856F42119EF9DA /* AbstractEncodable.swift */; };
+		C3AB09F792BA0472A9BDAF19 /* OrderDetailQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D544639F1E9C061FDFF9BCF /* OrderDetailQuery.swift */; };
+		C822179CC8AA18B15746BEDD /* FailureableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F125A5868113AFD63695E7B /* FailureableRequest.swift */; };
+		C8F02C0ACEBBCB878A454FA5 /* String + Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793B965038F8BF63031E18CC /* String + Field.swift */; };
+		C9E863E40301206942DDD5F0 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD16D0CDCE229FD1CD98236 /* Enums.swift */; };
+		CC7AD9484CD420DC9A82C0DE /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7F90EBA92CE77FDD81B63E /* PageInfo.swift */; };
+		CE4962F008EDAF7C314D1144 /* VariableEncoderKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78E3240ADC9409278EE52C /* VariableEncoderKeyedContainer.swift */; };
+		D4BEC5281B56F8201DBFE6EC /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5A988E26EA650F1CF708BF /* PaymentStatus.swift */; };
+		D59F69F4EE64435F177BE4D6 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72E928DD32EC407C53358D7 /* Arguments.swift */; };
+		E04641E75AE599BF2B59D36E /* Contragent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A44924D9861A7A057CFD87 /* Contragent.swift */; };
+		E3283CED34BDA9F3D78580F9 /* OrderDetailFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4B7128580A73039D77D317 /* OrderDetailFragment.swift */; };
+		E5152B90CC14CFCC7F91CCFD /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F628BAB35597004F7CC79B09 /* Attachment.swift */; };
+		E9A5ECCF1512FA8F93E5D768 /* CancelableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F5C92704464E5877333F47 /* CancelableRequest.swift */; };
+		EFA0CB73A3CDE7559ED671A8 /* AnyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A3862B8C9B2AD766A48972 /* AnyFragment.swift */; };
+		F0AAE9DD04DC3A99B6952972 /* UploadAttachmentPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32015A14DEE4E7BD9BC8E0E /* UploadAttachmentPayload.swift */; };
+		FA0627B7938CAA3CDA8D843E /* GrapheneError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37295D0941C5427C034974F /* GrapheneError.swift */; };
+		FA63B657746A64EE7BBB7EE8 /* GraphQLErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5CD500A9C09712272B181A /* GraphQLErrors.swift */; };
+		FD350BA2CB47767BCE86F0AF /* CheckPhoneQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBDBBF779EAE7496DA260DA /* CheckPhoneQuery.swift */; };
+		FE7096F633C57B6E2EF5869C /* OrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5B9967D44BF0E6AB87D816 /* OrderType.swift */; };
+		FEBD2CDA62678F2C2E160360 /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ED12316F92371A6B248568 /* Alias.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F385AE29267CA4B7008617BF /* PBXContainerItemProxy */ = {
+		1484BE50A31EC940D0CABB28 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
+			containerPortal = 7C9DD5CFD419C5F5F1D254BB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "Graphene::Graphene";
+			remoteGlobalIDString = 36C852C7B39F1EEA3DC4B20B;
 			remoteInfo = Graphene;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		638EDEC69D46887F1F2512F9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E0B173CEE2043027CFE33BA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		"Graphene::Graphene::Product" /* Graphene.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Graphene.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"Graphene::GrapheneTests::Product" /* GrapheneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = GrapheneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_10 /* Change.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Change.swift; sourceTree = "<group>"; };
-		OBJ_100 /* UploadAttachmentInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentInput.swift; sourceTree = "<group>"; };
-		OBJ_101 /* UploadAttachmentPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentPayload.swift; sourceTree = "<group>"; };
-		OBJ_102 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		OBJ_105 /* OrderEditMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditMutation.swift; sourceTree = "<group>"; };
-		OBJ_106 /* UploadAttachmentMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentMutation.swift; sourceTree = "<group>"; };
-		OBJ_108 /* CheckPhoneQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhoneQuery.swift; sourceTree = "<group>"; };
-		OBJ_109 /* OrderDetailQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailQuery.swift; sourceTree = "<group>"; };
-		OBJ_11 /* ChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSet.swift; sourceTree = "<group>"; };
-		OBJ_110 /* OrderListQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListQuery.swift; sourceTree = "<group>"; };
-		OBJ_12 /* ChangeSetVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetVariable.swift; sourceTree = "<group>"; };
-		OBJ_13 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
-		OBJ_14 /* SomeChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeChangeSet.swift; sourceTree = "<group>"; };
-		OBJ_16 /* AbstractDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDecodable.swift; sourceTree = "<group>"; };
-		OBJ_17 /* AbstractEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEncodable.swift; sourceTree = "<group>"; };
-		OBJ_18 /* KeyPathWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPathWrapper.swift; sourceTree = "<group>"; };
-		OBJ_19 /* SchemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaType.swift; sourceTree = "<group>"; };
-		OBJ_20 /* SingleValueDecodingContainer + Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleValueDecodingContainer + Decode.swift"; sourceTree = "<group>"; };
-		OBJ_22 /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
-		OBJ_23 /* GraphQLErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrors.swift; sourceTree = "<group>"; };
-		OBJ_24 /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
-		OBJ_25 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
-		OBJ_26 /* MultipleOperationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperationResponse.swift; sourceTree = "<group>"; };
-		OBJ_27 /* OperationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationContext.swift; sourceTree = "<group>"; };
-		OBJ_28 /* OperationMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationMode.swift; sourceTree = "<group>"; };
-		OBJ_29 /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
-		OBJ_31 /* Callbacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callbacks.swift; sourceTree = "<group>"; };
-		OBJ_32 /* CancelableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelableRequest.swift; sourceTree = "<group>"; };
-		OBJ_33 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		OBJ_34 /* FailureableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureableRequest.swift; sourceTree = "<group>"; };
-		OBJ_35 /* FinishableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableRequest.swift; sourceTree = "<group>"; };
-		OBJ_36 /* LoggerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDelegate.swift; sourceTree = "<group>"; };
-		OBJ_37 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		OBJ_38 /* ResponseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
-		OBJ_40 /* BatchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchOperation.swift; sourceTree = "<group>"; };
-		OBJ_41 /* GraphQLOperation+PrepareContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphQLOperation+PrepareContext.swift"; sourceTree = "<group>"; };
-		OBJ_42 /* GraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLOperation.swift; sourceTree = "<group>"; };
-		OBJ_43 /* MutationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationOperation.swift; sourceTree = "<group>"; };
-		OBJ_44 /* QueryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryOperation.swift; sourceTree = "<group>"; };
-		OBJ_46 /* AnyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyFragment.swift; sourceTree = "<group>"; };
-		OBJ_47 /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
-		OBJ_49 /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
-		OBJ_50 /* AnyQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyQuery.swift; sourceTree = "<group>"; };
-		OBJ_51 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
-		OBJ_52 /* FragmentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentQuery.swift; sourceTree = "<group>"; };
-		OBJ_53 /* MultipleQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleQuery.swift; sourceTree = "<group>"; };
-		OBJ_54 /* OnQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnQuery.swift; sourceTree = "<group>"; };
-		OBJ_55 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
-		OBJ_56 /* String + Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Field.swift"; sourceTree = "<group>"; };
-		OBJ_57 /* Fragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragment.swift; sourceTree = "<group>"; };
-		OBJ_58 /* QueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
-		OBJ_59 /* QueryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryContainer.swift; sourceTree = "<group>"; };
-		OBJ_60 /* QueryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryKey.swift; sourceTree = "<group>"; };
-		OBJ_61 /* Queryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queryable.swift; sourceTree = "<group>"; };
-		OBJ_62 /* SomeFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeFragment.swift; sourceTree = "<group>"; };
-		OBJ_64 /* EncodableVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableVariable.swift; sourceTree = "<group>"; };
-		OBJ_65 /* InputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVariable.swift; sourceTree = "<group>"; };
-		OBJ_66 /* SomeInputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInputVariable.swift; sourceTree = "<group>"; };
-		OBJ_67 /* VariableEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoder.swift; sourceTree = "<group>"; };
-		OBJ_68 /* VariableEncoderContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoderContainer.swift; sourceTree = "<group>"; };
-		OBJ_69 /* VariableEncoderKeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoderKeyedContainer.swift; sourceTree = "<group>"; };
-		OBJ_70 /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
-		OBJ_73 /* CheckPhoneFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhoneFragment.swift; sourceTree = "<group>"; };
-		OBJ_74 /* MoneyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFragment.swift; sourceTree = "<group>"; };
-		OBJ_75 /* OrderDetailFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailFragment.swift; sourceTree = "<group>"; };
-		OBJ_76 /* PageInfoFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfoFragment.swift; sourceTree = "<group>"; };
-		OBJ_77 /* GrapheneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneTests.swift; sourceTree = "<group>"; };
-		OBJ_79 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
-		OBJ_80 /* Identity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
-		OBJ_81 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		OBJ_82 /* PageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
-		OBJ_84 /* AbstractCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCustomer.swift; sourceTree = "<group>"; };
-		OBJ_85 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
-		OBJ_86 /* CheckPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhone.swift; sourceTree = "<group>"; };
-		OBJ_87 /* Contragent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contragent.swift; sourceTree = "<group>"; };
-		OBJ_88 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
-		OBJ_89 /* CustomerCorporate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCorporate.swift; sourceTree = "<group>"; };
-		OBJ_9 /* AnyChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyChangeSet.swift; sourceTree = "<group>"; };
-		OBJ_90 /* EditOrderInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrderInput.swift; sourceTree = "<group>"; };
-		OBJ_91 /* EditOrderPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrderPayload.swift; sourceTree = "<group>"; };
-		OBJ_92 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
-		OBJ_93 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
-		OBJ_94 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
-		OBJ_95 /* OrderProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProduct.swift; sourceTree = "<group>"; };
-		OBJ_96 /* OrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderType.swift; sourceTree = "<group>"; };
-		OBJ_97 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
-		OBJ_98 /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
-		OBJ_99 /* PaymentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentType.swift; sourceTree = "<group>"; };
+		075C3B199B39566DA9B6D40F /* VariableEncoderContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoderContainer.swift; sourceTree = "<group>"; };
+		0BFFA0D5486A674611039A3E /* QueryOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryOperation.swift; sourceTree = "<group>"; };
+		0C607E857121B258C060471A /* EncodableVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableVariable.swift; sourceTree = "<group>"; };
+		0C6784E600888321AE6889E8 /* AnyQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyQuery.swift; sourceTree = "<group>"; };
+		13AA3F04C8AF347483D05F84 /* OrderProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderProduct.swift; sourceTree = "<group>"; };
+		1AC278AC1E78320F84A309D6 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		1C1212344BAF9D358C530E34 /* UploadAttachmentInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentInput.swift; sourceTree = "<group>"; };
+		1C25C86236404BCD2C340A03 /* GraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLOperation.swift; sourceTree = "<group>"; };
+		1C4B3FA64453D756DC73323A /* VariableEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoder.swift; sourceTree = "<group>"; };
+		1DD16D0CDCE229FD1CD98236 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		1E35B3002D781E8BC64D02D1 /* MultipleOperationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOperationResponse.swift; sourceTree = "<group>"; };
+		1E78E3240ADC9409278EE52C /* VariableEncoderKeyedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableEncoderKeyedContainer.swift; sourceTree = "<group>"; };
+		1FB76570AA97B1A9EDCAB1E0 /* ChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSet.swift; sourceTree = "<group>"; };
+		29E027EDC752842F30C66001 /* OperationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationContext.swift; sourceTree = "<group>"; };
+		29FA238BDA8EFDE06459B8ED /* Graphene.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Graphene.plist; sourceTree = "<group>"; };
+		30A44924D9861A7A057CFD87 /* Contragent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contragent.swift; sourceTree = "<group>"; };
+		322A292A40F280A952DB8239 /* PageInfoFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfoFragment.swift; sourceTree = "<group>"; };
+		391C3C7F3306674C5075A494 /* QueryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryKey.swift; sourceTree = "<group>"; };
+		39653386C8E648DC869BBC49 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		3AD02F2C5440F7EACEE1E736 /* EditOrderInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrderInput.swift; sourceTree = "<group>"; };
+		3D5B9967D44BF0E6AB87D816 /* OrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderType.swift; sourceTree = "<group>"; };
+		3F125A5868113AFD63695E7B /* FailureableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureableRequest.swift; sourceTree = "<group>"; };
+		41A3862B8C9B2AD766A48972 /* AnyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyFragment.swift; sourceTree = "<group>"; };
+		421F1B8BC5EF5FA7714A5F07 /* MutationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationOperation.swift; sourceTree = "<group>"; };
+		42D1DF5E4FB590C3CBF1D2E6 /* CheckPhoneFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhoneFragment.swift; sourceTree = "<group>"; };
+		4509A987353B736DA57098FE /* FinishableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishableRequest.swift; sourceTree = "<group>"; };
+		49DBA7DFACD0E4BAF21A847F /* InputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVariable.swift; sourceTree = "<group>"; };
+		4AFABB2EB7A9125220500C6B /* PaymentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentType.swift; sourceTree = "<group>"; };
+		4B7F90EBA92CE77FDD81B63E /* PageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
+		4D4988EBF507B17C527AAC09 /* GrapheneTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = GrapheneTests.plist; sourceTree = "<group>"; };
+		4F551B306729518C93EF9E69 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		504D13582F838F07E036C06A /* EditOrderPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrderPayload.swift; sourceTree = "<group>"; };
+		548006A458C8BC352995EAD5 /* MultipleQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleQuery.swift; sourceTree = "<group>"; };
+		60C0B2F350D750604729331F /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		64D11AD886856F42119EF9DA /* AbstractEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEncodable.swift; sourceTree = "<group>"; };
+		68FC6D80EA156B08FF3DDAC5 /* AbstractDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDecodable.swift; sourceTree = "<group>"; };
+		6BFD9C8F650197627BFB3847 /* Alamofire.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Alamofire.xcframework; sourceTree = "<group>"; };
+		6CBDBBF779EAE7496DA260DA /* CheckPhoneQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhoneQuery.swift; sourceTree = "<group>"; };
+		6ED3DED4E3573C328A5F8ADB /* AbstractCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCustomer.swift; sourceTree = "<group>"; };
+		6F327F2A31940FB007FAD71B /* FragmentQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentQuery.swift; sourceTree = "<group>"; };
+		70510F9D66F9E69B6222FA27 /* Fragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragment.swift; sourceTree = "<group>"; };
+		793B965038F8BF63031E18CC /* String + Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Field.swift"; sourceTree = "<group>"; };
+		7BB9B7A8A676AB1662DC4566 /* ResponseValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
+		7D3DC79BF168FF51B7847A25 /* OnQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnQuery.swift; sourceTree = "<group>"; };
+		7D544639F1E9C061FDFF9BCF /* OrderDetailQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailQuery.swift; sourceTree = "<group>"; };
+		86464BEF63C9D1C4D2C0AEA1 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		8C722D10C655DBA329D42FF8 /* Identity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
+		8E58A4ACB3AB276B3713BADE /* CustomerCorporate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCorporate.swift; sourceTree = "<group>"; };
+		950F13BBAE52A8E555E6B8C9 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		95997C6631D7523544BA16A7 /* QueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
+		9A56352A60E3703EFE09C9E0 /* AnyChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyChangeSet.swift; sourceTree = "<group>"; };
+		9A5A988E26EA650F1CF708BF /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
+		9D154B62E647A4B1BA7F53FA /* KeyPathWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPathWrapper.swift; sourceTree = "<group>"; };
+		9D5CD500A9C09712272B181A /* GraphQLErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrors.swift; sourceTree = "<group>"; };
+		9E9160C55EB5B86E46F087AA /* QueryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryContainer.swift; sourceTree = "<group>"; };
+		A068CFC123C78FEF486FD223 /* ChangeSetVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetVariable.swift; sourceTree = "<group>"; };
+		A0EAEAA6355A32E1D3CE62E8 /* OrderListQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListQuery.swift; sourceTree = "<group>"; };
+		A32015A14DEE4E7BD9BC8E0E /* UploadAttachmentPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentPayload.swift; sourceTree = "<group>"; };
+		A6563B2C83DFF176B4700867 /* SchemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaType.swift; sourceTree = "<group>"; };
+		AE21D110A47671F29C264AA3 /* SingleValueDecodingContainer + Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SingleValueDecodingContainer + Decode.swift"; sourceTree = "<group>"; };
+		AE4B7128580A73039D77D317 /* OrderDetailFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailFragment.swift; sourceTree = "<group>"; };
+		AF1A5F83B81F9FE0F9F273CC /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
+		B0E37F8DBE98D73759AA9EA1 /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
+		B1D00A416FC38DD203F8DC8F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B34E801A3135C6002B233CB0 /* OperationMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationMode.swift; sourceTree = "<group>"; };
+		B50C7EE06F351D742DDB3044 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		B5FEB10D5A2C4C376B8BA2B2 /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
+		BAA331A09C0E2CFAEB4CC542 /* BatchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchOperation.swift; sourceTree = "<group>"; };
+		BD030C24B719736153E6C4C9 /* GrapheneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrapheneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE6D20B0247AB439344E833F /* GraphQLOperation+PrepareContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphQLOperation+PrepareContext.swift"; sourceTree = "<group>"; };
+		BEF87F9D11CDE66EBA7C2F9B /* Queryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queryable.swift; sourceTree = "<group>"; };
+		C1ED12316F92371A6B248568 /* Alias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
+		CE2F7326BAA1A37210B72B75 /* GrapheneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneTests.swift; sourceTree = "<group>"; };
+		D15B143F9F0BD5E3823EE201 /* CheckPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPhone.swift; sourceTree = "<group>"; };
+		D1F5C92704464E5877333F47 /* CancelableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelableRequest.swift; sourceTree = "<group>"; };
+		D28CE401C65938E77222E106 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		D2D53BA4C0705A792BA18D52 /* OrderEditMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEditMutation.swift; sourceTree = "<group>"; };
+		D411CBE98D3B67459F5F3F06 /* UploadAttachmentMutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAttachmentMutation.swift; sourceTree = "<group>"; };
+		D4B23AEAF1545131E94804C9 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		D58A60FB8A4BFE5115E24D86 /* MoneyFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFragment.swift; sourceTree = "<group>"; };
+		D7D78187C0C0CCCC08A58092 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		DE4B3B00007B32885B01439E /* SomeChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeChangeSet.swift; sourceTree = "<group>"; };
+		E2A20F0A45A91F75F2B7F39B /* Graphene.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Graphene.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E64F1302401A47EC97E3518A /* Callbacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callbacks.swift; sourceTree = "<group>"; };
+		E72E928DD32EC407C53358D7 /* Arguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
+		EBB33CC480D4870289CB3F93 /* Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegate.swift; sourceTree = "<group>"; };
+		ECFCCABCD44BEFF27FD25ABF /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		F30B16E7F493BD6C449D2A30 /* SomeInputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInputVariable.swift; sourceTree = "<group>"; };
+		F37295D0941C5427C034974F /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
+		F47C4E9856C0DB266C96734E /* SomeFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeFragment.swift; sourceTree = "<group>"; };
+		F628BAB35597004F7CC79B09 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
+		F80BC4B007F2C0AAE6F2B378 /* Change.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Change.swift; sourceTree = "<group>"; };
+		F9E3F7817DF0816D17DD406A /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_267 /* Frameworks */ = {
+		66CB0896A81FFDD0712B0130 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
+			buildActionMask = 2147483647;
 			files = (
-				F385AE2E267CA530008617BF /* Alamofire in Frameworks */,
+				5575461B2A5CFF41DE8E83BD /* Alamofire.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_319 /* Frameworks */ = {
+		69EACB55EE6B00CEACB8CF57 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
+			buildActionMask = 2147483647;
 			files = (
-				OBJ_320 /* Graphene.framework in Frameworks */,
+				1A25C959E63E9E5496B5DDF3 /* Graphene.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		OBJ_103 /* Operations */ = {
+		125B2B07CDEDCD72BA3CDD79 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_104 /* Mutations */,
-				OBJ_107 /* Queries */,
+				59546323C2D36AD4C2CCDE8C /* Fragments */,
+				57F2AF32F551D8A5D5955F70 /* Helpers */,
+				C0C7A8EEC016C53F4CA9C7C0 /* Models */,
+				6E9B1A0D09ACCB94CD1F3B9F /* Operations */,
+				CE2F7326BAA1A37210B72B75 /* GrapheneTests.swift */,
 			);
-			path = Operations;
+			path = Tests;
 			sourceTree = "<group>";
 		};
-		OBJ_104 /* Mutations */ = {
+		1905AB625CB82FB3A7DB6FA7 /* Project */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_105 /* OrderEditMutation.swift */,
-				OBJ_106 /* UploadAttachmentMutation.swift */,
+				3C1E04DE2AECF730F1BC6C33 /* Derived */,
+				B6882B82D94DF8088F4495EB /* Sources */,
+				125B2B07CDEDCD72BA3CDD79 /* Tests */,
+				D52C0AEDFFE902F6E1831A37 /* Tuist */,
+			);
+			name = Project;
+			sourceTree = "<group>";
+		};
+		196A66F2CD8E2619E73C4C51 /* Mutations */ = {
+			isa = PBXGroup;
+			children = (
+				D2D53BA4C0705A792BA18D52 /* OrderEditMutation.swift */,
+				D411CBE98D3B67459F5F3F06 /* UploadAttachmentMutation.swift */,
 			);
 			path = Mutations;
 			sourceTree = "<group>";
 		};
-		OBJ_107 /* Queries */ = {
+		34D218CF14CC86BB9145AA27 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_108 /* CheckPhoneQuery.swift */,
-				OBJ_109 /* OrderDetailQuery.swift */,
-				OBJ_110 /* OrderListQuery.swift */,
+				A063648B507D249112B3FCF6 /* Carthage */,
 			);
-			path = Queries;
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
-		OBJ_149 /* Products */ = {
+		3C1E04DE2AECF730F1BC6C33 /* Derived */ = {
 			isa = PBXGroup;
 			children = (
-				"Graphene::Graphene::Product" /* Graphene.framework */,
-				"Graphene::GrapheneTests::Product" /* GrapheneTests.xctest */,
+				EAEDB733DBCEB9CDF7C09E89 /* InfoPlists */,
 			);
-			name = Products;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		OBJ_15 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_16 /* AbstractDecodable.swift */,
-				OBJ_17 /* AbstractEncodable.swift */,
-				OBJ_18 /* KeyPathWrapper.swift */,
-				OBJ_19 /* SchemaType.swift */,
-				OBJ_20 /* SingleValueDecodingContainer + Decode.swift */,
-			);
-			path = Helpers;
+			path = Derived;
 			sourceTree = "<group>";
 		};
-		OBJ_21 /* Models */ = {
+		45E3CD5B63AB047E4BC15067 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_22 /* GraphQLError.swift */,
-				OBJ_23 /* GraphQLErrors.swift */,
-				OBJ_24 /* GrapheneError.swift */,
-				OBJ_25 /* MimeType.swift */,
-				OBJ_26 /* MultipleOperationResponse.swift */,
-				OBJ_27 /* OperationContext.swift */,
-				OBJ_28 /* OperationMode.swift */,
-				OBJ_29 /* Upload.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		OBJ_30 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_31 /* Callbacks.swift */,
-				OBJ_32 /* CancelableRequest.swift */,
-				OBJ_33 /* Client.swift */,
-				OBJ_34 /* FailureableRequest.swift */,
-				OBJ_35 /* FinishableRequest.swift */,
-				OBJ_36 /* LoggerDelegate.swift */,
-				OBJ_37 /* Request.swift */,
-				OBJ_38 /* ResponseValidator.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		OBJ_39 /* Operations */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_40 /* BatchOperation.swift */,
-				OBJ_41 /* GraphQLOperation+PrepareContext.swift */,
-				OBJ_42 /* GraphQLOperation.swift */,
-				OBJ_43 /* MutationOperation.swift */,
-				OBJ_44 /* QueryOperation.swift */,
+				BAA331A09C0E2CFAEB4CC542 /* BatchOperation.swift */,
+				1C25C86236404BCD2C340A03 /* GraphQLOperation.swift */,
+				BE6D20B0247AB439344E833F /* GraphQLOperation+PrepareContext.swift */,
+				421F1B8BC5EF5FA7714A5F07 /* MutationOperation.swift */,
+				0BFFA0D5486A674611039A3E /* QueryOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
 		};
-		OBJ_45 /* Queryable */ = {
+		57F2AF32F551D8A5D5955F70 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_46 /* AnyFragment.swift */,
-				OBJ_47 /* Arguments.swift */,
-				OBJ_48 /* Fields */,
-				OBJ_57 /* Fragment.swift */,
-				OBJ_58 /* QueryBuilder.swift */,
-				OBJ_59 /* QueryContainer.swift */,
-				OBJ_60 /* QueryKey.swift */,
-				OBJ_61 /* Queryable.swift */,
-				OBJ_62 /* SomeFragment.swift */,
-			);
-			path = Queryable;
-			sourceTree = "<group>";
-		};
-		OBJ_48 /* Fields */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_49 /* Alias.swift */,
-				OBJ_50 /* AnyQuery.swift */,
-				OBJ_51 /* Field.swift */,
-				OBJ_52 /* FragmentQuery.swift */,
-				OBJ_53 /* MultipleQuery.swift */,
-				OBJ_54 /* OnQuery.swift */,
-				OBJ_55 /* Query.swift */,
-				OBJ_56 /* String + Field.swift */,
-			);
-			path = Fields;
-			sourceTree = "<group>";
-		};
-		OBJ_5 /*  */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_7 /* Sources */,
-				OBJ_71 /* Tests */,
-				OBJ_149 /* Products */,
-			);
-			name = "";
-			sourceTree = "<group>";
-		};
-		OBJ_63 /* Variables */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_64 /* EncodableVariable.swift */,
-				OBJ_65 /* InputVariable.swift */,
-				OBJ_66 /* SomeInputVariable.swift */,
-				OBJ_67 /* VariableEncoder.swift */,
-				OBJ_68 /* VariableEncoderContainer.swift */,
-				OBJ_69 /* VariableEncoderKeyedContainer.swift */,
-				OBJ_70 /* Variables.swift */,
-			);
-			path = Variables;
-			sourceTree = "<group>";
-		};
-		OBJ_7 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_8 /* ChangeSet */,
-				OBJ_15 /* Helpers */,
-				OBJ_21 /* Models */,
-				OBJ_30 /* Network */,
-				OBJ_39 /* Operations */,
-				OBJ_45 /* Queryable */,
-				OBJ_63 /* Variables */,
-			);
-			path = Sources;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_71 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_77 /* GrapheneTests.swift */,
-				OBJ_72 /* Fragments */,
-				OBJ_78 /* Helpers */,
-				OBJ_83 /* Models */,
-				OBJ_103 /* Operations */,
-			);
-			path = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_72 /* Fragments */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_73 /* CheckPhoneFragment.swift */,
-				OBJ_74 /* MoneyFragment.swift */,
-				OBJ_75 /* OrderDetailFragment.swift */,
-				OBJ_76 /* PageInfoFragment.swift */,
-			);
-			path = Fragments;
-			sourceTree = "<group>";
-		};
-		OBJ_78 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_79 /* Connection.swift */,
-				OBJ_80 /* Identity.swift */,
-				OBJ_81 /* Node.swift */,
-				OBJ_82 /* PageInfo.swift */,
+				1AC278AC1E78320F84A309D6 /* Connection.swift */,
+				8C722D10C655DBA329D42FF8 /* Identity.swift */,
+				D28CE401C65938E77222E106 /* Node.swift */,
+				4B7F90EBA92CE77FDD81B63E /* PageInfo.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		OBJ_8 /* ChangeSet */ = {
+		59546323C2D36AD4C2CCDE8C /* Fragments */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* AnyChangeSet.swift */,
-				OBJ_10 /* Change.swift */,
-				OBJ_11 /* ChangeSet.swift */,
-				OBJ_12 /* ChangeSetVariable.swift */,
-				OBJ_13 /* Identifiable.swift */,
-				OBJ_14 /* SomeChangeSet.swift */,
+				42D1DF5E4FB590C3CBF1D2E6 /* CheckPhoneFragment.swift */,
+				D58A60FB8A4BFE5115E24D86 /* MoneyFragment.swift */,
+				AE4B7128580A73039D77D317 /* OrderDetailFragment.swift */,
+				322A292A40F280A952DB8239 /* PageInfoFragment.swift */,
+			);
+			path = Fragments;
+			sourceTree = "<group>";
+		};
+		605BA424F5415E40239AEF91 /* Queries */ = {
+			isa = PBXGroup;
+			children = (
+				6CBDBBF779EAE7496DA260DA /* CheckPhoneQuery.swift */,
+				7D544639F1E9C061FDFF9BCF /* OrderDetailQuery.swift */,
+				A0EAEAA6355A32E1D3CE62E8 /* OrderListQuery.swift */,
+			);
+			path = Queries;
+			sourceTree = "<group>";
+		};
+		6E9B1A0D09ACCB94CD1F3B9F /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				196A66F2CD8E2619E73C4C51 /* Mutations */,
+				605BA424F5415E40239AEF91 /* Queries */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		70E74298A49A7AA2637E3EC3 /* Queryable */ = {
+			isa = PBXGroup;
+			children = (
+				73BED09607980B3745CDF048 /* Fields */,
+				41A3862B8C9B2AD766A48972 /* AnyFragment.swift */,
+				E72E928DD32EC407C53358D7 /* Arguments.swift */,
+				70510F9D66F9E69B6222FA27 /* Fragment.swift */,
+				BEF87F9D11CDE66EBA7C2F9B /* Queryable.swift */,
+				95997C6631D7523544BA16A7 /* QueryBuilder.swift */,
+				9E9160C55EB5B86E46F087AA /* QueryContainer.swift */,
+				391C3C7F3306674C5075A494 /* QueryKey.swift */,
+				F47C4E9856C0DB266C96734E /* SomeFragment.swift */,
+			);
+			path = Queryable;
+			sourceTree = "<group>";
+		};
+		71C5009B3FC4F2496A6EFD36 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E64F1302401A47EC97E3518A /* Callbacks.swift */,
+				D1F5C92704464E5877333F47 /* CancelableRequest.swift */,
+				B50C7EE06F351D742DDB3044 /* Client.swift */,
+				EBB33CC480D4870289CB3F93 /* Delegate.swift */,
+				3F125A5868113AFD63695E7B /* FailureableRequest.swift */,
+				4509A987353B736DA57098FE /* FinishableRequest.swift */,
+				39653386C8E648DC869BBC49 /* Request.swift */,
+				7BB9B7A8A676AB1662DC4566 /* ResponseValidator.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		730D4D662F13CE8FCE9021E8 /* Variables */ = {
+			isa = PBXGroup;
+			children = (
+				0C607E857121B258C060471A /* EncodableVariable.swift */,
+				49DBA7DFACD0E4BAF21A847F /* InputVariable.swift */,
+				F30B16E7F493BD6C449D2A30 /* SomeInputVariable.swift */,
+				1C4B3FA64453D756DC73323A /* VariableEncoder.swift */,
+				075C3B199B39566DA9B6D40F /* VariableEncoderContainer.swift */,
+				1E78E3240ADC9409278EE52C /* VariableEncoderKeyedContainer.swift */,
+				B5FEB10D5A2C4C376B8BA2B2 /* Variables.swift */,
+			);
+			path = Variables;
+			sourceTree = "<group>";
+		};
+		73BED09607980B3745CDF048 /* Fields */ = {
+			isa = PBXGroup;
+			children = (
+				C1ED12316F92371A6B248568 /* Alias.swift */,
+				0C6784E600888321AE6889E8 /* AnyQuery.swift */,
+				D4B23AEAF1545131E94804C9 /* Field.swift */,
+				6F327F2A31940FB007FAD71B /* FragmentQuery.swift */,
+				548006A458C8BC352995EAD5 /* MultipleQuery.swift */,
+				7D3DC79BF168FF51B7847A25 /* OnQuery.swift */,
+				60C0B2F350D750604729331F /* Query.swift */,
+				793B965038F8BF63031E18CC /* String + Field.swift */,
+			);
+			path = Fields;
+			sourceTree = "<group>";
+		};
+		827437549C5F05AF3B650FBD = {
+			isa = PBXGroup;
+			children = (
+				1905AB625CB82FB3A7DB6FA7 /* Project */,
+				FAEC037DB27175FD6F1DC499 /* Frameworks */,
+				EB5E223CD6B106FDC1E397D6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A063648B507D249112B3FCF6 /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				6BFD9C8F650197627BFB3847 /* Alamofire.xcframework */,
+			);
+			path = Carthage;
+			sourceTree = "<group>";
+		};
+		A1B110FAFF9AA99EC8DBE18B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				68FC6D80EA156B08FF3DDAC5 /* AbstractDecodable.swift */,
+				64D11AD886856F42119EF9DA /* AbstractEncodable.swift */,
+				9D154B62E647A4B1BA7F53FA /* KeyPathWrapper.swift */,
+				A6563B2C83DFF176B4700867 /* SchemaType.swift */,
+				AE21D110A47671F29C264AA3 /* SingleValueDecodingContainer + Decode.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B6882B82D94DF8088F4495EB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C48F1B2B39D84024070957CD /* ChangeSet */,
+				A1B110FAFF9AA99EC8DBE18B /* Helpers */,
+				E88977791EA24FF1433DA042 /* Models */,
+				71C5009B3FC4F2496A6EFD36 /* Network */,
+				45E3CD5B63AB047E4BC15067 /* Operations */,
+				70E74298A49A7AA2637E3EC3 /* Queryable */,
+				730D4D662F13CE8FCE9021E8 /* Variables */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		C0C7A8EEC016C53F4CA9C7C0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6ED3DED4E3573C328A5F8ADB /* AbstractCustomer.swift */,
+				F628BAB35597004F7CC79B09 /* Attachment.swift */,
+				D15B143F9F0BD5E3823EE201 /* CheckPhone.swift */,
+				30A44924D9861A7A057CFD87 /* Contragent.swift */,
+				ECFCCABCD44BEFF27FD25ABF /* Customer.swift */,
+				8E58A4ACB3AB276B3713BADE /* CustomerCorporate.swift */,
+				3AD02F2C5440F7EACEE1E736 /* EditOrderInput.swift */,
+				504D13582F838F07E036C06A /* EditOrderPayload.swift */,
+				1DD16D0CDCE229FD1CD98236 /* Enums.swift */,
+				D7D78187C0C0CCCC08A58092 /* Money.swift */,
+				86464BEF63C9D1C4D2C0AEA1 /* Order.swift */,
+				13AA3F04C8AF347483D05F84 /* OrderProduct.swift */,
+				3D5B9967D44BF0E6AB87D816 /* OrderType.swift */,
+				950F13BBAE52A8E555E6B8C9 /* Payment.swift */,
+				9A5A988E26EA650F1CF708BF /* PaymentStatus.swift */,
+				4AFABB2EB7A9125220500C6B /* PaymentType.swift */,
+				1C1212344BAF9D358C530E34 /* UploadAttachmentInput.swift */,
+				A32015A14DEE4E7BD9BC8E0E /* UploadAttachmentPayload.swift */,
+				B1D00A416FC38DD203F8DC8F /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C48F1B2B39D84024070957CD /* ChangeSet */ = {
+			isa = PBXGroup;
+			children = (
+				9A56352A60E3703EFE09C9E0 /* AnyChangeSet.swift */,
+				F80BC4B007F2C0AAE6F2B378 /* Change.swift */,
+				1FB76570AA97B1A9EDCAB1E0 /* ChangeSet.swift */,
+				A068CFC123C78FEF486FD223 /* ChangeSetVariable.swift */,
+				4F551B306729518C93EF9E69 /* Identifiable.swift */,
+				DE4B3B00007B32885B01439E /* SomeChangeSet.swift */,
 			);
 			path = ChangeSet;
 			sourceTree = "<group>";
 		};
-		OBJ_83 /* Models */ = {
+		D52C0AEDFFE902F6E1831A37 /* Tuist */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_84 /* AbstractCustomer.swift */,
-				OBJ_85 /* Attachment.swift */,
-				OBJ_86 /* CheckPhone.swift */,
-				OBJ_87 /* Contragent.swift */,
-				OBJ_88 /* Customer.swift */,
-				OBJ_89 /* CustomerCorporate.swift */,
-				OBJ_90 /* EditOrderInput.swift */,
-				OBJ_91 /* EditOrderPayload.swift */,
-				OBJ_92 /* Enums.swift */,
-				OBJ_93 /* Money.swift */,
-				OBJ_94 /* Order.swift */,
-				OBJ_95 /* OrderProduct.swift */,
-				OBJ_96 /* OrderType.swift */,
-				OBJ_97 /* Payment.swift */,
-				OBJ_98 /* PaymentStatus.swift */,
-				OBJ_99 /* PaymentType.swift */,
-				OBJ_100 /* UploadAttachmentInput.swift */,
-				OBJ_101 /* UploadAttachmentPayload.swift */,
-				OBJ_102 /* User.swift */,
+				34D218CF14CC86BB9145AA27 /* Dependencies */,
+			);
+			name = Tuist;
+			path = ../../Tuist;
+			sourceTree = "<group>";
+		};
+		E88977791EA24FF1433DA042 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F37295D0941C5427C034974F /* GrapheneError.swift */,
+				F9E3F7817DF0816D17DD406A /* GraphQLError.swift */,
+				9D5CD500A9C09712272B181A /* GraphQLErrors.swift */,
+				AF1A5F83B81F9FE0F9F273CC /* MimeType.swift */,
+				1E35B3002D781E8BC64D02D1 /* MultipleOperationResponse.swift */,
+				29E027EDC752842F30C66001 /* OperationContext.swift */,
+				B34E801A3135C6002B233CB0 /* OperationMode.swift */,
+				B0E37F8DBE98D73759AA9EA1 /* Upload.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		EAEDB733DBCEB9CDF7C09E89 /* InfoPlists */ = {
+			isa = PBXGroup;
+			children = (
+				29FA238BDA8EFDE06459B8ED /* Graphene.plist */,
+				4D4988EBF507B17C527AAC09 /* GrapheneTests.plist */,
+			);
+			path = InfoPlists;
+			sourceTree = "<group>";
+		};
+		EB5E223CD6B106FDC1E397D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E2A20F0A45A91F75F2B7F39B /* Graphene.framework */,
+				BD030C24B719736153E6C4C9 /* GrapheneTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAEC037DB27175FD6F1DC499 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"Graphene::Graphene" /* Graphene */ = {
+		36C852C7B39F1EEA3DC4B20B /* Graphene */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_208 /* Build configuration list for PBXNativeTarget "Graphene" */;
+			buildConfigurationList = 94FF2AAEE8C0D0A90E0824D3 /* Build configuration list for PBXNativeTarget "Graphene" */;
 			buildPhases = (
-				OBJ_211 /* Sources */,
-				OBJ_267 /* Frameworks */,
+				CAC931D3BC30D53CF4A691A5 /* Autocorrect Code */,
+				39862B751BBA60D3E683E8D0 /* Lint Code */,
+				F2667DC3D7075477E2BDCF4E /* Sources */,
+				1BA12A99E73F59153EF584EC /* Resources */,
+				9B0C5DF2BFE2F05A3F279202 /* Embed Precompiled Frameworks */,
+				9E0B173CEE2043027CFE33BA /* Embed Frameworks */,
+				66CB0896A81FFDD0712B0130 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Graphene;
-			packageProductDependencies = (
-				F385AE2D267CA530008617BF /* Alamofire */,
-			);
 			productName = Graphene;
-			productReference = "Graphene::Graphene::Product" /* Graphene.framework */;
+			productReference = E2A20F0A45A91F75F2B7F39B /* Graphene.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"Graphene::GrapheneTests" /* GrapheneTests */ = {
+		9C9D6A8F2F1B83C2CF61BD8D /* GrapheneTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_282 /* Build configuration list for PBXNativeTarget "GrapheneTests" */;
+			buildConfigurationList = C2844FFEF83355D39E91409C /* Build configuration list for PBXNativeTarget "GrapheneTests" */;
 			buildPhases = (
-				OBJ_285 /* Sources */,
-				OBJ_319 /* Frameworks */,
+				5D07E5E681BCC08F8EE18E44 /* Autocorrect Code */,
+				82A41CB7767941846BE90C4F /* Lint Code */,
+				BDEB6C33176F09ABC84EDEB8 /* Sources */,
+				5BB5170C74C7E1F7AB46E233 /* Resources */,
+				BFF93F36B747B92FDF6F6405 /* Embed Precompiled Frameworks */,
+				638EDEC69D46887F1F2512F9 /* Embed Frameworks */,
+				69EACB55EE6B00CEACB8CF57 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_322 /* PBXTargetDependency */,
+				4693059C50153F572BDF77D5 /* PBXTargetDependency */,
 			);
 			name = GrapheneTests;
 			productName = GrapheneTests;
-			productReference = "Graphene::GrapheneTests::Product" /* GrapheneTests.xctest */;
+			productReference = BD030C24B719736153E6C4C9 /* GrapheneTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		OBJ_1 /* Project object */ = {
+		7C9DD5CFD419C5F5F1D254BB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftMigration = 9999;
-				LastUpgradeCheck = 9999;
+				ORGANIZATIONNAME = "RetailDriver LLC";
+				TargetAttributes = {
+				};
 			};
-			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Graphene" */;
-			compatibilityVersion = "Xcode 3.2";
+			buildConfigurationList = 02CE96C16BB77C89E4EA06D3 /* Build configuration list for PBXProject "Graphene" */;
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				Base,
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
-			packageReferences = (
-				F385AE2C267CA530008617BF /* XCRemoteSwiftPackageReference "Alamofire" */,
-			);
-			productRefGroup = OBJ_149 /* Products */;
+			mainGroup = 827437549C5F05AF3B650FBD;
+			productRefGroup = EB5E223CD6B106FDC1E397D6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"Graphene::Graphene" /* Graphene */,
-				"Graphene::GrapheneTests" /* GrapheneTests */,
+				36C852C7B39F1EEA3DC4B20B /* Graphene */,
+				9C9D6A8F2F1B83C2CF61BD8D /* GrapheneTests */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXSourcesBuildPhase section */
-		OBJ_211 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
+/* Begin PBXResourcesBuildPhase section */
+		1BA12A99E73F59153EF584EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
-				OBJ_212 /* AnyChangeSet.swift in Sources */,
-				OBJ_213 /* Change.swift in Sources */,
-				OBJ_214 /* ChangeSet.swift in Sources */,
-				OBJ_215 /* ChangeSetVariable.swift in Sources */,
-				OBJ_216 /* Identifiable.swift in Sources */,
-				OBJ_217 /* SomeChangeSet.swift in Sources */,
-				OBJ_218 /* AbstractDecodable.swift in Sources */,
-				OBJ_219 /* AbstractEncodable.swift in Sources */,
-				OBJ_220 /* KeyPathWrapper.swift in Sources */,
-				OBJ_221 /* SchemaType.swift in Sources */,
-				OBJ_222 /* SingleValueDecodingContainer + Decode.swift in Sources */,
-				OBJ_223 /* GraphQLError.swift in Sources */,
-				OBJ_224 /* GraphQLErrors.swift in Sources */,
-				OBJ_225 /* GrapheneError.swift in Sources */,
-				OBJ_226 /* MimeType.swift in Sources */,
-				OBJ_227 /* MultipleOperationResponse.swift in Sources */,
-				OBJ_228 /* OperationContext.swift in Sources */,
-				OBJ_229 /* OperationMode.swift in Sources */,
-				OBJ_230 /* Upload.swift in Sources */,
-				OBJ_231 /* Callbacks.swift in Sources */,
-				OBJ_232 /* CancelableRequest.swift in Sources */,
-				OBJ_233 /* Client.swift in Sources */,
-				OBJ_234 /* FailureableRequest.swift in Sources */,
-				OBJ_235 /* FinishableRequest.swift in Sources */,
-				OBJ_236 /* LoggerDelegate.swift in Sources */,
-				OBJ_237 /* Request.swift in Sources */,
-				OBJ_238 /* ResponseValidator.swift in Sources */,
-				OBJ_239 /* BatchOperation.swift in Sources */,
-				OBJ_240 /* GraphQLOperation+PrepareContext.swift in Sources */,
-				OBJ_241 /* GraphQLOperation.swift in Sources */,
-				OBJ_242 /* MutationOperation.swift in Sources */,
-				OBJ_243 /* QueryOperation.swift in Sources */,
-				OBJ_244 /* AnyFragment.swift in Sources */,
-				OBJ_245 /* Arguments.swift in Sources */,
-				OBJ_246 /* Alias.swift in Sources */,
-				OBJ_247 /* AnyQuery.swift in Sources */,
-				OBJ_248 /* Field.swift in Sources */,
-				OBJ_249 /* FragmentQuery.swift in Sources */,
-				OBJ_250 /* MultipleQuery.swift in Sources */,
-				OBJ_251 /* OnQuery.swift in Sources */,
-				OBJ_252 /* Query.swift in Sources */,
-				OBJ_253 /* String + Field.swift in Sources */,
-				OBJ_254 /* Fragment.swift in Sources */,
-				OBJ_255 /* QueryBuilder.swift in Sources */,
-				OBJ_256 /* QueryContainer.swift in Sources */,
-				OBJ_257 /* QueryKey.swift in Sources */,
-				OBJ_258 /* Queryable.swift in Sources */,
-				OBJ_259 /* SomeFragment.swift in Sources */,
-				OBJ_260 /* EncodableVariable.swift in Sources */,
-				OBJ_261 /* InputVariable.swift in Sources */,
-				OBJ_262 /* SomeInputVariable.swift in Sources */,
-				OBJ_263 /* VariableEncoder.swift in Sources */,
-				OBJ_264 /* VariableEncoderContainer.swift in Sources */,
-				OBJ_265 /* VariableEncoderKeyedContainer.swift in Sources */,
-				OBJ_266 /* Variables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_285 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
+		5BB5170C74C7E1F7AB46E233 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
-				OBJ_286 /* CheckPhoneFragment.swift in Sources */,
-				OBJ_287 /* MoneyFragment.swift in Sources */,
-				OBJ_288 /* OrderDetailFragment.swift in Sources */,
-				OBJ_289 /* PageInfoFragment.swift in Sources */,
-				OBJ_290 /* GrapheneTests.swift in Sources */,
-				OBJ_291 /* Connection.swift in Sources */,
-				OBJ_292 /* Identity.swift in Sources */,
-				OBJ_293 /* Node.swift in Sources */,
-				OBJ_294 /* PageInfo.swift in Sources */,
-				OBJ_295 /* AbstractCustomer.swift in Sources */,
-				OBJ_296 /* Attachment.swift in Sources */,
-				OBJ_297 /* CheckPhone.swift in Sources */,
-				OBJ_298 /* Contragent.swift in Sources */,
-				OBJ_299 /* Customer.swift in Sources */,
-				OBJ_300 /* CustomerCorporate.swift in Sources */,
-				OBJ_301 /* EditOrderInput.swift in Sources */,
-				OBJ_302 /* EditOrderPayload.swift in Sources */,
-				OBJ_303 /* Enums.swift in Sources */,
-				OBJ_304 /* Money.swift in Sources */,
-				OBJ_305 /* Order.swift in Sources */,
-				OBJ_306 /* OrderProduct.swift in Sources */,
-				OBJ_307 /* OrderType.swift in Sources */,
-				OBJ_308 /* Payment.swift in Sources */,
-				OBJ_309 /* PaymentStatus.swift in Sources */,
-				OBJ_310 /* PaymentType.swift in Sources */,
-				OBJ_311 /* UploadAttachmentInput.swift in Sources */,
-				OBJ_312 /* UploadAttachmentPayload.swift in Sources */,
-				OBJ_313 /* User.swift in Sources */,
-				OBJ_314 /* OrderEditMutation.swift in Sources */,
-				OBJ_315 /* UploadAttachmentMutation.swift in Sources */,
-				OBJ_316 /* CheckPhoneQuery.swift in Sources */,
-				OBJ_317 /* OrderDetailQuery.swift in Sources */,
-				OBJ_318 /* OrderListQuery.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		39862B751BBA60D3E683E8D0 /* Lint Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Lint Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Sources  --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+		};
+		5D07E5E681BCC08F8EE18E44 /* Autocorrect Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Autocorrect Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Tests --autocorrect --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+		};
+		82A41CB7767941846BE90C4F /* Lint Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Lint Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Tests  --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+		};
+		9B0C5DF2BFE2F05A3F279202 /* Embed Precompiled Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Precompiled Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Skipping, nothing to be embedded.\"";
+		};
+		BFF93F36B747B92FDF6F6405 /* Embed Precompiled Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Precompiled Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Skipping, nothing to be embedded.\"";
+		};
+		CAC931D3BC30D53CF4A691A5 /* Autocorrect Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Autocorrect Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Sources --autocorrect --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BDEB6C33176F09ABC84EDEB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				372429791785B4C51B2B0C9A /* CheckPhoneFragment.swift in Sources */,
+				632B1A5AD4E52C3F0D7FC69D /* MoneyFragment.swift in Sources */,
+				E3283CED34BDA9F3D78580F9 /* OrderDetailFragment.swift in Sources */,
+				420A15F657FA10A238F0ABFC /* PageInfoFragment.swift in Sources */,
+				A77D55C243239E9293E86D23 /* GrapheneTests.swift in Sources */,
+				4A9372599AC8769FD50D2049 /* Connection.swift in Sources */,
+				161CC0DC3B91C99C16AA09B9 /* Identity.swift in Sources */,
+				5E47C0F2D3F85A4EECA025D2 /* Node.swift in Sources */,
+				CC7AD9484CD420DC9A82C0DE /* PageInfo.swift in Sources */,
+				8D33CEF498598ED3516F583B /* AbstractCustomer.swift in Sources */,
+				E5152B90CC14CFCC7F91CCFD /* Attachment.swift in Sources */,
+				688FC6B880CB8F44115D8B67 /* CheckPhone.swift in Sources */,
+				E04641E75AE599BF2B59D36E /* Contragent.swift in Sources */,
+				15C7F07FFB7BB67270E3B64E /* Customer.swift in Sources */,
+				01C6D136FB5003762DB1B02F /* CustomerCorporate.swift in Sources */,
+				2E8139F60F81ED9A99D8B2B2 /* EditOrderInput.swift in Sources */,
+				49F8EB69DE3ED615FEC52BAD /* EditOrderPayload.swift in Sources */,
+				C9E863E40301206942DDD5F0 /* Enums.swift in Sources */,
+				5853F6E9C9574BB90F3F7A4C /* Money.swift in Sources */,
+				94738811163C177B71E61262 /* Order.swift in Sources */,
+				58843BC198F2D9A2D5CAB414 /* OrderProduct.swift in Sources */,
+				FE7096F633C57B6E2EF5869C /* OrderType.swift in Sources */,
+				67B090A30CA70B91D4084723 /* Payment.swift in Sources */,
+				D4BEC5281B56F8201DBFE6EC /* PaymentStatus.swift in Sources */,
+				8CBD0643D382A063556C38E5 /* PaymentType.swift in Sources */,
+				2D850F9DFE1FC98D71E7679F /* UploadAttachmentInput.swift in Sources */,
+				F0AAE9DD04DC3A99B6952972 /* UploadAttachmentPayload.swift in Sources */,
+				6C95CE15B26DA22CC06969FD /* User.swift in Sources */,
+				252BE7D45850A6D89EAC2B1B /* OrderEditMutation.swift in Sources */,
+				7E7E2876402DEFC27B706FD9 /* UploadAttachmentMutation.swift in Sources */,
+				FD350BA2CB47767BCE86F0AF /* CheckPhoneQuery.swift in Sources */,
+				C3AB09F792BA0472A9BDAF19 /* OrderDetailQuery.swift in Sources */,
+				1B14ED6C1F2D14D091C37A16 /* OrderListQuery.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2667DC3D7075477E2BDCF4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DC27B4C78A9FA5227BB29FE /* AnyChangeSet.swift in Sources */,
+				A28C1B2217F3AB08DCA944B2 /* Change.swift in Sources */,
+				50707897B8B19B0ED1A8D323 /* ChangeSet.swift in Sources */,
+				1217B9C7A4682F3CC65EAEAA /* ChangeSetVariable.swift in Sources */,
+				87992F92B4CBC7DDC459CC4C /* Identifiable.swift in Sources */,
+				B28A35A46841817D6B416972 /* SomeChangeSet.swift in Sources */,
+				1C4A4A999F923ED70AA703F3 /* AbstractDecodable.swift in Sources */,
+				BAF45CE88BF0EF474C5CEEB0 /* AbstractEncodable.swift in Sources */,
+				739D2CC13D1C4763B4669C08 /* KeyPathWrapper.swift in Sources */,
+				4249E818B8CEA16E202109D6 /* SchemaType.swift in Sources */,
+				6585C2BF819EBA3F111E560A /* SingleValueDecodingContainer + Decode.swift in Sources */,
+				1F25C8B4D47D9EF93466A1E4 /* GraphQLError.swift in Sources */,
+				FA63B657746A64EE7BBB7EE8 /* GraphQLErrors.swift in Sources */,
+				FA0627B7938CAA3CDA8D843E /* GrapheneError.swift in Sources */,
+				3954EB78079CAF9C1DA14DAD /* MimeType.swift in Sources */,
+				30C3DF6A3B5106E76C2471AA /* MultipleOperationResponse.swift in Sources */,
+				9C49D4F85C88B17AB91F21A8 /* OperationContext.swift in Sources */,
+				531BB4231A3482EE744A7289 /* OperationMode.swift in Sources */,
+				0CBF23C4B29A40C98D33C245 /* Upload.swift in Sources */,
+				1222211AF62F959510F17394 /* Callbacks.swift in Sources */,
+				E9A5ECCF1512FA8F93E5D768 /* CancelableRequest.swift in Sources */,
+				AAE9EBD956A82C1636D4B5CC /* Client.swift in Sources */,
+				6ACB9AAEAB5FA1A985CE00CA /* Delegate.swift in Sources */,
+				C822179CC8AA18B15746BEDD /* FailureableRequest.swift in Sources */,
+				A7BB757C0211125448F428CB /* FinishableRequest.swift in Sources */,
+				B92C317C2301F8AD357C80A2 /* Request.swift in Sources */,
+				803416C76B65218F45386CD6 /* ResponseValidator.swift in Sources */,
+				ABE38E57A74C01B8EAF0E358 /* BatchOperation.swift in Sources */,
+				B68BB6F293845B52B073FBB7 /* GraphQLOperation+PrepareContext.swift in Sources */,
+				98D19411DCA60AA86C14E77B /* GraphQLOperation.swift in Sources */,
+				66A9F016265CB2D284B81643 /* MutationOperation.swift in Sources */,
+				1A6A5D19BA2E3A74ED02A4D2 /* QueryOperation.swift in Sources */,
+				EFA0CB73A3CDE7559ED671A8 /* AnyFragment.swift in Sources */,
+				D59F69F4EE64435F177BE4D6 /* Arguments.swift in Sources */,
+				FEBD2CDA62678F2C2E160360 /* Alias.swift in Sources */,
+				AB9F61CBF89310BC40514C91 /* AnyQuery.swift in Sources */,
+				645AD72C93EB86A15CB0282D /* Field.swift in Sources */,
+				3F8FC6773D9E8D3F15C7C719 /* FragmentQuery.swift in Sources */,
+				A4D7DEB20F45AEF65E103ECF /* MultipleQuery.swift in Sources */,
+				7645CE68F21A8FD8D5C6A482 /* OnQuery.swift in Sources */,
+				18569B5ABE8A00BDEFA53F5A /* Query.swift in Sources */,
+				C8F02C0ACEBBCB878A454FA5 /* String + Field.swift in Sources */,
+				0026630922B3A99D8F78FA84 /* Fragment.swift in Sources */,
+				B9A3C3EC111D532C1B635034 /* QueryBuilder.swift in Sources */,
+				5623CA3442DC047D7A48A75E /* QueryContainer.swift in Sources */,
+				480FF6E295A9FEEDFDA3C466 /* QueryKey.swift in Sources */,
+				40D3F51C96291D43CC1A3C83 /* Queryable.swift in Sources */,
+				5E220E9C487D24312C428133 /* SomeFragment.swift in Sources */,
+				78CA21469C2B07C4351AE975 /* EncodableVariable.swift in Sources */,
+				5B805F5F629BDEAF73E60CE7 /* InputVariable.swift in Sources */,
+				4EF87E359BE57A86DF0ADBF5 /* SomeInputVariable.swift in Sources */,
+				08D3700CC48FE11763DB81C2 /* VariableEncoder.swift in Sources */,
+				465A6B4E23FEDAB895D10F2E /* VariableEncoderContainer.swift in Sources */,
+				CE4962F008EDAF7C314D1144 /* VariableEncoderKeyedContainer.swift in Sources */,
+				A6D2CD6071BD527475757F05 /* Variables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_322 /* PBXTargetDependency */ = {
+		4693059C50153F572BDF77D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "Graphene::Graphene" /* Graphene */;
-			targetProxy = F385AE29267CA4B7008617BF /* PBXContainerItemProxy */;
+			name = Graphene;
+			target = 36C852C7B39F1EEA3DC4B20B /* Graphene */;
+			targetProxy = 1484BE50A31EC940D0CABB28 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_209 /* Debug */ = {
+		1AC38CBA5C2771B4444510C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Graphene.xcodeproj/Graphene_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Derived/InfoPlists/GrapheneTests.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Graphene;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.GrapheneTests;
+				PRODUCT_NAME = GrapheneTests;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TARGET_NAME = Graphene;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
-		OBJ_210 /* Release */ = {
+		3818DD60E292546C748A6C03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_TESTABILITY = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Graphene.xcodeproj/Graphene_Info.plist;
+				INFOPLIST_FILE = Derived/InfoPlists/Graphene.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Graphene;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TARGET_NAME = Graphene;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
-		OBJ_283 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Graphene.xcodeproj/GrapheneTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@loader_path/../Frameworks",
+					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = GrapheneTests;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.Graphene;
+				PRODUCT_NAME = Graphene;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		OBJ_284 /* Release */ = {
+		3F607E199A70D14BF9736920 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Graphene.xcodeproj/GrapheneTests_Info.plist;
+				INFOPLIST_FILE = Derived/InfoPlists/Graphene.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@loader_path/../Frameworks",
+					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = GrapheneTests;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.Graphene;
+				PRODUCT_NAME = Graphene;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		OBJ_3 /* Debug */ = {
+		846A3D6D98E146382B92840D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Derived/InfoPlists/GrapheneTests.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.GrapheneTests;
+				PRODUCT_NAME = GrapheneTests;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CDD636E5F0FA3A2A5C62C7E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F8F8311F52C5EEF9C1B1A31D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"SWIFT_PACKAGE=1",
 					"DEBUG=1",
+					"$(inherited)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
-				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				USE_HEADERMAP = NO;
 			};
 			name = Debug;
-		};
-		OBJ_4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"SWIFT_PACKAGE=1",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
-				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				USE_HEADERMAP = NO;
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_2 /* Build configuration list for PBXProject "Graphene" */ = {
+		02CE96C16BB77C89E4EA06D3 /* Build configuration list for PBXProject "Graphene" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_3 /* Debug */,
-				OBJ_4 /* Release */,
+				F8F8311F52C5EEF9C1B1A31D /* Debug */,
+				CDD636E5F0FA3A2A5C62C7E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_208 /* Build configuration list for PBXNativeTarget "Graphene" */ = {
+		94FF2AAEE8C0D0A90E0824D3 /* Build configuration list for PBXNativeTarget "Graphene" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_209 /* Debug */,
-				OBJ_210 /* Release */,
+				3818DD60E292546C748A6C03 /* Debug */,
+				3F607E199A70D14BF9736920 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_282 /* Build configuration list for PBXNativeTarget "GrapheneTests" */ = {
+		C2844FFEF83355D39E91409C /* Build configuration list for PBXNativeTarget "GrapheneTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_283 /* Debug */,
-				OBJ_284 /* Release */,
+				1AC38CBA5C2771B4444510C1 /* Debug */,
+				846A3D6D98E146382B92840D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		F385AE2C267CA530008617BF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		F385AE2D267CA530008617BF /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F385AE2C267CA530008617BF /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = OBJ_1 /* Project object */;
+	rootObject = 7C9DD5CFD419C5F5F1D254BB /* Project object */;
 }
