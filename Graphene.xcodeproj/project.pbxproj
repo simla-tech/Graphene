@@ -179,12 +179,14 @@
 		7D3DC79BF168FF51B7847A25 /* OnQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnQuery.swift; sourceTree = "<group>"; };
 		7D544639F1E9C061FDFF9BCF /* OrderDetailQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailQuery.swift; sourceTree = "<group>"; };
 		86464BEF63C9D1C4D2C0AEA1 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		8C1268DFBB76E143DFCB1469 /* README.MD */ = {isa = PBXFileReference; path = README.MD; sourceTree = "<group>"; };
 		8C722D10C655DBA329D42FF8 /* Identity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
 		8E58A4ACB3AB276B3713BADE /* CustomerCorporate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCorporate.swift; sourceTree = "<group>"; };
 		950F13BBAE52A8E555E6B8C9 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		95997C6631D7523544BA16A7 /* QueryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
 		9A56352A60E3703EFE09C9E0 /* AnyChangeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyChangeSet.swift; sourceTree = "<group>"; };
 		9A5A988E26EA650F1CF708BF /* PaymentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatus.swift; sourceTree = "<group>"; };
+		9C6809D27116A9A4C9F05B18 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		9D154B62E647A4B1BA7F53FA /* KeyPathWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPathWrapper.swift; sourceTree = "<group>"; };
 		9D5CD500A9C09712272B181A /* GraphQLErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLErrors.swift; sourceTree = "<group>"; };
 		9E9160C55EB5B86E46F087AA /* QueryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryContainer.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 		F30B16E7F493BD6C449D2A30 /* SomeInputVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInputVariable.swift; sourceTree = "<group>"; };
 		F37295D0941C5427C034974F /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
 		F47C4E9856C0DB266C96734E /* SomeFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeFragment.swift; sourceTree = "<group>"; };
+		F4ED1226E0C0B6740C0EF06E /* Graphene.podspec */ = {isa = PBXFileReference; path = Graphene.podspec; sourceTree = "<group>"; };
 		F628BAB35597004F7CC79B09 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		F80BC4B007F2C0AAE6F2B378 /* Change.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Change.swift; sourceTree = "<group>"; };
 		F9E3F7817DF0816D17DD406A /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
@@ -267,6 +270,9 @@
 				B6882B82D94DF8088F4495EB /* Sources */,
 				125B2B07CDEDCD72BA3CDD79 /* Tests */,
 				D52C0AEDFFE902F6E1831A37 /* Tuist */,
+				F4ED1226E0C0B6740C0EF06E /* Graphene.podspec */,
+				9C6809D27116A9A4C9F05B18 /* Package.swift */,
+				8C1268DFBB76E143DFCB1469 /* README.MD */,
 			);
 			name = Project;
 			sourceTree = "<group>";
@@ -649,7 +655,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Sources  --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path $SRCROOT/Sources/**  --config ../../.swiftlint.yml\nelse\necho \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\nexit 1\nfi";
 		};
 		5D07E5E681BCC08F8EE18E44 /* Autocorrect Code */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -667,7 +673,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Tests --autocorrect --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path $SRCROOT/Tests/** --autocorrect --config ../../.swiftlint.yml\nelse\necho \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\nexit 1\nfi";
 		};
 		82A41CB7767941846BE90C4F /* Lint Code */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -685,7 +691,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Tests  --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path $SRCROOT/Tests/**  --config ../../.swiftlint.yml\nelse\necho \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\nexit 1\nfi";
 		};
 		9B0C5DF2BFE2F05A3F279202 /* Embed Precompiled Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -731,7 +737,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Sources --autocorrect --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path $SRCROOT/Sources/** --autocorrect --config ../../.swiftlint.yml\nelse\necho \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\nexit 1\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -862,7 +868,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.GrapheneTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.retailCRM.GrapheneTests;
 				PRODUCT_NAME = GrapheneTests;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -870,7 +876,7 @@
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -895,7 +901,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.Graphene;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.retailCRM.Graphene;
 				PRODUCT_NAME = Graphene;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -931,7 +937,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.Graphene;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.retailCRM.Graphene;
 				PRODUCT_NAME = Graphene;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -957,14 +963,14 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.RetailCRM.GrapheneTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retaildriver.retailCRM.GrapheneTests;
 				PRODUCT_NAME = GrapheneTests;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -973,7 +979,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1026,7 +1031,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
