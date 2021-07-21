@@ -7,7 +7,7 @@ let package = Package(
     name: "Graphene",
     platforms: [.iOS(.v12), .macOS(.v10_13)],
     products: [
-        .library(name: "Graphene", targets: ["Graphene"]),
+        .library(name: "Graphene", targets: ["Graphene"])
     ],
     dependencies: [
         .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.2.0"))
