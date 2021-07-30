@@ -21,10 +21,11 @@ internal struct AnyFragment: Field, Hashable {
         return [:]
     }
 
-    init<T: SomeFragment>(_ fragment: T) {
-        self.schemaType = T.schemaType
-        self.fragmentName = T.fragmentName
-        self.childrenFields = fragment.childrenFields
+    init<F: Fragment>(_ fragment: F) {
+        self.schemaType = F.FragmentModel.schemaType
+        self.fragmentName = F.fragmentName
+        let container = QueryContainer<F.FragmentModel>(F.buildQuery(with:))
+        self.childrenFields = container.fields
     }
 
     var fragmentBody: String {

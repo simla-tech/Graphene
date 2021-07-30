@@ -10,7 +10,7 @@ import Foundation
 
 struct OrderDetailFragment: Fragment {
 
-    func fragmentQuery(_ builder: QueryContainer<Order>) {
+    static func buildQuery(with builder: QueryContainer<Order>) {
         builder += .id
         builder += .number
         builder += .createdAt

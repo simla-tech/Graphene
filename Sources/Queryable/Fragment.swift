@@ -7,20 +7,18 @@
 
 import Foundation
 
-public protocol Fragment: SomeFragment {
+public protocol Fragment {
     associatedtype FragmentModel: Queryable
-    func fragmentQuery(_ builder: QueryContainer<FragmentModel>)
+    static var fragmentName: String { get }
+    static func buildQuery(with builder: QueryContainer<FragmentModel>)
 }
 
 extension Fragment {
-    public var childrenFields: [Field] {
-        let container = QueryContainer<FragmentModel>(self.fragmentQuery)
-        return container.fields
-    }
-}
-
-extension Fragment where FragmentModel: SchemaType {
-    public static var schemaType: String {
-        return FragmentModel.schemaType
+    public static var fragmentName: String {
+        var name = String(describing: self)
+        if String(name.suffix(8)).lowercased() != "fragment" {
+            name += "Fragment"
+        }
+        return name
     }
 }

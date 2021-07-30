@@ -7,7 +7,7 @@
 
 import Foundation
 @testable import Graphene
-
+/*
 final class OrderEditMutation: MutationOperation {
 
     let editOrderInput: EditOrderInput
@@ -23,3 +23,4 @@ final class OrderEditMutation: MutationOperation {
     }
 
 }
+*/

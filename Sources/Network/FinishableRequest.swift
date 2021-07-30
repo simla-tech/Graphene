@@ -12,9 +12,9 @@ open class FinishableRequest: CancelableRequest {
 
     private let responseQueue: DispatchQueue
     private let context: OperationContext
-    private let loggerDelegateQueue = DispatchQueue(label: "com.graphene.logger", qos: .utility)
+    private let monitor: CompositeGrapheneEventMonitor
 
-    internal let decoderRootKey: String?
+    internal var decoderRootKey: String?
     internal let configuration: Client.Configuration
     internal var storedCallback: FinishableCallback
 
@@ -25,7 +25,8 @@ open class FinishableRequest: CancelableRequest {
         self.storedCallback = callback
         self.responseQueue = queue
         self.configuration = client.configuration
-        self.decoderRootKey = operation.decoderRootKey
+        // self.decoderRootKey = operation.decoderRootKey
+        self.monitor = CompositeGrapheneEventMonitor(monitors: self.configuration.eventMonitors)
 
         var httpHeaders = client.configuration.httpHeaders ?? []
         if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
@@ -120,16 +121,12 @@ open class FinishableRequest: CancelableRequest {
         guard !self.isSended, !self.dataRequest.isCancelled else { return }
         self.isSended = true
 
-        self.loggerDelegateQueue.async {
-            self.configuration.delegate?.requestWillSend(context: self.context)
-        }
+        self.monitor.operation(self.context, willExecuteWith: self.dataRequest)
 
         self.dataRequest.response(queue: .global(qos: .utility)) { response in
-            self.loggerDelegateQueue.async {
-                self.configuration.delegate?.responseRecived(statusCode: response.response?.statusCode ?? -999,
-                                                                   interval: response.metrics?.taskInterval ?? DateInterval(),
-                                                                   context: self.context)
-            }
+            self.monitor.operation(self.context,
+                                   didExecuteWith: response.response?.statusCode ?? -999,
+                                   interval: response.metrics?.taskInterval ?? DateInterval())
             completion(.success(response))
         }
     }
@@ -140,13 +137,9 @@ open class FinishableRequest: CancelableRequest {
             return
         }
         if let error = error {
-            self.loggerDelegateQueue.async {
-                self.configuration.delegate?.errorCatched(error, context: self.context)
-            }
+            self.monitor.operation(self.context, didFailWith: error)
         }
-        self.responseQueue.sync {
-            block()
-        }
+        self.responseQueue.sync(execute: block)
     }
 
 }

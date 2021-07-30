@@ -8,20 +8,54 @@
 import Foundation
 @testable import Graphene
 
-final class OrderDetailQuery: QueryOperation {
+struct OrderDetailQuery: GraphQLOperation {
 
-    let orderId: Order.ID
+    let variables: Variables
 
-    init(orderId: Order.ID) {
-        self.orderId = orderId
+    struct Variables: QueryVariables {
+
+        let orderInput: String
+        let anotherInput: Int?
+        let test: [String: Float]
+
+        static var allKeys: [PartialKeyPath<Variables>] = [
+            \Variables.orderInput,
+            \Variables.anotherInput,
+            \Variables.test
+        ]
+
     }
 
-    lazy var query = Query<Order>("order", args: ["id": self.orderId]) { builder in
-        builder += OrderDetailFragment()
+    static func buildQuery(with builder: QueryContainer<AppSchema>) {
+        builder += .orders(orderInput: \Variables.anotherInput) { builder in
+            builder += .edges({ builder in
+                builder += .id
+                builder += .payments({ builder in
+                    builder += .amount
+                })
+            })
+        }
     }
 
-    static func mapResult(_ result: Order) throws -> OrderType? {
-        return result.orderType
+}
+
+struct AppSchema: Schema {
+
+    static let mode: OperationMode = .query
+
+    let orders: Connection<Order>?
+
+}
+
+extension AppSchema: Queryable {
+
+    final class QueryKeys: QueryKey {
+
+        static func orders(orderInput: AnyKeyPath, _ builder: @escaping QueryBuilder<Connection<Order>>) -> QueryKeys {
+            let query = Query(CodingKeys.orders, args: ["input": orderInput], builder)
+            return query.asKey()
+        }
+
     }
 
 }

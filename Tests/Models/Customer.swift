@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct Customer: Decodable, Identifiable, SchemaType {
+public struct Customer: Decodable, Identifiable {
     public var id: ID
     public var createdAt: Date?
     public var vip: Bool?

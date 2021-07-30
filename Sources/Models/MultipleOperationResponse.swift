@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 public struct MultipleOperationResponse<T> {
     public typealias ResponseType = [String: T]
     internal var data: ResponseType = [:]
@@ -28,3 +29,4 @@ extension MultipleOperationResponse: Decodable where T: Decodable {
         self.data = try container.decode([String: T].self)
     }
 }
+*/

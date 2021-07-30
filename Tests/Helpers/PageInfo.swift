@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct PageInfo: Codable, SchemaType {
+public struct PageInfo: Codable {
 
     public let hasNextPage: Bool
     public let endCursor: String?

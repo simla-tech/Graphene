@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-struct UploadAttachmentInput: Decodable, SchemaType, EncodableVariable {
+struct UploadAttachmentInput: Decodable, EncodableVariable {
 
     var files: [Upload] = []
     var entity: AttachEntity

@@ -7,7 +7,7 @@
 
 import Foundation
 @testable import Graphene
-
+/*
 final class OrderListQuery: QueryOperation {
 
     typealias DecodableResponse = Connection<Order>
@@ -32,3 +32,4 @@ final class OrderListQuery: QueryOperation {
     }
 
 }
+*/

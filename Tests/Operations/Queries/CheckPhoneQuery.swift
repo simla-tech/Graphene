@@ -8,6 +8,7 @@
 import Foundation
 @testable import Graphene
 
+/*
 struct CheckPhoneQuery: QueryOperation {
 
     let query: Query<CheckPhone>
@@ -19,3 +20,4 @@ struct CheckPhoneQuery: QueryOperation {
     }
 
 }
+*/

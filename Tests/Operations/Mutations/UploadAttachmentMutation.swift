@@ -7,7 +7,7 @@
 
 import Foundation
 @testable import Graphene
-
+/*
 final class UploadAttachmentMutation: MutationOperation {
 
     typealias DecodableResponse = UploadAttachmentPayload
@@ -25,3 +25,4 @@ final class UploadAttachmentMutation: MutationOperation {
     }
 
 }
+*/

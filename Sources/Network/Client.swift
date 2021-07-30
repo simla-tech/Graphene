@@ -41,7 +41,7 @@ public class Client: NSObject {
 extension Client {
     public struct Configuration {
         public static let `default` = Configuration()
-        public var eventMonitors: [EventMonitor] = []
+        public var eventMonitors: [GrapheneEventMonitor] = []
         public var serverTrustManager: ServerTrustManager?
         public var cachedResponseHandler: CachedResponseHandler?
         public var redirectHandler: RedirectHandler?
@@ -50,8 +50,6 @@ extension Client {
         public var requestTimeout: TimeInterval = 60
         public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
-        // swiftlint:disable:next weak_delegate
-        public var delegate: GrapheneDelegate? = DefaultDelegate()
         public var muteCanceledRequests: Bool = true
         public var rootResponseKey: String = "data"
         public var rootErrorsKey: String? = "errors"

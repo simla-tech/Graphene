@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct On<T: Queryable & SchemaType>: Field {
+public struct On<T: Queryable>: Field {
 
     public var childrenFields: [Field]
     public let arguments: Arguments = [:]

@@ -37,7 +37,7 @@ open class Request<O: GraphQLOperation>: FailureableRequest {
                         let decoder = JSONDecoder()
                         decoder.dateDecodingStrategy = self.configuration.dateDecodingStrategy
                         decoder.keyDecodingStrategy = self.configuration.keyDecodingStrategy
-                        let response = try decoder.decode(O.DecodableResponse.self, from: rawData, keyPath: key, keyPathSeparator: ".")
+                        let response = try decoder.decode(O.RootSchema.self, from: rawData, keyPath: key, keyPathSeparator: ".")
                         let result = try self.operation.handleSuccess(with: response)
                         self.performResponseBlock(error: nil) {
                             self.callback?.success?(result)

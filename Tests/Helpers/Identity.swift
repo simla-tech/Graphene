@@ -124,10 +124,7 @@ extension Identifier: Variable {
     public var json: Any? {
         return self.idValue
     }
-}
-
-extension Identifier: SchemaType {
-    public static var schemaType: String {
+    public static var variableType: String {
         return "IDInt"
     }
 }

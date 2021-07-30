@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct Order: Decodable, Identifiable, SchemaType {
+public struct Order: Decodable, Identifiable {
     public var id: ID
     public var externalId: String?
     public var number: String?

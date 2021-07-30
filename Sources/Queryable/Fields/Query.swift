@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Query<T>: AnyQuery {
+public struct Query: Field {
 
     public let name: String
     public let arguments: Arguments
@@ -34,40 +34,81 @@ public struct Query<T>: AnyQuery {
         self.init(alias: alias.stringValue, name: name, args: args)
     }
 
+    public func buildField() -> String {
+        var res = [String]()
+
+        if let alias = self.alias {
+            res.append("\(alias):\(self.name)")
+        } else {
+            res.append(self.name)
+        }
+        let nonNullArgs = self.arguments.filter({ $0.value.rawValue != "null" })
+        if !nonNullArgs.isEmpty {
+            let argumentsStr = nonNullArgs
+                .map({ "\($0.key):\($0.value.rawValue)" })
+                .joined(separator: ",")
+            res.append("(\(argumentsStr))")
+        }
+
+        if !self.childrenFields.isEmpty {
+            res.append("{\(self.childrenFields.map({ $0.buildField() }).joined(separator: ","))}")
+        }
+
+        return res.joined()
+    }
+
 }
 
-extension Query where T: Queryable {
+extension Query {
 
-    public init(_ name: String,
-                args: Arguments = [:],
-                _ builder: @escaping QueryBuilder<T>) {
+    public init<Q: Queryable>(_ name: String, args: Arguments = [:], _ builder: @escaping QueryBuilder<Q>) {
         self.init(name, args: args)
-        let container = QueryContainer<T>(builder)
+        let container = QueryContainer<Q>(builder)
         self.childrenFields = container.fields
-        if T.self is AbstractDecodable.Type {
-            self.childrenFields.insert("__typename", at: 0)
+        if Q.self is AbstractDecodable.Type {
+            self.childrenFields.insert(Query("__typename"), at: 0)
         }
     }
 
-    public init(alias: String,
-                name: String,
-                args: Arguments = [:],
-                _ builder: @escaping QueryBuilder<T>) {
+    public init<Q: Queryable>(alias: String, name: String, args: Arguments = [:], _ builder: @escaping QueryBuilder<Q>) {
         self.init(name, args: args, builder)
         self.alias = alias
     }
 
-    public init<Key: CodingKey>(_ key: Key,
-                                args: Arguments = [:],
-                                _ builder: @escaping QueryBuilder<T>) {
+    public init<Key: CodingKey, Q: Queryable>(_ key: Key, args: Arguments = [:], _ builder: @escaping QueryBuilder<Q>) {
         self.init(key.stringValue, args: args, builder)
     }
 
-    public init<Key: CodingKey>(alias: Key,
-                                name: String,
-                                args: Arguments = [:],
-                                _ builder: @escaping QueryBuilder<T>) {
+    public init<Key: CodingKey, Q: Queryable>(alias: Key,
+                                              name: String,
+                                              args: Arguments = [:],
+                                              _ builder: @escaping QueryBuilder<Q>) {
         self.init(alias: alias.stringValue, name: name, args: args, builder)
+    }
+
+}
+
+extension Query {
+
+    public init<F: Fragment>(_ name: String, args: Arguments = [:], fragment: F) {
+        self.init(name, args: args)
+        self.childrenFields = [AnyFragment(fragment)]
+        if F.self is AbstractDecodable.Type {
+            self.childrenFields.insert(Query("__typename"), at: 0)
+        }
+    }
+
+    public init<F: Fragment>(alias: String, name: String, args: Arguments = [:], fragment: F) {
+        self.init(name, args: args, fragment: fragment)
+        self.alias = alias
+    }
+
+    public init<Key: CodingKey, F: Fragment>(_ key: Key, args: Arguments = [:], fragment: F) {
+        self.init(key.stringValue, args: args, fragment: fragment)
+    }
+
+    public init<Key: CodingKey, F: Fragment>(alias: Key, name: String, args: Arguments = [:], fragment: F) {
+        self.init(alias: alias.stringValue, name: name, args: args, fragment: fragment)
     }
 
 }

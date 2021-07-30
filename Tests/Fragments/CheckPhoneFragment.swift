@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 struct CheckPhoneFragment: Fragment {
-    public func fragmentQuery(_ builder: QueryContainer<CheckPhone>) {
+    static func buildQuery(with builder: QueryContainer<CheckPhone>) {
         builder += .phone
         builder += .isValid
         builder += .region

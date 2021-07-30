@@ -68,7 +68,7 @@ extension Connection: Queryable {
         }
 
         static var pageInfo: QueryKeys {
-            QueryKeys(FragmentQuery(CodingKeys.pageInfo, fragment: PageInfoFragment()))
+            QueryKeys(Query(CodingKeys.pageInfo, fragment: PageInfoFragment()))
         }
 
     }
@@ -77,7 +77,7 @@ extension Connection: Queryable {
 
 extension Connection.QueryKeys where T: Queryable {
     static func edges(_ builder: @escaping QueryBuilder<T>) -> Connection.QueryKeys {
-        return .init(Query<Node<T>>(Connection.CodingKeys.edges) { nodeBuilder in
+        return .init(Query(Connection.CodingKeys.edges) { (nodeBuilder: QueryContainer<Node<T>>) in
             nodeBuilder += .node(builder)
         })
     }

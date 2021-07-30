@@ -9,8 +9,8 @@ import Foundation
 @testable import Graphene
 
 struct PageInfoFragment: Fragment {
-    func fragmentQuery(_ query: QueryContainer<PageInfo>) {
-        query += .hasNextPage
-        query += .endCursor
+    static func buildQuery(with builder: QueryContainer<PageInfo>) {
+        builder += .hasNextPage
+        builder += .endCursor
     }
 }
