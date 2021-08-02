@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-enum AttachEntity: String, Variable, Argument, Codable {
+enum AttachEntity: String, Variable, AnyArgument, Codable {
     case customer = "CUSTOMER"
     case order = "ORDER"
 }

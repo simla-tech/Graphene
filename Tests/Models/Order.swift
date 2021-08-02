@@ -64,7 +64,7 @@ extension Order: Queryable {
             return Query(CodingKeys.unionCustomer, builder).asKey()
         }
 
-        static func orderProducts(first: Int? = nil, after: String? = nil, _ builder: @escaping QueryBuilder<Connection<OrderProduct>>) -> QueryKeys {
+        static func orderProducts(first: Argument<Int>? = nil, after: Argument<String>? = nil, _ builder: @escaping QueryBuilder<Connection<OrderProduct>>) -> QueryKeys {
             return Query(CodingKeys.orderProducts, args: ["first": first, "after": after], builder).asKey()
         }
 

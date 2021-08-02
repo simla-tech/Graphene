@@ -17,10 +17,6 @@ internal struct AnyFragment: Field, Hashable {
         return "...\(self.fragmentName)"
     }
 
-    var arguments: Arguments {
-        return [:]
-    }
-
     init<F: Fragment>(_ fragment: F) {
         self.schemaType = F.FragmentModel.schemaType
         self.fragmentName = F.fragmentName

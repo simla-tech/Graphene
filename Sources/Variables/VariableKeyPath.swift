@@ -8,6 +8,7 @@
 
 import Foundation
 
+/*
 public class VariableKeyPath<Value: Variable> {
     private let anyKeyPath: AnyKeyPath
     private init<Root: QueryVariables>(keyPath: KeyPath<Root, Value>) {
@@ -26,3 +27,4 @@ extension VariableKeyPath: Argument {
         return "$\(self.anyKeyPath.identifier)"
     }
 }
+*/

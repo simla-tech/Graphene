@@ -76,7 +76,7 @@ class GrapheneTests: XCTestCase {
 
     func testQuery() {
         print("--\nQUERY:\n", OrderDetailQuery.buildQuery())
-        let query = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderInput: "test", anotherInput: nil, test: ["asds": 1232]))
+        let query = OrderDetailQuery(variables: .init(orderId: "48"))
         let context = query.prepareContext()
         print("-\nVARS:\n", context.jsonVariablesString(prettyPrinted: true) ?? "none")
     }

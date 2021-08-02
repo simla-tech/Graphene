@@ -35,8 +35,8 @@ public struct FieldChange: Change, Hashable, Equatable {
     public func description(padding: Int, isLast: Bool) -> String {
         var paddingStr = ""
         for _ in 0 ..< padding { paddingStr += "  " }
-        let oldValue = (self.oldValue as? Argument)?.rawValue ?? self.oldValue?.json ?? "nil"
-        let newValue = (self.newValue as? Argument)?.rawValue ?? self.newValue?.json ?? "nil"
+        let oldValue = self.oldValue?.json ?? "nil"
+        let newValue = self.newValue?.json ?? "nil"
         return [
             paddingStr, "\"\(self.key)\"", ":", "\(oldValue)", "→", "\(newValue)\(isLast ? "" : ",")"
         ].joined(separator: " ")
