@@ -27,7 +27,7 @@ struct OrderDetailQuery: GraphQLOperation {
     }
 
     static func buildQuery(with builder: QueryContainer<AppSchema>) {
-        builder += .orders(orderInput: \Variables.anotherInput) { builder in
+        builder += .orders(orderInput: .from(\Variables.anotherInput)) { builder in
             builder += .edges({ builder in
                 builder += .id
                 builder += .payments({ builder in
@@ -51,7 +51,7 @@ extension AppSchema: Queryable {
 
     final class QueryKeys: QueryKey {
 
-        static func orders(orderInput: AnyKeyPath, _ builder: @escaping QueryBuilder<Connection<Order>>) -> QueryKeys {
+        static func orders(orderInput: VariableKeyPath<Int?>, _ builder: @escaping QueryBuilder<Connection<Order>>) -> QueryKeys {
             let query = Query(CodingKeys.orders, args: ["input": orderInput], builder)
             return query.asKey()
         }

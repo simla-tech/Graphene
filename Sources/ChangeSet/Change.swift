@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol Change: CustomDebugStringConvertible {
-    var key: AnyHashable { get set }
+    var key: String { get set }
     func description(padding: Int, isLast: Bool) -> String
 }
 
@@ -20,7 +20,7 @@ extension Change {
 
 public struct FieldChange: Change, Hashable, Equatable {
 
-    public var key: AnyHashable
+    public var key: String
     public let oldValue: Variable?
     public let newValue: Variable?
 
@@ -46,7 +46,7 @@ public struct FieldChange: Change, Hashable, Equatable {
 
 public struct RootChange: Change, Hashable, Equatable {
 
-    public var key: AnyHashable
+    public var key: String
     public let childChanges: [Change]
 
     public static func == (lhs: RootChange, rhs: RootChange) -> Bool {

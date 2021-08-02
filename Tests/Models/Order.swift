@@ -22,6 +22,8 @@ public struct Order: Decodable, Identifiable {
     public var manager: User?
     public var updateStateDate: String?
     public var contragent: Contragent?
+    public var deliveryContragent: Contragent?
+    public var customerContragent: Contragent?
     public var unionCustomer: AbstractCustomer?
     public var orderProducts: Connection<OrderProduct>?
 }
@@ -84,6 +86,8 @@ extension Order: EncodableVariable {
         conatiner.encode(self.manager?.id, forKey: .manager)
         conatiner.encode(self.orderType?.id, forKey: .orderType)
         conatiner.encode(self.payments, forKey: .payments)
+        conatiner.encode(self.deliveryContragent, forKey: .deliveryContragent)
+        conatiner.encode(self.customerContragent, forKey: .customerContragent)
         conatiner.encode(self.contragent, forKey: .contragent)
     }
 }

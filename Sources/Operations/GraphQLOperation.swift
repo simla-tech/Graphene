@@ -90,15 +90,8 @@ extension GraphQLOperation {
 extension GraphQLOperation {
 
     public func prepareContext() -> OperationContext {
-        var resultVariables: [String: Variable] = [:]
-        Self.Variables.allKeys.forEach({ keyPath in
-            if let value = self.variables[keyPath: keyPath] as? Variable {
-                print(keyPath.identifier, value)
-                resultVariables[keyPath.identifier] = value
-            } else {
-                print(keyPath.identifier, "none")
-                resultVariables[keyPath.identifier] = String?.none
-            }
+        let resultVariables = Self.Variables.allKeys.reduce(into: [String: Variable](), {
+            $0[$1.identifier] = self.variables[keyPath: $1] as? Variable
         })
         return OperationContext(operationName: Self.operationName,
                                 query: Self.buildQuery(),

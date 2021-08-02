@@ -80,6 +80,7 @@
 		E9A5ECCF1512FA8F93E5D768 /* CancelableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F5C92704464E5877333F47 /* CancelableRequest.swift */; };
 		EFA0CB73A3CDE7559ED671A8 /* AnyFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A3862B8C9B2AD766A48972 /* AnyFragment.swift */; };
 		F0AAE9DD04DC3A99B6952972 /* UploadAttachmentPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32015A14DEE4E7BD9BC8E0E /* UploadAttachmentPayload.swift */; };
+		F3808BC326B7FB0600C98EBE /* VariableKeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3808BC226B7FB0600C98EBE /* VariableKeyPath.swift */; };
 		F3A0B0EA26B3E8DE0081B201 /* Hashids.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A0B0E926B3E8DE0081B201 /* Hashids.swift */; };
 		F3A0B0EC26B3EA970081B201 /* AnyKeyPath+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A0B0EB26B3EA970081B201 /* AnyKeyPath+Identifier.swift */; };
 		F3A0B0EE26B3EAA80081B201 /* PartialKeyPath+SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A0B0ED26B3EAA80081B201 /* PartialKeyPath+SchemaType.swift */; };
@@ -202,6 +203,7 @@
 		EBB33CC480D4870289CB3F93 /* Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegate.swift; sourceTree = "<group>"; };
 		ECFCCABCD44BEFF27FD25ABF /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		F37295D0941C5427C034974F /* GrapheneError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapheneError.swift; sourceTree = "<group>"; };
+		F3808BC226B7FB0600C98EBE /* VariableKeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableKeyPath.swift; sourceTree = "<group>"; };
 		F3A0B0E926B3E8DE0081B201 /* Hashids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashids.swift; sourceTree = "<group>"; };
 		F3A0B0EB26B3EA970081B201 /* AnyKeyPath+Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyKeyPath+Identifier.swift"; sourceTree = "<group>"; };
 		F3A0B0ED26B3EAA80081B201 /* PartialKeyPath+SchemaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PartialKeyPath+SchemaType.swift"; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				075C3B199B39566DA9B6D40F /* VariableEncoderContainer.swift */,
 				1E78E3240ADC9409278EE52C /* VariableEncoderKeyedContainer.swift */,
 				B5FEB10D5A2C4C376B8BA2B2 /* Variable.swift */,
+				F3808BC226B7FB0600C98EBE /* VariableKeyPath.swift */,
 			);
 			path = Variables;
 			sourceTree = "<group>";
@@ -783,6 +786,7 @@
 				803416C76B65218F45386CD6 /* ResponseValidator.swift in Sources */,
 				1A6A5D19BA2E3A74ED02A4D2 /* GraphQLOperation.swift in Sources */,
 				F3A0B0EA26B3E8DE0081B201 /* Hashids.swift in Sources */,
+				F3808BC326B7FB0600C98EBE /* VariableKeyPath.swift in Sources */,
 				EFA0CB73A3CDE7559ED671A8 /* AnyFragment.swift in Sources */,
 				D59F69F4EE64435F177BE4D6 /* Arguments.swift in Sources */,
 				645AD72C93EB86A15CB0282D /* Field.swift in Sources */,

@@ -66,12 +66,6 @@ extension Optional: Argument where Wrapped: Argument {
     }
 }
 
-extension AnyKeyPath: Argument {
-    public var rawValue: String {
-        return "$\(self.identifier)"
-    }
-}
-
 extension String {
     internal var escaped: String {
         var res: String = ""
