@@ -17,7 +17,7 @@ internal struct AnyFragment: Field, Hashable {
         return "...\(self.fragmentName)"
     }
 
-    init<F: Fragment>(_ fragment: F) {
+    init<F: Fragment>(_ fragment: F.Type) {
         self.schemaType = F.FragmentModel.schemaType
         self.fragmentName = F.fragmentName
         let container = QueryContainer<F.FragmentModel>(F.buildQuery(with:))

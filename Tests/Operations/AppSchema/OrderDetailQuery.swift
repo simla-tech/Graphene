@@ -19,7 +19,7 @@ struct OrderDetailQuery: GraphQLOperation {
 
     static func buildQuery(with builder: QueryContainer<AppSchema>) {
         builder += .order(id: .reference(to: \Variables.orderId)) { builder in
-            builder += OrderDetailFragment()
+            builder += OrderDetailFragment.self
         }
     }
 

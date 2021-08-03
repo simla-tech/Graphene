@@ -68,7 +68,7 @@ extension Connection: Queryable {
         }
 
         static var pageInfo: QueryKeys {
-            QueryKeys(Query(CodingKeys.pageInfo, fragment: PageInfoFragment()))
+            QueryKeys(Query(CodingKeys.pageInfo, fragment: PageInfoFragment.self))
         }
 
     }

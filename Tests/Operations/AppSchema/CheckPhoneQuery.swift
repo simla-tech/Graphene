@@ -19,7 +19,7 @@ struct CheckPhoneQuery: GraphQLOperation {
 
     static func buildQuery(with builder: QueryContainer<AppSchema>) {
         builder += .checkPhone(phone: .reference(to: \Variables.phone), { builder in
-            builder += CheckPhoneFragment()
+            builder += CheckPhoneFragment.self
         })
     }
 

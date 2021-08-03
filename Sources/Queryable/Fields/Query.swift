@@ -90,7 +90,7 @@ extension Query {
 
 extension Query {
 
-    public init<F: Fragment>(_ name: String, args: AnyArguments = [:], fragment: F) {
+    public init<F: Fragment>(_ name: String, args: AnyArguments = [:], fragment: F.Type) {
         self.init(name, args: args)
         self.childrenFields = [AnyFragment(fragment)]
         if F.self is AbstractDecodable.Type {
@@ -98,16 +98,16 @@ extension Query {
         }
     }
 
-    public init<F: Fragment>(alias: String, name: String, args: AnyArguments = [:], fragment: F) {
+    public init<F: Fragment>(alias: String, name: String, args: AnyArguments = [:], fragment: F.Type) {
         self.init(name, args: args, fragment: fragment)
         self.alias = alias
     }
 
-    public init<Key: CodingKey, F: Fragment>(_ key: Key, args: AnyArguments = [:], fragment: F) {
+    public init<Key: CodingKey, F: Fragment>(_ key: Key, args: AnyArguments = [:], fragment: F.Type) {
         self.init(key.stringValue, args: args, fragment: fragment)
     }
 
-    public init<Key: CodingKey, F: Fragment>(alias: Key, name: String, args: AnyArguments = [:], fragment: F) {
+    public init<Key: CodingKey, F: Fragment>(alias: Key, name: String, args: AnyArguments = [:], fragment: F.Type) {
         self.init(alias: alias.stringValue, name: name, args: args, fragment: fragment)
     }
 
