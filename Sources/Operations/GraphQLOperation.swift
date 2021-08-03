@@ -29,7 +29,7 @@ public protocol GraphQLOperation {
 
     var variables: Variables { get }
 
-    func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> Result
+    static func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> Result
 
     static var operationName: String { get }
 
@@ -47,7 +47,7 @@ extension GraphQLOperation {
         return String(describing: self)
     }
 
-    public func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> RootSchema {
+    public static func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> RootSchema {
         return try response.get()
     }
 
@@ -77,20 +77,6 @@ extension GraphQLOperation {
             result.formUnion(self.searchFragments(in: field.childrenFields))
         }
         return result
-    }
-
-}
-
-extension GraphQLOperation {
-
-    public func prepareContext() -> OperationContext {
-        let resultVariables = Self.Variables.allKeys.reduce(into: [String: Variable](), {
-            $0[$1.identifier] = self.variables[keyPath: $1] as? Variable
-        })
-        return OperationContext(operationName: Self.operationName,
-                                query: Self.buildQuery(),
-                                variables: resultVariables)
-
     }
 
 }

@@ -14,17 +14,14 @@ public class Client: NSObject {
 
     public let configuration: Configuration
     public let url: URLConvertible
+    public let batchUrl: URLConvertible
 
     /// Create graphus client
-    public init(url: URLConvertible, configuration: Configuration = .default) {
+    public init(url: URLConvertible, batchUrl: URLConvertible? = nil, configuration: Configuration = .default) {
         self.url = url
+        self.batchUrl = batchUrl ?? url
         self.configuration = configuration
-        self.alamofireSession = Alamofire.Session(configuration: URLSessionConfiguration.af.default,
-                                                  delegate: Alamofire.SessionDelegate(),
-                                                  rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
-                                                  startRequestsImmediately: false,
-                                                  requestQueue: nil,
-                                                  serializationQueue: nil,
+        self.alamofireSession = Alamofire.Session(rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
                                                   interceptor: configuration.interceptor,
                                                   serverTrustManager: configuration.serverTrustManager,
                                                   redirectHandler: configuration.redirectHandler,

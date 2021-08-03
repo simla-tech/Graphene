@@ -8,18 +8,60 @@
 import Foundation
 import Alamofire
 
-public struct OperationContext {
+public protocol OperationContext {
+    var operationName: String { get }
+    var query: String { get }
+    func variables(prettyPrinted: Bool) -> String?
+}
+
+internal struct BatchOperationContextData: OperationContext {
+
+    var operationName: String
+    var query: String
+    private let variables: [[String: Variable]]
+
+    init<O: GraphQLOperation>(operation: O.Type, operationContexts: [OperationContextData]) {
+        self.operationName = "Batch_" + O.operationName
+        self.query = O.buildQuery()
+        self.variables = operationContexts.filter({ !$0.variables.isEmpty }).map({ $0.variables })
+    }
+
+    func variables(prettyPrinted: Bool) -> String? {
+        guard !self.variables.isEmpty else { return nil }
+
+        let variablesJson = self.variables.flatMap({ $0 }).reduce(into: [String: Any?](), {
+            $0[$1.key] = $1.value.json
+        })
+
+        guard let variablesData = try? JSONSerialization.data(withJSONObject: variablesJson,
+                                                              options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []) else {
+            return nil
+        }
+
+        return String(data: variablesData, encoding: .utf8)
+    }
+
+}
+
+internal struct OperationContextData: OperationContext {
 
     public let operationName: String
     public let query: String
-    public let variables: [String: Variable]
+    fileprivate let variables: [String: Variable]
 
-    public func jsonVariablesString(prettyPrinted: Bool = false) -> String? {
+    init<O: GraphQLOperation>(operation: O) {
+        self.operationName = O.operationName
+        self.query = O.buildQuery()
+        self.variables = O.Variables.allKeys.reduce(into: [String: Variable](), {
+            $0[$1.identifier] = operation.variables[keyPath: $1] as? Variable
+        })
+    }
+
+    public func variables(prettyPrinted: Bool = false) -> String? {
 
         guard !self.variables.isEmpty else { return nil }
 
         let variablesJson = self.variables.reduce(into: [String: Any?](), {
-            // if let value = $1.value { $0[$1.key] = value.json }
             $0[$1.key] = $1.value.json
         })
 
@@ -32,33 +74,16 @@ public struct OperationContext {
 
     }
 
-    internal func getMultipartFormData() -> MultipartFormData {
-        let multipartFormData = MultipartFormData(fileManager: .default, boundary: nil)
+    internal func getOperationJSON() -> String {
+        return String(format: "{\"query\":\"%@\",\"variables\": %@,\"operationName\":\"%@\"}",
+                      self.query.escaped,
+                      self.variables(prettyPrinted: false) ?? "{}",
+                      self.operationName)
+    }
 
-        let operations = String(format: "{\"query\":\"%@\",\"variables\": %@,\"operationName\":\"%@\"}",
-                                self.query.escaped,
-                                self.jsonVariablesString(prettyPrinted: false) ?? "{}",
-                                self.operationName)
-
-        if let data = operations.data(using: .utf8) {
-            multipartFormData.append(data, withName: "operations")
-        }
-
+    internal func getUploads() -> [String: Upload] {
         let dictVariables = self.variables.reduce(into: Variables(), { $0[$1.key] = $1.value })
-        let uploads = self.searchUploads(in: dictVariables, currentPath: [])
-        let mapStr = uploads.enumerated().map({ (index, upload) -> String in
-            return "\"\(index)\": [\"variables.\(upload.key)\"]"
-        }).joined(separator: ",")
-        if let data = "{\(mapStr)}".data(using: .utf8) {
-            multipartFormData.append(data, withName: "map")
-        }
-        for (index, upload) in uploads.enumerated() {
-            multipartFormData.append(upload.value.data,
-                                     withName: "\(index)",
-                                     fileName: upload.value.name,
-                                     mimeType: MimeType(path: upload.value.name).value)
-        }
-        return multipartFormData
+        return self.searchUploads(in: dictVariables, currentPath: [])
     }
 
     private func searchUploads(in variables: Variables, currentPath: [String]) -> [String: Upload] {

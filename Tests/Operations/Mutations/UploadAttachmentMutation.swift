@@ -16,8 +16,8 @@ struct UploadAttachmentMutation: GraphQLOperation {
         let input: UploadAttachmentInput
         static var allKeys: [PartialKeyPath<Variables>] = [\Variables.input]
     }
-    
-    func handleResponse(_ response: ExecuteResponse<AppMutation>) throws -> [Attachment] {
+
+    static func handleResponse(_ response: ExecuteResponse<AppMutation>) throws -> [Attachment] {
         return try response.get({ $0.uploadAttachment?.attachments })
     }
 

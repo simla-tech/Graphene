@@ -40,4 +40,25 @@ class ClientTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
 
+    func testQuery() {
+        print("--\nQUERY:\n", OrderDetailQuery.buildQuery())
+        let query = OrderDetailQuery(variables: .init(orderId: "48"))
+        let request = self.client.request(for: query)
+        print("-\nVARS:\n", request.context.variables(prettyPrinted: true) ?? "none")
+        request.perform { response in
+            response
+        }
+    }
+
+    func testBatchQuery() {
+        print("--\nQUERY:\n", OrderDetailQuery.buildQuery())
+        let query1 = OrderDetailQuery(variables: .init(orderId: "48"))
+        let query2 = OrderDetailQuery(variables: .init(orderId: "49"))
+        let query3 = OrderDetailQuery(variables: .init(orderId: "50"))
+        let request = self.client.request(for: [query1, query2, query3])
+        request.perform { response in
+            let test = try? response.get()
+        }
+    }
+
 }

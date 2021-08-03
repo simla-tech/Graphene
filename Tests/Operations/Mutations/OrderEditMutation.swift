@@ -17,10 +17,10 @@ struct OrderEditMutation: GraphQLOperation {
         static var allKeys: [PartialKeyPath<Variables>] = [\Variables.input]
     }
 
-    func handleResponse(_ response: ExecuteResponse<AppMutation>) throws -> Order {
+    static func handleResponse(_ response: ExecuteResponse<AppMutation>) throws -> Order {
         return try response.get({ $0.editOrder?.order })
     }
-    
+
     static func buildQuery(with builder: QueryContainer<AppMutation>) {
         builder += .editOrder(input: .reference(to: \Variables.input), { builder in
             builder += .order({ builder in

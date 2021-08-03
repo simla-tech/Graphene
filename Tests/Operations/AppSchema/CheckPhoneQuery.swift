@@ -17,10 +17,10 @@ struct CheckPhoneQuery: GraphQLOperation {
         static let allKeys: [PartialKeyPath<Variables>] = [\Variables.phone]
     }
 
-    func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> CheckPhone {
+    static func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> CheckPhone {
         return try response.get({ $0.checkPhone })
     }
-    
+
     static func buildQuery(with builder: QueryContainer<AppSchema>) {
         builder += .checkPhone(phone: .reference(to: \Variables.phone), { builder in
             builder += CheckPhoneFragment.self

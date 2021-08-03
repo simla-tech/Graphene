@@ -17,7 +17,7 @@ struct OrderDetailQuery: GraphQLOperation {
         static var allKeys: [PartialKeyPath<Variables>] = [\Variables.orderId]
     }
 
-    func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> Order {
+    static func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> Order {
         return try response.get({ $0.order })
     }
 

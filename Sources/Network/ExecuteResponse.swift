@@ -9,7 +9,7 @@
 import Foundation
 
 public enum ExecuteResponse<Value> {
-   case success(Result<Value>)
+   case success(Value)
    case failure(Error)
 }
 
@@ -18,7 +18,7 @@ extension ExecuteResponse {
     public var value: Value? {
         switch self {
         case .success(let result):
-            return result.value
+            return result
         case .failure:
             return nil
         }
@@ -33,25 +33,10 @@ extension ExecuteResponse {
         }
     }
 
-    public var graphQlErrors: [GraphQLError]? {
-        switch self {
-        case .success(let result):
-            return result.errors
-        case .failure(let error):
-            if let error = error as? GraphQLErrors {
-                return error.errors
-            } else if let error = error as? GraphQLError {
-                return [error]
-            } else {
-                return nil
-            }
-        }
-    }
-
     public func get() throws -> Value {
         switch self {
         case .success(let result):
-            return result.value
+            return result
         case .failure(let error):
             throw error
         }
@@ -65,9 +50,4 @@ extension ExecuteResponse {
         return value
     }
 
-}
-
-public struct Result<Value> {
-    public let value: Value
-    public let errors: [GraphQLError]?
 }

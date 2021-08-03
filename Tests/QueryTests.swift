@@ -57,13 +57,6 @@ class QueryTests: XCTestCase {
 
     }
 
-    func testQuery() {
-        print("--\nQUERY:\n", OrderDetailQuery.buildQuery())
-        let query = OrderDetailQuery(variables: .init(orderId: "48"))
-        let context = query.prepareContext()
-        print("-\nVARS:\n", context.jsonVariablesString(prettyPrinted: true) ?? "none")
-    }
-
     func testOperationType() {
         XCTAssertEqual(OrderEditMutation.buildQuery().prefix(8), "mutation")
         XCTAssertEqual(OrderDetailQuery.buildQuery().prefix(5), "query")
