@@ -7,20 +7,26 @@
 
 import Foundation
 @testable import Graphene
-/*
-final class OrderEditMutation: MutationOperation {
 
-    let editOrderInput: EditOrderInput
+struct OrderEditMutation: GraphQLOperation {
 
-    init(order: Order, changeSet: ChangeSet<Order>?) {
-        self.editOrderInput = EditOrderInput(order: order, changeSet: changeSet)
+    let variables: Variables
+
+    struct Variables: QueryVariables {
+        let input: EditOrderInput
+        static var allKeys: [PartialKeyPath<Variables>] = [\Variables.input]
     }
 
-    lazy var query = Query<EditOrderPayload>("editOrder", args: ["input": InputVariable(self.editOrderInput)]) { builder in
-        builder += .order({ builder in
-            builder += OrderDetailFragment()
+    func handleResponse(_ response: ExecuteResponse<AppMutation>) throws -> Order {
+        return try response.get({ $0.editOrder?.order })
+    }
+    
+    static func buildQuery(with builder: QueryContainer<AppMutation>) {
+        builder += .editOrder(input: .reference(to: \Variables.input), { builder in
+            builder += .order({ builder in
+                builder += OrderDetailFragment.self
+            })
         })
     }
 
 }
-*/

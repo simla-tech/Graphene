@@ -17,6 +17,10 @@ struct OrderDetailQuery: GraphQLOperation {
         static var allKeys: [PartialKeyPath<Variables>] = [\Variables.orderId]
     }
 
+    func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> Order {
+        return try response.get({ $0.order })
+    }
+
     static func buildQuery(with builder: QueryContainer<AppSchema>) {
         builder += .order(id: .reference(to: \Variables.orderId)) { builder in
             builder += OrderDetailFragment.self

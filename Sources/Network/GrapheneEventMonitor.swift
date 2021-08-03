@@ -10,47 +10,47 @@ import Alamofire
 import os.log
 
 public protocol GrapheneEventMonitor: EventMonitor {
-    func operation(_ operationContext: OperationContext, willExecuteWith request: DataRequest)
-    func operation(_ operationContext: OperationContext, didExecuteWith statusCode: Int, interval: DateInterval)
-    func operation(_ operationContext: OperationContext, didFailWith error: Error)
+    func client(_ client: Client, willExecute request: OperationRequest)
+    func operation(_ context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval)
+    func operation(_ context: OperationContext, didFailWith error: Error)
 }
 
 extension GrapheneEventMonitor {
 
-    public func operation(_ operationContext: OperationContext, willExecuteWith request: DataRequest) {
-        if let variables = operationContext.jsonVariablesString(prettyPrinted: true) {
-            os_log("[GrapheneEventMonitor] Will send request \"%@\":\n%@\nvariables: %@", operationContext.operationName, operationContext.query, variables)
+    public func client(_ client: Client, willExecute request: OperationRequest) {
+        if let variables = request.context.jsonVariablesString(prettyPrinted: true) {
+            os_log("[GrapheneEventMonitor] Will send request \"%@\":\n%@\nvariables: %@", request.context.operationName, request.context.query, variables)
         } else {
-            os_log("[GrapheneEventMonitor] Will send request \"%@\":\n%@", operationContext.operationName, operationContext.query)
+            os_log("[GrapheneEventMonitor] Will send request \"%@\":\n%@", request.context.operationName, request.context.query)
         }
     }
 
-    public func operation(_ operationContext: OperationContext, didExecuteWith statusCode: Int, interval: DateInterval) {
-        os_log("[GrapheneEventMonitor] Response \"%@\" recived. Code: %d. Duration: %.3f", operationContext.operationName, statusCode, interval.duration)
+    public func operation(_ context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
+        os_log("[GrapheneEventMonitor] Response \"%@\" recived. Code: %d. Duration: %.3f", context.operationName, statusCode, interval.duration)
     }
 
-    public func operation(_ operationContext: OperationContext, didFailWith error: Error) {
-        os_log("[GrapheneEventMonitor] Catched error for \"%@\" operation: %@", operationContext.operationName, error.localizedDescription)
+    public func operation(_ context: OperationContext, didFailWith error: Error) {
+        os_log("[GrapheneEventMonitor] Catched error for \"%@\" operation: %@", context.operationName, error.localizedDescription)
     }
 
 }
 
 public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMonitor {
 
-    open var operationWillExecute: ((OperationContext) -> Void)?
-    open var operationDidExecute: ((OperationContext, Int, DateInterval) -> Void)?
+    open var clientWillExecute: ((Client, OperationRequest) -> Void)?
+    open var operationDidFinish: ((OperationContext, Int, DateInterval) -> Void)?
     open var operationDidFail: ((OperationContext, Error) -> Void)?
 
-    public func operation(_ operationContext: OperationContext, willExecuteWith request: DataRequest) {
-        self.operationWillExecute?(operationContext)
+    public func client(_ client: Client, willExecute request: OperationRequest) {
+        self.clientWillExecute?(client, request)
     }
 
-    public func operation(_ operationContext: OperationContext, didExecuteWith statusCode: Int, interval: DateInterval) {
-        self.operationDidExecute?(operationContext, statusCode, interval)
+    public func operation(_ context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
+        self.operationDidFinish?(context, statusCode, interval)
     }
 
-    public func operation(_ operationContext: OperationContext, didFailWith error: Error) {
-        self.operationDidFail?(operationContext, error)
+    public func operation(_ context: OperationContext, didFailWith error: Error) {
+        self.operationDidFail?(context, error)
     }
 
 }
@@ -73,20 +73,16 @@ final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
         }
     }
 
-    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        performEvent { $0.urlSession(session, didBecomeInvalidWithError: error) }
+    public func client(_ client: Client, willExecute request: OperationRequest) {
+        performEvent { $0.client(client, willExecute: request) }
     }
 
-    public func operation(_ operationContext: OperationContext, willExecuteWith request: DataRequest) {
-        performEvent { $0.operation(operationContext, willExecuteWith: request) }
+    public func operation(_ context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
+        performEvent { $0.operation(context, didFinishWith: statusCode, interval: interval) }
     }
 
-    public func operation(_ operationContext: OperationContext, didExecuteWith statusCode: Int, interval: DateInterval) {
-        performEvent { $0.operation(operationContext, didExecuteWith: statusCode, interval: interval) }
-    }
-
-    public func operation(_ operationContext: OperationContext, didFailWith error: Error) {
-        performEvent { $0.operation(operationContext, didFailWith: error) }
+    public func operation(_ context: OperationContext, didFailWith error: Error) {
+        performEvent { $0.operation(context, didFailWith: error) }
     }
 
 }

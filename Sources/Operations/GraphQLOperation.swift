@@ -29,9 +29,7 @@ public protocol GraphQLOperation {
 
     var variables: Variables { get }
 
-    func handleSuccess(with result: RootSchema) throws -> Result
-
-    func handleFailure(with error: Error) -> Swift.Result<Result, Error>
+    func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> Result
 
     static var operationName: String { get }
 
@@ -49,12 +47,8 @@ extension GraphQLOperation {
         return String(describing: self)
     }
 
-    public func handleFailure(with error: Error) -> Swift.Result<Result, Error> {
-        return .failure(error)
-    }
-
-    public func handleSuccess(with result: RootSchema) throws -> RootSchema {
-        return result
+    public func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> RootSchema {
+        return try response.get()
     }
 
     internal static func buildQuery() -> String {

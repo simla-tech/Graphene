@@ -9,38 +9,12 @@ import Foundation
 
 public enum GrapheneError: Error {
 
-    case emptyResponse
-    case unknownKey(String)
+    case invalidResponse
     case unknownSchemaType(String)
+    case valueIsNull(_ object: String)
     case server(_ message: String, _ code: Int, _ rawResponse: String?)
     case authentication(_ message: String, _ code: Int, _ rawResponse: String?)
     case client(_ message: String, _ code: Int, _ rawResponse: String?)
-
-    public var rawResponse: String? {
-        switch self {
-        case .authentication(_, _, let rawResponse):
-            return rawResponse
-        case .client(_, _, let rawResponse):
-            return rawResponse
-        case .server(_, _, let rawResponse):
-            return rawResponse
-        default:
-            return nil
-        }
-    }
-
-    public var statusCode: Int? {
-        switch self {
-        case .authentication(_, let code, _):
-            return code
-        case .client(_, let code, _):
-            return code
-        case .server(_, let code, _):
-            return code
-        default:
-            return nil
-        }
-    }
 
 }
 
@@ -50,16 +24,16 @@ extension GrapheneError: LocalizedError {
         switch self {
         case .authentication(let message, _, _):
             return message
-        case .emptyResponse:
-            return "Response data is null"
+        case .invalidResponse:
+            return "Response data is invalid"
         case .server(let message, _, _):
             return message
         case .client(let message, _, _):
             return message
-        case .unknownKey(let key):
-            return "Unknown key \"\(key)\""
         case .unknownSchemaType(let schemaType):
             return "Unknown GraphQL schema type \"\(schemaType)\""
+        case .valueIsNull(let object):
+            return "Response value of type \"\(object)\" is null"
         }
     }
 
@@ -74,14 +48,37 @@ extension GrapheneError: CustomNSError {
     public static var errorDomain: String = "Graphene.GrapheneError"
 
     public var errorCode: Int {
-        return self.statusCode ?? 0
+        switch self {
+        case .invalidResponse:
+            return 1
+        case .valueIsNull:
+            return 2
+        case .unknownSchemaType:
+            return 3
+        case .authentication(_, let code, _):
+            return code
+        case .client(_, let code, _):
+            return code
+        case .server(_, let code, _):
+            return code
+        }
     }
 
     public var errorUserInfo: [String: Any] {
-        if let rawResponse = self.rawResponse {
-            return ["raw_response": rawResponse]
+        switch self {
+        case .authentication(_, _, let rawResponse):
+            return ["raw_response": rawResponse ?? "null"]
+        case .client(_, _, let rawResponse):
+            return ["raw_response": rawResponse ?? "null"]
+        case .server(_, _, let rawResponse):
+            return ["raw_response": rawResponse ?? "null"]
+        case .valueIsNull(let object):
+            return ["object": object]
+        case .unknownSchemaType(let schemaType):
+            return ["schema_type": schemaType]
+        default:
+            return [:]
         }
-        return [:]
     }
 
 }

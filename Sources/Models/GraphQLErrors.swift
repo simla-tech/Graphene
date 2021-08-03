@@ -9,7 +9,7 @@ import Foundation
 
 public struct GraphQLErrors: LocalizedError, Codable {
 
-    private let errors: [GraphQLError]
+    internal let errors: [GraphQLError]
 
     internal init(_ errors: [GraphQLError]) {
         self.errors = errors
@@ -18,6 +18,7 @@ public struct GraphQLErrors: LocalizedError, Codable {
     public var localizedDescription: String {
         return self.errors.map({ $0.localizedDescription }).joined(separator: ", ")
     }
+
     public var errorDescription: String? {
         return self.localizedDescription
     }

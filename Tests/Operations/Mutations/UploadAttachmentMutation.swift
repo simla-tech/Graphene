@@ -7,22 +7,26 @@
 
 import Foundation
 @testable import Graphene
-/*
-final class UploadAttachmentMutation: MutationOperation {
 
-    typealias DecodableResponse = UploadAttachmentPayload
+struct UploadAttachmentMutation: GraphQLOperation {
 
-    let input: UploadAttachmentInput
+    let variables: Variables
 
-    init(input: UploadAttachmentInput) {
-        self.input = input
+    struct Variables: QueryVariables {
+        let input: UploadAttachmentInput
+        static var allKeys: [PartialKeyPath<Variables>] = [\Variables.input]
+    }
+    
+    func handleResponse(_ response: ExecuteResponse<AppMutation>) throws -> [Attachment] {
+        return try response.get({ $0.uploadAttachment?.attachments })
     }
 
-    lazy var query = Query<UploadAttachmentPayload>("uploadAttachment", args: ["input": InputVariable(self.input)]) { builder in
-        builder += .attachments { builder in
-            builder += .id
-        }
+    static func buildQuery(with builder: QueryContainer<AppMutation>) {
+        builder += .uploadAttachment(input: .reference(to: \Variables.input), { builder in
+            builder += .attachments { builder in
+                builder += .id
+            }
+        })
     }
 
 }
-*/

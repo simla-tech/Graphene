@@ -22,7 +22,7 @@ public class Client: NSObject {
         self.alamofireSession = Alamofire.Session(configuration: URLSessionConfiguration.af.default,
                                                   delegate: Alamofire.SessionDelegate(),
                                                   rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
-                                                  startRequestsImmediately: true,
+                                                  startRequestsImmediately: false,
                                                   requestQueue: nil,
                                                   serializationQueue: nil,
                                                   interceptor: configuration.interceptor,
@@ -32,15 +32,11 @@ public class Client: NSObject {
                                                   eventMonitors: configuration.eventMonitors)
     }
 
-    public func execute<O: GraphQLOperation>(_ operation: O, queue: DispatchQueue = .main) -> Request<O> {
-        return Request<O>(operation: operation, client: self, queue: queue)
-    }
-
 }
 
 extension Client {
     public struct Configuration {
-        public static let `default` = Configuration()
+        public static var `default`: Configuration { Configuration() }
         public var eventMonitors: [GrapheneEventMonitor] = []
         public var serverTrustManager: ServerTrustManager?
         public var cachedResponseHandler: CachedResponseHandler?
@@ -51,8 +47,6 @@ extension Client {
         public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
         public var muteCanceledRequests: Bool = true
-        public var rootResponseKey: String = "data"
-        public var rootErrorsKey: String? = "errors"
         public var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
         public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
     }
