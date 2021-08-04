@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/*
 public enum ExecuteResponse<Value> {
    case success(Value)
    case failure(Error)
@@ -51,3 +51,4 @@ extension ExecuteResponse {
     }
 
 }
+*/

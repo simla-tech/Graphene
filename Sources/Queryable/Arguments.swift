@@ -19,11 +19,11 @@ public struct Argument<Value>: AnyArgument {
 
 extension Argument where Value: Variable {
 
-    static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value>) -> Argument<Value> {
+    public static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value>) -> Argument<Value> {
         return .init(rawValue: "$\(value.identifier)")
     }
 
-    static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value?>) -> Argument<Value> {
+    public static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value?>) -> Argument<Value> {
         return .init(rawValue: "$\(value.identifier)")
     }
 

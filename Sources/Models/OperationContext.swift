@@ -29,8 +29,10 @@ internal struct BatchOperationContextData: OperationContext {
     func variables(prettyPrinted: Bool) -> String? {
         guard !self.variables.isEmpty else { return nil }
 
-        let variablesJson = self.variables.flatMap({ $0 }).reduce(into: [String: Any?](), {
-            $0[$1.key] = $1.value.json
+        let variablesJson = self.variables.enumerated().reduce(into: [String: Any?](), {
+            for variable in $1.element {
+                $0["\($1.offset)-\(variable.key)"] = variable.value.json
+            }
         })
 
         guard let variablesData = try? JSONSerialization.data(withJSONObject: variablesJson,

@@ -29,6 +29,7 @@ extension Client {
         let context = BatchOperationContextData(operation: O.self, operationContexts: operationContexts)
         let dataRequest = self.dataRequest(with: multipartFormData, url: self.batchUrl)
         return BatchOperationRequest(alamofireRequest: dataRequest,
+                                     decodePath: O.decodePath(of: O.ResponseValue.self),
                                      context: context,
                                      config: self.configuration)
     }
@@ -44,6 +45,7 @@ extension Client {
 
         let dataRequest = self.dataRequest(with: multipartFormData, url: self.url)
         return OperationRequest(alamofireRequest: dataRequest,
+                                decodePath: O.decodePath(of: O.ResponseValue.self),
                                 context: operationContext,
                                 config: self.configuration)
     }

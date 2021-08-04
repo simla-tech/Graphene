@@ -11,7 +11,7 @@ public protocol QueryVariables {
     static var allKeys: [PartialKeyPath<Self>] { get }
 }
 
-public protocol Schema: Queryable, Decodable {
+public protocol Schema: Queryable {
     static var mode: OperationMode { get }
 }
 
@@ -23,13 +23,16 @@ public struct DefaultVariables: QueryVariables {
 public protocol GraphQLOperation {
 
     /// Type associated with some Queryable model
-    associatedtype Result
+    associatedtype Value
+    associatedtype ResponseValue: Decodable
     associatedtype RootSchema: Schema
     associatedtype Variables: QueryVariables
 
     var variables: Variables { get }
 
-    static func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> Result
+    static func decodePath(of decodable: ResponseValue.Type) -> String?
+
+    static func mapResponse(_ response: Result<ResponseValue, Error>) -> Result<Value, Error>
 
     static var operationName: String { get }
 
@@ -47,8 +50,12 @@ extension GraphQLOperation {
         return String(describing: self)
     }
 
-    public static func handleResponse(_ response: ExecuteResponse<RootSchema>) throws -> RootSchema {
-        return try response.get()
+    public static func mapResponse(_ response: Result<ResponseValue, Error>) -> Result<ResponseValue, Error> {
+        return response
+    }
+
+    internal static var decodePath: String {
+        return ["data", Self.decodePath(of: ResponseValue.self)].compactMap({ $0 }).joined(separator: ".")
     }
 
     internal static func buildQuery() -> String {
