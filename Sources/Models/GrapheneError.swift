@@ -8,14 +8,11 @@
 import Foundation
 
 public enum GrapheneError: Error {
-
     case invalidResponse
     case unknownSchemaType(String)
-    case valueIsNull(_ object: String)
     case server(_ message: String, _ code: Int, _ rawResponse: String?)
     case authentication(_ message: String, _ code: Int, _ rawResponse: String?)
     case client(_ message: String, _ code: Int, _ rawResponse: String?)
-
 }
 
 extension GrapheneError: LocalizedError {
@@ -32,8 +29,6 @@ extension GrapheneError: LocalizedError {
             return message
         case .unknownSchemaType(let schemaType):
             return "Unknown GraphQL schema type \"\(schemaType)\""
-        case .valueIsNull(let object):
-            return "Response value of type \"\(object)\" is null"
         }
     }
 
@@ -51,10 +46,8 @@ extension GrapheneError: CustomNSError {
         switch self {
         case .invalidResponse:
             return 1
-        case .valueIsNull:
-            return 2
         case .unknownSchemaType:
-            return 3
+            return 2
         case .authentication(_, let code, _):
             return code
         case .client(_, let code, _):
@@ -72,8 +65,6 @@ extension GrapheneError: CustomNSError {
             return ["raw_response": rawResponse ?? "null"]
         case .server(_, _, let rawResponse):
             return ["raw_response": rawResponse ?? "null"]
-        case .valueIsNull(let object):
-            return ["object": object]
         case .unknownSchemaType(let schemaType):
             return ["schema_type": schemaType]
         default:
