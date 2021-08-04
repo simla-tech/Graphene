@@ -84,7 +84,7 @@ internal struct OperationContextData: OperationContext {
     }
 
     internal func getUploads() -> [String: Upload] {
-        let dictVariables = self.variables.reduce(into: Variables(), { $0[$1.key] = $1.value })
+        let dictVariables = self.variables.reduce(into: Variables(), { $0["variables.\($1.key)"] = $1.value })
         return self.searchUploads(in: dictVariables, currentPath: [])
     }
 
