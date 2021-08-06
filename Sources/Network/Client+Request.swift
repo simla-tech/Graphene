@@ -27,7 +27,7 @@ extension Client {
         self.append(uploads: uploads, to: multipartFormData)
 
         let context = BatchOperationContextData(operation: O.self, operationContexts: operationContexts)
-        let dataRequest = self.dataRequest(with: multipartFormData, url: self.batchUrl)
+        let dataRequest = self.dataRequest(for: O.self, with: multipartFormData, url: self.batchUrl)
         return BatchOperationRequest(alamofireRequest: dataRequest,
                                      decodePath: O.decodePath(of: O.ResponseValue.self),
                                      context: context,
@@ -43,7 +43,7 @@ extension Client {
         }
         self.append(uploads: operationContext.getUploads(), to: multipartFormData)
 
-        let dataRequest = self.dataRequest(with: multipartFormData, url: self.url)
+        let dataRequest = self.dataRequest(for: O.self, with: multipartFormData, url: self.url)
         return OperationRequest(alamofireRequest: dataRequest,
                                 decodePath: O.decodePath(of: O.ResponseValue.self),
                                 context: operationContext,
@@ -67,22 +67,25 @@ extension Client {
         }
     }
 
-    private var httpHeaders: HTTPHeaders {
+    private func httpHeaders<O: GraphQLOperation>(for type: O.Type) -> HTTPHeaders {
         var httpHeaders = self.configuration.httpHeaders ?? []
         if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
            let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
             httpHeaders.add(.userAgent("Graphene/\(version)"))
         }
+        if self.configuration.useOperationNameAsReferer {
+            httpHeaders.add(name: "Referer", value: "/\(O.RootSchema.mode.rawValue)/\(O.operationName)")
+        }
         return httpHeaders
     }
 
-    private func dataRequest(with multipartFormData: MultipartFormData, url: URLConvertible) -> UploadRequest {
+    private func dataRequest<O: GraphQLOperation>(for type: O.Type, with multipartFormData: MultipartFormData, url: URLConvertible) -> UploadRequest {
         var dataRequest = self.alamofireSession.upload(
             multipartFormData: multipartFormData,
             to: url,
             usingThreshold: MultipartFormData.encodingMemoryThreshold,
             method: .post,
-            headers: self.httpHeaders,
+            headers: self.httpHeaders(for: type),
             requestModifier: self.configuration.requestModifier
         )
 

@@ -46,5 +46,6 @@ extension Client {
         public var muteCanceledRequests: Bool = true
         public var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
         public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
+        public var useOperationNameAsReferer: Bool = true
     }
 }
