@@ -14,11 +14,14 @@ struct OrderDetailQuery: GraphQLOperation {
 
     struct Variables: QueryVariables {
         let orderId: Order.ID
-        static var allKeys: [PartialKeyPath<Variables>] = [\Variables.orderId]
+        let someString: String
+        let someInt: Int?
+        let someDict: [String: Double]?
+        static var allKeys: [PartialKeyPath<Variables>] = [\Variables.orderId, \Variables.someString, \Variables.someInt, \Variables.someDict]
     }
 
-    static func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> Order {
-        return try response.get({ $0.order })
+    static func decodePath(of decodable: Order.Type) -> String? {
+        return "order"
     }
 
     static func buildQuery(with builder: QueryContainer<AppSchema>) {

@@ -30,35 +30,48 @@ class ClientTests: XCTestCase {
     }()
 
     func testCancelledError() {
-        let expectation = XCTestExpectation(description: "Download apple.com home page")
-        let query = OrderDetailQuery(variables: .init(orderId: "48"))
+        let expectation = XCTestExpectation()
+        let query = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderId: "1", someString: "test", someInt: nil, someDict: nil))
         let request = self.client.execute(query) { response in
-            XCTAssertEqual(response.error?.localizedDescription, AFError.explicitlyCancelled.localizedDescription)
+            do {
+                _ = try response.get()
+                XCTFail("There is no error")
+            } catch {
+                XCTAssertEqual(error.localizedDescription, AFError.explicitlyCancelled.localizedDescription)
+            }
             expectation.fulfill()
         }
         request.cancel()
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 5.0)
     }
 
     func testQuery() {
+        let expectation = XCTestExpectation()
         print("--\nQUERY:\n", OrderDetailQuery.buildQuery())
-        let query = OrderDetailQuery(variables: .init(orderId: "48"))
+        let query = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderId: "1", someString: "test", someInt: nil, someDict: nil))
         let request = self.client.request(for: query)
         print("-\nVARS:\n", request.context.variables(prettyPrinted: true) ?? "none")
         request.perform { response in
-            response
+            let test = try? response.get()
+            print(test ?? [])
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 10.0)
     }
 
     func testBatchQuery() {
+        let expectation = XCTestExpectation()
         print("--\nQUERY:\n", OrderDetailQuery.buildQuery())
-        let query1 = OrderDetailQuery(variables: .init(orderId: "48"))
-        let query2 = OrderDetailQuery(variables: .init(orderId: "49"))
-        let query3 = OrderDetailQuery(variables: .init(orderId: "50"))
+        let query1 = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderId: "1", someString: "test", someInt: nil, someDict: nil))
+        let query2 = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderId: "2", someString: "test", someInt: nil, someDict: nil))
+        let query3 = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderId: "3", someString: "test", someInt: nil, someDict: nil))
         let request = self.client.request(for: [query1, query2, query3])
         request.perform { response in
             let test = try? response.get()
+            print(test ?? [])
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 10.0)
     }
 
 }

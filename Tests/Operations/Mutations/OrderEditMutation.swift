@@ -17,8 +17,8 @@ struct OrderEditMutation: GraphQLOperation {
         static var allKeys: [PartialKeyPath<Variables>] = [\Variables.input]
     }
 
-    static func handleResponse(_ response: ExecuteResponse<AppMutation>) throws -> Order {
-        return try response.get({ $0.editOrder?.order })
+    static func decodePath(of decodable: Order.Type) -> String? {
+        return "editOrder.order"
     }
 
     static func buildQuery(with builder: QueryContainer<AppMutation>) {

@@ -17,8 +17,8 @@ struct OrderListQuery: GraphQLOperation {
         static var allKeys: [PartialKeyPath<Variables>] = [\Variables.after]
     }
 
-    static func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> Connection<Order> {
-        return try response.get({ $0.orders })
+    static func decodePath(of decodable: Connection<Order>.Type) -> String? {
+        return "orders"
     }
 
     static func buildQuery(with builder: QueryContainer<AppSchema>) {

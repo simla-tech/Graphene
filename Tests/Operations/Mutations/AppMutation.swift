@@ -9,12 +9,9 @@
 import Foundation
 @testable import Graphene
 
-struct AppMutation: Schema {
+struct AppMutation: OperationSchema {
 
     static let mode: OperationMode = .mutation
-
-    let editOrder: EditOrderPayload?
-    let uploadAttachment: UploadAttachmentPayload?
 
 }
 
@@ -23,12 +20,12 @@ extension AppMutation: Queryable {
     final class QueryKeys: QueryKey {
 
         static func editOrder(input: Argument<EditOrderInput>, _ builder: @escaping QueryBuilder<EditOrderPayload>) -> QueryKeys {
-            return Query(CodingKeys.editOrder, args: ["input": input], builder).asKey()
+            return Query("editOrder", args: ["input": input], builder).asKey()
         }
 
         static func uploadAttachment(input: Argument<UploadAttachmentInput>,
                                      _ builder: @escaping QueryBuilder<UploadAttachmentPayload>) -> QueryKeys {
-            return Query(CodingKeys.uploadAttachment, args: ["input": input], builder).asKey()
+            return Query("uploadAttachment", args: ["input": input], builder).asKey()
         }
 
     }

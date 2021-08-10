@@ -21,7 +21,7 @@ class QueryTests: XCTestCase {
     func testVariableSchemaTypes() {
         let allKeys = OrderDetailQuery.Variables.allKeys
         let types = Set(allKeys.map({ $0.variableType }))
-        XCTAssertEqual(types, ["String!", "Int", "Unknown_Dictionary<String, Float>"])
+        XCTAssertEqual(types, ["String!", "Int", "Unknown_Optional<Dictionary<String, Double>>", "IDInt!"])
     }
 
     func testInputVariablesTypes() {

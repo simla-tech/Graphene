@@ -15,14 +15,11 @@ public protocol AnyArgument {
 
 public struct Argument<Value>: AnyArgument {
     public var rawValue: String
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
 }
 
-extension Argument where Value: AnyArgument {
-    public init(value: Value) {
-        self.init(rawValue: value.rawValue)
+extension Argument {
+    public static func raw(_ value: String) -> Argument {
+        return .init(rawValue: value)
     }
 }
 

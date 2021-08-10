@@ -17,8 +17,8 @@ struct CheckPhoneQuery: GraphQLOperation {
         static let allKeys: [PartialKeyPath<Variables>] = [\Variables.phone]
     }
 
-    static func handleResponse(_ response: ExecuteResponse<AppSchema>) throws -> CheckPhone {
-        return try response.get({ $0.checkPhone })
+    static func decodePath(of decodable: CheckPhone.Type) -> String? {
+        return "checkPhone"
     }
 
     static func buildQuery(with builder: QueryContainer<AppSchema>) {
