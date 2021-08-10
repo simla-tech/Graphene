@@ -11,7 +11,7 @@ public protocol QueryVariables {
     static var allKeys: [PartialKeyPath<Self>] { get }
 }
 
-public protocol Schema: Queryable {
+public protocol OperationSchema: Queryable {
     static var mode: OperationMode { get }
 }
 
@@ -25,7 +25,7 @@ public protocol GraphQLOperation {
     /// Type associated with some Queryable model
     associatedtype Value
     associatedtype ResponseValue: Decodable
-    associatedtype RootSchema: Schema
+    associatedtype RootSchema: OperationSchema
     associatedtype Variables: QueryVariables
 
     var variables: Variables { get }

@@ -15,11 +15,14 @@ public protocol AnyArgument {
 
 public struct Argument<Value>: AnyArgument {
     public var rawValue: String
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
 }
 
 extension Argument where Value: AnyArgument {
     public init(value: Value) {
-        self.rawValue = value.rawValue
+        self.init(rawValue: value.rawValue)
     }
 }
 
