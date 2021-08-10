@@ -105,30 +105,21 @@ extension Identifier: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode(self.rawValue)
-    }
-
-}
-
-extension Identifier: Argument {
-    public var rawValue: String {
         if let idValue = self.idValue {
-            return "\(idValue)"
+            try container.encode("\(idValue)")
         } else {
-            return "null"
+            try container.encode("null")
         }
     }
+
 }
 
 extension Identifier: Variable {
     public var json: Any? {
         return self.idValue
     }
-}
-
-extension Identifier: SchemaType {
-    public static var schemaType: String {
-        return "IDInt"
+    public static var variableType: String {
+        return "IDInt!"
     }
 }
 

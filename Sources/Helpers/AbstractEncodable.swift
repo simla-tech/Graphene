@@ -26,7 +26,7 @@ public struct AbstractEncodingContainer {
     private enum CodingKeys: String, CodingKey {
         case typename = "__typename"
     }
-    public func encode<T: Encodable & SchemaType>(_ value: T) throws {
+    public func encode<T: Encodable & Queryable>(_ value: T) throws {
         var container = self.encoder.container(keyedBy: CodingKeys.self)
         try container.encode(T.schemaType, forKey: .typename)
         try value.encode(to: self.encoder)

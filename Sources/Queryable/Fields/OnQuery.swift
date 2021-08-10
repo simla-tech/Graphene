@@ -7,10 +7,9 @@
 
 import Foundation
 
-public struct On<T: Queryable & SchemaType>: Field {
+public struct On<T: Queryable>: Field {
 
     public var childrenFields: [Field]
-    public let arguments: Arguments = [:]
 
     public init(_ type: T.Type = T.self, _ builder: @escaping QueryBuilder<T>) {
         let container = QueryContainer<T>(builder)

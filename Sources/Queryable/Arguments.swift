@@ -7,62 +7,79 @@
 
 import Foundation
 
-public typealias Arguments = [String: Argument]
+public typealias AnyArguments = [String: AnyArgument?]
 
-public protocol Argument {
+public protocol AnyArgument {
     var rawValue: String { get }
 }
 
-extension Dictionary: Argument where Key == String, Value == Argument {
-    public var rawValue: String {
-        return "{\(map({ "\($0): \($1.rawValue)" }).joined(separator: ","))}"
+public struct Argument<Value>: AnyArgument {
+    public var rawValue: String
+}
+
+extension Argument {
+    public static func raw(_ value: String) -> Argument {
+        return .init(rawValue: value)
     }
 }
 
-extension String: Argument {
-    public var rawValue: String {
-        return String(format: "\"%@\"", self.escaped)
+extension Argument where Value: Variable {
+
+    public static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value>) -> Argument<Value> {
+        return .init(rawValue: "$\(value.identifier)")
+    }
+
+    public static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value?>) -> Argument<Value> {
+        return .init(rawValue: "$\(value.identifier)")
+    }
+
+}
+
+extension Argument: ExpressibleByIntegerLiteral where Value == IntegerLiteralType {
+    public init(integerLiteral value: IntegerLiteralType) {
+        self.rawValue = "\(value)"
     }
 }
 
-extension Bool: Argument {
-    public var rawValue: String {
-        return String(self)
+extension Argument: ExpressibleByUnicodeScalarLiteral where Value == String.UnicodeScalarLiteralType {
+    public init(unicodeScalarLiteral value: String.UnicodeScalarLiteralType) {
+        self.rawValue = String(format: "\"%@\"", value.escaped)
     }
 }
 
-extension Int: Argument {
-    public var rawValue: String {
-        return "\(self)"
+extension Argument: ExpressibleByExtendedGraphemeClusterLiteral where Value == String.ExtendedGraphemeClusterLiteralType {
+    public init(extendedGraphemeClusterLiteral value: String.ExtendedGraphemeClusterLiteralType) {
+        self.rawValue = String(format: "\"%@\"", value.escaped)
     }
 }
 
-extension Double: Argument {
-    public var rawValue: String {
-        return "\(self)"
+extension Argument: ExpressibleByStringLiteral where Value == StringLiteralType {
+    public init(stringLiteral value: StringLiteralType) {
+        self.rawValue = String(format: "\"%@\"", value.escaped)
     }
 }
 
-extension Float: Argument {
-    public var rawValue: String {
-        return "\(self)"
+extension Argument: ExpressibleByFloatLiteral {
+    public init(floatLiteral value: FloatLiteralType) {
+        self.rawValue = "\(value)"
     }
 }
 
-extension Array: Argument where Element: Argument {
-    public var rawValue: String {
-        return "[\(self.map({ $0.rawValue }).joined(separator: ","))]"
+extension Argument: ExpressibleByBooleanLiteral {
+    public init(booleanLiteral value: BooleanLiteralType) {
+        self.rawValue = String(value)
     }
 }
 
-extension Optional: Argument where Wrapped: Argument {
-    public var rawValue: String {
-        switch self {
-        case .some(let value):
-            return value.rawValue
-        case .none:
-            return "null"
-        }
+extension Argument: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Argument<Value>...) {
+        self.rawValue = "[\(elements.map({ $0.rawValue }).joined(separator: ","))]"
+    }
+}
+
+extension Argument: ExpressibleByDictionaryLiteral {
+    public init(dictionaryLiteral elements: (AnyHashable, Argument<Value>)...) {
+        self.rawValue = "{\(elements.map({ "\($0): \($1.rawValue)" }).joined(separator: ","))}"
     }
 }
 

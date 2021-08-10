@@ -21,7 +21,7 @@ public class VariableEncoderContainer {
     }
 
     private func applyChangeSet(to value: Variable?,
-                                forKey key: AnyHashable,
+                                forKey key: String,
                                 changeSet: AnyChangeSet?,
                                 required: Bool) -> ApplyChangeSetResult {
 

@@ -32,11 +32,11 @@ extension SomeChangeSet {
         return self.changes.index(before: i)
     }
 
-    public func contains(where key: AnyHashable) -> Bool {
+    public func contains(where key: String) -> Bool {
         return self.contains(where: { $0.key == key })
     }
 
-    public func first(where key: AnyHashable) -> Change? {
+    public func first(where key: String) -> Change? {
         return self.first(where: { $0.key == key })
     }
 

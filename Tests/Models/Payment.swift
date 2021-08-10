@@ -10,7 +10,7 @@ import Foundation
 
 public struct Payment: Decodable, Identifiable {
     public var id: ID
-    public var type: PaymentType
+    public var type: PaymentType?
     public var amount: Money?
     public var paidAt: Date?
     public var comment: String?
@@ -23,7 +23,7 @@ extension Payment: Queryable {
     public class QueryKeys: QueryKey {
 
         static var id      = QueryKeys(CodingKeys.id)
-        static let amount  = QueryKeys(FragmentQuery(CodingKeys.amount, fragment: MoneyFragment()))
+        static let amount  = QueryKeys(Query(CodingKeys.amount, fragment: MoneyFragment.self))
         static let paidAt  = QueryKeys(CodingKeys.paidAt)
         static let comment = QueryKeys(CodingKeys.comment)
 
@@ -46,8 +46,14 @@ extension Payment: EncodableVariable {
         container.encode(self.id, forKey: .id, required: true)
         container.encode(self.amount?.amount, forKey: .amount)
         container.encode(self.comment, forKey: .comment)
+        let dateFormatter = DateFormatter()
+        if let paidAt = self.paidAt {
+            container.encode(dateFormatter.string(from: paidAt), forKey: .paidAt)
+        } else {
+            container.encode(nil, forKey: .paidAt)
+        }
         container.encode(self.status?.id, forKey: .status)
-        container.encode(self.type.id, forKey: .type, required: true)
+        container.encode(self.type?.id, forKey: .type, required: true)
         container.encode(self.deleted, forKey: .deleted)
     }
 

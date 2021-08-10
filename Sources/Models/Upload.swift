@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Upload: Codable, SchemaType {
+public struct Upload: Codable, Variable {
 
     public var data: Data
     public var name: String
@@ -27,10 +27,8 @@ public struct Upload: Codable, SchemaType {
         return MimeType(path: self.name).value
     }
 
-}
-
-extension Upload: Variable {
     public var json: Any? {
         return nil
     }
+
 }

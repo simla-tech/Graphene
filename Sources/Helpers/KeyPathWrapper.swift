@@ -27,12 +27,21 @@ internal extension JSONDecoder {
         userInfo[keyPathUserInfoKey] = keyPath.components(separatedBy: separator)
         return try decode(KeyPathWrapper<T>.self, from: data).object
     }
+
+    func decodeArray<T>(_ type: T.Type,
+                        from data: Data,
+                        keyPath: String,
+                        keyPathSeparator separator: String = ".") throws -> T where T: RangeReplaceableCollection, T.Element: Decodable {
+        userInfo[keyPathUserInfoKey] = keyPath.components(separatedBy: separator)
+        return T(try decode([KeyPathWrapper<T.Element>].self, from: data).map({ $0.object }))
+    }
+
 }
 
 /// The keypath key in the `userInfo`
 private let keyPathUserInfoKey = CodingUserInfoKey(rawValue: "keyPathUserInfoKey")! // swiftlint:disable:this force_unwrapping
 /// Object which is representing value
-private final class KeyPathWrapper<T: Decodable>: Decodable {
+internal final class KeyPathWrapper<T: Decodable>: Decodable {
 
     enum KeyPathError: Error {
         case `internal`

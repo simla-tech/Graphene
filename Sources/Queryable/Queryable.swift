@@ -9,6 +9,13 @@ import Foundation
 
 public protocol Queryable {
     associatedtype QueryKeys: QueryKey
+    static var schemaType: String { get }
+}
+
+extension Queryable {
+    public static var schemaType: String {
+        return String(describing: self)
+    }
 }
 
 extension Array: Queryable where Element: Queryable {

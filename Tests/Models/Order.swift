@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct Order: Decodable, Identifiable, SchemaType {
+public struct Order: Decodable, Identifiable {
     public var id: ID
     public var externalId: String?
     public var number: String?
@@ -22,6 +22,8 @@ public struct Order: Decodable, Identifiable, SchemaType {
     public var manager: User?
     public var updateStateDate: String?
     public var contragent: Contragent?
+    public var deliveryContragent: Contragent?
+    public var customerContragent: Contragent?
     public var unionCustomer: AbstractCustomer?
     public var orderProducts: Connection<OrderProduct>?
 }
@@ -62,7 +64,7 @@ extension Order: Queryable {
             return Query(CodingKeys.unionCustomer, builder).asKey()
         }
 
-        static func orderProducts(first: Int? = nil, after: String? = nil, _ builder: @escaping QueryBuilder<Connection<OrderProduct>>) -> QueryKeys {
+        static func orderProducts(first: Argument<Int>? = nil, after: Argument<String>? = nil, _ builder: @escaping QueryBuilder<Connection<OrderProduct>>) -> QueryKeys {
             return Query(CodingKeys.orderProducts, args: ["first": first, "after": after], builder).asKey()
         }
 
@@ -84,6 +86,8 @@ extension Order: EncodableVariable {
         conatiner.encode(self.manager?.id, forKey: .manager)
         conatiner.encode(self.orderType?.id, forKey: .orderType)
         conatiner.encode(self.payments, forKey: .payments)
+        conatiner.encode(self.deliveryContragent, forKey: .deliveryContragent)
+        conatiner.encode(self.customerContragent, forKey: .customerContragent)
         conatiner.encode(self.contragent, forKey: .contragent)
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-struct EditOrderInput: EncodableVariable, SchemaType {
+struct EditOrderInput: EncodableVariable {
 
     let order: Order
     let changeSet: ChangeSet<Order>?

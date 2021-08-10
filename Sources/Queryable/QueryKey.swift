@@ -16,7 +16,11 @@ open class QueryKey {
     }
 
     public init<T: CodingKey>(_ key: T) {
-        self.object = key.stringValue
+        self.object = Query(key)
+    }
+
+    public init(_ key: String) {
+        self.object = Query(key)
     }
 
 }

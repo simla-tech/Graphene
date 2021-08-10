@@ -7,49 +7,83 @@
 
 import Foundation
 
+public protocol QueryVariables {
+    static var allKeys: [PartialKeyPath<Self>] { get }
+}
+
+public protocol OperationSchema: Queryable {
+    static var mode: OperationMode { get }
+}
+
+public struct DefaultVariables: QueryVariables {
+    public static let allKeys: [PartialKeyPath<Self>] = []
+}
+
 /// Basic operation protocol
 public protocol GraphQLOperation {
 
     /// Type associated with some Queryable model
-    associatedtype DecodableResponse: Decodable
-    associatedtype Result
+    associatedtype Value
+    associatedtype ResponseValue: Decodable
+    associatedtype RootSchema: OperationSchema
+    associatedtype Variables: QueryVariables
 
-    /**
-     Operation Mode
-     
-     Set `.query` or `.mutation` depending on the your choise
-     */
-    static var mode: OperationMode { get }
+    var variables: Variables { get }
 
-    /**
-     Unique identifier of operation
-     
-     Using for logging to identify multiple requests responses
-     */
+    static func decodePath(of decodable: ResponseValue.Type) -> String?
+
+    static func mapResponse(_ response: Result<ResponseValue, Error>) -> Result<Value, Error>
+
     static var operationName: String { get }
 
-    /**
-     Universal representation of result sendable field
-     
-     By default equals to the `query` variable
-     */
-    var asField: Field { get }
-
-    /**
-     The root key which is used to decode server response
-     
-     By default equals to the curent query variable name
-     */
-    var decoderRootKey: String? { get }
-
-    func handleSuccess(with result: DecodableResponse) throws -> Result
-
-    func handleFailure(with error: Error) -> Swift.Result<Result, Error>
+    static func buildQuery(with builder: QueryContainer<RootSchema>)
 
 }
 
 extension GraphQLOperation {
-    public func handleFailure(with error: Error) -> Swift.Result<Result, Error> {
-        return .failure(error)
+
+    public var variables: DefaultVariables {
+        return DefaultVariables()
     }
+
+    public static var operationName: String {
+        return String(describing: self)
+    }
+
+    public static func mapResponse(_ response: Result<ResponseValue, Error>) -> Result<ResponseValue, Error> {
+        return response
+    }
+
+    internal static var decodePath: String {
+        return ["data", Self.decodePath(of: ResponseValue.self)].compactMap({ $0 }).joined(separator: ".")
+    }
+
+    internal static func buildQuery() -> String {
+        var query = "\(RootSchema.mode.rawValue) \(self.operationName)"
+        if !Variables.allKeys.isEmpty {
+            let variablesStrCompact = Variables.allKeys.map { variable -> String in
+                return "$\(variable.identifier):\(variable.variableType)"
+            }
+            query += "(\(variablesStrCompact.joined(separator: ",")))"
+        }
+        let container = QueryContainer<RootSchema>(self.buildQuery)
+        query += " {\(container.fields.map({ $0.buildField() }).joined(separator: ","))}"
+        let fragments = self.searchFragments(in: container.fields)
+        if !fragments.isEmpty {
+            query += fragments.map({ $0.fragmentBody }).joined()
+        }
+        return query
+    }
+
+    private static func searchFragments(in fields: [Field]) -> Set<AnyFragment> {
+        var result: Set<AnyFragment> = []
+        for field in fields {
+            if let fragment = field as? AnyFragment {
+                result.insert(fragment)
+            }
+            result.formUnion(self.searchFragments(in: field.childrenFields))
+        }
+        return result
+    }
+
 }
