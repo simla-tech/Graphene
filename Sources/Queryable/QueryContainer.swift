@@ -11,7 +11,7 @@ public class QueryContainer<T: Queryable> {
 
     internal(set) public var fields: [Field] = []
 
-    init(_ builder: QueryBuilder<T>) {
+    internal init(_ builder: QueryBuilder<T>) {
         builder(self)
     }
 

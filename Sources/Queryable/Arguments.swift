@@ -17,6 +17,12 @@ public struct Argument<Value>: AnyArgument {
     public var rawValue: String
 }
 
+extension Argument where Value: AnyArgument {
+    public init(value: Value) {
+        self.rawValue = value.rawValue
+    }
+}
+
 extension Argument where Value: Variable {
 
     public static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value>) -> Argument<Value> {

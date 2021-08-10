@@ -9,7 +9,7 @@ import Foundation
 
 internal struct AnyFragment: Field, Hashable {
 
-    var schemaType: String
+    var fragmentType: String
     var fragmentName: String
     var childrenFields: [Field]
 
@@ -18,7 +18,7 @@ internal struct AnyFragment: Field, Hashable {
     }
 
     init<F: Fragment>(_ fragment: F.Type) {
-        self.schemaType = F.FragmentModel.schemaType
+        self.fragmentType = F.fragmentType
         self.fragmentName = F.fragmentName
         let container = QueryContainer<F.FragmentModel>(F.buildQuery(with:))
         self.childrenFields = container.fields
@@ -26,7 +26,7 @@ internal struct AnyFragment: Field, Hashable {
 
     var fragmentBody: String {
         var result = [String]()
-        result.append("fragment \(self.fragmentName) on \(self.schemaType) {")
+        result.append("fragment \(self.fragmentName) on \(self.fragmentType) {")
         result.append(self.childrenFields.map({ $0.buildField() }).joined(separator: ","))
         result.append("}")
         return result.joined()

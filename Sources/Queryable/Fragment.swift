@@ -10,6 +10,7 @@ import Foundation
 public protocol Fragment {
     associatedtype FragmentModel: Queryable
     static var fragmentName: String { get }
+    static var fragmentType: String { get }
     static func buildQuery(with builder: QueryContainer<FragmentModel>)
 }
 
@@ -20,5 +21,8 @@ extension Fragment {
             name += "Fragment"
         }
         return name
+    }
+    public static var fragmentType: String {
+        return FragmentModel.schemaType
     }
 }
