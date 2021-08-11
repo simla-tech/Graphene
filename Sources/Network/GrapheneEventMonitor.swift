@@ -25,11 +25,11 @@ extension GrapheneEventMonitor {
         }
     }
 
-    public func operation(_ context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
+    public func operation(with context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
         os_log("[GrapheneEventMonitor] Response \"%@\" recived. Code: %d. Duration: %.3f", context.operationName, statusCode, interval.duration)
     }
 
-    public func operation(_ context: OperationContext, didFailWith error: Error) {
+    public func operation(with context: OperationContext, didFailWith error: Error) {
         os_log("[GrapheneEventMonitor] Catched error for \"%@\" operation: %@", context.operationName, error.localizedDescription)
     }
 
@@ -78,11 +78,11 @@ final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
     }
 
     public func operation(with context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
-        performEvent { $0.operation(context, didFinishWith: statusCode, interval: interval) }
+        performEvent { $0.operation(with: context, didFinishWith: statusCode, interval: interval) }
     }
 
     public func operation(with context: OperationContext, didFailWith error: Error) {
-        performEvent { $0.operation(context, didFailWith: error) }
+        performEvent { $0.operation(with: context, didFailWith: error) }
     }
 
 }

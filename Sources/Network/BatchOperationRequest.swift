@@ -23,9 +23,9 @@ public class BatchOperationRequest<O: GraphQLOperation>: CancellableOperationReq
                 return
             }
 
-            self.monitor.operation(self.context,
-                                didFinishWith: dataResponse.response?.statusCode ?? -999,
-                                interval: dataResponse.metrics?.taskInterval ?? .init())
+            self.monitor.operation(with: self.context,
+                                   didFinishWith: dataResponse.response?.statusCode ?? -999,
+                                   interval: dataResponse.metrics?.taskInterval ?? .init())
 
             var result: Result<[O.ResponseValue], Error>
             do {
@@ -41,7 +41,7 @@ public class BatchOperationRequest<O: GraphQLOperation>: CancellableOperationReq
                         storedError = error
                     }
                 }
-                self.monitor.operation(self.context, didFailWith: storedError)
+                self.monitor.operation(with: self.context, didFailWith: storedError)
                 result = .failure(storedError)
             }
 

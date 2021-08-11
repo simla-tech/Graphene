@@ -27,14 +27,14 @@ public class OperationRequest<O: GraphQLOperation>: CancellableOperationRequest 
                 return
             }
 
-            self.monitor.operation(self.context,
-                                didFinishWith: dataResponse.response?.statusCode ?? -999,
-                                interval: dataResponse.metrics?.taskInterval ?? .init())
+            self.monitor.operation(with: self.context,
+                                   didFinishWith: dataResponse.response?.statusCode ?? -999,
+                                   interval: dataResponse.metrics?.taskInterval ?? .init())
 
             let result = O.mapResponse(dataResponse.result.mapError({ $0.underlyingError ?? $0 }))
             switch result {
             case .failure(let error):
-                self.monitor.operation(self.context, didFailWith: error)
+                self.monitor.operation(with: self.context, didFailWith: error)
             default:
                 break
             }
