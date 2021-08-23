@@ -13,7 +13,7 @@ extension Client {
     @discardableResult
     public func execute<O: GraphQLOperation>(_ operations: [O],
                                              queue: DispatchQueue = .main,
-                                             completion: @escaping (Result<[O.ResponseValue], Error>) -> Void) -> CancellableOperationRequest {
+                                             completion: @escaping (Result<[O.Value], Error>) -> Void) -> CancellableOperationRequest {
         return self.request(for: operations).perform(queue: queue, completion: completion)
     }
 

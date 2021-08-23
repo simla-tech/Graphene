@@ -12,7 +12,7 @@ import Alamofire
 public class BatchOperationRequest<O: GraphQLOperation>: CancellableOperationRequest {
 
     @discardableResult
-    public func perform(queue: DispatchQueue = .main, completion: @escaping (Result<[O.ResponseValue], Error>) -> Void) -> CancellableOperationRequest {
+    public func perform(queue: DispatchQueue = .main, completion: @escaping (Result<[O.Value], Error>) -> Void) -> CancellableOperationRequest {
 
         self.monitor.operation(willExecuteWith: self.context)
         self.alamofireRequest.responseData(queue: .global(qos: .utility)) { [weak self] dataResponse in
@@ -27,11 +27,12 @@ public class BatchOperationRequest<O: GraphQLOperation>: CancellableOperationReq
                                    didFinishWith: dataResponse.response?.statusCode ?? -999,
                                    interval: dataResponse.metrics?.taskInterval ?? .init())
 
-            var result: Result<[O.ResponseValue], Error>
+            var result: Result<[O.Value], Error>
             do {
                 let data = try dataResponse.result.mapError({ $0.underlyingError ?? $0 }).get()
                 let values = try self.jsonDecoder.decodeArray([O.ResponseValue].self, from: data, keyPath: O.decodePath, keyPathSeparator: ".")
-                result = .success(values)
+                let mappedValues = try values.map({ try O.mapResponse(.success($0)).get() })
+                result = .success(mappedValues)
             } catch {
                 var storedError = error
                 if let data = dataResponse.value, let errors = try? self.jsonDecoder.decode([GraphQLErrors].self, from: data).flatMap({ $0.errors }) {

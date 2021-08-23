@@ -538,7 +538,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94FF2AAEE8C0D0A90E0824D3 /* Build configuration list for PBXNativeTarget "Graphene" */;
 			buildPhases = (
-				CAC931D3BC30D53CF4A691A5 /* Autocorrect Code */,
 				39862B751BBA60D3E683E8D0 /* Lint Code */,
 				F2667DC3D7075477E2BDCF4E /* Sources */,
 				1BA12A99E73F59153EF584EC /* Resources */,
@@ -559,7 +558,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2844FFEF83355D39E91409C /* Build configuration list for PBXNativeTarget "GrapheneTests" */;
 			buildPhases = (
-				5D07E5E681BCC08F8EE18E44 /* Autocorrect Code */,
 				82A41CB7767941846BE90C4F /* Lint Code */,
 				BDEB6C33176F09ABC84EDEB8 /* Sources */,
 				5BB5170C74C7E1F7AB46E233 /* Resources */,
@@ -640,25 +638,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Sources  --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
-		};
-		5D07E5E681BCC08F8EE18E44 /* Autocorrect Code */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Autocorrect Code";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Tests --autocorrect --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Sources  --config ../../Support/swiftlint.xcode.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		82A41CB7767941846BE90C4F /* Lint Code */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -676,7 +656,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Tests  --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Tests  --config ../../Support/swiftlint.xcode.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 		9B0C5DF2BFE2F05A3F279202 /* Embed Precompiled Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -705,24 +685,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Skipping, nothing to be embedded.\"";
-		};
-		CAC931D3BC30D53CF4A691A5 /* Autocorrect Code */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Autocorrect Code";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --path $SRCROOT/Sources --autocorrect --config ../../.swiftlint.yml\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
