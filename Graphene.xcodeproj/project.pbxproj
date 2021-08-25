@@ -17,7 +17,7 @@
 		15C7F07FFB7BB67270E3B64E /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFCCABCD44BEFF27FD25ABF /* Customer.swift */; };
 		161CC0DC3B91C99C16AA09B9 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C722D10C655DBA329D42FF8 /* Identity.swift */; };
 		18569B5ABE8A00BDEFA53F5A /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0B2F350D750604729331F /* Query.swift */; };
-		1A25C959E63E9E5496B5DDF3 /* Graphene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2A20F0A45A91F75F2B7F39B /* Graphene.framework */; };
+		1A25C959E63E9E5496B5DDF3 /* Graphene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2A20F0A45A91F75F2B7F39B /* Graphene.framework */; platformFilter = ios; };
 		1B276D722C13752005CC9CC7 /* OrderDetailQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A91E2C4EE24C4A6C293589D /* OrderDetailQuery.swift */; };
 		1C4A4A999F923ED70AA703F3 /* AbstractDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FC6D80EA156B08FF3DDAC5 /* AbstractDecodable.swift */; };
 		1F25C8B4D47D9EF93466A1E4 /* GraphQLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E3F7817DF0816D17DD406A /* GraphQLError.swift */; };
