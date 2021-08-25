@@ -406,7 +406,11 @@
 				FAEC037DB27175FD6F1DC499 /* Frameworks */,
 				EB5E223CD6B106FDC1E397D6 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 0;
+			wrapsLines = 1;
 		};
 		A063648B507D249112B3FCF6 /* Carthage */ = {
 			isa = PBXGroup;
