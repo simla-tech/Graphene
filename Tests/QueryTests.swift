@@ -94,7 +94,7 @@ class QueryTests: XCTestCase {
         clone.payments?.remove(at: 0)
         clone.payments?[0].comment = "123212"
         clone.payments?[0].paidAt = Date()
-        
+
         clone.payments?.append(Payment(id: "new"))
         clone.nickName = "12332"
         clone.number = nil
