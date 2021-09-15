@@ -8,8 +8,8 @@
 import Foundation
 @testable import Graphene
 
-public struct Payment: Decodable, Identifiable {
-    public var id: ID
+public struct Payment: Decodable, Identifiable, ChangeSetIdentifiable {
+    public var id: String
     public var type: PaymentType?
     public var amount: Money?
     public var paidAt: Date?

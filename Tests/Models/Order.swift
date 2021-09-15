@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 public struct Order: Decodable, Identifiable {
-    public var id: ID
+    public var id: String
     public var externalId: String?
     public var number: String?
     public var createdAt: String?

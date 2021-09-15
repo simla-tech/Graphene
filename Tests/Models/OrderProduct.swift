@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 public struct OrderProduct: Codable, Identifiable {
-    public var id: ID
+    public var id: String
     public var initialPrice: Money?
 }
 

@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 public struct OrderType: Codable, Identifiable {
-    public var id: ID
+    public var id: String
     public var name: String?
     public var active: Bool?
     public var defaultForCrm: Bool?

@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 public struct User: Codable, Identifiable {
-    public var id: ID
+    public var id: String
     public var nickName: String?
     public var enabled: Bool?
     public var position: String?

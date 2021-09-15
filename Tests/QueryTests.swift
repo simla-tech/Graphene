@@ -21,7 +21,7 @@ class QueryTests: XCTestCase {
     func testVariableSchemaTypes() {
         let allKeys = OrderDetailQuery.Variables.allKeys
         let types = Set(allKeys.map({ $0.variableType }))
-        XCTAssertEqual(types, ["String!", "Int", "Unknown_Optional<Dictionary<String, Double>>", "IDInt!"])
+        XCTAssertEqual(types, ["String!", "Int", "Unknown_Optional<Dictionary<String, Double>>"])
     }
 
     func testInputVariablesTypes() {
@@ -94,15 +94,14 @@ class QueryTests: XCTestCase {
         clone.payments?.remove(at: 0)
         clone.payments?[0].comment = "123212"
         clone.payments?[0].paidAt = Date()
-        let newPaymentId = Payment.ID()
-        clone.payments?.append(Payment(id: newPaymentId))
+        
+        clone.payments?.append(Payment(id: "new"))
         clone.nickName = "12332"
         clone.number = nil
         clone.firstName = "Nick"
         clone.lastName = "Kharlamov"
 
         let changeSet = ChangeSet(source: orignal, target: clone)
-
         if let contragentChange = changeSet.first(where: "contragent") as? RootChange {
             XCTAssert(!contragentChange.childChanges.contains(where: { $0.key == "INN" }))
             XCTAssert(contragentChange.childChanges.contains(where: { $0.key == "KPP" && $0 is FieldChange }))
@@ -124,7 +123,7 @@ class QueryTests: XCTestCase {
                 XCTFail("payment change not found")
             }
 
-            XCTAssert(paymentsChange.childChanges.contains(where: { $0.key == newPaymentId.description && $0 is FieldChange }))
+            XCTAssert(paymentsChange.childChanges.contains(where: { $0.key == "new" && $0 is FieldChange }))
 
         } else {
             XCTFail("payments change not found")

@@ -9,7 +9,7 @@ import Foundation
 @testable import Graphene
 
 public struct CustomerCorporate: Decodable, Identifiable {
-    public var id: ID
+    public var id: String
     public var createdAt: Date?
     public var vip: Bool?
     public var bad: Bool?

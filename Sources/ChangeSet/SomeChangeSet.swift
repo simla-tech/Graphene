@@ -82,9 +82,10 @@ extension SomeChangeSet {
             }
 
             // Compare identifiable arrays
-            if let oldValues = (oldValue as Any) as? [AnyIdentifiableVariable], let newValues = (newValue as Any) as? [AnyIdentifiableVariable] {
-                let oldDict = oldValues.reduce(into: Variables()) { $0["\($1.anyIdentifier)"] = $1 }
-                let newDict = newValues.reduce(into: Variables()) { $0["\($1.anyIdentifier)"] = $1 }
+            if let oldValues = (oldValue as Any) as? [AnyChangeSetIdentifiableVariable],
+               let newValues = (newValue as Any) as? [AnyChangeSetIdentifiableVariable] {
+                let oldDict = oldValues.reduce(into: Variables()) { $0["\($1.anyChangeSetIdentifier)"] = $1 }
+                let newDict = newValues.reduce(into: Variables()) { $0["\($1.anyChangeSetIdentifier)"] = $1 }
                 let childChanges = self.searchChanges(oldFields: oldDict, newFields: newDict)
                 let childChangeSet = AnyChangeSet(changes: childChanges)
                 if !childChangeSet.changes.isEmpty {

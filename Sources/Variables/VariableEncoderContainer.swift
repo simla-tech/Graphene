@@ -41,10 +41,10 @@ public class VariableEncoderContainer {
                 let diffVariable = ChangeSetVariable(variable: value, changeSet: childChangeSet)
                 return .value(diffVariable)
 
-            } else if let values = (value as Any) as? [AnyIdentifiableVariable] {
+            } else if let values = (value as Any) as? [AnyChangeSetIdentifiableVariable] {
 
                 let variables = values.compactMap({ value -> Variable? in
-                    switch self.applyChangeSet(to: value, forKey: "\(value.anyIdentifier)", changeSet: childChangeSet, required: false) {
+                    switch self.applyChangeSet(to: value, forKey: "\(value.anyChangeSetIdentifier)", changeSet: childChangeSet, required: false) {
                     case .value(let variable): return variable
                     default: return nil
                     }

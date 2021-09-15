@@ -13,10 +13,10 @@ public enum AbstractCustomer: Identifiable {
     case customer(Customer)
     case corporate(CustomerCorporate)
 
-    public var id: ID {
+    public var id: String {
         switch self {
-        case .corporate(let value): return .init(value.id)
-        case .customer(let value): return .init(value.id)
+        case .corporate(let value): return value.id
+        case .customer(let value): return value.id
         }
     }
 

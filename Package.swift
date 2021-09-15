@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Graphene",
-    platforms: [.iOS(.v12), .macOS(.v10_13)],
+    platforms: [.iOS(.v13), .macOS(.v10_13)],
     products: [
         .library(name: "Graphene", targets: ["Graphene"])
     ],

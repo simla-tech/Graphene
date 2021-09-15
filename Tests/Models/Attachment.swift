@@ -10,7 +10,7 @@ import Foundation
 
 struct Attachment: Decodable, Identifiable {
 
-    var id: ID
+    var id: String
 
 }
 
