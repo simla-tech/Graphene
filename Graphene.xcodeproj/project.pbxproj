@@ -38,7 +38,6 @@
 		51A51C0474A387B2BDFD9C29 /* AppMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62181A10B69D351979644F6 /* AppMutation.swift */; };
 		51A7E117F8702E9ED29C19B1 /* ChangeSetIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD996E5AD8D7CC036BAA11AB /* ChangeSetIdentifiable.swift */; };
 		531BB4231A3482EE744A7289 /* OperationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34E801A3135C6002B233CB0 /* OperationMode.swift */; };
-		5575461B2A5CFF41DE8E83BD /* Alamofire.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFD9C8F650197627BFB3847 /* Alamofire.xcframework */; };
 		5623CA3442DC047D7A48A75E /* QueryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9160C55EB5B86E46F087AA /* QueryContainer.swift */; };
 		5853F6E9C9574BB90F3F7A4C /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D78187C0C0CCCC08A58092 /* Money.swift */; };
 		58843BC198F2D9A2D5CAB414 /* OrderProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA3F04C8AF347483D05F84 /* OrderProduct.swift */; };
@@ -79,6 +78,7 @@
 		CE4962F008EDAF7C314D1144 /* VariableEncoderKeyedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E78E3240ADC9409278EE52C /* VariableEncoderKeyedContainer.swift */; };
 		D4BEC5281B56F8201DBFE6EC /* PaymentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5A988E26EA650F1CF708BF /* PaymentStatus.swift */; };
 		D59F69F4EE64435F177BE4D6 /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72E928DD32EC407C53358D7 /* Arguments.swift */; };
+		D6AD29A2E49ACCA64C39493F /* Alamofire.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD092B44A46729F36C2DB6C /* Alamofire.xcframework */; };
 		DC9B3258930036F47BDED4DA /* MuteCancelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C375DD966170E75FAB0DE71 /* MuteCancelTests.swift */; };
 		E04641E75AE599BF2B59D36E /* Contragent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A44924D9861A7A057CFD87 /* Contragent.swift */; };
 		E16F07F171CE6922E3D505A1 /* CancellableOperationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16AC43D6C171B78AC42689F /* CancellableOperationRequest.swift */; };
@@ -160,7 +160,6 @@
 		60C0B2F350D750604729331F /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		64D11AD886856F42119EF9DA /* AbstractEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractEncodable.swift; sourceTree = "<group>"; };
 		68FC6D80EA156B08FF3DDAC5 /* AbstractDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDecodable.swift; sourceTree = "<group>"; };
-		6BFD9C8F650197627BFB3847 /* Alamofire.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Alamofire.xcframework; sourceTree = "<group>"; };
 		6CC6B63D77457CE4EE4B0C9B /* OperationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRequest.swift; sourceTree = "<group>"; };
 		6ED3DED4E3573C328A5F8ADB /* AbstractCustomer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCustomer.swift; sourceTree = "<group>"; };
 		6F387020C73A52770E211098 /* ClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientTests.swift; sourceTree = "<group>"; };
@@ -216,6 +215,7 @@
 		F628BAB35597004F7CC79B09 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		F80BC4B007F2C0AAE6F2B378 /* Change.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Change.swift; sourceTree = "<group>"; };
 		F9E3F7817DF0816D17DD406A /* GraphQLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLError.swift; sourceTree = "<group>"; };
+		FCD092B44A46729F36C2DB6C /* Alamofire.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Alamofire.xcframework; sourceTree = "<group>"; };
 		FD996E5AD8D7CC036BAA11AB /* ChangeSetIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSetIdentifiable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,7 +224,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5575461B2A5CFF41DE8E83BD /* Alamofire.xcframework in Frameworks */,
+				D6AD29A2E49ACCA64C39493F /* Alamofire.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,10 +409,18 @@
 			usesTabs = 0;
 			wrapsLines = 1;
 		};
+		919CC9B08FB4757AF4CE44BA /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				FCD092B44A46729F36C2DB6C /* Alamofire.xcframework */,
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
 		A063648B507D249112B3FCF6 /* Carthage */ = {
 			isa = PBXGroup;
 			children = (
-				6BFD9C8F650197627BFB3847 /* Alamofire.xcframework */,
+				919CC9B08FB4757AF4CE44BA /* Build */,
 			);
 			path = Carthage;
 			sourceTree = "<group>";
@@ -806,7 +814,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage/Build",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
@@ -817,7 +825,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.4.2;
+				SWIFT_VERSION = 5.5;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -833,7 +841,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage/Build",
 				);
 				INFOPLIST_FILE = Derived/InfoPlists/Graphene.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -851,7 +859,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.4.2;
+				SWIFT_VERSION = 5.5;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -869,7 +877,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage/Build",
 				);
 				INFOPLIST_FILE = Derived/InfoPlists/Graphene.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -886,7 +894,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.4.2;
+				SWIFT_VERSION = 5.5;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -901,7 +909,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../Tuist/Dependencies/Carthage",
+					"$(SRCROOT)/../../Tuist/Dependencies/Carthage/Build",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
@@ -911,7 +919,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.4.2;
+				SWIFT_VERSION = 5.5;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
