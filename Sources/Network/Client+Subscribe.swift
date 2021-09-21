@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 public extension Client {
-    
+
     func subscribe<O: GraphQLOperation>(to operation: O) -> WebSocketRequest {
         if O.RootSchema.mode != .subscription {
             assertionFailure("You can't subsribe to \"\(O.operationName)\" operation. \"\(String(describing: O.RootSchema.self))\" must have .subscription mode")
@@ -18,5 +18,5 @@ public extension Client {
         let asdsd = URLRequest(url: URL.init(string: "")!)
         return self.alamofireSession.websocketRequest(asdsd, protocol: "graphql-ws")
     }
-    
+
 }

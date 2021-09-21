@@ -69,7 +69,7 @@ extension Client {
 }
 
 public class SubscriptionConnection: NSObject {
-    
+
     let websockerRequest: WebSocketRequest
     let monitor: CompositeGrapheneSubscriptionMonitor
 
@@ -83,17 +83,17 @@ public class SubscriptionConnection: NSObject {
         }
         super.init()
         self.websockerRequest.responseMessage(handler: self.eventHandler(_:))
-        //let asdsd = URLRequest(url: try! self.subscriptionUrl.asURL())
-        //return self.alamofireSession.websocketRequest(asdsd, protocol: "graphql-ws")
+        // let asdsd = URLRequest(url: try! self.subscriptionUrl.asURL())
+        // return self.alamofireSession.websocketRequest(asdsd, protocol: "graphql-ws")
     }
-    
+
     private func eventHandler(_ event: WebSocketRequest.Event<URLSessionWebSocketTask.Message, Never>) {
-        //switch event.kind {
-        //case .connected:
-            
-        //}
+        // switch event.kind {
+        // case .connected:
+
+        // }
     }
-    
+
 }
 /*
  

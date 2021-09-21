@@ -9,7 +9,7 @@
 import Foundation
 
 internal struct ExecuteClosureStorage<T> {
-    
+
     typealias SuccessClosure = (T) -> Void
     typealias FailureClosure = (Error) -> Void
     typealias FinishClosure = () -> Void
@@ -23,24 +23,24 @@ internal struct ExecuteClosureStorage<T> {
 public protocol SuccessableRequest: FailureableRequest {
     associatedtype ResultValue
     typealias SuccessClosure = (ResultValue) -> Void
-    
+
     @discardableResult
     func onSuccess(_ closure: @escaping SuccessClosure) -> FailureableRequest
 }
 
 public protocol FailureableRequest: FinishableRequest {
     typealias FailureClosure = (Error) -> Void
-    
+
     @discardableResult
     func onFailure(_ closure: @escaping FailureClosure) -> FinishableRequest
 }
 
 public protocol FinishableRequest: CancellableRequest {
     typealias FinishClosure = () -> Void
-    
+
     @discardableResult
     func onFinish(_ closure: @escaping FinishClosure) -> CancellableRequest
-    
+
 }
 
 public protocol CancellableRequest {

@@ -10,13 +10,13 @@ import Foundation
 import Alamofire
 
 public extension Client {
-    
+
     func execute<O: GraphQLOperation>(_ operation: O, queue: DispatchQueue = .main) -> ExecuteRequest<O> {
-        
+
         if O.RootSchema.mode == .subscription {
             assertionFailure("You can't execute \"\(O.operationName)\" operation. \"\(String(describing: O.RootSchema.self))\" must have .query or .mutation mode")
         }
-        
+
         let operationContext = OperationContextData(operation: operation)
         let multipartFormData = MultipartFormData(fileManager: .default, boundary: nil)
         let operations = operationContext.getOperationJSON()
@@ -24,7 +24,7 @@ public extension Client {
             multipartFormData.append(data, withName: "operations")
         }
         self.append(uploads: operationContext.getUploads(), to: multipartFormData)
-        
+
         let dataRequest = self.prepareDataRequest(for: O.self, with: multipartFormData, url: self.url)
         return ExecuteRequest(alamofireRequest: dataRequest,
                               decodePath: O.decodePath(of: O.ResponseValue.self),
@@ -32,5 +32,5 @@ public extension Client {
                               config: self.configuration,
                               queue: queue)
     }
-    
+
 }

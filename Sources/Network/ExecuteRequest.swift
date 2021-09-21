@@ -10,9 +10,9 @@ import Foundation
 import Alamofire
 
 public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
-    
+
     public typealias ResultValue = O.Value
-    
+
     private let alamofireRequest: DataRequest
     private let jsonDecoder: JSONDecoder
     private let muteCanceledRequests: Bool
@@ -21,7 +21,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     private var isSent: Bool = false
     private var closureStorage = ExecuteClosureStorage<ResultValue>()
     public let context: OperationContext
-    
+
     internal init(alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, config: Client.Configuration, queue: DispatchQueue) {
         self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)
         self.muteCanceledRequests = config.muteCanceledRequests
@@ -33,16 +33,16 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         decoder.dateDecodingStrategy = config.dateDecodingStrategy
         self.jsonDecoder = decoder
     }
-    
+
     private func send() {
         guard !self.isSent else { return }
         self.isSent = true
-        
+
         self.monitor.operation(willExecuteWith: self.context)
         let decoder = GraphQLDecoder(decodePath: O.decodePath, jsonDecoder: self.jsonDecoder)
         self.alamofireRequest.responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
     }
-    
+
     private func handleResponse(_ dataResponse: DataResponse<O.ResponseValue, AFError>) {
 
         if self.muteCanceledRequests, dataResponse.error?.isExplicitlyCancelledError ?? false {
@@ -54,7 +54,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
                                interval: dataResponse.metrics?.taskInterval ?? .init())
 
         let result = O.mapResponse(dataResponse.result.mapError({ $0.underlyingError ?? $0 }))
-        
+
         self.queue.sync {
             if !self.muteCanceledRequests || !self.alamofireRequest.isCancelled {
                 switch result {
@@ -69,35 +69,35 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
                 self.closureStorage.finishClosure?()
             }
         }
-        
+
     }
-    
+
     @discardableResult
     public func onSuccess(_ closure: @escaping SuccessClosure) -> FailureableRequest {
         self.closureStorage.successClosure = closure
         self.send()
         return self
     }
-    
+
     @discardableResult
     public func onFailure(_ closure: @escaping FailureClosure) -> FinishableRequest {
         self.closureStorage.failureClosure = closure
         self.send()
         return self
     }
-    
+
     @discardableResult
     public func onFinish(_ closure: @escaping FinishClosure) -> CancellableRequest {
         self.closureStorage.finishClosure = closure
         self.send()
         return self
     }
-    
+
     public func cancel() {
         self.alamofireRequest.cancel()
         self.isSent = false
     }
-    
+
 }
 
 private class GraphQLDecoder: DataDecoder {

@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 internal extension Client {
-    
+
     func append(uploads: [String: Upload], to multipartFormData: MultipartFormData) {
         let mapStr = uploads.enumerated().map({ (index, upload) -> String in
             return "\"\(index)\": [\"\(upload.key)\"]"
@@ -39,7 +39,7 @@ internal extension Client {
     }
 
     func prepareDataRequest<O: GraphQLOperation>(for type: O.Type, with multipartFormData: MultipartFormData, url: URLConvertible) -> UploadRequest {
-        
+
         var dataRequest = self.alamofireSession.upload(
             multipartFormData: multipartFormData,
             to: url,
@@ -56,5 +56,5 @@ internal extension Client {
         dataRequest = dataRequest.validate(GrapheneStatusValidator.validateStatus(request:response:data:)).validate()
         return dataRequest
     }
-    
+
 }

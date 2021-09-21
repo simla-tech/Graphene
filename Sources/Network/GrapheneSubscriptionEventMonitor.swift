@@ -12,28 +12,28 @@ import Alamofire
 import os.log
 
 public protocol GrapheneSubscriptionEventMonitor {
-    
+
     var queue: DispatchQueue { get }
 
     func connectionWillInitiate(_ connection: SubscriptionConnection)
-    //func connection(_ connection: SubscriptionConnection, didInitiateWithError error: Error?)
+    // func connection(_ connection: SubscriptionConnection, didInitiateWithError error: Error?)
 
-    //func connectionKeepAlive(_ connection: SubscriptionConnection)
+    // func connectionKeepAlive(_ connection: SubscriptionConnection)
 
-    //func connection(_ connection: SubscriptionConnection, willRegisterSubscription context: OperationContext)
-    //func connection(_ connection: SubscriptionConnection, didRegisterSubscription context: OperationContext, with error: Error?)
+    // func connection(_ connection: SubscriptionConnection, willRegisterSubscription context: OperationContext)
+    // func connection(_ connection: SubscriptionConnection, didRegisterSubscription context: OperationContext, with error: Error?)
 
-    //func connection(_ connection: SubscriptionConnection, recievedData size: Int, for context: OperationContext)
-    //func connection(_ connection: SubscriptionConnection, recievedError Error?, for context: OperationContext)
+    // func connection(_ connection: SubscriptionConnection, recievedData size: Int, for context: OperationContext)
+    // func connection(_ connection: SubscriptionConnection, recievedError Error?, for context: OperationContext)
 
-    //func connection(_ connection: SubscriptionConnection, willDeregisterSubscription context: OperationContext)
-    //func connection(_ connection: SubscriptionConnection, didDeregisterSubscription context: OperationContext, with error: Error?)
+    // func connection(_ connection: SubscriptionConnection, willDeregisterSubscription context: OperationContext)
+    // func connection(_ connection: SubscriptionConnection, didDeregisterSubscription context: OperationContext, with error: Error?)
 
-    //func connection(_ connection: SubscriptionConnection, terminatedWith reason: Int)
+    // func connection(_ connection: SubscriptionConnection, terminatedWith reason: Int)
 }
 
 extension GrapheneSubscriptionEventMonitor {
-    
+
     public var queue: DispatchQueue { .main }
 
     func connectionWillInitiate(_ connection: SubscriptionConnection) {
