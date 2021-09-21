@@ -260,14 +260,14 @@ extension OmnicaModel.Paginated where T: Identifiable {
 
 extension APIRequest.Successable where ResponseType: Paginable {
     
-    public func getCount() -> APIRequest<Int>.Successable {
+    public func getCount() -> APIExecuteRequest<Int>.Successable {
         var query: Query!
         if let name = self.graphusRequest?.query.name {
             query = Query(name, arguments: self.graphusRequest!.query.arguments, fields: ["totalCount"])
         } else {
             query = .unnamed(fields: ["totalCount"])
         }
-        let requestModel = APIRequest<Int>.Successable.self
+        let requestModel = APIExecuteRequest<Int>.Successable.self
         let urlRequest = requestModel.from(.query, query)
         urlRequest.customRootKey = "data.\(self.graphusRequest!.query.name ?? "–").totalCount"
         return urlRequest

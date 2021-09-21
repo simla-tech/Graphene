@@ -21,9 +21,10 @@ class MuteCancelTests: XCTestCase {
     func testMuteCancelledRequest() {
         let expectation = XCTestExpectation(description: "Download apple.com home page")
         let query = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderId: "32", someString: "test", someInt: nil, someDict: nil))
-        let request = self.client.execute(query) { _ in
-            XCTFail("Request must be ignore cancel")
-        }
+        let request = self.client.execute(query)
+            .onSuccess({ _ in XCTFail("Request must be ignore cancel") })
+            .onFailure({ _ in XCTFail("Request must be ignore cancel") })
+            .onFinish({ XCTFail("Request must be ignore cancel") })
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             expectation.fulfill()
         }

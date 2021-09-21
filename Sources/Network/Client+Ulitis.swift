@@ -1,0 +1,60 @@
+//
+//  Client+Ulitis.swift
+//  Graphene
+//
+//  Created by Ilya Kharlamov on 21.09.2021.
+//  Copyright © 2021 RetailDriver LLC. All rights reserved.
+//
+
+import Foundation
+import Alamofire
+
+internal extension Client {
+    
+    func append(uploads: [String: Upload], to multipartFormData: MultipartFormData) {
+        let mapStr = uploads.enumerated().map({ (index, upload) -> String in
+            return "\"\(index)\": [\"\(upload.key)\"]"
+        }).joined(separator: ",")
+        if let data = "{\(mapStr)}".data(using: .utf8) {
+            multipartFormData.append(data, withName: "map")
+        }
+        for (index, upload) in uploads.enumerated() {
+            multipartFormData.append(upload.value.data,
+                                     withName: "\(index)",
+                                     fileName: upload.value.name,
+                                     mimeType: MimeType(path: upload.value.name).value)
+        }
+    }
+
+    func httpHeaders<O: GraphQLOperation>(for type: O.Type) -> HTTPHeaders {
+        var httpHeaders = self.configuration.httpHeaders ?? []
+        if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
+           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
+            httpHeaders.add(.userAgent("Graphene/\(version)"))
+        }
+        if self.configuration.useOperationNameAsReferer {
+            httpHeaders.add(name: "Referer", value: "/\(O.RootSchema.mode.rawValue)/\(O.operationName)")
+        }
+        return httpHeaders
+    }
+
+    func prepareDataRequest<O: GraphQLOperation>(for type: O.Type, with multipartFormData: MultipartFormData, url: URLConvertible) -> UploadRequest {
+        
+        var dataRequest = self.alamofireSession.upload(
+            multipartFormData: multipartFormData,
+            to: url,
+            usingThreshold: MultipartFormData.encodingMemoryThreshold,
+            method: .post,
+            headers: self.httpHeaders(for: type),
+            requestModifier: self.configuration.requestModifier
+        )
+
+        // Set up validators
+        if let customValidation = self.configuration.validation {
+            dataRequest = dataRequest.validate(customValidation)
+        }
+        dataRequest = dataRequest.validate(GrapheneStatusValidator.validateStatus(request:response:data:)).validate()
+        return dataRequest
+    }
+    
+}
