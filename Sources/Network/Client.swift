@@ -15,7 +15,7 @@ public class Client: NSObject {
     public let configuration: Configuration
     public let url: URLConvertible
     public let batchUrl: URLConvertible?
-    public let subscriptionConnection: SubscriptionConnection?
+    public let subscriptionManager: SubscriptionManager?
 
     /// Create graphus client
     public init(url: URLConvertible,
@@ -33,9 +33,9 @@ public class Client: NSObject {
                                         eventMonitors: configuration.eventMonitors)
         self.alamofireSession = session
         if let subscriptionConfiguration = subscriptionConfiguration {
-            self.subscriptionConnection = SubscriptionConnection(configuration: subscriptionConfiguration, alamofireSession: session)
+            self.subscriptionManager = SubscriptionManager(configuration: subscriptionConfiguration, alamofireSession: session)
         } else {
-            self.subscriptionConnection = nil
+            self.subscriptionManager = nil
         }
     }
 
@@ -62,88 +62,14 @@ extension Client {
 
 extension Client {
     public struct SubscriptionConfiguration {
-        public let url: URLConvertible
-        public let `protocol`: String?
-        public var eventMonitors: [GrapheneSubscriptionEventMonitor] = []
-    }
-}
-
-public class SubscriptionConnection: NSObject {
-
-    let websockerRequest: WebSocketRequest
-    let monitor: CompositeGrapheneSubscriptionMonitor
-
-    init(configuration: Client.SubscriptionConfiguration, alamofireSession: Alamofire.Session) {
-        do {
-            let request = URLRequest(url: try configuration.url.asURL())
-            self.websockerRequest = alamofireSession.websocketRequest(request, protocol: configuration.protocol)
-            self.monitor = CompositeGrapheneSubscriptionMonitor(monitors: configuration.eventMonitors)
-        } catch {
-            fatalError(error.localizedDescription)
+        public let url: URL
+        public let socketProtocol: String?
+        public let eventMonitors: [GrapheneSubscriptionEventMonitor]
+        
+        public init(url: URL, socketProtocol: String? = nil, eventMonitors: [GrapheneSubscriptionEventMonitor] = []) {
+            self.url = url
+            self.socketProtocol = socketProtocol
+            self.eventMonitors = eventMonitors
         }
-        super.init()
-        self.websockerRequest.responseMessage(handler: self.eventHandler(_:))
-        // let asdsd = URLRequest(url: try! self.subscriptionUrl.asURL())
-        // return self.alamofireSession.websocketRequest(asdsd, protocol: "graphql-ws")
     }
-
-    private func eventHandler(_ event: WebSocketRequest.Event<URLSessionWebSocketTask.Message, Never>) {
-        // switch event.kind {
-        // case .connected:
-
-        // }
-    }
-
 }
-/*
- 
-
- 
- 
- // Subscribe
- 
- self.client.execute(ChatsList()) // ExecuteRequest<ChatsList>
-    .onSuccess({
- 
-    }) // FailurableExecuteRequest
-    .onFailure({
- 
-    }) // FinishableExecuteRequest
-    .onFinish({
- 
-    })// CancallableExecuteRequest
- 
- let subscribeRequest = self.client.subscribe(to: Chats()) // SubscribeRequest<Chats>
-    .onValue({ (chat: Chat) in
- 
-    }) // FailurableSubscribeRequest
-    .onFailure({ (error: Error) in
- 
-    }) // ConnectableSubscribeRequest
-    .onConnect({
- 
-    }) // DisconnactableSubscribeRequest
-    .onDisconnect({ (reason: DisconnectReason) in
- 
-    }) // CancallableSubscribeRequest
-
- subscribeRequest.cancel()
- subscribeRequest.cancel(with: Reason)
- 
- */
-
-// Connection will initiate ( -> connection_init)
-// Connection initiate did failure with error
-// Connection did initiate ( <- connection_ack )
-
-// Keep alive ( <- ka )
-
-// Subscription XXX will register ( -> start )
-// Subscription XXX register did failure with error
-// Subscription XXX did register ( <- ??? )
-
-// Subscription XXX will deregister ( -> stop )
-// Subscription XXX register did failure with error
-// Subscription XXX did deregister ( <- ??? )
-
-// Connection did deinitiate with reason ( <- ??? )

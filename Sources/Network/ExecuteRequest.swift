@@ -59,11 +59,9 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
             if !self.muteCanceledRequests || !self.alamofireRequest.isCancelled {
                 switch result {
                 case .failure(let error):
-                    print("failure", error, O.ResponseValue.self, O.Value.self)
                     self.monitor.operation(with: self.context, didFailWith: error)
                     self.closureStorage.failureClosure?(error)
                 case .success(let result):
-                    print("success", result)
                     self.closureStorage.successClosure?(result)
                 }
                 self.closureStorage.finishClosure?()

@@ -13,6 +13,7 @@ public enum GrapheneError: Error {
     case server(_ message: String, _ code: Int, _ rawResponse: String?)
     case authentication(_ message: String, _ code: Int, _ rawResponse: String?)
     case client(_ message: String, _ code: Int, _ rawResponse: String?)
+    case connection(_ message: String)
 }
 
 extension GrapheneError: LocalizedError {
@@ -29,6 +30,8 @@ extension GrapheneError: LocalizedError {
             return message
         case .unknownSchemaType(let schemaType):
             return "Unknown GraphQL schema type \"\(schemaType)\""
+        case .connection(let message):
+            return message
         }
     }
 
@@ -48,6 +51,8 @@ extension GrapheneError: CustomNSError {
             return 1
         case .unknownSchemaType:
             return 2
+        case .connection:
+            return 3
         case .authentication(_, let code, _):
             return code
         case .client(_, let code, _):
