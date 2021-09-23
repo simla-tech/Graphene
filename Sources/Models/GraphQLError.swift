@@ -13,7 +13,7 @@ public struct GraphQLError: Error, Decodable {
     public let locations: [Location]?
     public let path: [String]?
     public let extensions: [String: Any]?
-    
+
     private enum CodingKeys: String, CodingKey {
         case message
         case locations
@@ -162,5 +162,5 @@ private extension UnkeyedDecodingContainer {
         let nestedContainer = try self.nestedContainer(keyedBy: JSONCodingKeys.self)
         return try nestedContainer.decode(type)
     }
-    
+
 }

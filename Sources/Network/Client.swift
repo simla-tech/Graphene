@@ -65,7 +65,7 @@ extension Client {
         public let url: URL
         public let socketProtocol: String?
         public let eventMonitors: [GrapheneSubscriptionEventMonitor]
-        
+
         public init(url: URL, socketProtocol: String? = nil, eventMonitors: [GrapheneSubscriptionEventMonitor] = []) {
             self.url = url
             self.socketProtocol = socketProtocol

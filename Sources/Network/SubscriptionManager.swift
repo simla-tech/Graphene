@@ -20,7 +20,7 @@ internal protocol SubscriptionOperation: AnyObject {
     var uuid: UUID { get }
     var context: OperationContext { get }
     var state: SubscriptionState { get }
-    
+
     func updateState(_ state: SubscriptionState)
     func handleFailure(_ error: Error)
     func handleRawValue(_ rawValue: Data)
@@ -36,7 +36,7 @@ public class SubscriptionManager: NSObject {
     let systemDecoder: JSONDecoder
     var subscribeOperations: [SubscriptionOperation] = []
     var state: SubscriptionState = .disconnected
-    
+
     init(configuration: Client.SubscriptionConfiguration, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
         let request = URLRequest(url: configuration.url)
@@ -46,14 +46,14 @@ public class SubscriptionManager: NSObject {
         self.systemDecoder = JSONDecoder()
         super.init()
     }
-    
+
     public func connect() {
         guard self.state == .disconnected else { return }
         self.monitor.manager(self, willConnectTo: self.url)
         self.state = .connecting
         self.websockerRequest.responseMessage(handler: self.eventHandler(_:))
     }
-    
+
     public func terminate() {
         guard self.state != .disconnected else { return }
         self.monitor.managerWillTerminateConnection(self)
@@ -70,7 +70,7 @@ public class SubscriptionManager: NSObject {
             fatalError(String(describing: error))
         }
     }
-    
+
     internal func register(_ subscriptionOperation: SubscriptionOperation) {
         guard !self.subscribeOperations.contains(where: { $0.uuid == subscriptionOperation.uuid }) else {
             return
@@ -80,7 +80,7 @@ public class SubscriptionManager: NSObject {
             self.registerDisconnectedOperations()
         }
     }
-    
+
     internal func deregister(_ subscriptionOperation: SubscriptionOperation) {
         guard !self.subscribeOperations.contains(where: { $0.uuid == subscriptionOperation.uuid }) else {
             return
@@ -98,12 +98,12 @@ public class SubscriptionManager: NSObject {
             } catch {
                 fatalError(String(describing: error))
             }
-            
+
         } else {
             self.monitor.manager(self, didDeregisterSubscription: subscriptionOperation.context)
         }
     }
-    
+
     private func registerDisconnectedOperations() {
         for subscriptionOperation in self.subscribeOperations where subscriptionOperation.state == .disconnected {
             self.monitor.manager(self, willRegisterSubscription: subscriptionOperation.context)
@@ -127,7 +127,7 @@ public class SubscriptionManager: NSObject {
                         self.monitor.manager(self, recievedError: error, for: subscriptionOperation.context)
                         subscriptionOperation.handleFailure(error)
                         subscriptionOperation.updateState(.disconnected)
-                
+
                     }
                 })
             } catch {
@@ -137,7 +137,7 @@ public class SubscriptionManager: NSObject {
             }
         }
     }
-    
+
     private func handleMessageData(_ data: Data) {
         do {
             let serverMessage = try self.systemDecoder.decode(ServerMessage.self, from: data)
@@ -149,7 +149,7 @@ public class SubscriptionManager: NSObject {
 
             case .keepAlive:
                 self.monitor.managerKeepAlive(self)
-                
+
             case .data:
                 if let serverId = serverMessage.id, let operation = self.subscribeOperations.first(where: { $0.uuid == serverId }) {
                     self.monitor.manager(self, recievedData: data.count, for: operation.context)
@@ -157,7 +157,7 @@ public class SubscriptionManager: NSObject {
                 } else {
                     assertionFailure("Can't find operation for data message \"\(String(data: data, encoding: .utf8) ?? String(describing: data))\"")
                 }
-    
+
             case .error:
                 do {
                     let errors = try self.systemDecoder.decode([GraphQLError].self, from: data, keyPath: "payload")
@@ -171,12 +171,12 @@ public class SubscriptionManager: NSObject {
                     self.monitor.manager(self, recievedError: error, for: operation?.context)
                     operation?.handleFailure(error)
                 }
-                
+
             case .complete:
                 if let operation = self.subscribeOperations.first(where: { $0.uuid == serverMessage.id }) {
                     self.deregister(operation)
                 }
-                
+
             case .connectionError:
                 do {
                     let connectionError = try self.systemDecoder.decode(ConnectionError.self, from: data, keyPath: "payload")
@@ -186,7 +186,7 @@ public class SubscriptionManager: NSObject {
                     self.monitor.manager(self, recievedError: error, for: operation?.context)
                     operation?.handleFailure(error)
                 }
-                
+
             }
         } catch {
             var context: OperationContext?
@@ -215,22 +215,22 @@ public class SubscriptionManager: NSObject {
             } catch {
                 fatalError(String(describing: error))
             }
-            
+
         case .receivedMessage(let message):
             switch message {
             case .data(let data):
                 self.handleMessageData(data)
-                
+
             case .string(let string):
                 guard let data = string.data(using: .utf8) else {
                     fatalError("Can't handle income message \"\(string)\"")
                 }
                 self.handleMessageData(data)
-                
+
             @unknown default:
                 fatalError("Unknown message type \"\(message)\"")
             }
-            
+
         case .disconnected(let closeCode, let reasonData):
             var reason: DisconnectReason?
             if let data = reasonData, let str = String(data: data, encoding: .utf8) {
@@ -238,25 +238,25 @@ public class SubscriptionManager: NSObject {
             }
             self.monitor.manager(self, didDisconnectWithCode: closeCode, reason: reason)
             self.state = .disconnected
-            
+
         case .completed:
             self.monitor.managerDidCloseConnection(self)
-            
+
         }
-        
+
     }
 
 }
 
 extension SubscriptionManager {
-    
+
     enum ClientMessageType: String, Encodable {
         case connectionInit = "connection_init"
         case connectionTerminate = "connection_terminate"
         case start = "start"
         case stop = "stop"
     }
-    
+
     enum ServerMessageType: String, Decodable {
         case connectionError = "connection_error"
         case connectionAck = "connection_ack"
@@ -265,15 +265,15 @@ extension SubscriptionManager {
         case error = "error"
         case complete = "complete"
     }
-    
+
     public enum DisconnectReason: RawRepresentable {
-        
+
         case decodingError
         case terminated
         case unexpectedMessage
         case unexpectedClosure
         case unknown(String)
-        
+
         public init(rawValue: String) {
             switch rawValue {
             case "decoding error":
@@ -288,7 +288,7 @@ extension SubscriptionManager {
                 self = .unknown(rawValue)
             }
         }
-        
+
         public var rawValue: String {
             switch self {
             case .decodingError:
@@ -303,50 +303,50 @@ extension SubscriptionManager {
                 return unknownValue
             }
         }
-        
+
     }
-    
+
     struct ConnectionError: Decodable {
         let message: String
     }
-    
+
     struct ClientSystemMessage: Encodable {
         let type: ClientMessageType
         let id: UUID?
-        
+
         // swiftlint:disable:next nesting
         private enum CodingKeys: String, CodingKey {
             case type
             case id
         }
-        
+
         func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.type, forKey: .type)
             try container.encodeIfPresent(self.id, forKey: .id)
         }
     }
-    
+
     struct ClientSubscriptionMessage: Encodable {
         let type: ClientMessageType
         let id: UUID
         let payload: OperationPayload
     }
-    
+
     struct ServerMessage: Decodable {
         let type: ServerMessageType
         let id: UUID?
     }
-    
+
 }
 
 extension SubscriptionManager.ClientSubscriptionMessage {
-    
+
     struct OperationPayload: Codable {
         let query: String
         let operationName: String
     }
-    
+
 }
 
 /*
