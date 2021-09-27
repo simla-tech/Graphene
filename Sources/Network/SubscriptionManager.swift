@@ -36,7 +36,7 @@ public class SubscriptionManager: NSObject {
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
-    
+
     var isConnectionEstablished: Bool = false
     var isSuspended: Bool = true
     var websockerRequest: WebSocketRequest
@@ -56,7 +56,7 @@ public class SubscriptionManager: NSObject {
         super.init()
         self.websockerRequest.responseMessage(on: .global(qos: .utility), handler: self.eventHandler(_:))
     }
-    
+
     @objc private func ping() {
         guard self.websockerRequest.isResumed, !self.waitForPong else { return }
         if let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask {
@@ -74,19 +74,19 @@ public class SubscriptionManager: NSObject {
             }
         }
     }
-    
+
     public func resume() {
         guard self.isSuspended else { return }
         self.isSuspended = false
         self.connect()
     }
-    
+
     public func suspend() {
         guard !self.isSuspended else { return }
         self.isSuspended = true
         self.terminate()
     }
-    
+
     private func connect(function: StaticString = #function,
                          file: StaticString  = #file,
                          line: UInt  = #line) {
@@ -99,7 +99,7 @@ public class SubscriptionManager: NSObject {
         }
         self.websockerRequest.resume()
     }
- 
+
     private func terminate() {
         guard self.websockerRequest.state == .resumed else { return }
         self.monitor.managerWillTerminateConnection(self)
@@ -300,7 +300,7 @@ public class SubscriptionManager: NSObject {
                     self.connect()
                 })
             }
-            
+
         }
 
     }
