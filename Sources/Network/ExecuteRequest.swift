@@ -14,7 +14,6 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     public typealias ResultValue = O.Value
 
     private let alamofireRequest: DataRequest
-    private let jsonDecoder: JSONDecoder
     private let muteCanceledRequests: Bool
     private let monitor: CompositeGrapheneEventMonitor
     private let queue: DispatchQueue
@@ -28,19 +27,18 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         self.alamofireRequest = alamofireRequest
         self.context = context
         self.queue = queue
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = config.keyDecodingStrategy
-        decoder.dateDecodingStrategy = config.dateDecodingStrategy
-        self.jsonDecoder = decoder
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = config.keyDecodingStrategy
+        jsonDecoder.dateDecodingStrategy = config.dateDecodingStrategy
+        let decoder = GraphQLDecoder(decodePath: O.decodePath, jsonDecoder: jsonDecoder)
+        self.alamofireRequest.responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
     }
 
     private func send() {
         guard !self.isSent else { return }
         self.isSent = true
-
         self.monitor.operation(willExecuteWith: self.context)
-        let decoder = GraphQLDecoder(decodePath: O.decodePath, jsonDecoder: self.jsonDecoder)
-        self.alamofireRequest.responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
+        self.alamofireRequest.resume()
     }
 
     private func handleResponse(_ dataResponse: DataResponse<O.ResponseValue, AFError>) {

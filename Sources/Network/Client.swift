@@ -26,6 +26,7 @@ public class Client: NSObject {
         self.batchUrl = batchUrl
         self.configuration = configuration
         let session = Alamofire.Session(rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
+                                        startRequestsImmediately: false,
                                         interceptor: configuration.interceptor,
                                         serverTrustManager: configuration.serverTrustManager,
                                         redirectHandler: configuration.redirectHandler,

@@ -29,46 +29,81 @@ internal protocol SubscriptionOperation: AnyObject {
 
 public class SubscriptionManager: NSObject {
 
+    let pongTimeout: TimeInterval = 5
     let url: URL
-    let websockerRequest: WebSocketRequest
+    let session: Alamofire.Session
+    let socketProtocol: String?
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
+    
+    var isConnectionEstablished: Bool = false
+    var isSuspended: Bool = true
+    var websockerRequest: WebSocketRequest
     var subscribeOperations: [SubscriptionOperation] = []
-    var state: SubscriptionState = .disconnected
+    var pingPongTimer: Timer?
+    var waitForPong = false
 
     init(configuration: Client.SubscriptionConfiguration, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
+        self.session = alamofireSession
+        self.socketProtocol = configuration.socketProtocol
         let request = URLRequest(url: configuration.url)
         self.websockerRequest = alamofireSession.websocketRequest(request, protocol: configuration.socketProtocol)
         self.monitor = CompositeGrapheneSubscriptionMonitor(monitors: configuration.eventMonitors)
         self.encoder = JSONEncoder()
         self.systemDecoder = JSONDecoder()
         super.init()
+        self.websockerRequest.responseMessage(on: .global(qos: .utility), handler: self.eventHandler(_:))
     }
-
-    public func connect() {
-        guard self.state == .disconnected else { return }
-        self.monitor.manager(self, willConnectTo: self.url)
-        self.state = .connecting
-        self.websockerRequest.responseMessage(handler: self.eventHandler(_:))
-    }
-
-    public func terminate() {
-        guard self.state != .disconnected else { return }
-        self.monitor.managerWillTerminateConnection(self)
-        do {
-            let message = ClientSystemMessage(type: .connectionTerminate, id: nil)
-            let messageData = try self.encoder.encode(message)
-            let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
-            self.websockerRequest.send(webSocketMessage, completionHandler: { response in
-                if case .failure(let error) = response {
+    
+    @objc private func ping() {
+        guard self.websockerRequest.isResumed, !self.waitForPong else { return }
+        if let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask {
+            print("ping")
+            self.waitForPong = true
+            task.sendPing { error in
+                if let error = error {
+                    print("no pong", error)
                     self.monitor.manager(self, recievedError: error, for: nil)
+                    self.terminate()
+                } else {
+                    print("pong")
                 }
-            })
-        } catch {
-            fatalError(String(describing: error))
+                self.waitForPong = false
+            }
         }
+    }
+    
+    public func resume() {
+        guard self.isSuspended else { return }
+        self.isSuspended = false
+        self.connect()
+    }
+    
+    public func suspend() {
+        guard !self.isSuspended else { return }
+        self.isSuspended = true
+        self.terminate()
+    }
+    
+    private func connect(function: StaticString = #function,
+                         file: StaticString  = #file,
+                         line: UInt  = #line) {
+        guard self.websockerRequest.state != .resumed else { return }
+        self.monitor.manager(self, willConnectTo: self.url)
+        if self.websockerRequest.state == .finished || self.websockerRequest.state == .cancelled {
+            self.websockerRequest = self.session
+                .websocketRequest(URLRequest(url: self.url), protocol: self.socketProtocol)
+                .responseMessage(on: .global(qos: .utility), handler: self.eventHandler(_:))
+        }
+        self.websockerRequest.resume()
+    }
+ 
+    private func terminate() {
+        guard self.websockerRequest.state == .resumed else { return }
+        self.monitor.managerWillTerminateConnection(self)
+        self.websockerRequest.cancel()
     }
 
     internal func register(_ subscriptionOperation: SubscriptionOperation) {
@@ -76,7 +111,7 @@ public class SubscriptionManager: NSObject {
             return
         }
         self.subscribeOperations.append(subscriptionOperation)
-        if self.state == .connected {
+        if self.websockerRequest.state == .resumed, self.isConnectionEstablished {
             self.registerDisconnectedOperations()
         }
     }
@@ -143,8 +178,8 @@ public class SubscriptionManager: NSObject {
             let serverMessage = try self.systemDecoder.decode(ServerMessage.self, from: data)
             switch serverMessage.type {
             case .connectionAck:
+                self.isConnectionEstablished = true
                 self.monitor.managerDidEstablishConnection(self)
-                self.state = .connected
                 self.registerDisconnectedOperations()
 
             case .keepAlive:
@@ -202,9 +237,17 @@ public class SubscriptionManager: NSObject {
         switch event.kind {
         case .connected:
             self.monitor.manager(self, didConnectTo: self.url)
-            self.monitor.managerWillEstablishConnection(self)
-            let message = ClientSystemMessage(type: .connectionInit, id: nil)
+            DispatchQueue.main.async {
+                self.waitForPong = false
+                self.pingPongTimer = .scheduledTimer(timeInterval: self.pongTimeout,
+                                                     target: self,
+                                                     selector: #selector(self.ping),
+                                                     userInfo: nil,
+                                                     repeats: true)
+            }
             do {
+                self.monitor.managerWillEstablishConnection(self)
+                let message = ClientSystemMessage(type: .connectionInit, id: nil)
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
                 self.websockerRequest.send(webSocketMessage, completionHandler: { result in
@@ -232,16 +275,32 @@ public class SubscriptionManager: NSObject {
             }
 
         case .disconnected(let closeCode, let reasonData):
+            self.isConnectionEstablished = false
+            DispatchQueue.main.async {
+                self.pingPongTimer?.invalidate()
+            }
             var reason: DisconnectReason?
             if let data = reasonData, let str = String(data: data, encoding: .utf8) {
                 reason = DisconnectReason(rawValue: str)
             }
             self.monitor.manager(self, didDisconnectWithCode: closeCode, reason: reason)
-            self.state = .disconnected
 
         case .completed:
+            self.isConnectionEstablished = false
+            DispatchQueue.main.async {
+                self.pingPongTimer?.invalidate()
+            }
             self.monitor.managerDidCloseConnection(self)
-
+            for operation in self.subscribeOperations {
+                operation.updateState(.disconnected)
+            }
+            if !self.isSuspended {
+                print("Try to reconnect")
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2, execute: {
+                    self.connect()
+                })
+            }
+            
         }
 
     }
@@ -341,61 +400,8 @@ extension SubscriptionManager {
 }
 
 extension SubscriptionManager.ClientSubscriptionMessage {
-
     struct OperationPayload: Codable {
         let query: String
         let operationName: String
     }
-
 }
-
-/*
- 
- // Subscribe
- 
- self.client.execute(ChatsList()) // ExecuteRequest<ChatsList>
-    .onSuccess({
- 
-    }) // FailurableExecuteRequest
-    .onFailure({
- 
-    }) // FinishableExecuteRequest
-    .onFinish({
- 
-    })// CancallableExecuteRequest
- 
- let subscribeRequest = self.client.subscribe(to: Chats()) // SubscribeRequest<Chats>
-    .onValue({ (chat: Chat) in
- 
-    }) // FailurableSubscribeRequest
-    .onFailure({ (error: Error) in
- 
-    }) // ConnectableSubscribeRequest
-    .onConnectionState({ (connectionState: ConnectionState) in
-        switch connectionState {
-        case .connected: break
-        case .disconnected: break
-        case .inProgress: break
-        }
-    })
-
- subscribeRequest.cancel()
- subscribeRequest.cancel(with: Reason)
- 
- */
-
-// Connection will initiate ( -> connection_init)
-// Connection initiate did failure with error
-// Connection did initiate ( <- connection_ack )
-
-// Keep alive ( <- ka )
-
-// Subscription XXX will register ( -> start )
-// Subscription XXX register did failure with error
-// Subscription XXX did register ( <- ??? )
-
-// Subscription XXX will deregister ( -> stop )
-// Subscription XXX register did failure with error
-// Subscription XXX did deregister ( <- ??? )
-
-// Connection did deinitiate with reason ( <- ??? )

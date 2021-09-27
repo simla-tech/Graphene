@@ -32,13 +32,14 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
         decoder.keyDecodingStrategy = config.keyDecodingStrategy
         decoder.dateDecodingStrategy = config.dateDecodingStrategy
         self.jsonDecoder = decoder
+        self.alamofireRequest.responseData(queue: .global(qos: .utility), completionHandler: self.handleResponse(_:))
     }
 
     private func send() {
         guard !self.isSent else { return }
         self.isSent = true
         self.monitor.operation(willExecuteWith: self.context)
-        self.alamofireRequest.responseData(queue: .global(qos: .utility), completionHandler: self.handleResponse(_:))
+        self.alamofireRequest.resume()
     }
 
     private func handleResponse(_ dataResponse: DataResponse<Data, AFError>) {

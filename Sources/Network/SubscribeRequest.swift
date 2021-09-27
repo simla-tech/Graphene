@@ -83,8 +83,10 @@ internal class InternalSubscribeRequest<O: GraphQLOperation>: SubscribeRequest<O
 extension InternalSubscribeRequest: SubscriptionOperation {
 
     func updateState(_ state: SubscriptionState) {
-        self.state = state
-        self.closureStorage.stateClosure?(state)
+        if state != self.state {
+            self.state = state
+            self.closureStorage.stateClosure?(state)
+        }
     }
 
     func handleFailure(_ error: Error) {
