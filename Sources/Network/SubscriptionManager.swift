@@ -43,6 +43,7 @@ public class SubscriptionManager: NSObject {
     var subscribeOperations: [SubscriptionOperation] = []
     var pingPongTimer: Timer?
     var waitForPong = false
+    var currentReconnectAttempt: Int = 0
 
     init(configuration: Client.SubscriptionConfiguration, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
@@ -60,15 +61,11 @@ public class SubscriptionManager: NSObject {
     @objc private func ping() {
         guard self.websockerRequest.isResumed, !self.waitForPong else { return }
         if let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask {
-            print("ping")
             self.waitForPong = true
             task.sendPing { error in
                 if let error = error {
-                    print("no pong", error)
                     self.monitor.manager(self, recievedError: error, for: nil)
                     self.terminate()
-                } else {
-                    print("pong")
                 }
                 self.waitForPong = false
             }
@@ -87,9 +84,7 @@ public class SubscriptionManager: NSObject {
         self.terminate()
     }
 
-    private func connect(function: StaticString = #function,
-                         file: StaticString  = #file,
-                         line: UInt  = #line) {
+    private func connect() {
         guard self.websockerRequest.state != .resumed else { return }
         self.monitor.manager(self, willConnectTo: self.url)
         if self.websockerRequest.state == .finished || self.websockerRequest.state == .cancelled {
@@ -236,6 +231,7 @@ public class SubscriptionManager: NSObject {
     private func eventHandler(_ event: WebSocketRequest.Event<URLSessionWebSocketTask.Message, Never>) {
         switch event.kind {
         case .connected:
+            self.currentReconnectAttempt = 0
             self.monitor.manager(self, didConnectTo: self.url)
             DispatchQueue.main.async {
                 self.waitForPong = false
@@ -295,8 +291,14 @@ public class SubscriptionManager: NSObject {
                 operation.updateState(.disconnected)
             }
             if !self.isSuspended {
-                print("Try to reconnect")
-                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2, execute: {
+                self.currentReconnectAttempt += 1
+                var reconnectDispatchTime: TimeInterval = 0.5
+                if self.currentReconnectAttempt > 2 {
+                    reconnectDispatchTime = 4
+                }
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + reconnectDispatchTime,
+                                                               execute: {
+                    self.monitor.manager(self, triesToReconnectWith: self.currentReconnectAttempt)
                     self.connect()
                 })
             }
