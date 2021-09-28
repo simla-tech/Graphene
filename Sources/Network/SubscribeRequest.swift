@@ -21,12 +21,18 @@ public class SubscribeRequest<O: GraphQLOperation> {
     internal let deregisterClosure: (SubscriptionOperation) -> Void
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
+    internal let monitor: CompositeGrapheneEventMonitor
 
-    init(context: OperationContext, queue: DispatchQueue, config: Client.Configuration, registerClosure: @escaping (SubscriptionOperation) -> Void, deregisterClosure: @escaping (SubscriptionOperation) -> Void) {
+    init(context: OperationContext,
+         queue: DispatchQueue,
+         config: Client.Configuration,
+         registerClosure: @escaping (SubscriptionOperation) -> Void,
+         deregisterClosure: @escaping (SubscriptionOperation) -> Void) {
         self.context = context
         self.queue = queue
         self.registerClosure = registerClosure
         self.deregisterClosure = deregisterClosure
+        self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = config.keyDecodingStrategy
         decoder.dateDecodingStrategy = config.dateDecodingStrategy
@@ -105,6 +111,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
         case .success(let value):
             self.closureStorage.valueClosure?(value)
         case .failure(let error):
+            self.monitor.operation(with: self.context, didFailWith: error)
             self.closureStorage.failureClosure?(error)
         }
     }
