@@ -34,7 +34,9 @@ public class Client: NSObject {
                                         eventMonitors: configuration.eventMonitors)
         self.alamofireSession = session
         if let subscriptionConfiguration = subscriptionConfiguration {
-            self.subscriptionManager = SubscriptionManager(configuration: subscriptionConfiguration, alamofireSession: session)
+            self.subscriptionManager = SubscriptionManager(configuration: subscriptionConfiguration,
+                                                           headers: self.configuration.prepareHttpHeaders(),
+                                                           alamofireSession: session)
         } else {
             self.subscriptionManager = nil
         }
@@ -61,16 +63,32 @@ extension Client {
     }
 }
 
+extension Client.Configuration {
+    internal func prepareHttpHeaders() -> HTTPHeaders {
+        var httpHeaders = self.httpHeaders ?? []
+        if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
+           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
+            httpHeaders.add(.userAgent("Graphene/\(version)"))
+        }
+        return httpHeaders
+    }
+}
+
 extension Client {
     public struct SubscriptionConfiguration {
         public let url: URL
         public let socketProtocol: String?
         public let eventMonitors: [GrapheneSubscriptionEventMonitor]
+        public var timeoutInterval: TimeInterval = 30
 
-        public init(url: URL, socketProtocol: String? = nil, eventMonitors: [GrapheneSubscriptionEventMonitor] = []) {
+        public init(url: URL,
+                    socketProtocol: String? = nil,
+                    eventMonitors: [GrapheneSubscriptionEventMonitor] = [],
+                    timeoutInterval: TimeInterval = 30) {
             self.url = url
             self.socketProtocol = socketProtocol
             self.eventMonitors = eventMonitors
+            self.timeoutInterval = timeoutInterval
         }
     }
 }

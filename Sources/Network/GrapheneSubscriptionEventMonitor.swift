@@ -13,7 +13,7 @@ import os.log
 
 public protocol GrapheneSubscriptionEventMonitor {
 
-    var queue: DispatchQueue { get }
+    var subscriptionMonitorQueue: DispatchQueue { get }
 
     func manager(_ manager: SubscriptionManager, willConnectTo url: URL)
     func manager(_ manager: SubscriptionManager, didConnectTo url: URL)
@@ -33,7 +33,7 @@ public protocol GrapheneSubscriptionEventMonitor {
     func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext)
 
     func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int)
-    
+
     func managerWillTerminateConnection(_ manager: SubscriptionManager)
     func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, reason: SubscriptionManager.DisconnectReason?)
     func managerDidCloseConnection(_ manager: SubscriptionManager)
@@ -42,7 +42,7 @@ public protocol GrapheneSubscriptionEventMonitor {
 
 extension GrapheneSubscriptionEventMonitor {
 
-    public var queue: DispatchQueue { .main }
+    public var subscriptionMonitorQueue: DispatchQueue { .main }
 
     public func manager(_ manager: SubscriptionManager, willConnectTo url: URL) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will connect to %@", url.absoluteString)
@@ -99,7 +99,7 @@ extension GrapheneSubscriptionEventMonitor {
     public func managerWillTerminateConnection(_ manager: SubscriptionManager) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will terminate connection")
     }
-    
+
     public func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager tries to reconnect: %d attempt", attempt)
     }
@@ -186,7 +186,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     public func managerWillTerminateConnection(_ manager: SubscriptionManager) {
         self.managerWillTerminateConnection?(manager)
     }
-    
+
     public func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
         self.managerTriesToReconnect?(manager, attempt)
     }
@@ -195,7 +195,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
 
 final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionEventMonitor {
 
-    let queue = DispatchQueue(label: "com.retaildriver.Graphene.CompositeGrapheneSubscriptionMonitor", qos: .utility)
+    let subscriptionMonitorQueue = DispatchQueue(label: "com.retaildriver.Graphene.CompositeGrapheneSubscriptionMonitor", qos: .utility)
 
     let monitors: [GrapheneSubscriptionEventMonitor]
 
@@ -204,9 +204,9 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
     }
 
     func performEvent(_ event: @escaping (GrapheneSubscriptionEventMonitor) -> Void) {
-        self.queue.async {
+        self.subscriptionMonitorQueue.async {
             for monitor in self.monitors {
-                monitor.queue.async { event(monitor) }
+                monitor.subscriptionMonitorQueue.async { event(monitor) }
             }
         }
     }
@@ -266,7 +266,7 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
     func managerWillTerminateConnection(_ manager: SubscriptionManager) {
         performEvent { $0.managerWillTerminateConnection(manager) }
     }
-    
+
     func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
         performEvent { $0.manager(manager, triesToReconnectWith: attempt) }
     }

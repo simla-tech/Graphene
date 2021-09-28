@@ -27,11 +27,7 @@ internal extension Client {
     }
 
     func httpHeaders<O: GraphQLOperation>(for type: O.Type) -> HTTPHeaders {
-        var httpHeaders = self.configuration.httpHeaders ?? []
-        if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
-           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
-            httpHeaders.add(.userAgent("Graphene/\(version)"))
-        }
+        var httpHeaders = self.configuration.prepareHttpHeaders()
         if self.configuration.useOperationNameAsReferer {
             httpHeaders.add(name: "Referer", value: "/\(O.RootSchema.mode.rawValue)/\(O.operationName)")
         }

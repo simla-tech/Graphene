@@ -26,7 +26,7 @@ class ClientTests: XCTestCase {
         config.keyDecodingStrategy = .convertFromSnakeCase
         config.dateDecodingStrategy = self.dateDecodingStrategy
         config.muteCanceledRequests = false
-        return Client(url: "https://google.com/app/api", configuration: config)
+        return Client(url: "https://google.com/app/api", batchUrl: "https://google.com/app/api/batch", configuration: config)
     }()
 
     func testCancelledError() {

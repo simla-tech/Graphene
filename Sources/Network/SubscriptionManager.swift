@@ -45,11 +45,12 @@ public class SubscriptionManager: NSObject {
     var waitForPong = false
     var currentReconnectAttempt: Int = 0
 
-    init(configuration: Client.SubscriptionConfiguration, alamofireSession: Alamofire.Session) {
+    init(configuration: Client.SubscriptionConfiguration, headers: HTTPHeaders, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
         self.session = alamofireSession
         self.socketProtocol = configuration.socketProtocol
-        let request = URLRequest(url: configuration.url)
+        var request = URLRequest(url: configuration.url, timeoutInterval: configuration.timeoutInterval)
+        request.headers = headers
         self.websockerRequest = alamofireSession.websocketRequest(request, protocol: configuration.socketProtocol)
         self.monitor = CompositeGrapheneSubscriptionMonitor(monitors: configuration.eventMonitors)
         self.encoder = JSONEncoder()
@@ -112,7 +113,7 @@ public class SubscriptionManager: NSObject {
     }
 
     internal func deregister(_ subscriptionOperation: SubscriptionOperation) {
-        guard !self.subscribeOperations.contains(where: { $0.uuid == subscriptionOperation.uuid }) else {
+        guard self.subscribeOperations.contains(where: { $0.uuid == subscriptionOperation.uuid }) else {
             return
         }
         self.monitor.manager(self, willDeregisterSubscription: subscriptionOperation.context)
