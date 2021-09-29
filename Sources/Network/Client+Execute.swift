@@ -15,12 +15,12 @@ extension Client {
                                              queue: DispatchQueue = .main) -> ExecuteRequest<O> where O.RootSchema: MutationSchema {
         return self.executeQuery(operation, queue: queue)
     }
-    
+
     public func execute<O: GraphQLOperation>(_ operation: O,
                                              queue: DispatchQueue = .main) -> ExecuteRequest<O> where O.RootSchema: QuerySchema {
         return self.executeQuery(operation, queue: queue)
     }
-    
+
     private func executeQuery<O: GraphQLOperation>(_ operation: O, queue: DispatchQueue = .main) -> ExecuteRequest<O> {
 
         if O.RootSchema.mode == .subscription {
