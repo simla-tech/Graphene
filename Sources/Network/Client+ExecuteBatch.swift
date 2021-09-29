@@ -9,9 +9,19 @@
 import Foundation
 import Alamofire
 
-public extension Client {
+extension Client {
+    
+    public func execute<O: GraphQLOperation>(_ operations: [O],
+                                             queue: DispatchQueue = .main) -> ExecuteBatchRequest<O> where O.RootSchema: MutationSchema {
+        return self.executeBatch(operations, queue: queue)
+    }
+    
+    public func execute<O: GraphQLOperation>(_ operations: [O],
+                                             queue: DispatchQueue = .main) -> ExecuteBatchRequest<O> where O.RootSchema: QuerySchema {
+        return self.executeBatch(operations, queue: queue)
+    }
 
-    func execute<O: GraphQLOperation>(_ operations: [O], queue: DispatchQueue = .main) -> ExecuteBatchRequest<O> {
+    private func executeBatch<O: GraphQLOperation>(_ operations: [O], queue: DispatchQueue = .main) -> ExecuteBatchRequest<O> {
 
         if O.RootSchema.mode == .subscription {
             assertionFailure("You can't execute \"\(O.operationName)\" operation. \"\(String(describing: O.RootSchema.self))\" must have .query or .mutation mode")

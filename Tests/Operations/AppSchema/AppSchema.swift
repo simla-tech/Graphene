@@ -9,11 +9,7 @@
 import Foundation
 @testable import Graphene
 
-struct AppSchema: OperationSchema {
-    static let mode: OperationMode = .query
-}
-
-extension AppSchema: Queryable {
+struct AppSchema: QuerySchema {
 
     final class QueryKeys: QueryKey {
 

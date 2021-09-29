@@ -9,9 +9,14 @@
 import Foundation
 import Alamofire
 
-public extension Client {
-
-    func subscribe<O: GraphQLOperation>(to operation: O, queue: DispatchQueue = .main) -> SubscribeRequest<O> {
+extension Client {
+    
+    public func execute<O: GraphQLOperation>(_ operation: O,
+                                             queue: DispatchQueue = .main) -> SubscribeRequest<O> where O.RootSchema: SubscriptionSchema {
+        return self.executeSubscription(operation, queue: queue)
+    }
+    
+    private func executeSubscription<O: GraphQLOperation>(_ operation: O, queue: DispatchQueue = .main) -> SubscribeRequest<O> {
         if O.RootSchema.mode != .subscription {
             assertionFailure("You can't subsribe to \"\(O.operationName)\" operation. \"\(String(describing: O.RootSchema.self))\" must have .subscription mode")
         }

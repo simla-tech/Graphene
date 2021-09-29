@@ -9,13 +9,7 @@
 import Foundation
 @testable import Graphene
 
-struct AppMutation: OperationSchema {
-
-    static let mode: OperationMode = .mutation
-
-}
-
-extension AppMutation: Queryable {
+struct AppMutation: MutationSchema {
 
     final class QueryKeys: QueryKey {
 
