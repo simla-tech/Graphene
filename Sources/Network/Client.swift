@@ -79,12 +79,12 @@ extension Client {
         public let url: URL
         public let socketProtocol: String?
         public let eventMonitors: [GrapheneSubscriptionEventMonitor]
-        public var timeoutInterval: TimeInterval = 30
+        public let timeoutInterval: TimeInterval
 
         public init(url: URL,
                     socketProtocol: String? = nil,
                     eventMonitors: [GrapheneSubscriptionEventMonitor] = [],
-                    timeoutInterval: TimeInterval = 30) {
+                    timeoutInterval: TimeInterval = 5) {
             self.url = url
             self.socketProtocol = socketProtocol
             self.eventMonitors = eventMonitors

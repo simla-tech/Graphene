@@ -8,7 +8,25 @@
 import Foundation
 import Alamofire
 
-public class GrapheneStatusValidator {
+public class GrapheneValidator {
+
+    public static func validateGraphQLError(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
+        guard let data = data else {
+            return .failure(GrapheneError.invalidResponse)
+        }
+
+        if !(200..<300).contains(response.statusCode),
+            let errors = try? JSONDecoder().decode(GraphQLErrors.self, from: data) {
+            if errors.count > 1 {
+                return .failure(errors)
+            } else if let error = errors.first {
+                return .failure(error)
+            }
+        }
+
+        return .success(())
+
+    }
 
     public static func validateStatus(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
         var rawResponse: String?

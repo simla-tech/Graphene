@@ -13,16 +13,17 @@ public enum SubscriptionState {
     case connected
     case connecting
     case disconnected
+    case pending
+    case suspended
 }
 
 internal protocol SubscriptionOperation: AnyObject {
 
     var uuid: UUID { get }
     var context: OperationContext { get }
-    var state: SubscriptionState { get }
+    var isDisconnected: Bool { get }
 
-    func updateState(_ state: SubscriptionState)
-    func handleFailure(_ error: Error)
+    func updateState(_ state: SubscriptionState, silent: Bool)
     func handleRawValue(_ rawValue: Data)
 
 }
@@ -32,6 +33,7 @@ public class SubscriptionManager: NSObject {
     let pongTimeout: TimeInterval = 5
     let url: URL
     let session: Alamofire.Session
+    let reachabilityManager: NetworkReachabilityManager?
     let socketProtocol: String?
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
@@ -44,6 +46,7 @@ public class SubscriptionManager: NSObject {
     var pingPongTimer: Timer?
     var waitForPong = false
     var currentReconnectAttempt: Int = 0
+    var lastReachabilityStatus: NetworkReachabilityManager.NetworkReachabilityStatus?
 
     init(configuration: Client.SubscriptionConfiguration, headers: HTTPHeaders, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
@@ -55,8 +58,21 @@ public class SubscriptionManager: NSObject {
         self.monitor = CompositeGrapheneSubscriptionMonitor(monitors: configuration.eventMonitors)
         self.encoder = JSONEncoder()
         self.systemDecoder = JSONDecoder()
+        self.reachabilityManager = NetworkReachabilityManager(host: configuration.url.host ?? "retailcrm.pro")
         super.init()
-        self.websockerRequest.responseMessage(on: .global(qos: .utility), handler: self.eventHandler(_:))
+        self.websockerRequest.responseMessage(on: .global(qos: .utility),
+                                              handler: self.eventHandler(_:))
+        self.reachabilityManager?.startListening(onQueue: .global(qos: .utility),
+                                                 onUpdatePerforming: self.handleNetworkStatusUpdate(_:))
+    }
+
+    private func handleNetworkStatusUpdate(_ status: NetworkReachabilityManager.NetworkReachabilityStatus) {
+        if status != self.lastReachabilityStatus {
+            self.lastReachabilityStatus = status
+            if self.websockerRequest.isResumed {
+                self.terminate()
+            }
+        }
     }
 
     @objc private func ping() {
@@ -64,7 +80,7 @@ public class SubscriptionManager: NSObject {
         if let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask {
             self.waitForPong = true
             task.sendPing { error in
-                if let error = error {
+                if let error = error, self.websockerRequest.isResumed {
                     self.monitor.manager(self, recievedError: error, for: nil)
                     self.terminate()
                 }
@@ -76,6 +92,9 @@ public class SubscriptionManager: NSObject {
     public func resume() {
         guard self.isSuspended else { return }
         self.isSuspended = false
+        for operation in subscribeOperations where operation.isDisconnected {
+            operation.updateState(.pending, silent: false)
+        }
         self.connect()
     }
 
@@ -118,7 +137,7 @@ public class SubscriptionManager: NSObject {
         }
         self.monitor.manager(self, willDeregisterSubscription: subscriptionOperation.context)
         self.subscribeOperations.removeAll(where: { $0.uuid == subscriptionOperation.uuid })
-        if subscriptionOperation.state != .disconnected {
+        if !subscriptionOperation.isDisconnected {
             do {
                 let message = ClientSystemMessage(type: .stop, id: subscriptionOperation.uuid)
                 let messageData = try self.encoder.encode(message)
@@ -136,9 +155,9 @@ public class SubscriptionManager: NSObject {
     }
 
     private func registerDisconnectedOperations() {
-        for subscriptionOperation in self.subscribeOperations where subscriptionOperation.state == .disconnected {
+        for subscriptionOperation in self.subscribeOperations where subscriptionOperation.isDisconnected {
             self.monitor.manager(self, willRegisterSubscription: subscriptionOperation.context)
-            subscriptionOperation.updateState(.connecting)
+            subscriptionOperation.updateState(.connecting, silent: false)
 
             let payload = ClientSubscriptionMessage.OperationPayload(query: subscriptionOperation.context.query,
                                                                      operationName: subscriptionOperation.context.operationName)
@@ -152,19 +171,17 @@ public class SubscriptionManager: NSObject {
                     switch result {
                     case .success:
                         self.monitor.manager(self, didRegisterSubscription: subscriptionOperation.context)
-                        subscriptionOperation.updateState(.connected)
+                        subscriptionOperation.updateState(.connected, silent: false)
 
                     case .failure(let error):
                         self.monitor.manager(self, recievedError: error, for: subscriptionOperation.context)
-                        subscriptionOperation.handleFailure(error)
-                        subscriptionOperation.updateState(.disconnected)
+                        subscriptionOperation.updateState(.disconnected, silent: false)
 
                     }
                 })
             } catch {
                 self.monitor.manager(self, recievedError: error, for: subscriptionOperation.context)
-                subscriptionOperation.handleFailure(error)
-                subscriptionOperation.updateState(.disconnected)
+                subscriptionOperation.updateState(.disconnected, silent: false)
             }
         }
     }
@@ -200,7 +217,7 @@ public class SubscriptionManager: NSObject {
                 } catch {
                     let operation = self.subscribeOperations.first(where: { $0.uuid == serverMessage.id })
                     self.monitor.manager(self, recievedError: error, for: operation?.context)
-                    operation?.handleFailure(error)
+                    operation?.updateState(.disconnected, silent: false)
                 }
 
             case .complete:
@@ -215,7 +232,7 @@ public class SubscriptionManager: NSObject {
                 } catch {
                     let operation = self.subscribeOperations.first(where: { $0.uuid == serverMessage.id })
                     self.monitor.manager(self, recievedError: error, for: operation?.context)
-                    operation?.handleFailure(error)
+                    operation?.updateState(.disconnected, silent: false)
                 }
 
             }
@@ -289,7 +306,11 @@ public class SubscriptionManager: NSObject {
             }
             self.monitor.managerDidCloseConnection(self)
             for operation in self.subscribeOperations {
-                operation.updateState(.disconnected)
+                if self.isSuspended {
+                    operation.updateState(.suspended, silent: false)
+                } else {
+                    operation.updateState(.disconnected, silent: self.currentReconnectAttempt <= 2)
+                }
             }
             if !self.isSuspended {
                 self.currentReconnectAttempt += 1

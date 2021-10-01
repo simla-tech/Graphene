@@ -49,7 +49,11 @@ internal extension Client {
         if let customValidation = self.configuration.validation {
             dataRequest = dataRequest.validate(customValidation)
         }
-        dataRequest = dataRequest.validate(GrapheneStatusValidator.validateStatus(request:response:data:)).validate()
+
+        dataRequest = dataRequest
+            .validate(GrapheneValidator.validateGraphQLError(request:response:data:))
+            .validate(GrapheneValidator.validateStatus(request:response:data:))
+            .validate()
         return dataRequest
     }
 

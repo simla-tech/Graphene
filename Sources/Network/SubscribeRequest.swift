@@ -12,11 +12,13 @@ import Alamofire
 public class SubscribeRequest<O: GraphQLOperation> {
 
     public let context: OperationContext
+    public var state: SubscriptionState = .disconnected
+
     internal let uuid = UUID()
-    internal var state: SubscriptionState = .disconnected
+    internal var isDisconnected: Bool = true
     internal var closureStorage = SubscribeClosureStorage<O.Value>()
 
-    private let queue: DispatchQueue
+    internal let queue: DispatchQueue
     private var isRegisted: Bool = false
     internal let deregisterClosure: (SubscriptionOperation) -> Void
     internal let registerClosure: (SubscriptionOperation) -> Void
@@ -52,7 +54,7 @@ extension SubscribeRequest: SubscribeValueableRequest {
     public typealias ResultValue = O.Value
 
     @discardableResult
-    public func onValue(_ closure: @escaping ValueClosure) -> SubscribeFailureableRequest {
+    public func onValue(_ closure: @escaping ValueClosure) -> SubscribeStatableRequest {
         self.closureStorage.valueClosure = closure
         self.registerIfNeeded()
         return self
@@ -60,25 +62,16 @@ extension SubscribeRequest: SubscribeValueableRequest {
 
 }
 
-extension SubscribeRequest: SubscribeFailureableRequest {
-    @discardableResult
-    public func onFailure(_ closure: @escaping FailureClosure) -> SubscribeStatableRequest {
-        self.closureStorage.failureClosure = closure
-        self.registerIfNeeded()
-        return self
-    }
-}
-
 extension SubscribeRequest: SubscribeStatableRequest {
     @discardableResult
-    public func onStateUpdate(_ closure: @escaping StateClosure) -> CancellableRequest {
+    public func onStateUpdate(_ closure: @escaping StateClosure) -> SubscribeCancellableRequest {
         self.closureStorage.stateClosure = closure
         self.registerIfNeeded()
         return self
     }
 }
 
-extension SubscribeRequest: CancellableRequest {
+extension SubscribeRequest: SubscribeCancellableRequest {
     public func cancel() {
         self.deregisterClosure(self as! SubscriptionOperation)
     }
@@ -88,15 +81,14 @@ internal class InternalSubscribeRequest<O: GraphQLOperation>: SubscribeRequest<O
 
 extension InternalSubscribeRequest: SubscriptionOperation {
 
-    func updateState(_ state: SubscriptionState) {
-        if state != self.state {
+    func updateState(_ state: SubscriptionState, silent: Bool) {
+        self.isDisconnected = state == .disconnected || state == .suspended || state == .pending
+        if state != self.state, !silent {
             self.state = state
-            self.closureStorage.stateClosure?(state)
+            self.queue.async {
+                self.closureStorage.stateClosure?(state)
+            }
         }
-    }
-
-    func handleFailure(_ error: Error) {
-        self.closureStorage.failureClosure?(error)
     }
 
     func handleRawValue(_ rawValue: Data) {
@@ -109,10 +101,11 @@ extension InternalSubscribeRequest: SubscriptionOperation {
         }
         switch O.mapResponse(responseResult) {
         case .success(let value):
-            self.closureStorage.valueClosure?(value)
+            self.queue.async {
+                self.closureStorage.valueClosure?(value)
+            }
         case .failure(let error):
             self.monitor.operation(with: self.context, didFailWith: error)
-            self.closureStorage.failureClosure?(error)
         }
     }
 
