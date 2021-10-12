@@ -10,22 +10,22 @@ import Foundation
 import Alamofire
 
 public class SubscribeRequest<O: GraphQLOperation> {
-    
+
     public let context: OperationContext
     public var state: SubscriptionState = .disconnected(.code(.invalid))
-    
+
     internal let uuid = UUID()
     internal var needsToRegister: Bool = true
     internal var isRegistered: Bool = false
     internal var closureStorage = SubscribeClosureStorage<O.Value>()
-    
+
     internal let queue: DispatchQueue
     internal var isSendedToRegistration: Bool = false
     internal let deregisterClosure: (SubscriptionOperation) -> Void
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
     internal let monitor: CompositeGrapheneEventMonitor
-    
+
     init(context: OperationContext,
          queue: DispatchQueue,
          config: Client.Configuration,

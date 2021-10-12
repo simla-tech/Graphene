@@ -9,7 +9,7 @@
 import Foundation
 
 public extension URLSessionWebSocketTask.CloseCode {
-    
+
     var stringValue: String {
         switch self {
         case .invalid:
@@ -42,5 +42,5 @@ public extension URLSessionWebSocketTask.CloseCode {
             return "@unknown"
         }
     }
-    
+
 }

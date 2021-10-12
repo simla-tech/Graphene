@@ -26,7 +26,7 @@ public enum IfPresent<Wrapped> {
 
     case some(Wrapped)
     case empty(operationName: String?, path: [CodingKey])
-    
+
     public func map<U>(_ transform: (Wrapped) throws -> U) rethrows -> IfPresent<U> {
         switch self {
         case .empty(let operationName, let path):
@@ -44,7 +44,7 @@ public enum IfPresent<Wrapped> {
             fatalError(ifPresentErrorString(operationName: operationName, path: path))
         }
     }
-        
+
     public func get(function: StaticString = #function, file: StaticString  = #file, line: UInt  = #line) throws -> Wrapped {
         switch self {
         case .empty(let operationName, let path):
@@ -53,7 +53,7 @@ public enum IfPresent<Wrapped> {
             return wrapped
         }
     }
-    
+
 }
 
 public struct IfPresentError: LocalizedError, CustomNSError {
@@ -83,7 +83,7 @@ public struct IfPresentError: LocalizedError, CustomNSError {
             "operationName": self.operationName ?? "Unknown"
         ]
     }
-    
+
 }
 
 extension IfPresent: Decodable where Wrapped: Decodable {

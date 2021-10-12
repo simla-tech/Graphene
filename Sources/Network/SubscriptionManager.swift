@@ -13,7 +13,7 @@ public enum SubscriptionState: Hashable {
     case disconnected(SocketDisconnectReason)
     case connecting
     case connected
-    
+
     public var isDisconnected: Bool {
         if case .disconnected = self {
             return true
@@ -21,7 +21,7 @@ public enum SubscriptionState: Hashable {
             return false
         }
     }
-    
+
 }
 
 public typealias ConnectionState = SubscriptionState
@@ -54,7 +54,7 @@ public class SubscriptionManager: NSObject {
     private var reconnectDispatchWorkItem: DispatchWorkItem?
     private var pingDispatchWorkItem: DispatchWorkItem?
     private let pingQueue = DispatchQueue(label: "com.graphene.pingQueue", qos: .background)
-    
+
     init(configuration: Client.SubscriptionConfiguration, headers: HTTPHeaders, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
         self.session = alamofireSession
@@ -73,13 +73,13 @@ public class SubscriptionManager: NSObject {
     @objc private func ping() {
         guard self.state == .connected,
               let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask else { return }
-        
+
         print("ping")
         let semaphore = DispatchSemaphore(value: 0)
         task.sendPing { error in
             semaphore.signal()
             print("pong", error?.localizedDescription ?? "")
-            
+
             if let error = error {
                 self.monitor.manager(self, recievedError: error, for: nil)
                 self.disconnect(with: .tlsHandshakeFailure)
@@ -92,7 +92,7 @@ public class SubscriptionManager: NSObject {
             self.disconnect(with: .goingAway)
         }
     }
-    
+
     public func resume() {
         self.connect(isReconnect: false)
     }
@@ -100,7 +100,7 @@ public class SubscriptionManager: NSObject {
     public func suspend() {
         self.disconnect(with: .normalClosure)
     }
-    
+
     private func reconnect() {
         self.currentReconnectAttempt += 1
         var reconnectDispatchTime: TimeInterval = 0.5
@@ -114,7 +114,7 @@ public class SubscriptionManager: NSObject {
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + reconnectDispatchTime,
                                                        execute: self.reconnectDispatchWorkItem!)
     }
-    
+
     private func connect(isReconnect: Bool) {
         guard self.state.isDisconnected else { return }
         self.reconnectDispatchWorkItem?.cancel()
@@ -277,7 +277,7 @@ public class SubscriptionManager: NSObject {
             for operation in subscribeOperations {
                 operation.updateState(.connecting, needsToRegister: true, isRegistered: false)
             }
-            
+
             do {
                 self.monitor.managerWillEstablishConnection(self)
                 let message = ClientSystemMessage(type: .connectionInit, id: nil)
@@ -343,7 +343,7 @@ public enum SocketDisconnectReason: Hashable {
 
     case error(Error, willReconnect: Bool)
     case code(URLSessionWebSocketTask.CloseCode)
-    
+
     public func hash(into hasher: inout Hasher) {
         switch self {
         case .code(let code):
@@ -352,11 +352,11 @@ public enum SocketDisconnectReason: Hashable {
             hasher.combine((error as NSError).code)
         }
     }
-    
+
     public static func == (lhs: SocketDisconnectReason, rhs: SocketDisconnectReason) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
-    
+
 }
 
 extension SubscriptionManager {
@@ -376,7 +376,7 @@ extension SubscriptionManager {
         case error = "error"
         case complete = "complete"
     }
-    
+
     public enum DisconnectReasonData: RawRepresentable {
 
         case decodingError
