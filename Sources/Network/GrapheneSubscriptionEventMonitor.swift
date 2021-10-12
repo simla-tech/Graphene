@@ -32,11 +32,10 @@ public protocol GrapheneSubscriptionEventMonitor {
     func manager(_ manager: SubscriptionManager, willDeregisterSubscription context: OperationContext)
     func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext)
 
-    func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int)
+    func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode)
+    func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, error: Error?)
 
-    func managerWillTerminateConnection(_ manager: SubscriptionManager)
-    func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, reason: SubscriptionManager.DisconnectReason?)
-    func managerDidCloseConnection(_ manager: SubscriptionManager)
+    func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int)
 
 }
 
@@ -68,14 +67,6 @@ extension GrapheneSubscriptionEventMonitor {
         os_log("[GrapheneSubscriptionEventMonitor] Manager keep alive")
     }
 
-    public func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, reason: SubscriptionManager.DisconnectReason?) {
-        os_log("[GrapheneSubscriptionEventMonitor] Manager did disconnect with code \"%d\", reason \"%@\"", code.rawValue, reason?.rawValue ?? "none")
-    }
-
-    public func managerDidCloseConnection(_ manager: SubscriptionManager) {
-        os_log("[GrapheneSubscriptionEventMonitor] Manager did close connection")
-    }
-
     public func manager(_ manager: SubscriptionManager, willRegisterSubscription context: OperationContext) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will register subscription \"%@\"", context.operationName)
     }
@@ -96,10 +87,14 @@ extension GrapheneSubscriptionEventMonitor {
         os_log("[GrapheneSubscriptionEventMonitor] Manager successfully deregister subscription \"%@\"", context.operationName)
     }
 
-    public func managerWillTerminateConnection(_ manager: SubscriptionManager) {
-        os_log("[GrapheneSubscriptionEventMonitor] Manager will terminate connection")
+    public func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {
+        os_log("[GrapheneSubscriptionEventMonitor] Manager will disconnect with code %d (.%@)", code.rawValue, code.stringValue)
     }
-
+    
+    public func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, error: Error?) {
+        os_log("[GrapheneSubscriptionEventMonitor] Manager did disconnect with code %d (.%@), error \"%@\"", code.rawValue, code.stringValue, error?.localizedDescription ?? "none")
+    }
+    
     public func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager tries to reconnect: %d attempt", attempt)
     }
@@ -117,9 +112,6 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     open var managerRecievedError: ((SubscriptionManager, Error, OperationContext?) -> Void)?
     open var managerKeepAlive: ((SubscriptionManager) -> Void)?
 
-    open var managerDidDisconnect: ((SubscriptionManager, URLSessionWebSocketTask.CloseCode, SubscriptionManager.DisconnectReason?) -> Void)?
-    open var managerDidCloseConnection: ((SubscriptionManager) -> Void)?
-
     open var managerWillRegisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
     open var managerDidRegisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
 
@@ -127,7 +119,9 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     open var managerDidDeregisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
 
     open var managerRecievedData: ((SubscriptionManager, Int, OperationContext) -> Void)?
-    open var managerWillTerminateConnection: ((SubscriptionManager) -> Void)?
+    
+    open var managerWillDisconnect: ((SubscriptionManager, URLSessionWebSocketTask.CloseCode) -> Void)?
+    open var managerDidDisconnect: ((SubscriptionManager, URLSessionWebSocketTask.CloseCode, Error?) -> Void)?
 
     open var managerTriesToReconnect: ((SubscriptionManager, Int) -> Void)?
 
@@ -155,12 +149,8 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
         self.managerKeepAlive?(manager)
     }
 
-    public func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, reason: SubscriptionManager.DisconnectReason?) {
-        self.managerDidDisconnect?(manager, code, reason)
-    }
-
-    public func managerDidCloseConnection(_ manager: SubscriptionManager) {
-        self.managerDidCloseConnection?(manager)
+    public func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, error: Error?) {
+        self.managerDidDisconnect?(manager, code, error)
     }
 
     public func manager(_ manager: SubscriptionManager, willRegisterSubscription context: OperationContext) {
@@ -182,11 +172,11 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     public func manager(_ manager: SubscriptionManager, recievedData size: Int, for context: OperationContext) {
         self.managerRecievedData?(manager, size, context)
     }
-
-    public func managerWillTerminateConnection(_ manager: SubscriptionManager) {
-        self.managerWillTerminateConnection?(manager)
+    
+    public func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {
+        self.managerWillDisconnect?(manager, code)
     }
-
+    
     public func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
         self.managerTriesToReconnect?(manager, attempt)
     }
@@ -206,7 +196,7 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
     func performEvent(_ event: @escaping (GrapheneSubscriptionEventMonitor) -> Void) {
         self.subscriptionMonitorQueue.async {
             for monitor in self.monitors {
-                monitor.subscriptionMonitorQueue.async { event(monitor) }
+                event(monitor)
             }
         }
     }
@@ -235,14 +225,6 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
         performEvent { $0.managerKeepAlive(manager) }
     }
 
-    func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, reason: SubscriptionManager.DisconnectReason?) {
-        performEvent { $0.manager(manager, didDisconnectWithCode: code, reason: reason) }
-    }
-
-    func managerDidCloseConnection(_ manager: SubscriptionManager) {
-        performEvent { $0.managerDidCloseConnection(manager) }
-    }
-
     func manager(_ manager: SubscriptionManager, willRegisterSubscription context: OperationContext) {
         performEvent { $0.manager(manager, willRegisterSubscription: context) }
     }
@@ -263,12 +245,16 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
         performEvent { $0.manager(manager, recievedData: size, for: context) }
     }
 
-    func managerWillTerminateConnection(_ manager: SubscriptionManager) {
-        performEvent { $0.managerWillTerminateConnection(manager) }
+    func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {
+        performEvent { $0.manager(manager, willDisconnectWithCode: code) }
     }
-
+    
+    func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, error: Error?) {
+        performEvent { $0.manager(manager, didDisconnectWithCode: code, error: error) }
+    }
+    
     func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
         performEvent { $0.manager(manager, triesToReconnectWith: attempt) }
     }
-
+    
 }

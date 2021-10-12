@@ -9,45 +9,52 @@
 import Foundation
 import Alamofire
 
-public enum SubscriptionState {
-    case connected
+public enum SubscriptionState: Hashable {
+    case disconnected(SocketDisconnectReason)
     case connecting
-    case disconnected
-    case pending
-    case suspended
+    case connected
+    
+    public var isDisconnected: Bool {
+        if case .disconnected = self {
+            return true
+        } else {
+            return false
+        }
+    }
+    
 }
+
+public typealias ConnectionState = SubscriptionState
 
 internal protocol SubscriptionOperation: AnyObject {
 
     var uuid: UUID { get }
     var context: OperationContext { get }
-    var isDisconnected: Bool { get }
+    var needsToRegister: Bool { get }
+    var isRegistered: Bool { get }
 
-    func updateState(_ state: SubscriptionState, silent: Bool)
+    func updateState(_ state: SubscriptionState, needsToRegister: Bool, isRegistered: Bool)
     func handleRawValue(_ rawValue: Data)
 
 }
 
 public class SubscriptionManager: NSObject {
 
-    let pongTimeout: TimeInterval = 5
     let url: URL
     let session: Alamofire.Session
-    let reachabilityManager: NetworkReachabilityManager?
     let socketProtocol: String?
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
 
-    var isConnectionEstablished: Bool = false
-    var isSuspended: Bool = true
-    var websockerRequest: WebSocketRequest
-    var subscribeOperations: [SubscriptionOperation] = []
-    var pingPongTimer: Timer?
-    var waitForPong = false
-    var currentReconnectAttempt: Int = 0
-    var lastReachabilityStatus: NetworkReachabilityManager.NetworkReachabilityStatus?
-
+    public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
+    private var websockerRequest: WebSocketRequest
+    private var subscribeOperations: [SubscriptionOperation] = []
+    private var currentReconnectAttempt: Int = 0
+    private var reconnectDispatchWorkItem: DispatchWorkItem?
+    private var pingDispatchWorkItem: DispatchWorkItem?
+    private let pingQueue = DispatchQueue(label: "com.graphene.pingQueue", qos: .background)
+    
     init(configuration: Client.SubscriptionConfiguration, headers: HTTPHeaders, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
         self.session = alamofireSession
@@ -58,54 +65,65 @@ public class SubscriptionManager: NSObject {
         self.monitor = CompositeGrapheneSubscriptionMonitor(monitors: configuration.eventMonitors)
         self.encoder = JSONEncoder()
         self.systemDecoder = JSONDecoder()
-        self.reachabilityManager = NetworkReachabilityManager(host: configuration.url.host ?? "retailcrm.pro")
         super.init()
         self.websockerRequest.responseMessage(on: .global(qos: .utility),
                                               handler: self.eventHandler(_:))
-        self.reachabilityManager?.startListening(onQueue: .global(qos: .utility),
-                                                 onUpdatePerforming: self.handleNetworkStatusUpdate(_:))
-    }
-
-    private func handleNetworkStatusUpdate(_ status: NetworkReachabilityManager.NetworkReachabilityStatus) {
-        if status != self.lastReachabilityStatus {
-            self.lastReachabilityStatus = status
-            if self.websockerRequest.isResumed {
-                self.terminate()
-            }
-        }
     }
 
     @objc private func ping() {
-        guard self.websockerRequest.isResumed, !self.waitForPong else { return }
-        if let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask {
-            self.waitForPong = true
-            task.sendPing { error in
-                if let error = error, self.websockerRequest.isResumed {
-                    self.monitor.manager(self, recievedError: error, for: nil)
-                    self.terminate()
-                }
-                self.waitForPong = false
+        guard self.state == .connected,
+              let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask else { return }
+        
+        print("ping")
+        let semaphore = DispatchSemaphore(value: 0)
+        task.sendPing { error in
+            semaphore.signal()
+            print("pong", error?.localizedDescription ?? "")
+            
+            if let error = error {
+                self.monitor.manager(self, recievedError: error, for: nil)
+                self.disconnect(with: .tlsHandshakeFailure)
             }
+            self.pingDispatchWorkItem = DispatchWorkItem(block: self.ping)
+            self.pingQueue.asyncAfter(deadline: .now() + 5, execute: self.pingDispatchWorkItem!)
+        }
+        if semaphore.wait(timeout: .now() + 3) == .timedOut {
+            print("ping timed out")
+            self.disconnect(with: .goingAway)
         }
     }
-
+    
     public func resume() {
-        guard self.isSuspended else { return }
-        self.isSuspended = false
-        for operation in subscribeOperations where operation.isDisconnected {
-            operation.updateState(.pending, silent: false)
-        }
-        self.connect()
+        self.connect(isReconnect: false)
     }
 
     public func suspend() {
-        guard !self.isSuspended else { return }
-        self.isSuspended = true
-        self.terminate()
+        self.disconnect(with: .normalClosure)
     }
-
-    private func connect() {
-        guard self.websockerRequest.state != .resumed else { return }
+    
+    private func reconnect() {
+        self.currentReconnectAttempt += 1
+        var reconnectDispatchTime: TimeInterval = 0.5
+        if self.currentReconnectAttempt > 2 {
+            reconnectDispatchTime = 4
+        }
+        self.reconnectDispatchWorkItem = DispatchWorkItem {
+            self.monitor.manager(self, triesToReconnectWith: self.currentReconnectAttempt)
+            self.connect(isReconnect: true)
+        }
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + reconnectDispatchTime,
+                                                       execute: self.reconnectDispatchWorkItem!)
+    }
+    
+    private func connect(isReconnect: Bool) {
+        guard self.state.isDisconnected else { return }
+        self.reconnectDispatchWorkItem?.cancel()
+        if !isReconnect {
+            for operation in subscribeOperations {
+                operation.updateState(.connecting, needsToRegister: true, isRegistered: false)
+            }
+        }
+        self.state = .connecting
         self.monitor.manager(self, willConnectTo: self.url)
         if self.websockerRequest.state == .finished || self.websockerRequest.state == .cancelled {
             self.websockerRequest = self.session
@@ -115,10 +133,11 @@ public class SubscriptionManager: NSObject {
         self.websockerRequest.resume()
     }
 
-    private func terminate() {
-        guard self.websockerRequest.state == .resumed else { return }
-        self.monitor.managerWillTerminateConnection(self)
-        self.websockerRequest.cancel()
+    private func disconnect(with code: URLSessionWebSocketTask.CloseCode) {
+        guard !self.state.isDisconnected else { return }
+        self.pingDispatchWorkItem?.cancel()
+        self.monitor.manager(self, willDisconnectWithCode: code)
+        self.websockerRequest.cancel(with: code, reason: nil)
     }
 
     internal func register(_ subscriptionOperation: SubscriptionOperation) {
@@ -126,8 +145,10 @@ public class SubscriptionManager: NSObject {
             return
         }
         self.subscribeOperations.append(subscriptionOperation)
-        if self.websockerRequest.state == .resumed, self.isConnectionEstablished {
+        if self.state == .connected {
             self.registerDisconnectedOperations()
+        } else {
+            subscriptionOperation.updateState(self.state, needsToRegister: true, isRegistered: false)
         }
     }
 
@@ -137,7 +158,7 @@ public class SubscriptionManager: NSObject {
         }
         self.monitor.manager(self, willDeregisterSubscription: subscriptionOperation.context)
         self.subscribeOperations.removeAll(where: { $0.uuid == subscriptionOperation.uuid })
-        if !subscriptionOperation.isDisconnected {
+        if subscriptionOperation.isRegistered {
             do {
                 let message = ClientSystemMessage(type: .stop, id: subscriptionOperation.uuid)
                 let messageData = try self.encoder.encode(message)
@@ -155,9 +176,9 @@ public class SubscriptionManager: NSObject {
     }
 
     private func registerDisconnectedOperations() {
-        for subscriptionOperation in self.subscribeOperations where subscriptionOperation.isDisconnected {
+        for subscriptionOperation in self.subscribeOperations where subscriptionOperation.needsToRegister {
             self.monitor.manager(self, willRegisterSubscription: subscriptionOperation.context)
-            subscriptionOperation.updateState(.connecting, silent: false)
+            subscriptionOperation.updateState(.connecting, needsToRegister: false, isRegistered: false)
 
             let payload = ClientSubscriptionMessage.OperationPayload(query: subscriptionOperation.context.query,
                                                                      operationName: subscriptionOperation.context.operationName)
@@ -171,17 +192,17 @@ public class SubscriptionManager: NSObject {
                     switch result {
                     case .success:
                         self.monitor.manager(self, didRegisterSubscription: subscriptionOperation.context)
-                        subscriptionOperation.updateState(.connected, silent: false)
+                        subscriptionOperation.updateState(.connected, needsToRegister: false, isRegistered: true)
 
                     case .failure(let error):
                         self.monitor.manager(self, recievedError: error, for: subscriptionOperation.context)
-                        subscriptionOperation.updateState(.disconnected, silent: false)
+                        subscriptionOperation.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
 
                     }
                 })
             } catch {
                 self.monitor.manager(self, recievedError: error, for: subscriptionOperation.context)
-                subscriptionOperation.updateState(.disconnected, silent: false)
+                subscriptionOperation.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
             }
         }
     }
@@ -191,9 +212,11 @@ public class SubscriptionManager: NSObject {
             let serverMessage = try self.systemDecoder.decode(ServerMessage.self, from: data)
             switch serverMessage.type {
             case .connectionAck:
-                self.isConnectionEstablished = true
+                self.state = .connected
                 self.monitor.managerDidEstablishConnection(self)
                 self.registerDisconnectedOperations()
+                self.pingDispatchWorkItem = DispatchWorkItem(block: self.ping)
+                self.pingQueue.asyncAfter(deadline: .now() + 5, execute: self.pingDispatchWorkItem!)
 
             case .keepAlive:
                 self.monitor.managerKeepAlive(self)
@@ -217,7 +240,7 @@ public class SubscriptionManager: NSObject {
                 } catch {
                     let operation = self.subscribeOperations.first(where: { $0.uuid == serverMessage.id })
                     self.monitor.manager(self, recievedError: error, for: operation?.context)
-                    operation?.updateState(.disconnected, silent: false)
+                    operation?.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
                 }
 
             case .complete:
@@ -232,7 +255,7 @@ public class SubscriptionManager: NSObject {
                 } catch {
                     let operation = self.subscribeOperations.first(where: { $0.uuid == serverMessage.id })
                     self.monitor.manager(self, recievedError: error, for: operation?.context)
-                    operation?.updateState(.disconnected, silent: false)
+                    operation?.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
                 }
 
             }
@@ -251,14 +274,10 @@ public class SubscriptionManager: NSObject {
         case .connected:
             self.currentReconnectAttempt = 0
             self.monitor.manager(self, didConnectTo: self.url)
-            DispatchQueue.main.async {
-                self.waitForPong = false
-                self.pingPongTimer = .scheduledTimer(timeInterval: self.pongTimeout,
-                                                     target: self,
-                                                     selector: #selector(self.ping),
-                                                     userInfo: nil,
-                                                     repeats: true)
+            for operation in subscribeOperations {
+                operation.updateState(.connecting, needsToRegister: true, isRegistered: false)
             }
+            
             do {
                 self.monitor.managerWillEstablishConnection(self)
                 let message = ClientSystemMessage(type: .connectionInit, id: nil)
@@ -288,47 +307,56 @@ public class SubscriptionManager: NSObject {
                 fatalError("Unknown message type \"\(message)\"")
             }
 
-        case .disconnected(let closeCode, let reasonData):
-            self.isConnectionEstablished = false
-            DispatchQueue.main.async {
-                self.pingPongTimer?.invalidate()
-            }
-            var reason: DisconnectReason?
-            if let data = reasonData, let str = String(data: data, encoding: .utf8) {
-                reason = DisconnectReason(rawValue: str)
-            }
-            self.monitor.manager(self, didDisconnectWithCode: closeCode, reason: reason)
+        case .disconnected:
+            break
 
         case .completed:
-            self.isConnectionEstablished = false
-            DispatchQueue.main.async {
-                self.pingPongTimer?.invalidate()
-            }
-            self.monitor.managerDidCloseConnection(self)
-            for operation in self.subscribeOperations {
-                if self.isSuspended {
-                    operation.updateState(.suspended, silent: false)
-                } else {
-                    operation.updateState(.disconnected, silent: self.currentReconnectAttempt <= 2)
-                }
-            }
-            if !self.isSuspended {
-                self.currentReconnectAttempt += 1
-                var reconnectDispatchTime: TimeInterval = 0.5
-                if self.currentReconnectAttempt > 2 {
-                    reconnectDispatchTime = 4
-                }
-                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + reconnectDispatchTime,
-                                                               execute: {
-                    self.monitor.manager(self, triesToReconnectWith: self.currentReconnectAttempt)
-                    self.connect()
-                })
-            }
+            let closeCode = (self.websockerRequest.lastTask as! URLSessionWebSocketTask).closeCode
+            let error = self.websockerRequest.error?.underlyingError ?? self.websockerRequest.error
+            var reason: SocketDisconnectReason = .code(closeCode)
 
+            var willReconnect: Bool
+            if let error = self.websockerRequest.error {
+                willReconnect = error.isSessionTaskError
+            } else {
+                willReconnect = closeCode != .normalClosure && closeCode  != .invalid
+            }
+            if let error = error {
+                reason = .error(error, willReconnect: willReconnect)
+            }
+            self.state = .disconnected(reason)
+            self.monitor.manager(self, didDisconnectWithCode: closeCode, error: error)
+
+            for operation in self.subscribeOperations {
+                operation.updateState(.disconnected(reason), needsToRegister: true, isRegistered: false)
+            }
+            if willReconnect {
+                self.reconnect()
+            }
         }
 
     }
 
+}
+
+public enum SocketDisconnectReason: Hashable {
+
+    case error(Error, willReconnect: Bool)
+    case code(URLSessionWebSocketTask.CloseCode)
+    
+    public func hash(into hasher: inout Hasher) {
+        switch self {
+        case .code(let code):
+            hasher.combine(code)
+        case .error(let error, _):
+            hasher.combine((error as NSError).code)
+        }
+    }
+    
+    public static func == (lhs: SocketDisconnectReason, rhs: SocketDisconnectReason) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
+    
 }
 
 extension SubscriptionManager {
@@ -348,8 +376,8 @@ extension SubscriptionManager {
         case error = "error"
         case complete = "complete"
     }
-
-    public enum DisconnectReason: RawRepresentable {
+    
+    public enum DisconnectReasonData: RawRepresentable {
 
         case decodingError
         case terminated

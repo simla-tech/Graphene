@@ -31,6 +31,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = config.keyDecodingStrategy
         decoder.dateDecodingStrategy = config.dateDecodingStrategy
+        decoder.userInfo[.operationName] = context.operationName
         self.jsonDecoder = decoder
         self.alamofireRequest.responseData(queue: .global(qos: .utility), completionHandler: self.handleResponse(_:))
     }

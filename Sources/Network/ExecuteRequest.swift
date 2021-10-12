@@ -30,6 +30,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = config.keyDecodingStrategy
         jsonDecoder.dateDecodingStrategy = config.dateDecodingStrategy
+        jsonDecoder.userInfo[.operationName] = context.operationName
         let decoder = GraphQLDecoder(decodePath: O.decodePath, jsonDecoder: jsonDecoder)
         self.alamofireRequest.responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
     }

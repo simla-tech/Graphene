@@ -10,21 +10,22 @@ import Foundation
 import Alamofire
 
 public class SubscribeRequest<O: GraphQLOperation> {
-
+    
     public let context: OperationContext
-    public var state: SubscriptionState = .disconnected
-
+    public var state: SubscriptionState = .disconnected(.code(.invalid))
+    
     internal let uuid = UUID()
-    internal var isDisconnected: Bool = true
+    internal var needsToRegister: Bool = true
+    internal var isRegistered: Bool = false
     internal var closureStorage = SubscribeClosureStorage<O.Value>()
-
+    
     internal let queue: DispatchQueue
-    private var isRegisted: Bool = false
+    internal var isSendedToRegistration: Bool = false
     internal let deregisterClosure: (SubscriptionOperation) -> Void
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
     internal let monitor: CompositeGrapheneEventMonitor
-
+    
     init(context: OperationContext,
          queue: DispatchQueue,
          config: Client.Configuration,
@@ -38,12 +39,13 @@ public class SubscribeRequest<O: GraphQLOperation> {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = config.keyDecodingStrategy
         decoder.dateDecodingStrategy = config.dateDecodingStrategy
+        decoder.userInfo[.operationName] = context.operationName
         self.decoder = decoder
     }
 
     private func registerIfNeeded() {
-        guard !self.isRegisted else { return }
-        self.isRegisted = true
+        guard !self.isSendedToRegistration else { return }
+        self.isSendedToRegistration = true
         self.registerClosure(self as! SubscriptionOperation)
     }
 
@@ -81,9 +83,10 @@ internal class InternalSubscribeRequest<O: GraphQLOperation>: SubscribeRequest<O
 
 extension InternalSubscribeRequest: SubscriptionOperation {
 
-    func updateState(_ state: SubscriptionState, silent: Bool) {
-        self.isDisconnected = state == .disconnected || state == .suspended || state == .pending
-        if state != self.state, !silent {
+    func updateState(_ state: SubscriptionState, needsToRegister: Bool, isRegistered: Bool) {
+        self.needsToRegister = needsToRegister
+        self.isRegistered = isRegistered
+        if state != self.state {
             self.state = state
             self.queue.async {
                 self.closureStorage.stateClosure?(state)
