@@ -311,7 +311,7 @@ public class SubscriptionManager: NSObject {
             break
 
         case .completed:
-            let closeCode = (self.websockerRequest.lastTask as! URLSessionWebSocketTask).closeCode
+            let closeCode = (self.websockerRequest.lastTask as? URLSessionWebSocketTask)?.closeCode ?? .invalid
             let error = self.websockerRequest.error?.underlyingError ?? self.websockerRequest.error
             var reason: SocketDisconnectReason = .code(closeCode)
 
