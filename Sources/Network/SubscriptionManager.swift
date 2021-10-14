@@ -74,12 +74,9 @@ public class SubscriptionManager: NSObject {
         guard self.state == .connected,
               let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask else { return }
 
-        print("ping")
         let semaphore = DispatchSemaphore(value: 0)
         task.sendPing { error in
             semaphore.signal()
-            print("pong", error?.localizedDescription ?? "")
-
             if let error = error {
                 self.monitor.manager(self, recievedError: error, for: nil)
                 self.disconnect(with: .tlsHandshakeFailure)
@@ -88,7 +85,6 @@ public class SubscriptionManager: NSObject {
             self.pingQueue.asyncAfter(deadline: .now() + 5, execute: self.pingDispatchWorkItem!)
         }
         if semaphore.wait(timeout: .now() + 3) == .timedOut {
-            print("ping timed out")
             self.disconnect(with: .goingAway)
         }
     }
@@ -135,7 +131,6 @@ public class SubscriptionManager: NSObject {
 
     private func disconnect(with code: URLSessionWebSocketTask.CloseCode) {
         guard !self.state.isDisconnected else { return }
-        self.pingDispatchWorkItem?.cancel()
         self.monitor.manager(self, willDisconnectWithCode: code)
         self.websockerRequest.cancel(with: code, reason: nil)
     }
@@ -311,6 +306,7 @@ public class SubscriptionManager: NSObject {
             break
 
         case .completed:
+            self.pingDispatchWorkItem?.cancel()
             let closeCode = (self.websockerRequest.lastTask as? URLSessionWebSocketTask)?.closeCode ?? .invalid
             let error = self.websockerRequest.error?.underlyingError ?? self.websockerRequest.error
             var reason: SocketDisconnectReason = .code(closeCode)
