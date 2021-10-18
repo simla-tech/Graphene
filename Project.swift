@@ -16,8 +16,5 @@ let project = Project(
             dependencies: [.target(.Graphene)]
         )
     ],
-    schemes: [
-        Scheme(name: .Graphene, testAction: .target(.GrapheneTests))
-    ],
     additionalFiles: ["README.MD", "Package.swift", "Graphene.podspec"]
 )

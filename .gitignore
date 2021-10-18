@@ -27,6 +27,7 @@ profile
 DerivedData
 *.hmap
 *.ipa
+*.xcodeproj
 
 # Bundler
 .bundle
