@@ -93,6 +93,13 @@ extension IfPresent: Decodable where Wrapped: Decodable {
     }
 }
 
+extension IfPresent: Encodable where Wrapped: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(try self.get())
+    }
+}
+
 extension IfPresent: Equatable where Wrapped: Hashable {
     public static func == (lhs: IfPresent<Wrapped>, rhs: IfPresent<Wrapped>) -> Bool {
         return lhs.hashValue == rhs.hashValue
