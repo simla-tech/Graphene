@@ -21,6 +21,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     private var isSent: Bool = false
     private var closureStorage = ExecuteClosureStorage<ResultValue>()
     public let context: OperationContext
+    public var request: URLRequest? { self.alamofireRequest.request }
 
     internal init(alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, config: Client.Configuration, queue: DispatchQueue) {
         self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)
@@ -39,7 +40,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     private func send() {
         guard !self.isSent else { return }
         self.isSent = true
-        self.monitor.operation(willExecuteWith: self.context)
+        self.monitor.client(willExecute: self)
         self.alamofireRequest.resume()
     }
 
@@ -48,10 +49,6 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
         if self.muteCanceledRequests, dataResponse.error?.isExplicitlyCancelledError ?? false {
             return
         }
-
-        self.monitor.operation(with: self.context,
-                               didFinishWith: dataResponse.response?.statusCode ?? -999,
-                               interval: dataResponse.metrics?.taskInterval ?? .init())
 
         var result: Result<[O.Value], Error>
         do {
@@ -75,9 +72,10 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
             if !self.muteCanceledRequests || !self.alamofireRequest.isCancelled {
                 switch result {
                 case .failure(let error):
-                    self.monitor.operation(with: self.context, didFailWith: error)
+                    self.monitor.client(didExecute: self, response: dataResponse.response, error: error, data: dataResponse.data, metrics: dataResponse.metrics)
                     self.closureStorage.failureClosure?(error)
                 case .success(let result):
+                    self.monitor.client(didExecute: self, response: dataResponse.response, error: nil, data: dataResponse.data, metrics: dataResponse.metrics)
                     self.closureStorage.successClosure?(result)
                 }
                 self.closureStorage.finishClosure?()
@@ -101,7 +99,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     }
 
     @discardableResult
-    public func onFinish(_ closure: @escaping FinishClosure) -> CancellableRequest {
+    public func onFinish(_ closure: @escaping FinishClosure) -> GrapheneRequest {
         self.closureStorage.finishClosure = closure
         self.send()
         return self

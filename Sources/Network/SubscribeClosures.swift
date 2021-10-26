@@ -33,7 +33,6 @@ public protocol SubscribeStatableRequest: SubscribeCancellableRequest {
     func onStateUpdate(_ closure: @escaping StateClosure) -> SubscribeCancellableRequest
 }
 
-public protocol SubscribeCancellableRequest {
+public protocol SubscribeCancellableRequest: GrapheneRequest {
     var state: SubscriptionState { get }
-    func cancel()
 }

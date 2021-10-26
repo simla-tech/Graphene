@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "Graphene", targets: ["Graphene"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.2.0"))
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .branch("feature/websocket-request"))
     ],
     targets: [
         .target(

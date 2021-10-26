@@ -258,7 +258,7 @@ extension OmnicaModel.Paginated where T: Identifiable {
     
 }
 
-extension APIRequest.Successable where ResponseType: Paginable {
+extension APIExecuteRequest.Successable where ResponseType: Paginable {
     
     public func getCount() -> APIExecuteRequest<Int>.Successable {
         var query: Query!

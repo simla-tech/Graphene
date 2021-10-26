@@ -10,49 +10,23 @@ import Alamofire
 import os.log
 
 public protocol GrapheneEventMonitor: EventMonitor {
-    func operation(willExecuteWith context: OperationContext)
-    func operation(with context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval)
-    func operation(with context: OperationContext, didFailWith error: Error)
-}
-
-extension GrapheneEventMonitor {
-
-    public func operation(willExecuteWith context: OperationContext) {
-        if let variables = context.variables(prettyPrinted: true) {
-            os_log("[GrapheneEventMonitor] Will send request \"%@\":\n%@\nvariables: %@", context.operationName, context.query, variables)
-        } else {
-            os_log("[GrapheneEventMonitor] Will send request \"%@\":\n%@", context.operationName, context.query)
-        }
-    }
-
-    public func operation(with context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
-        os_log("[GrapheneEventMonitor] Response \"%@\" recived. Code: %d. Duration: %.3f", context.operationName, statusCode, interval.duration)
-    }
-
-    public func operation(with context: OperationContext, didFailWith error: Error) {
-        os_log("[GrapheneEventMonitor] Catched error for \"%@\" operation: %@", context.operationName, error.localizedDescription)
-    }
-
+    func client(willExecute request: GrapheneRequest)
+    func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?)
 }
 
 public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMonitor {
-
-    open var operationWillExecute: ((OperationContext) -> Void)?
-    open var operationDidFinish: ((OperationContext, Int, DateInterval) -> Void)?
-    open var operationDidFail: ((OperationContext, Error) -> Void)?
-
-    public func operation(willExecuteWith context: OperationContext) {
-        self.operationWillExecute?(context)
+    
+    open var clientWillExecute: ((GrapheneRequest) -> Void)?
+    open var clientDidExecute: ((GrapheneRequest, HTTPURLResponse?, Error?, Data?, URLSessionTaskMetrics?) -> Void)?
+    
+    public func client(willExecute request: GrapheneRequest) {
+        self.clientWillExecute?(request)
     }
-
-    public func operation(with context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
-        self.operationDidFinish?(context, statusCode, interval)
+    
+    public func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?) {
+        self.clientDidExecute?(request, response, error, data, metrics)
     }
-
-    public func operation(with context: OperationContext, didFailWith error: Error) {
-        self.operationDidFail?(context, error)
-    }
-
+    
 }
 
 final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
@@ -72,17 +46,13 @@ final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
             }
         }
     }
-
-    public func operation(willExecuteWith context: OperationContext) {
-        performEvent { $0.operation(willExecuteWith: context) }
+    
+    public func client(willExecute request: GrapheneRequest) {
+        performEvent { $0.client(willExecute: request) }
     }
-
-    public func operation(with context: OperationContext, didFinishWith statusCode: Int, interval: DateInterval) {
-        performEvent { $0.operation(with: context, didFinishWith: statusCode, interval: interval) }
-    }
-
-    public func operation(with context: OperationContext, didFailWith error: Error) {
-        performEvent { $0.operation(with: context, didFailWith: error) }
+    
+    public func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?) {
+        performEvent { $0.client(didExecute: request, response: response, error: error, data: data, metrics: metrics) }
     }
 
 }

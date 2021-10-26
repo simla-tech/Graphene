@@ -421,7 +421,6 @@ extension SubscriptionManager {
         let type: ClientMessageType
         let id: UUID?
 
-        // swiftlint:disable:next nesting
         private enum CodingKeys: String, CodingKey {
             case type
             case id

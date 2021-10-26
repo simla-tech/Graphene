@@ -25,6 +25,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
     internal let monitor: CompositeGrapheneEventMonitor
+    public var request: URLRequest? { nil }
 
     init(context: OperationContext,
          queue: DispatchQueue,
@@ -108,7 +109,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
                 self.closureStorage.valueClosure?(value)
             }
         case .failure(let error):
-            self.monitor.operation(with: self.context, didFailWith: error)
+            self.monitor.client(didExecute: self, response: nil, error: error, data: rawValue, metrics: nil)
         }
     }
 

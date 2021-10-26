@@ -35,14 +35,15 @@ public protocol FailureableRequest: FinishableRequest {
     func onFailure(_ closure: @escaping FailureClosure) -> FinishableRequest
 }
 
-public protocol FinishableRequest: CancellableRequest {
+public protocol FinishableRequest: GrapheneRequest {
     typealias FinishClosure = () -> Void
 
     @discardableResult
-    func onFinish(_ closure: @escaping FinishClosure) -> CancellableRequest
-
+    func onFinish(_ closure: @escaping FinishClosure) -> GrapheneRequest
 }
 
-public protocol CancellableRequest {
+public protocol GrapheneRequest {
+    var context: OperationContext { get }
+    var request: URLRequest? { get }
     func cancel()
 }

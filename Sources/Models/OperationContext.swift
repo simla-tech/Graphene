@@ -11,6 +11,7 @@ import Alamofire
 public protocol OperationContext {
     var operationName: String { get }
     var query: String { get }
+    var jsonVariables: [String: Any?]? { get }
     func variables(prettyPrinted: Bool) -> String?
 }
 
@@ -19,6 +20,15 @@ internal struct BatchOperationContextData: OperationContext {
     var operationName: String
     var query: String
     private let variables: [[String: Variable]]
+    
+    var jsonVariables: [String: Any?]? {
+        guard !self.variables.isEmpty else { return nil }
+        return self.variables.enumerated().reduce(into: [String: Any?](), {
+            for variable in $1.element {
+                $0["\($1.offset)-\(variable.key)"] = variable.value.json
+            }
+        })
+    }
 
     init<O: GraphQLOperation>(operation: O.Type, operationContexts: [OperationContextData]) {
         self.operationName = "Batch_" + O.operationName
@@ -27,19 +37,11 @@ internal struct BatchOperationContextData: OperationContext {
     }
 
     func variables(prettyPrinted: Bool) -> String? {
-        guard !self.variables.isEmpty else { return nil }
-
-        let variablesJson = self.variables.enumerated().reduce(into: [String: Any?](), {
-            for variable in $1.element {
-                $0["\($1.offset)-\(variable.key)"] = variable.value.json
-            }
-        })
-
-        guard let variablesData = try? JSONSerialization.data(withJSONObject: variablesJson,
+        guard let jsonVariables = self.jsonVariables else { return nil }
+        guard let variablesData = try? JSONSerialization.data(withJSONObject: jsonVariables,
                                                               options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []) else {
             return nil
         }
-
         return String(data: variablesData, encoding: .utf8)
     }
 
@@ -51,6 +53,13 @@ internal struct OperationContextData: OperationContext {
     public let query: String
     fileprivate let variables: [String: Variable]
 
+    var jsonVariables: [String: Any?]? {
+        guard !self.variables.isEmpty else { return nil }
+        return self.variables.reduce(into: [String: Any?](), {
+            $0[$1.key] = $1.value.json
+        })
+    }
+    
     init<O: GraphQLOperation>(operation: O) {
         self.operationName = O.operationName
         self.query = O.buildQuery()
@@ -60,20 +69,12 @@ internal struct OperationContextData: OperationContext {
     }
 
     public func variables(prettyPrinted: Bool = false) -> String? {
-
-        guard !self.variables.isEmpty else { return nil }
-
-        let variablesJson = self.variables.reduce(into: [String: Any?](), {
-            $0[$1.key] = $1.value.json
-        })
-
-        guard let variablesData = try? JSONSerialization.data(withJSONObject: variablesJson,
+        guard let jsonVariables = self.jsonVariables else { return nil }
+        guard let variablesData = try? JSONSerialization.data(withJSONObject: jsonVariables,
                                                               options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []) else {
             return nil
         }
-
         return String(data: variablesData, encoding: .utf8)
-
     }
 
     internal func getOperationJSON() -> String {
