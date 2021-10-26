@@ -13,7 +13,7 @@ let project = Project(
             name: .GrapheneTests,
             product: .unitTests,
             sources: .defaultTestsPath,
-            dependencies: [.target(.Graphene)]
+            dependencies: [.target(name: .Graphene)]
         )
     ],
     additionalFiles: ["README.MD", "Package.swift", "Graphene.podspec"]
