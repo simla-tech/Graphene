@@ -14,19 +14,32 @@ public class Client: NSObject {
 
     public let configuration: Configuration
     public let url: URLConvertible
-    public let batchUrl: URLConvertible
+    public let batchUrl: URLConvertible?
+    public let subscriptionManager: SubscriptionManager?
 
     /// Create graphus client
-    public init(url: URLConvertible, batchUrl: URLConvertible? = nil, configuration: Configuration = .default) {
+    public init(url: URLConvertible,
+                batchUrl: URLConvertible? = nil,
+                subscriptionConfiguration: SubscriptionConfiguration? = nil,
+                configuration: Configuration = .default) {
         self.url = url
-        self.batchUrl = batchUrl ?? url
+        self.batchUrl = batchUrl
         self.configuration = configuration
-        self.alamofireSession = Alamofire.Session(rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
-                                                  interceptor: configuration.interceptor,
-                                                  serverTrustManager: configuration.serverTrustManager,
-                                                  redirectHandler: configuration.redirectHandler,
-                                                  cachedResponseHandler: configuration.cachedResponseHandler,
-                                                  eventMonitors: configuration.eventMonitors)
+        let session = Alamofire.Session(rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
+                                        startRequestsImmediately: false,
+                                        interceptor: configuration.interceptor,
+                                        serverTrustManager: configuration.serverTrustManager,
+                                        redirectHandler: configuration.redirectHandler,
+                                        cachedResponseHandler: configuration.cachedResponseHandler,
+                                        eventMonitors: configuration.eventMonitors)
+        self.alamofireSession = session
+        if let subscriptionConfiguration = subscriptionConfiguration {
+            self.subscriptionManager = SubscriptionManager(configuration: subscriptionConfiguration,
+                                                           headers: self.configuration.prepareHttpHeaders(),
+                                                           alamofireSession: session)
+        } else {
+            self.subscriptionManager = nil
+        }
     }
 
 }
@@ -47,5 +60,35 @@ extension Client {
         public var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
         public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
         public var useOperationNameAsReferer: Bool = true
+    }
+}
+
+extension Client.Configuration {
+    internal func prepareHttpHeaders() -> HTTPHeaders {
+        var httpHeaders = self.httpHeaders ?? []
+        if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
+           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
+            httpHeaders.add(.userAgent("Graphene/\(version)"))
+        }
+        return httpHeaders
+    }
+}
+
+extension Client {
+    public struct SubscriptionConfiguration {
+        public let url: URL
+        public let socketProtocol: String?
+        public let eventMonitors: [GrapheneSubscriptionEventMonitor]
+        public let timeoutInterval: TimeInterval
+
+        public init(url: URL,
+                    socketProtocol: String? = nil,
+                    eventMonitors: [GrapheneSubscriptionEventMonitor] = [],
+                    timeoutInterval: TimeInterval = 5) {
+            self.url = url
+            self.socketProtocol = socketProtocol
+            self.eventMonitors = eventMonitors
+            self.timeoutInterval = timeoutInterval
+        }
     }
 }

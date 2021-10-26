@@ -15,6 +15,21 @@ public protocol OperationSchema: Queryable {
     static var mode: OperationMode { get }
 }
 
+public protocol QuerySchema: OperationSchema {}
+extension QuerySchema {
+    public static var mode: OperationMode { .query }
+}
+
+public protocol MutationSchema: OperationSchema {}
+extension MutationSchema {
+    public static var mode: OperationMode { .mutation }
+}
+
+public protocol SubscriptionSchema: OperationSchema {}
+extension SubscriptionSchema {
+    public static var mode: OperationMode { .subscription }
+}
+
 public struct DefaultVariables: QueryVariables {
     public static let allKeys: [PartialKeyPath<Self>] = []
 }

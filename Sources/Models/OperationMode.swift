@@ -10,4 +10,5 @@ import Foundation
 public enum OperationMode: String {
     case query
     case mutation
+    case subscription
 }
