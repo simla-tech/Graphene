@@ -20,7 +20,7 @@ internal struct BatchOperationContextData: OperationContext {
     var operationName: String
     var query: String
     private let variables: [[String: Variable]]
-    
+
     var jsonVariables: [String: Any?]? {
         guard !self.variables.isEmpty else { return nil }
         return self.variables.enumerated().reduce(into: [String: Any?](), {
@@ -59,7 +59,7 @@ internal struct OperationContextData: OperationContext {
             $0[$1.key] = $1.value.json
         })
     }
-    
+
     init<O: GraphQLOperation>(operation: O) {
         self.operationName = O.operationName
         self.query = O.buildQuery()

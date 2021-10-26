@@ -15,18 +15,18 @@ public protocol GrapheneEventMonitor: EventMonitor {
 }
 
 public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMonitor {
-    
+
     open var clientWillExecute: ((GrapheneRequest) -> Void)?
     open var clientDidExecute: ((GrapheneRequest, HTTPURLResponse?, Error?, Data?, URLSessionTaskMetrics?) -> Void)?
-    
+
     public func client(willExecute request: GrapheneRequest) {
         self.clientWillExecute?(request)
     }
-    
+
     public func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?) {
         self.clientDidExecute?(request, response, error, data, metrics)
     }
-    
+
 }
 
 final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
@@ -46,11 +46,11 @@ final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
             }
         }
     }
-    
+
     public func client(willExecute request: GrapheneRequest) {
         performEvent { $0.client(willExecute: request) }
     }
-    
+
     public func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?) {
         performEvent { $0.client(didExecute: request, response: response, error: error, data: data, metrics: metrics) }
     }

@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": "feature/websocket-request",
+          "revision": "c09139d14ad25f9b97a9f8672f2b987dab5514c2",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
