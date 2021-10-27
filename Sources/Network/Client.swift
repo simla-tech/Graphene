@@ -53,7 +53,6 @@ extension Client {
         public var redirectHandler: RedirectHandler?
         public var interceptor: RequestInterceptor?
         public var requestModifier: Alamofire.Session.RequestModifier?
-        public var requestTimeout: TimeInterval = 60
         public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
         public var muteCanceledRequests: Bool = true

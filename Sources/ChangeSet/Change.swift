@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol Change: CustomDebugStringConvertible {
-    var key: String { get set }
+    var key: String { get }
     func description(padding: Int, isLast: Bool) -> String
 }
 

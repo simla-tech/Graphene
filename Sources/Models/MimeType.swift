@@ -115,22 +115,18 @@ private let mimeTypes = [
 ]
 
 internal struct MimeType {
+
     let ext: String?
-    public var value: String {
+
+    var value: String {
         guard let ext = self.ext else {
             return defaultMimeType
         }
         return mimeTypes[ext.lowercased()] ?? defaultMimeType
     }
-    public init(path: String) {
+
+    init(path: String) {
         ext = NSString(string: path).pathExtension
     }
 
-    public init(path: NSString) {
-        ext = path.pathExtension
-    }
-
-    public init(url: URL) {
-        ext = url.pathExtension
-    }
 }
