@@ -7,7 +7,9 @@ let project = Project(
     targets: [
         Target(
             name: .Graphene,
-            dependencies: [.carthage(.Alamofire)]
+            dependencies: [
+                .external(name: .Alamofire)
+            ]
         ),
         Target(
             name: .GrapheneTests,
