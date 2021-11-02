@@ -18,5 +18,5 @@ let project = Project(
             dependencies: [.target(name: .Graphene)]
         )
     ],
-    additionalFiles: ["README.MD", "Package.swift", "Graphene.podspec"]
+    additionalFiles: ["README.MD", "Package.swift"]
 )
