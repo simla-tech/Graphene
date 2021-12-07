@@ -8,14 +8,8 @@
 
 import Foundation
 
-private func ifPresentErrorString(operationName: String?, path: [CodingKey]) -> String {
-    var result = path.map({ key -> String in
-        if let intValue = key.intValue {
-            return "[\(intValue)]"
-        } else {
-            return key.stringValue
-        }
-    }).joined(separator: ".")
+private func ifPresentErrorString(operationName: String?, path: String) -> String {
+    var result = path
     if let operationName = operationName {
         result += " from \"\(operationName)\" operation"
     }
@@ -25,7 +19,7 @@ private func ifPresentErrorString(operationName: String?, path: [CodingKey]) -> 
 public enum IfPresent<Wrapped> {
 
     case some(Wrapped)
-    case empty(operationName: String?, path: [CodingKey])
+    case empty(operationName: String?, path: String)
 
     public func map<U>(_ transform: (Wrapped) throws -> U) rethrows -> IfPresent<U> {
         switch self {
@@ -59,7 +53,7 @@ public enum IfPresent<Wrapped> {
 public struct IfPresentError: LocalizedError, CustomNSError {
 
     public let operationName: String?
-    public let path: [CodingKey]
+    public let path: String
     public let function: StaticString
     public let file: StaticString
     public let line: UInt
@@ -70,13 +64,7 @@ public struct IfPresentError: LocalizedError, CustomNSError {
 
     public var errorUserInfo: [String: Any] {
         return [
-            "path": self.path.map({ key -> String in
-                if let intValue = key.intValue {
-                    return "[\(intValue)]"
-                } else {
-                    return key.stringValue
-                }
-            }).joined(separator: "."),
+            "path": self.path,
             "function": self.function,
             "line": self.line,
             "file": self.file,
@@ -86,17 +74,37 @@ public struct IfPresentError: LocalizedError, CustomNSError {
 
 }
 
+private extension IfPresent {
+    struct EmptyInfo: Codable {
+        let operationName: String?
+        let path: String
+    }
+}
+
 extension IfPresent: Decodable where Wrapped: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self = .some(try container.decode(Wrapped.self))
+        do {
+            self = .some(try container.decode(Wrapped.self))
+        } catch {
+            if let emptyInfo = try? container.decode(EmptyInfo.self) {
+                self = .empty(operationName: emptyInfo.operationName, path: emptyInfo.path)
+            } else {
+                throw error
+            }
+        }
     }
 }
 
 extension IfPresent: Encodable where Wrapped: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode(try self.get())
+        switch self {
+        case .some(let wrapped):
+            try container.encode(wrapped)
+        case .empty(let operationName, let path):
+            try container.encode(EmptyInfo(operationName: operationName, path: path))
+        }
     }
 }
 
@@ -123,7 +131,14 @@ extension KeyedDecodingContainer {
             return value
         } else {
             let userInfo = try? self.superDecoder().userInfo
-            return .empty(operationName: userInfo?[.operationName] as? String, path: self.codingPath + [key])
+            let path = (self.codingPath + [key]).map({ key -> String in
+                if let intValue = key.intValue {
+                    return "[\(intValue)]"
+                } else {
+                    return key.stringValue
+                }
+            }).joined(separator: ".")
+            return .empty(operationName: userInfo?[.operationName] as? String, path: path)
         }
     }
 }

@@ -66,8 +66,8 @@ public class SubscriptionManager: NSObject {
         self.encoder = JSONEncoder()
         self.systemDecoder = JSONDecoder()
         super.init()
-        self.websockerRequest.responseMessage(on: .global(qos: .utility),
-                                              handler: self.eventHandler(_:))
+        let responseQueue = DispatchQueue(label: "com.retaildriver.graphene.SubscriptionManager", qos: .background)
+        self.websockerRequest.responseMessage(on: responseQueue, handler: self.eventHandler(_:))
     }
 
     @objc private func ping() {
