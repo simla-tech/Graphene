@@ -54,6 +54,7 @@ public class SubscriptionManager: NSObject {
     private var reconnectDispatchWorkItem: DispatchWorkItem?
     private var pingDispatchWorkItem: DispatchWorkItem?
     private let pingQueue = DispatchQueue(label: "com.graphene.pingQueue", qos: .background)
+    private let eventQueue = DispatchQueue(label: "com.graphene.eventQueue", qos: .background)
 
     init(configuration: Client.SubscriptionConfiguration, headers: HTTPHeaders, alamofireSession: Alamofire.Session) {
         self.url = configuration.url
@@ -124,7 +125,7 @@ public class SubscriptionManager: NSObject {
         if self.websockerRequest.state == .finished || self.websockerRequest.state == .cancelled {
             self.websockerRequest = self.session
                 .websocketRequest(URLRequest(url: self.url), protocol: self.socketProtocol)
-                .responseMessage(on: .global(qos: .utility), handler: self.eventHandler(_:))
+                .responseMessage(on: self.eventQueue, handler: self.eventHandler(_:))
         }
         self.websockerRequest.resume()
     }
