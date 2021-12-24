@@ -125,6 +125,17 @@ extension IfPresent: Hashable where Wrapped: Hashable {
     }
 }
 
+extension IfPresent: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .some(let wrapped):
+            return ".some(\(wrapped))"
+        case .empty(_, let path):
+            return ".empty(\(path))"
+        }
+    }
+}
+
 extension KeyedDecodingContainer {
     public func decode<T>(_ type: IfPresent<T>.Type, forKey key: K) throws -> IfPresent<T> where T: Decodable {
         if let value = try decodeIfPresent(type, forKey: key) {
