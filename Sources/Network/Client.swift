@@ -13,8 +13,8 @@ public class Client: NSObject {
     internal let alamofireSession: Alamofire.Session
 
     public let configuration: Configuration
-    public let url: URLConvertible
-    public let batchUrl: URLConvertible?
+    public var url: URLConvertible
+    public var batchUrl: URLConvertible?
     public let subscriptionManager: SubscriptionManager?
 
     /// Create graphus client
