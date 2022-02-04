@@ -17,9 +17,9 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     private let muteCanceledRequests: Bool
     private let monitor: CompositeGrapheneEventMonitor
     private let queue: DispatchQueue
-    private var isSent: Bool = false
     private var closureStorage = ExecuteClosureStorage<ResultValue>()
     public let context: OperationContext
+    public private(set) var isSending: Bool = false
     public var request: URLRequest? { self.alamofireRequest.request }
 
     internal init(alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, config: Client.Configuration, queue: DispatchQueue) {
@@ -37,14 +37,18 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     }
 
     private func send() {
-        guard !self.isSent else { return }
-        self.isSent = true
+        guard !self.isSending else { return }
+        self.isSending = true
         self.monitor.client(willExecute: self)
         self.alamofireRequest.resume()
     }
 
     private func handleResponse(_ dataResponse: DataResponse<O.ResponseValue, AFError>) {
 
+        defer {
+            self.isSending = false
+        }
+        
         if self.muteCanceledRequests, dataResponse.error?.isExplicitlyCancelledError ?? false {
             return
         }
@@ -90,7 +94,6 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
 
     public func cancel() {
         self.alamofireRequest.cancel()
-        self.isSent = false
     }
 
 }

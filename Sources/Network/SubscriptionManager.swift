@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import Combine
 
 public enum SubscriptionState: Hashable {
     case disconnected(SocketDisconnectReason)
@@ -47,7 +48,7 @@ public class SubscriptionManager: NSObject {
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
 
-    public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
+    @Published public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
     private var websockerRequest: WebSocketRequest
     private var subscribeOperations: [SubscriptionOperation] = []
     private var currentReconnectAttempt: Int = 0
