@@ -48,7 +48,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         defer {
             self.isSending = false
         }
-        
+
         if self.muteCanceledRequests, dataResponse.error?.isExplicitlyCancelledError ?? false {
             return
         }
