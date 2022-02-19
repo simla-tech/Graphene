@@ -3,7 +3,7 @@
 //  Graphene
 //
 //  Created by Ilya Kharlamov on 22.09.2021.
-//  Copyright © 2021 RetailDriver LLC. All rights reserved.
+//  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
 import Foundation
@@ -68,7 +68,7 @@ public class SubscriptionManager: NSObject {
         self.encoder = JSONEncoder()
         self.systemDecoder = JSONDecoder()
         super.init()
-        let responseQueue = DispatchQueue(label: "com.retaildriver.graphene.SubscriptionManager", qos: .background)
+        let responseQueue = DispatchQueue(label: "com.simla.Graphene.SubscriptionManager", qos: .background)
         self.websockerRequest.responseMessage(on: responseQueue, handler: self.eventHandler(_:))
     }
 

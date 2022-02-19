@@ -3,7 +3,7 @@
 //  Graphene
 //
 //  Created by Ilya Kharlamov on 21.09.2021.
-//  Copyright © 2021 RetailDriver LLC. All rights reserved.
+//  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
 import Foundation
@@ -185,7 +185,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
 
 final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionEventMonitor {
 
-    let subscriptionMonitorQueue = DispatchQueue(label: "com.retaildriver.Graphene.CompositeGrapheneSubscriptionMonitor", qos: .utility)
+    let subscriptionMonitorQueue = DispatchQueue(label: "com.simla.Graphene.CompositeGrapheneSubscriptionMonitor", qos: .utility)
 
     let monitors: [GrapheneSubscriptionEventMonitor]
 

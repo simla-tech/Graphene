@@ -31,7 +31,7 @@ public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMoni
 
 final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
 
-    public let queue = DispatchQueue(label: "com.retaildriver.Graphene.CompositeGrapheneEventMonitor", qos: .utility)
+    public let queue = DispatchQueue(label: "com.simla.Graphene.CompositeGrapheneEventMonitor", qos: .utility)
 
     let monitors: [GrapheneEventMonitor]
 
