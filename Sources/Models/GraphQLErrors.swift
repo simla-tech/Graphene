@@ -33,7 +33,7 @@ extension ArrayError {
     public var errorUserInfo: [String: Any] {
         return ["errors": self.errors.map({ $0.errorUserInfo })]
     }
-    
+
     public var errorDescription: String? {
         return self.errors.map(\.localizedDescription).joined(separator: ", ")
     }
@@ -41,11 +41,11 @@ extension ArrayError {
 }
 
 public struct GraphQLErrors: ArrayError, Decodable {
-    
+
     public let errors: [GraphQLError]
-    
+
     public init(_ errors: [GraphQLError]) {
         self.errors = errors
     }
-    
+
 }
