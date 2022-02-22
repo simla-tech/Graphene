@@ -7,32 +7,19 @@
 
 import Foundation
 
-public struct GraphQLErrors: LocalizedError, Decodable {
-
-    internal let errors: [GraphQLError]
-
-    internal init(_ errors: [GraphQLError]) {
-        self.errors = errors
-    }
-
-    public var localizedDescription: String {
-        return self.errors.map({ $0.localizedDescription }).joined(separator: ", ")
-    }
-
-    public var errorDescription: String? {
-        return self.localizedDescription
-    }
-
+public protocol ArrayError: Collection, LocalizedError, CustomNSError {
+    associatedtype ErrorType: CustomNSError
+    var errors: [ErrorType] { get }
 }
 
-extension GraphQLErrors: Collection {
+extension ArrayError {
 
     // The upper and lower bounds of the collection, used in iterations
     public var startIndex: Int { return self.errors.startIndex }
     public var endIndex: Int { return self.errors.endIndex }
 
     // Required subscript, based on a dictionary index
-    public subscript(index: Int) -> GraphQLError {
+    public subscript(index: Int) -> ErrorType {
         return self.errors[index]
     }
 
@@ -41,14 +28,24 @@ extension GraphQLErrors: Collection {
         return self.errors.index(after: i)
     }
 
-}
-
-extension GraphQLErrors: CustomNSError {
-
-    public static var errorDomain: String = "Graphene.GraphQLErrors"
+    public static var errorDomain: String { "ArrayError.\(ErrorType.errorDomain)" }
 
     public var errorUserInfo: [String: Any] {
         return ["errors": self.errors.map({ $0.errorUserInfo })]
     }
+    
+    public var errorDescription: String? {
+        return self.errors.map(\.localizedDescription).joined(separator: ", ")
+    }
 
+}
+
+public struct GraphQLErrors: ArrayError, Decodable {
+    
+    public let errors: [GraphQLError]
+    
+    public init(_ errors: [GraphQLError]) {
+        self.errors = errors
+    }
+    
 }

@@ -17,6 +17,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     private let jsonDecoder: JSONDecoder
     private let muteCanceledRequests: Bool
     private let monitor: CompositeGrapheneEventMonitor
+    private let errorModifier: Client.Configuration.ErrorModifier?
     private let queue: DispatchQueue
     private var isSent: Bool = false
     private var closureStorage = ExecuteClosureStorage<ResultValue>()
@@ -26,6 +27,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     internal init(alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, config: Client.Configuration, queue: DispatchQueue) {
         self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)
         self.muteCanceledRequests = config.muteCanceledRequests
+        self.errorModifier = config.errorModifier
         self.alamofireRequest = alamofireRequest
         self.context = context
         self.queue = queue
@@ -72,8 +74,9 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
             if !self.muteCanceledRequests || !self.alamofireRequest.isCancelled {
                 switch result {
                 case .failure(let error):
-                    self.monitor.client(didExecute: self, response: dataResponse.response, error: error, data: dataResponse.data, metrics: dataResponse.metrics)
-                    self.closureStorage.failureClosure?(error)
+                    let modifiedError = self.errorModifier?(error) ?? error
+                    self.monitor.client(didExecute: self, response: dataResponse.response, error: modifiedError, data: dataResponse.data, metrics: dataResponse.metrics)
+                    self.closureStorage.failureClosure?(modifiedError)
                 case .success(let result):
                     self.monitor.client(didExecute: self, response: dataResponse.response, error: nil, data: dataResponse.data, metrics: dataResponse.metrics)
                     self.closureStorage.successClosure?(result)

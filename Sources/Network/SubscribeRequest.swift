@@ -18,6 +18,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
     internal var needsToRegister: Bool = true
     internal var isRegistered: Bool = false
     internal var closureStorage = SubscribeClosureStorage<O.Value>()
+    internal let errorModifier: Client.Configuration.ErrorModifier?
 
     internal let queue: DispatchQueue
     internal var isSendedToRegistration: Bool = false
@@ -36,6 +37,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
         self.queue = queue
         self.registerClosure = registerClosure
         self.deregisterClosure = deregisterClosure
+        self.errorModifier = config.errorModifier
         self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = config.keyDecodingStrategy
@@ -109,7 +111,8 @@ extension InternalSubscribeRequest: SubscriptionOperation {
                 self.closureStorage.valueClosure?(value)
             }
         case .failure(let error):
-            self.monitor.client(didExecute: self, response: nil, error: error, data: rawValue, metrics: nil)
+            let modifiedError = self.errorModifier?(error) ?? error
+            self.monitor.client(didExecute: self, response: nil, error: modifiedError, data: rawValue, metrics: nil)
         }
     }
 

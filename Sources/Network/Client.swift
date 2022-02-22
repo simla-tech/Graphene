@@ -46,6 +46,7 @@ public class Client: NSObject {
 
 extension Client {
     public struct Configuration {
+        public typealias ErrorModifier = (Error) -> Error
         public static var `default`: Configuration { Configuration() }
         public var eventMonitors: [GrapheneEventMonitor] = []
         public var serverTrustManager: ServerTrustManager?
@@ -53,6 +54,7 @@ extension Client {
         public var redirectHandler: RedirectHandler?
         public var interceptor: RequestInterceptor?
         public var requestModifier: Alamofire.Session.RequestModifier?
+        public var errorModifier: ErrorModifier?
         public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
         public var muteCanceledRequests: Bool = true
