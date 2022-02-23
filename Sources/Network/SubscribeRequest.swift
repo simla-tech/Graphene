@@ -14,11 +14,11 @@ import CoreMedia
 public class SubscribeRequest<O: GraphQLOperation> {
 
     public let context: OperationContext
-    
+
     @Published internal(set) public var state: SubscriptionState = .disconnected(.code(.invalid))
 
     public let onValue = PassthroughSubject<O.Value, Never>()
-    
+
     internal let uuid = UUID()
     internal var needsToRegister: Bool = true
     internal var isRegistered: Bool = false
@@ -75,7 +75,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
             self.state = state
         }
     }
-    
+
     func handleDeregisterComplete() {
         self.onValue.send(completion: .finished)
     }
