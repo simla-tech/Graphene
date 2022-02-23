@@ -36,20 +36,23 @@ internal protocol SubscriptionOperation: AnyObject {
 
     func updateState(_ state: SubscriptionState, needsToRegister: Bool, isRegistered: Bool)
     func handleRawValue(_ rawValue: Data)
+    func handleDeregisterComplete()
 
 }
 
 public class SubscriptionManager: NSObject {
 
     let url: URL
-    let session: Alamofire.Session
     let socketProtocol: String?
+    let timeoutInterval: TimeInterval
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
+    var session: Alamofire.Session!
+    var headers: HTTPHeaders!
 
     @Published public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
-    private var websockerRequest: WebSocketRequest
+    private var websockerRequest: WebSocketRequest?
     private var subscribeOperations: [SubscriptionOperation] = []
     private var currentReconnectAttempt: Int = 0
     private var reconnectDispatchWorkItem: DispatchWorkItem?
@@ -57,24 +60,19 @@ public class SubscriptionManager: NSObject {
     private let pingQueue = DispatchQueue(label: "com.graphene.pingQueue", qos: .background)
     private let eventQueue = DispatchQueue(label: "com.graphene.eventQueue", qos: .background)
 
-    init(configuration: Client.SubscriptionConfiguration, headers: HTTPHeaders, alamofireSession: Alamofire.Session) {
+    public init(configuration: Client.SubscriptionConfiguration) {
         self.url = configuration.url
-        self.session = alamofireSession
         self.socketProtocol = configuration.socketProtocol
-        var request = URLRequest(url: configuration.url, timeoutInterval: configuration.timeoutInterval)
-        request.headers = headers
-        self.websockerRequest = alamofireSession.websocketRequest(request, protocol: configuration.socketProtocol)
+        self.timeoutInterval = configuration.timeoutInterval
         self.monitor = CompositeGrapheneSubscriptionMonitor(monitors: configuration.eventMonitors)
         self.encoder = JSONEncoder()
         self.systemDecoder = JSONDecoder()
         super.init()
-        let responseQueue = DispatchQueue(label: "com.simla.Graphene.SubscriptionManager", qos: .background)
-        self.websockerRequest.responseMessage(on: responseQueue, handler: self.eventHandler(_:))
     }
 
     @objc private func ping() {
         guard self.state == .connected,
-              let task = self.websockerRequest.lastTask as? URLSessionWebSocketTask else { return }
+              let task = self.websockerRequest?.lastTask as? URLSessionWebSocketTask else { return }
 
         let semaphore = DispatchSemaphore(value: 0)
         task.sendPing { error in
@@ -92,6 +90,9 @@ public class SubscriptionManager: NSObject {
     }
 
     public func resume() {
+        if self.session == nil {
+            fatalError("You have to init Client(subscriptionManager:) firstly")
+        }
         self.connect(isReconnect: false)
     }
 
@@ -123,18 +124,20 @@ public class SubscriptionManager: NSObject {
         }
         self.state = .connecting
         self.monitor.manager(self, willConnectTo: self.url)
-        if self.websockerRequest.state == .finished || self.websockerRequest.state == .cancelled {
+        if self.websockerRequest == nil || self.websockerRequest?.state == .finished || self.websockerRequest?.state == .cancelled {
+            var request = URLRequest(url: self.url)
+            request.headers = self.headers
             self.websockerRequest = self.session
-                .websocketRequest(URLRequest(url: self.url), protocol: self.socketProtocol)
+                .websocketRequest(request, protocol: self.socketProtocol)
                 .responseMessage(on: self.eventQueue, handler: self.eventHandler(_:))
         }
-        self.websockerRequest.resume()
+        self.websockerRequest?.resume()
     }
 
     private func disconnect(with code: URLSessionWebSocketTask.CloseCode) {
         guard !self.state.isDisconnected else { return }
         self.monitor.manager(self, willDisconnectWithCode: code)
-        self.websockerRequest.cancel(with: code, reason: nil)
+        self.websockerRequest?.cancel(with: code, reason: nil)
     }
 
     internal func register(_ subscriptionOperation: SubscriptionOperation) {
@@ -160,8 +163,9 @@ public class SubscriptionManager: NSObject {
                 let message = ClientSystemMessage(type: .stop, id: subscriptionOperation.uuid)
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
-                self.websockerRequest.send(webSocketMessage, completionHandler: { _ in
+                self.websockerRequest?.send(webSocketMessage, completionHandler: { _ in
                     self.monitor.manager(self, didDeregisterSubscription: subscriptionOperation.context)
+                    subscriptionOperation.handleDeregisterComplete()
                 })
             } catch {
                 fatalError(String(describing: error))
@@ -169,6 +173,7 @@ public class SubscriptionManager: NSObject {
 
         } else {
             self.monitor.manager(self, didDeregisterSubscription: subscriptionOperation.context)
+            subscriptionOperation.handleDeregisterComplete()
         }
     }
 
@@ -185,7 +190,7 @@ public class SubscriptionManager: NSObject {
             do {
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
-                self.websockerRequest.send(webSocketMessage, completionHandler: { result in
+                self.websockerRequest?.send(webSocketMessage, completionHandler: { result in
                     switch result {
                     case .success:
                         self.monitor.manager(self, didRegisterSubscription: subscriptionOperation.context)
@@ -280,7 +285,7 @@ public class SubscriptionManager: NSObject {
                 let message = ClientSystemMessage(type: .connectionInit, id: nil)
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
-                self.websockerRequest.send(webSocketMessage, completionHandler: { result in
+                self.websockerRequest?.send(webSocketMessage, completionHandler: { result in
                     if case .failure(let error) = result {
                         self.monitor.manager(self, recievedError: error, for: nil)
                     }
@@ -309,12 +314,12 @@ public class SubscriptionManager: NSObject {
 
         case .completed:
             self.pingDispatchWorkItem?.cancel()
-            let closeCode = (self.websockerRequest.lastTask as? URLSessionWebSocketTask)?.closeCode ?? .invalid
-            let error = self.websockerRequest.error?.underlyingError ?? self.websockerRequest.error
+            let closeCode = (self.websockerRequest?.lastTask as? URLSessionWebSocketTask)?.closeCode ?? .invalid
+            let error = self.websockerRequest?.error?.underlyingError ?? self.websockerRequest?.error
             var reason: SocketDisconnectReason = .code(closeCode)
 
             var willReconnect: Bool
-            if let error = self.websockerRequest.error {
+            if let error = self.websockerRequest?.error {
                 willReconnect = error.isSessionTaskError
             } else {
                 willReconnect = closeCode != .normalClosure && closeCode  != .invalid

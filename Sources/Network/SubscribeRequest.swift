@@ -8,16 +8,20 @@
 
 import Foundation
 import Alamofire
+import Combine
+import CoreMedia
 
 public class SubscribeRequest<O: GraphQLOperation> {
 
     public let context: OperationContext
-    public var state: SubscriptionState = .disconnected(.code(.invalid))
+    
+    @Published internal(set) public var state: SubscriptionState = .disconnected(.code(.invalid))
 
+    public let onValue = PassthroughSubject<O.Value, Never>()
+    
     internal let uuid = UUID()
     internal var needsToRegister: Bool = true
     internal var isRegistered: Bool = false
-    internal var closureStorage = SubscribeClosureStorage<O.Value>()
     internal let errorModifier: Client.Configuration.ErrorModifier?
 
     internal let queue: DispatchQueue
@@ -46,7 +50,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
         self.decoder = decoder
     }
 
-    private func registerIfNeeded() {
+    public func resume() {
         guard !self.isSendedToRegistration else { return }
         self.isSendedToRegistration = true
         self.registerClosure(self as! SubscriptionOperation)
@@ -54,29 +58,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
 
 }
 
-extension SubscribeRequest: SubscribeValueableRequest {
-
-    public typealias ResultValue = O.Value
-
-    @discardableResult
-    public func onValue(_ closure: @escaping ValueClosure) -> SubscribeStatableRequest {
-        self.closureStorage.valueClosure = closure
-        self.registerIfNeeded()
-        return self
-    }
-
-}
-
-extension SubscribeRequest: SubscribeStatableRequest {
-    @discardableResult
-    public func onStateUpdate(_ closure: @escaping StateClosure) -> SubscribeCancellableRequest {
-        self.closureStorage.stateClosure = closure
-        self.registerIfNeeded()
-        return self
-    }
-}
-
-extension SubscribeRequest: SubscribeCancellableRequest {
+extension SubscribeRequest: GrapheneRequest {
     public func cancel() {
         self.deregisterClosure(self as! SubscriptionOperation)
     }
@@ -91,10 +73,11 @@ extension InternalSubscribeRequest: SubscriptionOperation {
         self.isRegistered = isRegistered
         if state != self.state {
             self.state = state
-            self.queue.async {
-                self.closureStorage.stateClosure?(state)
-            }
         }
+    }
+    
+    func handleDeregisterComplete() {
+        self.onValue.send(completion: .finished)
     }
 
     func handleRawValue(_ rawValue: Data) {
@@ -107,9 +90,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
         }
         switch O.mapResponse(responseResult) {
         case .success(let value):
-            self.queue.async {
-                self.closureStorage.valueClosure?(value)
-            }
+            self.onValue.send(value)
         case .failure(let error):
             let modifiedError = self.errorModifier?(error) ?? error
             self.monitor.client(didExecute: self, response: nil, error: modifiedError, data: rawValue, metrics: nil)

@@ -22,15 +22,15 @@ extension Client {
         }
 
         guard let subscriptionManager = self.subscriptionManager else {
-            fatalError("Provide SubscriptionConfiguration in Client.init method")
+            fatalError("Provide SubscriptionManager in Client.init method")
         }
-
+        
         let operationContext = OperationContextData(operation: operation)
-        return InternalSubscribeRequest(context: operationContext,
-                                        queue: queue,
-                                        config: self.configuration,
-                                        registerClosure: subscriptionManager.register(_:),
-                                        deregisterClosure: subscriptionManager.deregister(_:))
+        return InternalSubscribeRequest<O>(context: operationContext,
+                                           queue: queue,
+                                           config: self.configuration,
+                                           registerClosure: subscriptionManager.register(_:),
+                                           deregisterClosure: subscriptionManager.deregister(_:))
     }
 
 }

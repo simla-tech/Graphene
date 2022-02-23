@@ -20,7 +20,7 @@ public class Client: NSObject {
     /// Create graphus client
     public init(url: URLConvertible,
                 batchUrl: URLConvertible? = nil,
-                subscriptionConfiguration: SubscriptionConfiguration? = nil,
+                subscriptionManager: SubscriptionManager? = nil,
                 configuration: Configuration = .default) {
         self.url = url
         self.batchUrl = batchUrl
@@ -33,13 +33,9 @@ public class Client: NSObject {
                                         cachedResponseHandler: configuration.cachedResponseHandler,
                                         eventMonitors: configuration.eventMonitors)
         self.alamofireSession = session
-        if let subscriptionConfiguration = subscriptionConfiguration {
-            self.subscriptionManager = SubscriptionManager(configuration: subscriptionConfiguration,
-                                                           headers: self.configuration.prepareHttpHeaders(),
-                                                           alamofireSession: session)
-        } else {
-            self.subscriptionManager = nil
-        }
+        self.subscriptionManager = subscriptionManager
+        self.subscriptionManager?.session = session
+        self.subscriptionManager?.headers = self.configuration.prepareHttpHeaders()
     }
 
 }
