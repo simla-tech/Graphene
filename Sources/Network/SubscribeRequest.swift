@@ -31,6 +31,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
     internal let decoder: JSONDecoder
     internal let monitor: CompositeGrapheneEventMonitor
     public var request: URLRequest? { nil }
+    public var task: URLSessionTask? { nil }
 
     init(context: OperationContext,
          queue: DispatchQueue,

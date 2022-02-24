@@ -23,6 +23,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     private var closureStorage = ExecuteClosureStorage<ResultValue>()
     public let context: OperationContext
     public var request: URLRequest? { self.alamofireRequest.request }
+    public var task: URLSessionTask? { self.alamofireRequest.task }
 
     internal init(alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, config: Client.Configuration, queue: DispatchQueue) {
         self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)

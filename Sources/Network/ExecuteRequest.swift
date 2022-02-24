@@ -22,6 +22,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     public let context: OperationContext
     public private(set) var isSending: Bool = false
     public var request: URLRequest? { self.alamofireRequest.request }
+    public var task: URLSessionTask? { self.alamofireRequest.task }
 
     internal init(alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, config: Client.Configuration, queue: DispatchQueue) {
         self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)

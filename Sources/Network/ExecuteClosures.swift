@@ -42,11 +42,9 @@ public protocol FinishableRequest: GrapheneRequest {
     func onFinish(_ closure: @escaping FinishClosure) -> GrapheneRequest
 }
 
-public protocol GrapheneRequest: CancellableRequest {
+public protocol GrapheneRequest {
     var context: OperationContext { get }
     var request: URLRequest? { get }
-}
-
-public protocol CancellableRequest {
+    var task: URLSessionTask? { get }
     func cancel()
 }
