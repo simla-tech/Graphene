@@ -18,7 +18,7 @@ public struct GraphQLErrors: Error, Decodable {
 }
 
 extension GraphQLErrors: Collection {
-    
+
    public var startIndex: Int { return self.errors.startIndex }
    public var endIndex: Int { return self.errors.endIndex }
 
@@ -29,23 +29,23 @@ extension GraphQLErrors: Collection {
    public func index(after i: Int) -> Int {
        return self.errors.index(after: i)
    }
-    
+
 }
 
 extension GraphQLErrors: CustomNSError {
-    
+
     public static var errorDomain: String { "GraphQLErrors" }
 
     public var errorUserInfo: [String: Any] {
         return ["errors": self.errors.map({ $0.errorUserInfo })]
     }
-    
+
 }
 
 extension GraphQLErrors: LocalizedError {
-    
+
     public var errorDescription: String? {
         return self.errors.map(\.localizedDescription).joined(separator: ", ")
     }
-    
+
 }
