@@ -54,7 +54,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         }
         self.closureStorage.progressClosure?(progress.fractionCompleted)
     }
-    
+
     private func handleResponse(_ dataResponse: DataResponse<O.ResponseValue, AFError>) {
 
         defer {
@@ -90,7 +90,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         self.send()
         return self
     }
-    
+
     @discardableResult
     public func onProgress(_ closure: @escaping ProgressClosure) -> FailureableRequest {
         self.closureStorage.progressClosure = closure

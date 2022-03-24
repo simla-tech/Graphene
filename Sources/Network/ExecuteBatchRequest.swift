@@ -55,7 +55,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
         }
         self.closureStorage.progressClosure?(progress.fractionCompleted)
     }
-    
+
     private func handleResponse(_ dataResponse: DataResponse<Data, AFError>) {
 
         if self.muteCanceledRequests, dataResponse.error?.isExplicitlyCancelledError ?? false {
@@ -110,7 +110,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
         self.send()
         return self
     }
-    
+
     @discardableResult
     public func onFailure(_ closure: @escaping FailureClosure) -> FinishableRequest {
         self.closureStorage.failureClosure = closure
