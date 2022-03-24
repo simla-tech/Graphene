@@ -36,7 +36,9 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         jsonDecoder.dateDecodingStrategy = config.dateDecodingStrategy
         jsonDecoder.userInfo[.operationName] = context.operationName
         let decoder = GraphQLDecoder(decodePath: O.decodePath, jsonDecoder: jsonDecoder)
-        self.alamofireRequest.responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
+        self.alamofireRequest
+            .uploadProgress(queue: self.queue, closure: self.handleProgress(_:))
+            .responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
     }
 
     private func send() {
@@ -46,6 +48,13 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         self.alamofireRequest.resume()
     }
 
+    private func handleProgress(_ progress: Progress) {
+        if self.muteCanceledRequests, progress.isCancelled {
+            return
+        }
+        self.closureStorage.progressClosure?(progress.fractionCompleted)
+    }
+    
     private func handleResponse(_ dataResponse: DataResponse<O.ResponseValue, AFError>) {
 
         defer {
@@ -76,8 +85,15 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     }
 
     @discardableResult
-    public func onSuccess(_ closure: @escaping SuccessClosure) -> FailureableRequest {
+    public func onSuccess(_ closure: @escaping SuccessClosure) -> ProgressableRequest {
         self.closureStorage.successClosure = closure
+        self.send()
+        return self
+    }
+    
+    @discardableResult
+    public func onProgress(_ closure: @escaping ProgressClosure) -> FailureableRequest {
+        self.closureStorage.progressClosure = closure
         self.send()
         return self
     }
