@@ -38,7 +38,7 @@ public enum IfPresent<Wrapped> {
             fatalError(ifPresentErrorString(operationName: operationName, path: path))
         }
     }
-    
+
     public var value: Wrapped? {
         switch self {
         case .some(let wrapped):
