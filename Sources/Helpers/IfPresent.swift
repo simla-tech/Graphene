@@ -38,6 +38,15 @@ public enum IfPresent<Wrapped> {
             fatalError(ifPresentErrorString(operationName: operationName, path: path))
         }
     }
+    
+    public var value: Wrapped? {
+        switch self {
+        case .some(let wrapped):
+            return wrapped
+        case .empty:
+            return nil
+        }
+    }
 
     public func get(function: StaticString = #function, file: StaticString  = #file, line: UInt  = #line) throws -> Wrapped {
         switch self {
