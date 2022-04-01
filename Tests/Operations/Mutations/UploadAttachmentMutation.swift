@@ -21,7 +21,7 @@ struct UploadAttachmentMutation: GraphQLOperation {
         return "uploadAttachment.attachments"
     }
 
-    static func buildQuery(with builder: QueryContainer<AppMutation>) {
+    static func buildQuery(with builder: QueryContainer<APIMutationSchema>) {
         builder += .uploadAttachment(input: .reference(to: \Variables.input), { builder in
             builder += .attachments { builder in
                 builder += .id

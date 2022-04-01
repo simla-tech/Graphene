@@ -21,7 +21,7 @@ struct OrderEditMutation: GraphQLOperation {
         return "editOrder.order"
     }
 
-    static func buildQuery(with builder: QueryContainer<AppMutation>) {
+    static func buildQuery(with builder: QueryContainer<APIMutationSchema>) {
         builder += .editOrder(input: .reference(to: \Variables.input), { builder in
             builder += .order({ builder in
                 builder += OrderDetailFragment.self

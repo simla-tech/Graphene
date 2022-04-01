@@ -24,7 +24,7 @@ struct OrderDetailQuery: GraphQLOperation {
         return "order"
     }
 
-    static func buildQuery(with builder: QueryContainer<AppSchema>) {
+    static func buildQuery(with builder: QueryContainer<APIQuerySchema>) {
         builder += .order(id: .reference(to: \Variables.orderId)) { builder in
             builder += OrderDetailFragment.self
         }

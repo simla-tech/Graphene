@@ -1,5 +1,5 @@
 //
-//  AppMutations.swift
+//  APIMutationSchemas.swift
 //  GrapheneTests
 //
 //  Created by Ilya Kharlamov on 03.08.2021.
@@ -9,7 +9,7 @@
 import Foundation
 @testable import Graphene
 
-struct AppMutation: MutationSchema {
+struct APIMutationSchema: MutationSchema {
 
     final class QueryKeys: QueryKey {
 

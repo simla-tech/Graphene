@@ -21,7 +21,7 @@ struct OrderListQuery: GraphQLOperation {
         return "orders"
     }
 
-    static func buildQuery(with builder: QueryContainer<AppSchema>) {
+    static func buildQuery(with builder: QueryContainer<APIQuerySchema>) {
         builder += .orders(first: 20, after: .reference(to: \Variables.after)) { builder in
             builder += .totalCount
             builder += .pageInfo

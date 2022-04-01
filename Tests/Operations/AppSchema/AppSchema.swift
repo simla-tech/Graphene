@@ -1,5 +1,5 @@
 //
-//  AppSchema.swift
+//  APIQuerySchema.swift
 //  Graphene
 //
 //  Created by Ilya Kharlamov on 02.08.2021.
@@ -9,7 +9,7 @@
 import Foundation
 @testable import Graphene
 
-struct AppSchema: QuerySchema {
+struct APIQuerySchema: QuerySchema {
 
     final class QueryKeys: QueryKey {
 
