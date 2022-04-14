@@ -85,7 +85,12 @@ extension SomeChangeSet {
             if let oldValues = (oldValue as Any) as? [AnyChangeSetIdentifiableVariable],
                let newValues = (newValue as Any) as? [AnyChangeSetIdentifiableVariable] {
                 let oldDict = oldValues.reduce(into: Variables()) { $0["\($1.anyChangeSetIdentifier)"] = $1 }
-                let newDict = newValues.reduce(into: Variables()) { $0["\($1.anyChangeSetIdentifier)"] = $1 }
+                var newDict = newValues.reduce(into: Variables()) { $0["\($1.anyChangeSetIdentifier)"] = $1 }
+                let oldIdentifiers = Set(oldValues.map({ $0.anyChangeSetIdentifier }))
+                let newIdentifiers = Set(newValues.map({ $0.anyChangeSetIdentifier }))
+                for removedIdentifier in oldIdentifiers.subtracting(newIdentifiers) {
+                    newDict["\(removedIdentifier)"] = Optional<Variable>.none
+                }
                 let childChanges = self.searchChanges(oldFields: oldDict, newFields: newDict)
                 let childChangeSet = AnyChangeSet(changes: childChanges)
                 if !childChangeSet.changes.isEmpty {
