@@ -152,11 +152,8 @@ extension KeyedDecodingContainer {
         } else {
             let userInfo = try? self.superDecoder().userInfo
             let path = (self.codingPath + [key]).map({ key -> String in
-                if let intValue = key.intValue {
-                    return "[\(intValue)]"
-                } else {
-                    return key.stringValue
-                }
+                if key.intValue != nil { return "[*]" }
+                return key.stringValue
             }).joined(separator: ".")
             return .empty(operationName: userInfo?[.operationName] as? String, path: path)
         }
