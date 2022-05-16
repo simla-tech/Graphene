@@ -10,21 +10,21 @@ import Alamofire
 import os.log
 
 public protocol GrapheneEventMonitor: EventMonitor {
-    func client(willExecute request: GrapheneRequest)
-    func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?)
+    func client(_ client: Client, willSend request: GrapheneRequest)
+    func client(_ client: Client, didRecieve response: GrapheneResponse)
 }
 
 public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMonitor {
 
-    open var clientWillExecute: ((GrapheneRequest) -> Void)?
-    open var clientDidExecute: ((GrapheneRequest, HTTPURLResponse?, Error?, Data?, URLSessionTaskMetrics?) -> Void)?
+    open var clientWillSendRequest: ((Client, GrapheneRequest) -> Void)?
+    open var clientDidRecieveResponse: ((Client, GrapheneResponse) -> Void)?
 
-    public func client(willExecute request: GrapheneRequest) {
-        self.clientWillExecute?(request)
+    public func client(_ client: Client, willSend request: GrapheneRequest) {
+        self.clientWillSendRequest?(client, request)
     }
 
-    public func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?) {
-        self.clientDidExecute?(request, response, error, data, metrics)
+    public func client(_ client: Client, didRecieve response: GrapheneResponse) {
+        self.clientDidRecieveResponse?(client, response)
     }
 
 }
@@ -47,12 +47,12 @@ final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
         }
     }
 
-    public func client(willExecute request: GrapheneRequest) {
-        performEvent { $0.client(willExecute: request) }
+    public func client(_ client: Client, willSend request: GrapheneRequest) {
+        performEvent { $0.client(client, willSend: request) }
     }
 
-    public func client(didExecute request: GrapheneRequest, response: HTTPURLResponse?, error: Error?, data: Data?, metrics: URLSessionTaskMetrics?) {
-        performEvent { $0.client(didExecute: request, response: response, error: error, data: data, metrics: metrics) }
+    public func client(_ client: Client, didRecieve response: GrapheneResponse) {
+        performEvent { $0.client(client, didRecieve: response) }
     }
 
 }

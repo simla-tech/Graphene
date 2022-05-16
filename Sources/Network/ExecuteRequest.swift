@@ -14,6 +14,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     public typealias ResultValue = O.Value
 
     private let alamofireRequest: DataRequest
+    private weak var client: Client?
     private let muteCanceledRequests: Bool
     private let monitor: CompositeGrapheneEventMonitor
     private let queue: DispatchQueue
@@ -24,16 +25,17 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     public var request: URLRequest? { self.alamofireRequest.request }
     public var task: URLSessionTask? { self.alamofireRequest.task }
 
-    internal init(alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, config: Client.Configuration, queue: DispatchQueue) {
-        self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)
-        self.muteCanceledRequests = config.muteCanceledRequests
-        self.errorModifier = config.errorModifier
+    internal init(client: Client, alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, queue: DispatchQueue) {
+        self.client = client
+        self.monitor = CompositeGrapheneEventMonitor(monitors: client.configuration.eventMonitors)
+        self.muteCanceledRequests = client.configuration.muteCanceledRequests
+        self.errorModifier = client.configuration.errorModifier
         self.alamofireRequest = alamofireRequest
         self.context = context
         self.queue = queue
         let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = config.keyDecodingStrategy
-        jsonDecoder.dateDecodingStrategy = config.dateDecodingStrategy
+        jsonDecoder.keyDecodingStrategy = client.configuration.keyDecodingStrategy
+        jsonDecoder.dateDecodingStrategy = client.configuration.dateDecodingStrategy
         jsonDecoder.userInfo[.operationName] = context.operationName
         let decoder = GraphQLDecoder(decodePath: O.decodePath, jsonDecoder: jsonDecoder)
         self.alamofireRequest
@@ -44,7 +46,9 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     private func send() {
         guard !self.isSending else { return }
         self.isSending = true
-        self.monitor.client(willExecute: self)
+        if let client = self.client {
+            self.monitor.client(client, willSend: self)
+        }
         self.alamofireRequest.resume()
     }
 
@@ -72,10 +76,26 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
                 switch result {
                 case .failure(let error):
                     let modifiedError = self.errorModifier?(error) ?? error
-                    self.monitor.client(didExecute: self, response: dataResponse.response, error: modifiedError, data: dataResponse.data, metrics: dataResponse.metrics)
+                    if let client = self.client {
+                        let response = GrapheneResponse(context: self.context,
+                                                        request: dataResponse.request,
+                                                        response: dataResponse.response,
+                                                        error: modifiedError,
+                                                        data: dataResponse.data,
+                                                        metrics: dataResponse.metrics)
+                        self.monitor.client(client, didRecieve: response)
+                    }
                     self.closureStorage.failureClosure?(modifiedError)
                 case .success(let result):
-                    self.monitor.client(didExecute: self, response: dataResponse.response, error: nil, data: dataResponse.data, metrics: dataResponse.metrics)
+                    if let client = self.client {
+                        let response = GrapheneResponse(context: self.context,
+                                                        request: dataResponse.request,
+                                                        response: dataResponse.response,
+                                                        error: nil,
+                                                        data: dataResponse.data,
+                                                        metrics: dataResponse.metrics)
+                        self.monitor.client(client, didRecieve: response)
+                    }
                     self.closureStorage.successClosure?(result)
                 }
                 self.closureStorage.finishClosure?()

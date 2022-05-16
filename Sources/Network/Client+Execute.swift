@@ -36,10 +36,10 @@ extension Client {
         self.append(uploads: operationContext.getUploads(), to: multipartFormData)
 
         let dataRequest = self.prepareDataRequest(for: O.self, with: multipartFormData, url: self.url)
-        return ExecuteRequest(alamofireRequest: dataRequest,
+        return ExecuteRequest(client: self,
+                              alamofireRequest: dataRequest,
                               decodePath: O.decodePath(of: O.ResponseValue.self),
                               context: operationContext,
-                              config: self.configuration,
                               queue: queue)
     }
 

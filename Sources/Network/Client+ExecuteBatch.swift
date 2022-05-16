@@ -47,10 +47,10 @@ extension Client {
         }
 
         let dataRequest = self.prepareDataRequest(for: O.self, with: multipartFormData, url: batchUrl)
-        return ExecuteBatchRequest(alamofireRequest: dataRequest,
+        return ExecuteBatchRequest(client: self,
+                                   alamofireRequest: dataRequest,
                                    decodePath: O.decodePath(of: O.ResponseValue.self),
                                    context: context,
-                                   config: self.configuration,
                                    queue: queue)
     }
 

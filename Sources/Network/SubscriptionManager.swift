@@ -50,9 +50,9 @@ public class SubscriptionManager: NSObject {
     let systemDecoder: JSONDecoder
     var session: Alamofire.Session!
     var headers: HTTPHeaders!
+    var websockerRequest: WebSocketRequest?
 
     @Published public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
-    private var websockerRequest: WebSocketRequest?
     private var subscribeOperations: [SubscriptionOperation] = []
     private var currentReconnectAttempt: Int = 0
     private var reconnectDispatchWorkItem: DispatchWorkItem?

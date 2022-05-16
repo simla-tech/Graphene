@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 
 public protocol OperationContext {
+    var mode: OperationMode { get }
     var operationName: String { get }
     var query: String { get }
     var jsonVariables: [String: Any?]? { get }
@@ -17,8 +18,9 @@ public protocol OperationContext {
 
 internal struct BatchOperationContextData: OperationContext {
 
-    var operationName: String
-    var query: String
+    let mode: OperationMode
+    let operationName: String
+    let query: String
     private let variables: [[String: Variable]]
 
     var jsonVariables: [String: Any?]? {
@@ -31,6 +33,7 @@ internal struct BatchOperationContextData: OperationContext {
     }
 
     init<O: GraphQLOperation>(operation: O.Type, operationContexts: [OperationContextData]) {
+        self.mode = operation.RootSchema.mode
         self.operationName = "Batch_" + O.operationName
         self.query = O.buildQuery()
         self.variables = operationContexts.filter({ !$0.variables.isEmpty }).map({ $0.variables })
@@ -49,6 +52,7 @@ internal struct BatchOperationContextData: OperationContext {
 
 internal struct OperationContextData: OperationContext {
 
+    public let mode: OperationMode
     public let operationName: String
     public let query: String
     fileprivate let variables: [String: Variable]
@@ -61,6 +65,7 @@ internal struct OperationContextData: OperationContext {
     }
 
     init<O: GraphQLOperation>(operation: O) {
+        self.mode = O.RootSchema.mode
         self.operationName = O.operationName
         self.query = O.buildQuery()
         self.variables = O.Variables.allKeys.reduce(into: [String: Variable](), {

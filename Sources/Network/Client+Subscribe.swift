@@ -26,9 +26,9 @@ extension Client {
         }
 
         let operationContext = OperationContextData(operation: operation)
-        return InternalSubscribeRequest<O>(context: operationContext,
+        return InternalSubscribeRequest<O>(client: self,
+                                           context: operationContext,
                                            queue: queue,
-                                           config: self.configuration,
                                            registerClosure: subscriptionManager.register(_:),
                                            deregisterClosure: subscriptionManager.deregister(_:))
     }

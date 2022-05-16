@@ -57,3 +57,12 @@ public protocol GrapheneRequest {
     var task: URLSessionTask? { get }
     func cancel()
 }
+
+public struct GrapheneResponse {
+    public let context: OperationContext
+    public let request: URLRequest?
+    public let response: HTTPURLResponse?
+    public let error: Error?
+    public let data: Data?
+    public let metrics: URLSessionTaskMetrics?
+}

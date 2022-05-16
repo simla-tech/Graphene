@@ -19,6 +19,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
 
     public let onValue = PassthroughSubject<O.Value, Never>()
 
+    internal weak var client: Client?
     internal let uuid = UUID()
     internal var needsToRegister: Bool = true
     internal var isRegistered: Bool = false
@@ -30,23 +31,24 @@ public class SubscribeRequest<O: GraphQLOperation> {
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
     internal let monitor: CompositeGrapheneEventMonitor
-    public var request: URLRequest? { nil }
-    public var task: URLSessionTask? { nil }
+    public var request: URLRequest? { self.client?.subscriptionManager?.websockerRequest?.request }
+    public var task: URLSessionTask? { self.client?.subscriptionManager?.websockerRequest?.task }
 
-    init(context: OperationContext,
+    init(client: Client,
+         context: OperationContext,
          queue: DispatchQueue,
-         config: Client.Configuration,
          registerClosure: @escaping (SubscriptionOperation) -> Void,
          deregisterClosure: @escaping (SubscriptionOperation) -> Void) {
+        self.client = client
         self.context = context
         self.queue = queue
         self.registerClosure = registerClosure
         self.deregisterClosure = deregisterClosure
-        self.errorModifier = config.errorModifier
-        self.monitor = CompositeGrapheneEventMonitor(monitors: config.eventMonitors)
+        self.errorModifier = client.configuration.errorModifier
+        self.monitor = CompositeGrapheneEventMonitor(monitors: client.configuration.eventMonitors)
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = config.keyDecodingStrategy
-        decoder.dateDecodingStrategy = config.dateDecodingStrategy
+        decoder.keyDecodingStrategy = client.configuration.keyDecodingStrategy
+        decoder.dateDecodingStrategy = client.configuration.dateDecodingStrategy
         decoder.userInfo[.operationName] = context.operationName
         self.decoder = decoder
     }
@@ -91,10 +93,27 @@ extension InternalSubscribeRequest: SubscriptionOperation {
         }
         switch O.mapResponse(responseResult) {
         case .success(let value):
+            if let client = self.client {
+                let response = GrapheneResponse(context: self.context,
+                                                request: self.request,
+                                                response: nil,
+                                                error: nil,
+                                                data: rawValue,
+                                                metrics: client.subscriptionManager?.websockerRequest?.metrics)
+                self.monitor.client(client, didRecieve: response)
+            }
             self.onValue.send(value)
         case .failure(let error):
             let modifiedError = self.errorModifier?(error) ?? error
-            self.monitor.client(didExecute: self, response: nil, error: modifiedError, data: rawValue, metrics: nil)
+            if let client = self.client {
+                let response = GrapheneResponse(context: self.context,
+                                                request: self.request,
+                                                response: nil,
+                                                error: modifiedError,
+                                                data: rawValue,
+                                                metrics: client.subscriptionManager?.websockerRequest?.metrics)
+                self.monitor.client(client, didRecieve: response)
+            }
         }
     }
 

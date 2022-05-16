@@ -12,6 +12,7 @@ public class Client: NSObject {
 
     internal let alamofireSession: Alamofire.Session
 
+    public var session: URLSession { self.alamofireSession.session }
     public let configuration: Configuration
     public var url: URLConvertible
     public var batchUrl: URLConvertible?
