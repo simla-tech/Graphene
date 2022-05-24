@@ -96,7 +96,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
                                                         error: modifiedError,
                                                         data: dataResponse.data,
                                                         metrics: dataResponse.metrics)
-                        self.monitor.client(client, didRecieve: response)
+                        self.monitor.client(client, didReceive: response)
                     }
                     self.closureStorage.failureClosure?(modifiedError)
                 case .success(let result):
@@ -107,7 +107,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
                                                         error: nil,
                                                         data: dataResponse.data,
                                                         metrics: dataResponse.metrics)
-                        self.monitor.client(client, didRecieve: response)
+                        self.monitor.client(client, didReceive: response)
                     }
                     self.closureStorage.successClosure?(result)
                 }

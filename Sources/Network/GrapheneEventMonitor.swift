@@ -11,20 +11,20 @@ import os.log
 
 public protocol GrapheneEventMonitor: EventMonitor {
     func client(_ client: Client, willSend request: GrapheneRequest)
-    func client(_ client: Client, didRecieve response: GrapheneResponse)
+    func client(_ client: Client, didReceive response: GrapheneResponse)
 }
 
 public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMonitor {
 
     open var clientWillSendRequest: ((Client, GrapheneRequest) -> Void)?
-    open var clientDidRecieveResponse: ((Client, GrapheneResponse) -> Void)?
+    open var clientDidReceiveResponse: ((Client, GrapheneResponse) -> Void)?
 
     public func client(_ client: Client, willSend request: GrapheneRequest) {
         self.clientWillSendRequest?(client, request)
     }
 
-    public func client(_ client: Client, didRecieve response: GrapheneResponse) {
-        self.clientDidRecieveResponse?(client, response)
+    public func client(_ client: Client, didReceive response: GrapheneResponse) {
+        self.clientDidReceiveResponse?(client, response)
     }
 
 }
@@ -51,8 +51,8 @@ final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
         performEvent { $0.client(client, willSend: request) }
     }
 
-    public func client(_ client: Client, didRecieve response: GrapheneResponse) {
-        performEvent { $0.client(client, didRecieve: response) }
+    public func client(_ client: Client, didReceive response: GrapheneResponse) {
+        performEvent { $0.client(client, didReceive: response) }
     }
 
 }

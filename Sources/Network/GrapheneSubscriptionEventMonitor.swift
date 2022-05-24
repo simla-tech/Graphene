@@ -109,7 +109,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     open var managerWillEstablishConnection: ((SubscriptionManager) -> Void)?
     open var managerDidEstablishConnection: ((SubscriptionManager) -> Void)?
 
-    open var managerRecievedError: ((SubscriptionManager, Error, OperationContext?) -> Void)?
+    open var managerReceivedError: ((SubscriptionManager, Error, OperationContext?) -> Void)?
     open var managerKeepAlive: ((SubscriptionManager) -> Void)?
 
     open var managerWillRegisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
@@ -118,7 +118,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     open var managerWillDeregisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
     open var managerDidDeregisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
 
-    open var managerRecievedData: ((SubscriptionManager, Int, OperationContext) -> Void)?
+    open var managerReceivedData: ((SubscriptionManager, Int, OperationContext) -> Void)?
 
     open var managerWillDisconnect: ((SubscriptionManager, URLSessionWebSocketTask.CloseCode) -> Void)?
     open var managerDidDisconnect: ((SubscriptionManager, URLSessionWebSocketTask.CloseCode, Error?) -> Void)?
@@ -142,7 +142,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     }
 
     public func manager(_ manager: SubscriptionManager, recievedError error: Error, for context: OperationContext?) {
-        self.managerRecievedError?(manager, error, context)
+        self.managerReceivedError?(manager, error, context)
     }
 
     public func managerKeepAlive(_ manager: SubscriptionManager) {
@@ -170,7 +170,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     }
 
     public func manager(_ manager: SubscriptionManager, recievedData size: Int, for context: OperationContext) {
-        self.managerRecievedData?(manager, size, context)
+        self.managerReceivedData?(manager, size, context)
     }
 
     public func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {

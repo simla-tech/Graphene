@@ -100,7 +100,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
                                                 error: nil,
                                                 data: rawValue,
                                                 metrics: client.subscriptionManager?.websockerRequest?.metrics)
-                self.monitor.client(client, didRecieve: response)
+                self.monitor.client(client, didReceive: response)
             }
             self.onValue.send(value)
         case .failure(let error):
@@ -112,7 +112,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
                                                 error: modifiedError,
                                                 data: rawValue,
                                                 metrics: client.subscriptionManager?.websockerRequest?.metrics)
-                self.monitor.client(client, didRecieve: response)
+                self.monitor.client(client, didReceive: response)
             }
         }
     }
