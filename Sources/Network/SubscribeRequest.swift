@@ -26,7 +26,7 @@ public class SubscribeRequest<O: GraphQLOperation> {
     internal let errorModifier: Client.Configuration.ErrorModifier?
 
     internal let queue: DispatchQueue
-    internal var isSendedToRegistration: Bool = false
+    internal var isSentToRegistration: Bool = false
     internal let deregisterClosure: (SubscriptionOperation) -> Void
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
@@ -54,8 +54,8 @@ public class SubscribeRequest<O: GraphQLOperation> {
     }
 
     public func resume() {
-        guard !self.isSendedToRegistration else { return }
-        self.isSendedToRegistration = true
+        guard !self.isSentToRegistration else { return }
+        self.isSentToRegistration = true
         self.registerClosure(self as! SubscriptionOperation)
     }
 
