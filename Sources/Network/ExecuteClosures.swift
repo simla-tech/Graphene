@@ -10,7 +10,7 @@ import Foundation
 
 internal struct ExecuteClosureStorage<T> {
 
-    typealias SuccessClosure = (T) -> Void
+    typealias SuccessClosure = (T) throws -> Void
     typealias ProgressClosure = (Double) -> Void
     typealias FailureClosure = (Error) -> Void
     typealias FinishClosure = () -> Void
@@ -24,7 +24,7 @@ internal struct ExecuteClosureStorage<T> {
 
 public protocol SuccessableRequest: ProgressableRequest {
     associatedtype ResultValue
-    typealias SuccessClosure = (ResultValue) -> Void
+    typealias SuccessClosure = (ResultValue) throws -> Void
 
     @discardableResult
     func onSuccess(_ closure: @escaping SuccessClosure) -> ProgressableRequest

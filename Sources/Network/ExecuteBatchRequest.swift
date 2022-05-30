@@ -86,20 +86,8 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
 
         self.queue.async {
             if !self.muteCanceledRequests || !self.alamofireRequest.isCancelled {
-                switch result {
-                case .failure(let error):
-                    let modifiedError = self.errorModifier?(error) ?? error
-                    if let client = self.client {
-                        let response = GrapheneResponse(context: self.context,
-                                                        request: dataResponse.request,
-                                                        response: dataResponse.response,
-                                                        error: modifiedError,
-                                                        data: dataResponse.data,
-                                                        metrics: dataResponse.metrics)
-                        self.monitor.client(client, didReceive: response)
-                    }
-                    self.closureStorage.failureClosure?(modifiedError)
-                case .success(let result):
+                do {
+                    try self.closureStorage.successClosure?(result.get())
                     if let client = self.client {
                         let response = GrapheneResponse(context: self.context,
                                                         request: dataResponse.request,
@@ -109,7 +97,18 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
                                                         metrics: dataResponse.metrics)
                         self.monitor.client(client, didReceive: response)
                     }
-                    self.closureStorage.successClosure?(result)
+                } catch {
+                    let modifiedError = self.errorModifier?(error) ?? error
+                    self.closureStorage.failureClosure?(modifiedError)
+                    if let client = self.client {
+                        let response = GrapheneResponse(context: self.context,
+                                                        request: dataResponse.request,
+                                                        response: dataResponse.response,
+                                                        error: modifiedError,
+                                                        data: dataResponse.data,
+                                                        metrics: dataResponse.metrics)
+                        self.monitor.client(client, didReceive: response)
+                    }
                 }
                 self.closureStorage.finishClosure?()
             }
