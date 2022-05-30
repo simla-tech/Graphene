@@ -1,5 +1,5 @@
 //
-//  IfPresent.swift
+//  GraphQLField.swift
 //  Graphene
 //
 //  Created by Ilya Kharlamov on 12.10.2021.
@@ -8,20 +8,20 @@
 
 import Foundation
 
-private func ifPresentErrorString(operationName: String?, path: String) -> String {
+private func graphQLFieldUnwrapErrorString(operationName: String?, path: String) -> String {
     var result = path
     if let operationName = operationName {
         result += " from \"\(operationName)\" operation"
     }
-    return "Value at path \(result) doen't exists"
+    return "Value at path \(result) doesn't exists"
 }
 
-public enum IfPresent<Wrapped> {
+public enum GraphQLField<Wrapped> {
 
     case some(Wrapped)
     case empty(operationName: String?, path: String)
 
-    public func map<U>(_ transform: (Wrapped) throws -> U) rethrows -> IfPresent<U> {
+    public func map<U>(_ transform: (Wrapped) throws -> U) rethrows -> GraphQLField<U> {
         switch self {
         case .empty(let operationName, let path):
             return .empty(operationName: operationName, path: path)
@@ -35,7 +35,7 @@ public enum IfPresent<Wrapped> {
         case .some(let value):
             return value
         case .empty(let operationName, let path):
-            fatalError(ifPresentErrorString(operationName: operationName, path: path))
+            fatalError(graphQLFieldUnwrapErrorString(operationName: operationName, path: path))
         }
     }
 
@@ -51,7 +51,7 @@ public enum IfPresent<Wrapped> {
     public func get(function: StaticString = #function, file: StaticString  = #file, line: UInt  = #line) throws -> Wrapped {
         switch self {
         case .empty(let operationName, let path):
-            throw IfPresentError(operationName: operationName, path: path, function: function, file: file, line: line)
+            throw GraphQLFieldUnwrapError(operationName: operationName, path: path, function: function, file: file, line: line)
         case .some(let wrapped):
             return wrapped
         }
@@ -59,7 +59,7 @@ public enum IfPresent<Wrapped> {
 
 }
 
-public struct IfPresentError: LocalizedError, CustomNSError {
+public struct GraphQLFieldUnwrapError: LocalizedError, CustomNSError {
 
     public let operationName: String?
     public let path: String
@@ -68,7 +68,7 @@ public struct IfPresentError: LocalizedError, CustomNSError {
     public let line: UInt
 
     public var errorDescription: String? {
-        return ifPresentErrorString(operationName: self.operationName, path: self.path)
+        return graphQLFieldUnwrapErrorString(operationName: self.operationName, path: self.path)
     }
 
     public var errorUserInfo: [String: Any] {
@@ -83,14 +83,14 @@ public struct IfPresentError: LocalizedError, CustomNSError {
 
 }
 
-private extension IfPresent {
+private extension GraphQLField {
     struct EmptyInfo: Codable {
         let operationName: String?
         let path: String
     }
 }
 
-extension IfPresent: Decodable where Wrapped: Decodable {
+extension GraphQLField: Decodable where Wrapped: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         do {
@@ -105,7 +105,7 @@ extension IfPresent: Decodable where Wrapped: Decodable {
     }
 }
 
-extension IfPresent: Encodable where Wrapped: Encodable {
+extension GraphQLField: Encodable where Wrapped: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
@@ -117,13 +117,13 @@ extension IfPresent: Encodable where Wrapped: Encodable {
     }
 }
 
-extension IfPresent: Equatable where Wrapped: Hashable {
-    public static func == (lhs: IfPresent<Wrapped>, rhs: IfPresent<Wrapped>) -> Bool {
+extension GraphQLField: Equatable where Wrapped: Hashable {
+    public static func == (lhs: GraphQLField<Wrapped>, rhs: GraphQLField<Wrapped>) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
 }
 
-extension IfPresent: Hashable where Wrapped: Hashable {
+extension GraphQLField: Hashable where Wrapped: Hashable {
     public func hash(into hasher: inout Hasher) {
         switch self {
         case .some(let value):
@@ -134,7 +134,7 @@ extension IfPresent: Hashable where Wrapped: Hashable {
     }
 }
 
-extension IfPresent: CustomStringConvertible {
+extension GraphQLField: CustomStringConvertible {
     public var description: String {
         switch self {
         case .some(let wrapped):
@@ -146,7 +146,7 @@ extension IfPresent: CustomStringConvertible {
 }
 
 extension KeyedDecodingContainer {
-    public func decode<T>(_ type: IfPresent<T>.Type, forKey key: K) throws -> IfPresent<T> where T: Decodable {
+    public func decode<T>(_ type: GraphQLField<T>.Type, forKey key: K) throws -> GraphQLField<T> where T: Decodable {
         if let value = try decodeIfPresent(type, forKey: key) {
             return value
         } else {
