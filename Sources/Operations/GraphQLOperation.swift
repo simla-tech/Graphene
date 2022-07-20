@@ -74,7 +74,7 @@ extension GraphQLOperation {
         return ["data", Self.decodePath(of: ResponseValue.self)].compactMap({ $0 }).joined(separator: ".")
     }
 
-    internal static func buildQuery() -> String {
+    public static func buildQuery() -> String {
         var query = "\(RootSchema.mode.rawValue) \(self.operationName)"
         if !Variables.allKeys.isEmpty {
             let variablesStrCompact = Variables.allKeys.map { variable -> String in
