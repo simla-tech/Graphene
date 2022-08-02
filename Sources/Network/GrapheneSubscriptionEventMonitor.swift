@@ -26,8 +26,7 @@ public protocol GrapheneSubscriptionEventMonitor {
     func manager(_ manager: SubscriptionManager, willRegisterSubscription context: OperationContext)
     func manager(_ manager: SubscriptionManager, didRegisterSubscription context: OperationContext)
 
-    func manager(_ manager: SubscriptionManager, recievedData size: Int, for context: OperationContext)
-    func manager(_ manager: SubscriptionManager, recievedError error: Error, for context: OperationContext?)
+    func manager(_ manager: SubscriptionManager, receivedError error: Error, for context: OperationContext?)
 
     func manager(_ manager: SubscriptionManager, willDeregisterSubscription context: OperationContext)
     func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext)
@@ -59,8 +58,8 @@ extension GrapheneSubscriptionEventMonitor {
         os_log("[GrapheneSubscriptionEventMonitor] Manager successfully establish connection")
     }
 
-    public func manager(_ manager: SubscriptionManager, recievedError error: Error, for context: OperationContext?) {
-        os_log("[GrapheneSubscriptionEventMonitor] Manager recieved error: %@", error.localizedDescription)
+    public func manager(_ manager: SubscriptionManager, receivedError error: Error, for context: OperationContext?) {
+        os_log("[GrapheneSubscriptionEventMonitor] Manager received error: %@", error.localizedDescription)
     }
 
     public func managerKeepAlive(_ manager: SubscriptionManager) {
@@ -73,10 +72,6 @@ extension GrapheneSubscriptionEventMonitor {
 
     public func manager(_ manager: SubscriptionManager, didRegisterSubscription context: OperationContext) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager successfully register subscription \"%@\"", context.operationName)
-    }
-
-    public func manager(_ manager: SubscriptionManager, recievedData size: Int, for context: OperationContext) {
-        os_log("[GrapheneSubscriptionEventMonitor] Manager recieved data (%d bytes) for subscription %@", size, context.operationName)
     }
 
     public func manager(_ manager: SubscriptionManager, willDeregisterSubscription context: OperationContext) {
@@ -118,7 +113,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
     open var managerWillDeregisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
     open var managerDidDeregisterSubscription: ((SubscriptionManager, OperationContext) -> Void)?
 
-    open var managerReceivedData: ((SubscriptionManager, Int, OperationContext) -> Void)?
+    open var managerReceivedData: ((SubscriptionManager, Data, OperationContext) -> Void)?
 
     open var managerWillDisconnect: ((SubscriptionManager, URLSessionWebSocketTask.CloseCode) -> Void)?
     open var managerDidDisconnect: ((SubscriptionManager, URLSessionWebSocketTask.CloseCode, Error?) -> Void)?
@@ -141,7 +136,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
         self.managerDidEstablishConnection?(manager)
     }
 
-    public func manager(_ manager: SubscriptionManager, recievedError error: Error, for context: OperationContext?) {
+    public func manager(_ manager: SubscriptionManager, receivedError error: Error, for context: OperationContext?) {
         self.managerReceivedError?(manager, error, context)
     }
 
@@ -167,10 +162,6 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
 
     public func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext) {
         self.managerDidDeregisterSubscription?(manager, context)
-    }
-
-    public func manager(_ manager: SubscriptionManager, recievedData size: Int, for context: OperationContext) {
-        self.managerReceivedData?(manager, size, context)
     }
 
     public func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {
@@ -217,8 +208,8 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
         performEvent { $0.managerDidEstablishConnection(manager) }
     }
 
-    func manager(_ manager: SubscriptionManager, recievedError error: Error, for context: OperationContext?) {
-        performEvent { $0.manager(manager, recievedError: error, for: context) }
+    func manager(_ manager: SubscriptionManager, receivedError error: Error, for context: OperationContext?) {
+        performEvent { $0.manager(manager, receivedError: error, for: context) }
     }
 
     func managerKeepAlive(_ manager: SubscriptionManager) {
@@ -239,10 +230,6 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
 
     func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext) {
         performEvent { $0.manager(manager, didDeregisterSubscription: context) }
-    }
-
-    func manager(_ manager: SubscriptionManager, recievedData size: Int, for context: OperationContext) {
-        performEvent { $0.manager(manager, recievedData: size, for: context) }
     }
 
     func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {

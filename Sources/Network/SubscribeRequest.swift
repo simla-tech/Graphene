@@ -18,6 +18,8 @@ public class SubscribeRequest<O: GraphQLOperation> {
     @Published internal(set) public var state: SubscriptionState = .disconnected(.code(.invalid))
 
     public let onValue = PassthroughSubject<O.Value, Never>()
+    public var request: URLRequest? { self.client?.subscriptionManager?.request }
+    public var task: URLSessionTask? { self.client?.subscriptionManager?.task }
 
     internal weak var client: Client?
     internal let uuid = UUID()
@@ -31,8 +33,6 @@ public class SubscribeRequest<O: GraphQLOperation> {
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
     internal let monitor: CompositeGrapheneEventMonitor
-    public var request: URLRequest? { self.client?.subscriptionManager?.websockerRequest?.request }
-    public var task: URLSessionTask? { self.client?.subscriptionManager?.websockerRequest?.task }
 
     init(client: Client,
          context: OperationContext,
@@ -99,7 +99,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
                                                 response: nil,
                                                 error: nil,
                                                 data: rawValue,
-                                                metrics: client.subscriptionManager?.websockerRequest?.metrics)
+                                                metrics: client.subscriptionManager?.webSocketRequest?.metrics)
                 self.monitor.client(client, didReceive: response)
             }
             self.onValue.send(value)
@@ -111,7 +111,7 @@ extension InternalSubscribeRequest: SubscriptionOperation {
                                                 response: nil,
                                                 error: modifiedError,
                                                 data: rawValue,
-                                                metrics: client.subscriptionManager?.websockerRequest?.metrics)
+                                                metrics: client.subscriptionManager?.webSocketRequest?.metrics)
                 self.monitor.client(client, didReceive: response)
             }
         }

@@ -9,7 +9,7 @@ import Foundation
 
 // Source:
 // https://github.com/0111b/JSONDecoder-Keypath/blob/master/Sources/JSONDecoder-Keypath/JSONDecoder_Keypath.swift
-internal extension JSONDecoder {
+public extension JSONDecoder {
 
     /// Decode value at the keypath of the given type from the given JSON representation
     ///

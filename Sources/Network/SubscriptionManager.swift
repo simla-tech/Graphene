@@ -48,9 +48,9 @@ public class SubscriptionManager: NSObject {
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
-    var session: Alamofire.Session!
+    var alamofireSession: Alamofire.Session!
     var headers: HTTPHeaders!
-    var websockerRequest: WebSocketRequest?
+    var webSocketRequest: WebSocketRequest?
 
     @Published public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
     private var subscribeOperations: [SubscriptionOperation] = []
@@ -59,6 +59,9 @@ public class SubscriptionManager: NSObject {
     private var pingDispatchWorkItem: DispatchWorkItem?
     private let pingQueue = DispatchQueue(label: "com.graphene.pingQueue", qos: .background)
     private let eventQueue = DispatchQueue(label: "com.graphene.eventQueue", qos: .background)
+    public var request: URLRequest? { self.webSocketRequest?.request }
+    public var task: URLSessionTask? { self.webSocketRequest?.task }
+    public var session: URLSession { self.alamofireSession.session }
 
     public init(configuration: Client.SubscriptionConfiguration) {
         self.url = configuration.url
@@ -72,13 +75,13 @@ public class SubscriptionManager: NSObject {
 
     @objc private func ping() {
         guard self.state == .connected,
-              let task = self.websockerRequest?.lastTask as? URLSessionWebSocketTask else { return }
+              let task = self.webSocketRequest?.lastTask as? URLSessionWebSocketTask else { return }
 
         let semaphore = DispatchSemaphore(value: 0)
         task.sendPing { error in
             semaphore.signal()
             if let error = error {
-                self.monitor.manager(self, recievedError: error, for: nil)
+                self.monitor.manager(self, receivedError: error, for: nil)
                 self.disconnect(with: .tlsHandshakeFailure)
             }
             self.pingDispatchWorkItem = DispatchWorkItem(block: self.ping)
@@ -90,7 +93,7 @@ public class SubscriptionManager: NSObject {
     }
 
     public func resume() {
-        if self.session == nil {
+        if self.alamofireSession == nil {
             fatalError("You have to init Client(subscriptionManager:) firstly")
         }
         self.connect(isReconnect: false)
@@ -124,20 +127,20 @@ public class SubscriptionManager: NSObject {
         }
         self.state = .connecting
         self.monitor.manager(self, willConnectTo: self.url)
-        if self.websockerRequest == nil || self.websockerRequest?.state == .finished || self.websockerRequest?.state == .cancelled {
+        if self.webSocketRequest == nil || self.webSocketRequest?.state == .finished || self.webSocketRequest?.state == .cancelled {
             var request = URLRequest(url: self.url)
             request.headers = self.headers
-            self.websockerRequest = self.session
+            self.webSocketRequest = self.alamofireSession
                 .websocketRequest(request, protocol: self.socketProtocol)
                 .responseMessage(on: self.eventQueue, handler: self.eventHandler(_:))
         }
-        self.websockerRequest?.resume()
+        self.webSocketRequest?.resume()
     }
 
     private func disconnect(with code: URLSessionWebSocketTask.CloseCode) {
         guard !self.state.isDisconnected else { return }
         self.monitor.manager(self, willDisconnectWithCode: code)
-        self.websockerRequest?.cancel(with: code, reason: nil)
+        self.webSocketRequest?.cancel(with: code, reason: nil)
     }
 
     internal func register(_ subscriptionOperation: SubscriptionOperation) {
@@ -163,7 +166,7 @@ public class SubscriptionManager: NSObject {
                 let message = ClientSystemMessage(type: .stop, id: subscriptionOperation.uuid)
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
-                self.websockerRequest?.send(webSocketMessage, completionHandler: { _ in
+                self.webSocketRequest?.send(webSocketMessage, completionHandler: { _ in
                     self.monitor.manager(self, didDeregisterSubscription: subscriptionOperation.context)
                     subscriptionOperation.handleDeregisterComplete()
                 })
@@ -190,20 +193,20 @@ public class SubscriptionManager: NSObject {
             do {
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
-                self.websockerRequest?.send(webSocketMessage, completionHandler: { result in
+                self.webSocketRequest?.send(webSocketMessage, completionHandler: { result in
                     switch result {
                     case .success:
                         self.monitor.manager(self, didRegisterSubscription: subscriptionOperation.context)
                         subscriptionOperation.updateState(.connected, needsToRegister: false, isRegistered: true)
 
                     case .failure(let error):
-                        self.monitor.manager(self, recievedError: error, for: subscriptionOperation.context)
+                        self.monitor.manager(self, receivedError: error, for: subscriptionOperation.context)
                         subscriptionOperation.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
 
                     }
                 })
             } catch {
-                self.monitor.manager(self, recievedError: error, for: subscriptionOperation.context)
+                self.monitor.manager(self, receivedError: error, for: subscriptionOperation.context)
                 subscriptionOperation.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
             }
         }
@@ -225,7 +228,6 @@ public class SubscriptionManager: NSObject {
 
             case .data:
                 if let serverId = serverMessage.id, let operation = self.subscribeOperations.first(where: { $0.uuid == serverId }) {
-                    self.monitor.manager(self, recievedData: data.count, for: operation.context)
                     operation.handleRawValue(data)
                 } else {
                     assertionFailure("Can't find operation for data message \"\(String(data: data, encoding: .utf8) ?? String(describing: data))\"")
@@ -241,7 +243,7 @@ public class SubscriptionManager: NSObject {
                     }
                 } catch {
                     let operation = self.subscribeOperations.first(where: { $0.uuid == serverMessage.id })
-                    self.monitor.manager(self, recievedError: error, for: operation?.context)
+                    self.monitor.manager(self, receivedError: error, for: operation?.context)
                     operation?.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
                 }
 
@@ -256,7 +258,7 @@ public class SubscriptionManager: NSObject {
                     throw GrapheneError.connection(connectionError.message)
                 } catch {
                     let operation = self.subscribeOperations.first(where: { $0.uuid == serverMessage.id })
-                    self.monitor.manager(self, recievedError: error, for: operation?.context)
+                    self.monitor.manager(self, receivedError: error, for: operation?.context)
                     operation?.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
                 }
 
@@ -267,7 +269,7 @@ public class SubscriptionManager: NSObject {
                let idRaw = json["id"] as? String, let serverId = UUID(uuidString: idRaw) {
                 context = self.subscribeOperations.first(where: { $0.uuid == serverId })?.context
             }
-            self.monitor.manager(self, recievedError: error, for: context)
+            self.monitor.manager(self, receivedError: error, for: context)
         }
     }
 
@@ -285,9 +287,9 @@ public class SubscriptionManager: NSObject {
                 let message = ClientSystemMessage(type: .connectionInit, id: nil)
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
-                self.websockerRequest?.send(webSocketMessage, completionHandler: { result in
+                self.webSocketRequest?.send(webSocketMessage, completionHandler: { result in
                     if case .failure(let error) = result {
-                        self.monitor.manager(self, recievedError: error, for: nil)
+                        self.monitor.manager(self, receivedError: error, for: nil)
                     }
                 })
             } catch {
@@ -314,12 +316,12 @@ public class SubscriptionManager: NSObject {
 
         case .completed:
             self.pingDispatchWorkItem?.cancel()
-            let closeCode = (self.websockerRequest?.lastTask as? URLSessionWebSocketTask)?.closeCode ?? .invalid
-            let error = self.websockerRequest?.error?.underlyingError ?? self.websockerRequest?.error
+            let closeCode = (self.webSocketRequest?.lastTask as? URLSessionWebSocketTask)?.closeCode ?? .invalid
+            let error = self.webSocketRequest?.error?.underlyingError ?? self.webSocketRequest?.error
             var reason: SocketDisconnectReason = .code(closeCode)
 
             var willReconnect: Bool
-            if let error = self.websockerRequest?.error {
+            if let error = self.webSocketRequest?.error {
                 willReconnect = error.isSessionTaskError
             } else {
                 willReconnect = closeCode != .normalClosure && closeCode  != .invalid

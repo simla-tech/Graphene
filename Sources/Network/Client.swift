@@ -18,7 +18,7 @@ public class Client: NSObject {
     public var batchUrl: URLConvertible?
     public let subscriptionManager: SubscriptionManager?
 
-    /// Create graphus client
+    /// Create Graphene client
     public init(url: URLConvertible,
                 batchUrl: URLConvertible? = nil,
                 subscriptionManager: SubscriptionManager? = nil,
@@ -35,7 +35,7 @@ public class Client: NSObject {
                                         eventMonitors: configuration.eventMonitors)
         self.alamofireSession = session
         self.subscriptionManager = subscriptionManager
-        self.subscriptionManager?.session = session
+        self.subscriptionManager?.alamofireSession = session
         self.subscriptionManager?.headers = self.configuration.prepareHttpHeaders()
     }
 
