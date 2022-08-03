@@ -8,7 +8,12 @@
 import Foundation
 
 public protocol QueryVariables {
+    var encodeNull: Bool { get }
     static var allKeys: [PartialKeyPath<Self>] { get }
+}
+
+public extension QueryVariables {
+    var encodeNull: Bool { false }
 }
 
 public protocol OperationSchema: Queryable {

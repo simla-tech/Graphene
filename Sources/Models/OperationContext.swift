@@ -69,7 +69,9 @@ internal struct OperationContextData: OperationContext {
         self.operationName = O.operationName
         self.query = O.buildQuery()
         self.variables = O.Variables.allKeys.reduce(into: [String: Variable](), {
-            $0[$1.identifier] = operation.variables[keyPath: $1] as? Variable
+            guard let value = operation.variables[keyPath: $1] as? Variable else { return }
+            if !operation.variables.encodeNull, value.json == nil { return }
+            $0[$1.identifier] = value
         })
     }
 
