@@ -11,26 +11,25 @@ import Alamofire
 
 public class GrapheneInspector {
 
-    public let host: String
-    public let port: Int?
+    public let url: Alamofire.URLConvertible
     public let graphRef: String
     public let session: Alamofire.Session
 
-    public init(host: String, port: Int? = nil, graphRef: String) {
-        self.host = host
-        self.port = port
+    public init(url: Alamofire.URLConvertible, graphRef: String) {
+        self.url = url
         self.graphRef = graphRef
         self.session = Alamofire.Session(rootQueue: DispatchQueue(label: "com.graphene.GrapheneInspector"))
     }
 
     public func validate<O: GraphQLOperation>(_ operationType: O.Type, completion: @escaping (Result<Response, Error>) -> Void) {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "http"
-        urlComponents.host = self.host
-        urlComponents.port = self.port
-        urlComponents.path = "/validate"
-        urlComponents.queryItems = [URLQueryItem(name: "graphRef", value: self.graphRef)]
         do {
+            let url = try self.url.asURL()
+            guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+                completion(.failure(AFError.invalidURL(url: self.url)))
+                return
+            }
+            urlComponents.path = "/validate"
+            urlComponents.queryItems = [URLQueryItem(name: "graphRef", value: self.graphRef)]
             try self.session.request(
                 urlComponents.asURL(),
                 method: .post,
