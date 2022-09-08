@@ -71,10 +71,11 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
 
         let result = O.mapResponse(dataResponse.result.mapError({ $0.underlyingError ?? $0 }))
 
-        self.queue.sync {
+        self.queue.async {
             if !self.muteCanceledRequests || !self.alamofireRequest.isCancelled {
                 do {
-                    try self.closureStorage.successClosure?(result.get())
+                    let result = try result.get()
+                    try self.closureStorage.successClosure?(result)
                     if let client = self.client {
                         let response = GrapheneResponse(context: self.context,
                                                         request: dataResponse.request,
