@@ -50,7 +50,6 @@ public protocol GraphQLOperation {
 
     var variables: Variables { get }
 
-    // periphery:ignore:parameters decodable
     static func decodePath(of decodable: ResponseValue.Type) -> String?
 
     static func mapResponse(_ response: Result<ResponseValue, Error>) -> Result<Value, Error>

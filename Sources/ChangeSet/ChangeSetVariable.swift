@@ -7,7 +7,6 @@
 
 import Foundation
 
-// periphery:ignore
 struct ChangeSetVariable: EncodableVariable {
 
     let variable: EncodableVariable
