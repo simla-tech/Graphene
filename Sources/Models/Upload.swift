@@ -17,9 +17,9 @@ public struct Upload: Codable, Variable {
         self.name = name
     }
 
-    public init(url: URL) throws {
+    public init(url: URL, name: String? = nil) throws {
         let fileData = try NSData(contentsOf: url, options: []) as Data
-        self.init(fileData, name: url.lastPathComponent)
+        self.init(fileData, name: name ?? url.lastPathComponent)
     }
 
     public var json: Any? {
