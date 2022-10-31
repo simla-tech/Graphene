@@ -146,16 +146,19 @@ extension GraphQLField: CustomStringConvertible {
 }
 
 extension KeyedDecodingContainer {
+
     public func decode<T>(_ type: GraphQLField<T>.Type, forKey key: K) throws -> GraphQLField<T> where T: Decodable {
-        if let value = try decodeIfPresent(type, forKey: key) {
-            return value
-        } else {
+        do {
+            return .some(try decode(T.self, forKey: key))
+        } catch DecodingError.keyNotFound(let key, _) {
             let userInfo = try? self.superDecoder().userInfo
             let path = (self.codingPath + [key]).map({ key -> String in
                 if key.intValue != nil { return "[*]" }
                 return key.stringValue
             }).joined(separator: ".")
             return .empty(operationName: userInfo?[.operationName] as? String, path: path)
+        } catch {
+            throw error
         }
     }
 }
