@@ -13,10 +13,8 @@ public protocol AnyChangeSetIdentifiable {
 
 public protocol ChangeSetIdentifiable: AnyChangeSetIdentifiable {
 
-    /// A type representing the stable identity of the entity associated with
-    /// an instance.
-    // swiftlint:disable colon
-    associatedtype ID : Hashable
+    /// A type representing the stable identity of the entity associated with an instance.
+    associatedtype ID: Hashable
 
     /// The stable identity of the entity associated with this instance.
     var id: Self.ID { get }

@@ -19,7 +19,7 @@ public class QueryContainer<T: Queryable> {
         self.fields.append(AnyFragment(fragment))
     }
 
-    public static func +=<F: Fragment> (left: QueryContainer<T>, right: F.Type) where F.FragmentModel == T {
+    public static func += <F: Fragment>(left: QueryContainer<T>, right: F.Type) where F.FragmentModel == T {
         left.append(right)
     }
 
