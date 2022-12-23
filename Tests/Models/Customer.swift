@@ -20,12 +20,12 @@ public struct Customer: Decodable, Identifiable {
 extension Customer: Queryable {
 
     public class QueryKeys: QueryKey {
-        static let id           = QueryKeys(CodingKeys.id)
-        static let createdAt    = QueryKeys(CodingKeys.createdAt)
-        static let vip          = QueryKeys(CodingKeys.vip)
-        static let bad          = QueryKeys(CodingKeys.bad)
-        static let firstName    = QueryKeys(CodingKeys.firstName)
-        static let lastName     = QueryKeys(CodingKeys.lastName)
+        static let id = QueryKeys(CodingKeys.id)
+        static let createdAt = QueryKeys(CodingKeys.createdAt)
+        static let vip = QueryKeys(CodingKeys.vip)
+        static let bad = QueryKeys(CodingKeys.bad)
+        static let firstName = QueryKeys(CodingKeys.firstName)
+        static let lastName = QueryKeys(CodingKeys.lastName)
     }
 
 }

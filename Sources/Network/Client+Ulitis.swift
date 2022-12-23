@@ -6,23 +6,25 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
-internal extension Client {
+extension Client {
 
     func append(uploads: [String: Upload], to multipartFormData: MultipartFormData) {
-        let mapStr = uploads.enumerated().map({ (index, upload) -> String in
-            return "\"\(index)\": [\"\(upload.key)\"]"
+        let mapStr = uploads.enumerated().map({ index, upload -> String in
+            "\"\(index)\": [\"\(upload.key)\"]"
         }).joined(separator: ",")
         if let data = "{\(mapStr)}".data(using: .utf8) {
             multipartFormData.append(data, withName: "map")
         }
         for (index, upload) in uploads.enumerated() {
-            multipartFormData.append(upload.value.data,
-                                     withName: "\(index)",
-                                     fileName: upload.value.name,
-                                     mimeType: MimeType(path: upload.value.name).value)
+            multipartFormData.append(
+                upload.value.data,
+                withName: "\(index)",
+                fileName: upload.value.name,
+                mimeType: MimeType(path: upload.value.name).value
+            )
         }
     }
 
@@ -34,7 +36,11 @@ internal extension Client {
         return httpHeaders
     }
 
-    func prepareDataRequest<O: GraphQLOperation>(for type: O.Type, with multipartFormData: MultipartFormData, url: URLConvertible) -> UploadRequest {
+    func prepareDataRequest<O: GraphQLOperation>(
+        for type: O.Type,
+        with multipartFormData: MultipartFormData,
+        url: URLConvertible
+    ) -> UploadRequest {
 
         var dataRequest = self.alamofireSession.upload(
             multipartFormData: multipartFormData,

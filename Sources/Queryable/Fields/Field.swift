@@ -12,8 +12,8 @@ public protocol Field {
     func buildField() -> String
 }
 
-extension Field {
-    public func asKey<T: QueryKey>(_ type: T.Type = T.self) -> T {
-        return T.init(self)
+public extension Field {
+    func asKey<T: QueryKey>(_ type: T.Type = T.self) -> T {
+        T(self)
     }
 }

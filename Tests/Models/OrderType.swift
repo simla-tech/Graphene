@@ -19,11 +19,11 @@ public struct OrderType: Codable, Identifiable {
 extension OrderType: Queryable {
 
     public class QueryKeys: QueryKey {
-        static let id               = QueryKeys(CodingKeys.id)
-        static let name             = QueryKeys(CodingKeys.name)
-        static let active           = QueryKeys(CodingKeys.active)
-        static let defaultForCrm    = QueryKeys(CodingKeys.defaultForCrm)
-        static let defaultForApi    = QueryKeys(CodingKeys.defaultForApi)
+        static let id = QueryKeys(CodingKeys.id)
+        static let name = QueryKeys(CodingKeys.name)
+        static let active = QueryKeys(CodingKeys.active)
+        static let defaultForCrm = QueryKeys(CodingKeys.defaultForCrm)
+        static let defaultForApi = QueryKeys(CodingKeys.defaultForApi)
     }
 
 }

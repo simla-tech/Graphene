@@ -6,25 +6,31 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
-extension Client {
+public extension Client {
 
-    public func execute<O: GraphQLOperation>(_ operation: O,
-                                             queue: DispatchQueue = .main) -> ExecuteRequest<O> where O.RootSchema: MutationSchema {
-        return self.executeQuery(operation, queue: queue)
+    func execute<O: GraphQLOperation>(
+        _ operation: O,
+        queue: DispatchQueue = .main
+    ) -> ExecuteRequest<O> where O.RootSchema: MutationSchema {
+        self.executeQuery(operation, queue: queue)
     }
 
-    public func execute<O: GraphQLOperation>(_ operation: O,
-                                             queue: DispatchQueue = .main) -> ExecuteRequest<O> where O.RootSchema: QuerySchema {
-        return self.executeQuery(operation, queue: queue)
+    func execute<O: GraphQLOperation>(
+        _ operation: O,
+        queue: DispatchQueue = .main
+    ) -> ExecuteRequest<O> where O.RootSchema: QuerySchema {
+        self.executeQuery(operation, queue: queue)
     }
 
     private func executeQuery<O: GraphQLOperation>(_ operation: O, queue: DispatchQueue = .main) -> ExecuteRequest<O> {
 
         if O.RootSchema.mode == .subscription {
-            assertionFailure("You can't execute \"\(O.operationName)\" operation. \"\(String(describing: O.RootSchema.self))\" must have .query or .mutation mode")
+            assertionFailure(
+                "You can't execute \"\(O.operationName)\" operation. \"\(String(describing: O.RootSchema.self))\" must have .query or .mutation mode"
+            )
         }
 
         let operationContext = OperationContextData(operation: operation)
@@ -36,11 +42,13 @@ extension Client {
         self.append(uploads: operationContext.getUploads(), to: multipartFormData)
 
         let dataRequest = self.prepareDataRequest(for: O.self, with: multipartFormData, url: self.url)
-        return ExecuteRequest(client: self,
-                              alamofireRequest: dataRequest,
-                              decodePath: O.decodePath(of: O.ResponseValue.self),
-                              context: operationContext,
-                              queue: queue)
+        return ExecuteRequest(
+            client: self,
+            alamofireRequest: dataRequest,
+            decodePath: O.decodePath(of: O.ResponseValue.self),
+            context: operationContext,
+            queue: queue
+        )
     }
 
 }

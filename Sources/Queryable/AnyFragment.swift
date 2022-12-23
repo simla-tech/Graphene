@@ -14,7 +14,7 @@ internal struct AnyFragment: Field, Hashable {
     var childrenFields: [Field]
 
     func buildField() -> String {
-        return "...\(self.fragmentName)"
+        "...\(self.fragmentName)"
     }
 
     init<F: Fragment>(_ fragment: F.Type) {

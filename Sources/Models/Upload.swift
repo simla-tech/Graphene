@@ -23,7 +23,7 @@ public struct Upload: Codable, Variable {
     }
 
     public var json: Any? {
-        return nil
+        nil
     }
 
 }

@@ -5,9 +5,9 @@
 //  Created by Ilya Kharlamov on 28.01.2021.
 //
 
+import Alamofire
 import Foundation
 import Graphene
-import Alamofire
 
 public class GrapheneInspector {
 

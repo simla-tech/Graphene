@@ -22,14 +22,14 @@ public struct Contragent: Decodable {
 extension Contragent: Queryable {
 
     public class QueryKeys: QueryKey {
-        static let contragentType   = QueryKeys(CodingKeys.contragentType)
-        static let legalName        = QueryKeys(CodingKeys.legalName)
-        static let legalAddress     = QueryKeys(CodingKeys.legalAddress)
-        static let INN              = QueryKeys(CodingKeys.INN)
-        static let OKPO             = QueryKeys(CodingKeys.OKPO)
-        static let KPP              = QueryKeys(CodingKeys.KPP)
-        static let OGRN             = QueryKeys(CodingKeys.OGRN)
-        static let OGRNIP           = QueryKeys(CodingKeys.OGRNIP)
+        static let contragentType = QueryKeys(CodingKeys.contragentType)
+        static let legalName = QueryKeys(CodingKeys.legalName)
+        static let legalAddress = QueryKeys(CodingKeys.legalAddress)
+        static let INN = QueryKeys(CodingKeys.INN)
+        static let OKPO = QueryKeys(CodingKeys.OKPO)
+        static let KPP = QueryKeys(CodingKeys.KPP)
+        static let OGRN = QueryKeys(CodingKeys.OGRN)
+        static let OGRNIP = QueryKeys(CodingKeys.OGRNIP)
     }
 
 }

@@ -14,15 +14,16 @@ public protocol Fragment {
     static func buildQuery(with builder: QueryContainer<FragmentModel>)
 }
 
-extension Fragment {
-    public static var fragmentName: String {
+public extension Fragment {
+    static var fragmentName: String {
         var name = String(describing: self)
         if String(name.suffix(8)).lowercased() != "fragment" {
             name += "Fragment"
         }
         return name
     }
-    public static var fragmentType: String {
-        return FragmentModel.schemaType
+
+    static var fragmentType: String {
+        FragmentModel.schemaType
     }
 }

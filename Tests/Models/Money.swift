@@ -11,7 +11,7 @@ import Foundation
 public struct Money: Codable {
 
     public var amount: Double = 0
-    public var currency: String = "rub"
+    public var currency = "rub"
 
     public init(amount: Double, currency: String = "rub") {
         self.amount = amount
@@ -23,7 +23,7 @@ public struct Money: Codable {
 extension Money: Queryable {
 
     public class QueryKeys: QueryKey {
-        static let amount   = QueryKeys(CodingKeys.amount)
+        static let amount = QueryKeys(CodingKeys.amount)
         static let currency = QueryKeys(CodingKeys.currency)
     }
 

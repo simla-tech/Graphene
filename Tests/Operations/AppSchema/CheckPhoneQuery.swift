@@ -18,7 +18,7 @@ struct CheckPhoneQuery: GraphQLOperation {
     }
 
     static func decodePath(of decodable: CheckPhone.Type) -> String? {
-        return "checkPhone"
+        "checkPhone"
     }
 
     static func buildQuery(with builder: QueryContainer<APIQuerySchema>) {

@@ -18,7 +18,7 @@ struct UploadAttachmentMutation: GraphQLOperation {
     }
 
     static func decodePath(of decodable: [Attachment].Type) -> String? {
-        return "uploadAttachment.attachments"
+        "uploadAttachment.attachments"
     }
 
     static func buildQuery(with builder: QueryContainer<APIMutationSchema>) {

@@ -126,7 +126,7 @@ internal struct MimeType {
     }
 
     init(path: String) {
-        ext = NSString(string: path).pathExtension
+        self.ext = NSString(string: path).pathExtension
     }
 
 }

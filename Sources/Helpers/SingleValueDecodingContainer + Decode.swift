@@ -8,7 +8,7 @@
 import Foundation
 
 extension SingleValueDecodingContainer {
-    internal func decode<Z: Decodable>() throws -> Z {
-        return try self.decode(Z.self)
+    func decode<Z: Decodable>() throws -> Z {
+        try self.decode(Z.self)
     }
 }

@@ -22,17 +22,17 @@ extension Payment: Queryable {
 
     public class QueryKeys: QueryKey {
 
-        static var id      = QueryKeys(CodingKeys.id)
-        static let amount  = QueryKeys(Query(CodingKeys.amount, fragment: MoneyFragment.self))
-        static let paidAt  = QueryKeys(CodingKeys.paidAt)
+        static var id = QueryKeys(CodingKeys.id)
+        static let amount = QueryKeys(Query(CodingKeys.amount, fragment: MoneyFragment.self))
+        static let paidAt = QueryKeys(CodingKeys.paidAt)
         static let comment = QueryKeys(CodingKeys.comment)
 
         static func status(_ builder: @escaping QueryBuilder<PaymentStatus>) -> QueryKeys {
-            return Query(CodingKeys.status, builder).asKey()
+            Query(CodingKeys.status, builder).asKey()
         }
 
         static func type(_ builder: @escaping QueryBuilder<PaymentType>) -> QueryKeys {
-            return Query(CodingKeys.type, builder).asKey()
+            Query(CodingKeys.type, builder).asKey()
         }
 
     }

@@ -17,11 +17,16 @@ struct OrderDetailQuery: GraphQLOperation {
         let someString: String
         let someInt: Int?
         let someDict: [String: Double]?
-        static var allKeys: [PartialKeyPath<Variables>] = [\Variables.orderId, \Variables.someString, \Variables.someInt, \Variables.someDict]
+        static var allKeys: [PartialKeyPath<Variables>] = [
+            \Variables.orderId,
+            \Variables.someString,
+            \Variables.someInt,
+            \Variables.someDict
+        ]
     }
 
     static func decodePath(of decodable: Order.Type) -> String? {
-        return "order"
+        "order"
     }
 
     static func buildQuery(with builder: QueryContainer<APIQuerySchema>) {

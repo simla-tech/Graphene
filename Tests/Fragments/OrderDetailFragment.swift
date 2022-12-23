@@ -61,20 +61,20 @@ struct OrderDetailFragment: Fragment {
                 })
             }
         }
-        builder += .unionCustomer({ (unionCustomer) in
+        builder += .unionCustomer({ unionCustomer in
             unionCustomer += .id
             unionCustomer += .createdAt
             unionCustomer += .onCustomer({ corpCustomer in
                 corpCustomer += .lastName
             })
-            unionCustomer += .onCorporateCustomer({ (query) in
+            unionCustomer += .onCorporateCustomer({ query in
                 query += .nickName
             })
         })
         builder += .orderProducts(first: 10, after: nil, { builder in
             builder += .totalCount
             builder += .pageInfo
-            builder += .edges({ (orderProduct) in
+            builder += .edges({ orderProduct in
                 orderProduct += .id
                 orderProduct += .initialPrice
             })

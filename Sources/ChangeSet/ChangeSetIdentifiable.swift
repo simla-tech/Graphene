@@ -20,8 +20,8 @@ public protocol ChangeSetIdentifiable: AnyChangeSetIdentifiable {
     var id: Self.ID { get }
 }
 
-extension ChangeSetIdentifiable {
-    public var anyChangeSetIdentifier: AnyHashable { self.id }
+public extension ChangeSetIdentifiable {
+    var anyChangeSetIdentifier: AnyHashable { self.id }
 }
 
 internal typealias AnyChangeSetIdentifiableVariable = AnyChangeSetIdentifiable & Variable

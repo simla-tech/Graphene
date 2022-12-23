@@ -9,7 +9,7 @@ import Foundation
 
 public class QueryContainer<T: Queryable> {
 
-    internal(set) public var fields: [Field] = []
+    public internal(set) var fields: [Field] = []
 
     internal init(_ builder: QueryBuilder<T>) {
         builder(self)

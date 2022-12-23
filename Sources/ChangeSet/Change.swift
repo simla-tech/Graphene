@@ -12,9 +12,9 @@ public protocol Change: CustomDebugStringConvertible {
     func description(padding: Int, isLast: Bool) -> String
 }
 
-extension Change {
-    public var debugDescription: String {
-        return self.description(padding: 0, isLast: true)
+public extension Change {
+    var debugDescription: String {
+        self.description(padding: 0, isLast: true)
     }
 }
 
@@ -25,7 +25,7 @@ public struct FieldChange: Change, Hashable, Equatable {
     public let newValue: Variable?
 
     public static func == (lhs: FieldChange, rhs: FieldChange) -> Bool {
-        return lhs.key == rhs.key
+        lhs.key == rhs.key
     }
 
     public func hash(into hasher: inout Hasher) {
@@ -50,7 +50,7 @@ public struct RootChange: Change, Hashable, Equatable {
     public let childChanges: [Change]
 
     public static func == (lhs: RootChange, rhs: RootChange) -> Bool {
-        return lhs.key == rhs.key
+        lhs.key == rhs.key
     }
 
     public func hash(into hasher: inout Hasher) {
@@ -59,8 +59,8 @@ public struct RootChange: Change, Hashable, Equatable {
 
     public func description(padding: Int, isLast: Bool) -> String {
         var paddingStr = ""
-        for _ in 0..<padding { paddingStr += "  " }
-        var result: [String] = ["\(paddingStr) \"\(self.key)\" : {"]
+        for _ in 0 ..< padding { paddingStr += "  " }
+        var result = ["\(paddingStr) \"\(self.key)\" : {"]
         for (index, childChange) in self.childChanges.enumerated() {
             result.append(childChange.description(padding: padding + 1, isLast: index == self.childChanges.endIndex - 1))
         }

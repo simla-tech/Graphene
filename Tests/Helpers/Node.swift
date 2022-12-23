@@ -15,10 +15,10 @@ internal struct Node<T> {
 extension Node: Queryable where T: Queryable {
     class QueryKeys: QueryKey {
         static func node(_ builder: @escaping QueryBuilder<T>) -> QueryKeys {
-            return .init(Query("node", builder))
+            .init(Query("node", builder))
         }
     }
 }
 
-extension Node: Decodable where T: Decodable {}
-extension Node: Encodable where T: Encodable {}
+extension Node: Decodable where T: Decodable { }
+extension Node: Encodable where T: Encodable { }

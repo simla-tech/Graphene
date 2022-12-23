@@ -11,8 +11,8 @@ public protocol AbstractEncodable: Encodable {
     func encode(to encoder: AbstractEncoder) throws
 }
 
-extension AbstractEncodable {
-    public func encode(to encoder: Encoder) throws {
+public extension AbstractEncodable {
+    func encode(to encoder: Encoder) throws {
         let abstractEncoder = AbstractEncoder(encoder: encoder)
         try self.encode(to: abstractEncoder)
     }
@@ -23,9 +23,11 @@ public struct AbstractEncodingContainer {
     internal init(encoder: Encoder) {
         self.encoder = encoder
     }
+
     private enum CodingKeys: String, CodingKey {
         case typename = "__typename"
     }
+
     public func encode<T: Encodable & Queryable>(_ value: T) throws {
         var container = self.encoder.container(keyedBy: CodingKeys.self)
         try container.encode(T.schemaType, forKey: .typename)
@@ -38,7 +40,8 @@ public struct AbstractEncoder {
     internal init(encoder: Encoder) {
         self.encoder = encoder
     }
+
     public func abstractContainer() -> AbstractEncodingContainer {
-        return AbstractEncodingContainer(encoder: self.encoder)
+        AbstractEncodingContainer(encoder: self.encoder)
     }
 }

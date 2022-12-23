@@ -6,9 +6,9 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 import Combine
+import Foundation
 
 public enum SubscriptionState: Hashable {
     case disconnected(SocketDisconnectReason)
@@ -54,7 +54,7 @@ public class SubscriptionManager: NSObject {
 
     @Published public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
     private var subscribeOperations: [SubscriptionOperation] = []
-    private var currentReconnectAttempt: Int = 0
+    private var currentReconnectAttempt = 0
     private var reconnectDispatchWorkItem: DispatchWorkItem?
     private var pingDispatchWorkItem: DispatchWorkItem?
     private let pingQueue = DispatchQueue(label: "com.graphene.pingQueue", qos: .background)
@@ -73,14 +73,15 @@ public class SubscriptionManager: NSObject {
         super.init()
     }
 
-    @objc private func ping() {
+    @objc
+    private func ping() {
         guard self.state == .connected,
               let task = self.webSocketRequest?.lastTask as? URLSessionWebSocketTask else { return }
 
         let semaphore = DispatchSemaphore(value: 0)
         task.sendPing { error in
             semaphore.signal()
-            if let error = error {
+            if let error {
                 self.monitor.manager(self, receivedError: error, for: nil)
                 self.disconnect(with: .tlsHandshakeFailure)
             }
@@ -113,15 +114,17 @@ public class SubscriptionManager: NSObject {
             self.monitor.manager(self, triesToReconnectWith: self.currentReconnectAttempt)
             self.connect(isReconnect: true)
         }
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + reconnectDispatchTime,
-                                                       execute: self.reconnectDispatchWorkItem!)
+        DispatchQueue.global(qos: .utility).asyncAfter(
+            deadline: .now() + reconnectDispatchTime,
+            execute: self.reconnectDispatchWorkItem!
+        )
     }
 
     private func connect(isReconnect: Bool) {
         guard self.state.isDisconnected else { return }
         self.reconnectDispatchWorkItem?.cancel()
         if !isReconnect {
-            for operation in subscribeOperations {
+            for operation in self.subscribeOperations {
                 operation.updateState(.connecting, needsToRegister: true, isRegistered: false)
             }
         }
@@ -185,11 +188,15 @@ public class SubscriptionManager: NSObject {
             self.monitor.manager(self, willRegisterSubscription: subscriptionOperation.context)
             subscriptionOperation.updateState(.connecting, needsToRegister: false, isRegistered: false)
 
-            let payload = ClientSubscriptionMessage.OperationPayload(query: subscriptionOperation.context.query,
-                                                                     operationName: subscriptionOperation.context.operationName)
-            let message = ClientSubscriptionMessage(type: .start,
-                                                    id: subscriptionOperation.uuid,
-                                                    payload: payload)
+            let payload = ClientSubscriptionMessage.OperationPayload(
+                query: subscriptionOperation.context.query,
+                operationName: subscriptionOperation.context.operationName
+            )
+            let message = ClientSubscriptionMessage(
+                type: .start,
+                id: subscriptionOperation.uuid,
+                payload: payload
+            )
             do {
                 let messageData = try self.encoder.encode(message)
                 let webSocketMessage = URLSessionWebSocketTask.Message.data(messageData)
@@ -201,13 +208,21 @@ public class SubscriptionManager: NSObject {
 
                     case .failure(let error):
                         self.monitor.manager(self, receivedError: error, for: subscriptionOperation.context)
-                        subscriptionOperation.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
+                        subscriptionOperation.updateState(
+                            .disconnected(.error(error, willReconnect: false)),
+                            needsToRegister: false,
+                            isRegistered: false
+                        )
 
                     }
                 })
             } catch {
                 self.monitor.manager(self, receivedError: error, for: subscriptionOperation.context)
-                subscriptionOperation.updateState(.disconnected(.error(error, willReconnect: false)), needsToRegister: false, isRegistered: false)
+                subscriptionOperation.updateState(
+                    .disconnected(.error(error, willReconnect: false)),
+                    needsToRegister: false,
+                    isRegistered: false
+                )
             }
         }
     }
@@ -230,7 +245,9 @@ public class SubscriptionManager: NSObject {
                 if let serverId = serverMessage.id, let operation = self.subscribeOperations.first(where: { $0.uuid == serverId }) {
                     operation.handleRawValue(data)
                 } else {
-                    assertionFailure("Can't find operation for data message \"\(String(data: data, encoding: .utf8) ?? String(describing: data))\"")
+                    assertionFailure(
+                        "Can't find operation for data message \"\(String(data: data, encoding: .utf8) ?? String(describing: data))\""
+                    )
                 }
 
             case .error:
@@ -266,7 +283,8 @@ public class SubscriptionManager: NSObject {
         } catch {
             var context: OperationContext?
             if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-               let idRaw = json["id"] as? String, let serverId = UUID(uuidString: idRaw) {
+               let idRaw = json["id"] as? String, let serverId = UUID(uuidString: idRaw)
+            {
                 context = self.subscribeOperations.first(where: { $0.uuid == serverId })?.context
             }
             self.monitor.manager(self, receivedError: error, for: context)
@@ -278,7 +296,7 @@ public class SubscriptionManager: NSObject {
         case .connected:
             self.currentReconnectAttempt = 0
             self.monitor.manager(self, didConnectTo: self.url)
-            for operation in subscribeOperations {
+            for operation in self.subscribeOperations {
                 operation.updateState(.connecting, needsToRegister: true, isRegistered: false)
             }
 
@@ -324,9 +342,9 @@ public class SubscriptionManager: NSObject {
             if let error = self.webSocketRequest?.error {
                 willReconnect = error.isSessionTaskError
             } else {
-                willReconnect = closeCode != .normalClosure && closeCode  != .invalid
+                willReconnect = closeCode != .normalClosure && closeCode != .invalid
             }
-            if let error = error {
+            if let error {
                 reason = .error(error, willReconnect: willReconnect)
             }
             self.state = .disconnected(reason)
@@ -369,17 +387,17 @@ extension SubscriptionManager {
     enum ClientMessageType: String, Encodable {
         case connectionInit = "connection_init"
         case connectionTerminate = "connection_terminate"
-        case start = "start"
-        case stop = "stop"
+        case start
+        case stop
     }
 
     enum ServerMessageType: String, Decodable {
         case connectionError = "connection_error"
         case connectionAck = "connection_ack"
         case keepAlive = "ka"
-        case data = "data"
-        case error = "error"
-        case complete = "complete"
+        case data
+        case error
+        case complete
     }
 
     public enum DisconnectReasonData: RawRepresentable {

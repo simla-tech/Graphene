@@ -20,20 +20,24 @@ public extension JSONDecoder {
     ///   - keyPathSeparator: Nested keypath separator
     /// - Returns: A value of the requested type.
     /// - Throws: An error if any value throws an error during decoding.
-    func decode<T>(_ type: T.Type,
-                   from data: Data,
-                   keyPath: String,
-                   keyPathSeparator separator: String = ".") throws -> T where T: Decodable {
+    func decode<T>(
+        _ type: T.Type,
+        from data: Data,
+        keyPath: String,
+        keyPathSeparator separator: String = "."
+    ) throws -> T where T: Decodable {
         userInfo[keyPathUserInfoKey] = keyPath.components(separatedBy: separator)
-        return try decode(KeyPathWrapper<T>.self, from: data).object
+        return try self.decode(KeyPathWrapper<T>.self, from: data).object
     }
 
-    func decodeArray<T>(_ type: T.Type,
-                        from data: Data,
-                        keyPath: String,
-                        keyPathSeparator separator: String = ".") throws -> T where T: RangeReplaceableCollection, T.Element: Decodable {
+    func decodeArray<T>(
+        _ type: T.Type,
+        from data: Data,
+        keyPath: String,
+        keyPathSeparator separator: String = "."
+    ) throws -> T where T: RangeReplaceableCollection, T.Element: Decodable {
         userInfo[keyPathUserInfoKey] = keyPath.components(separatedBy: separator)
-        return T(try decode([KeyPathWrapper<T.Element>].self, from: data).map({ $0.object }))
+        return T(try self.decode([KeyPathWrapper<T.Element>].self, from: data).map(\.object))
     }
 
 }
@@ -51,12 +55,12 @@ internal final class KeyPathWrapper<T: Decodable>: Decodable {
     struct Key: CodingKey {
         init?(intValue: Int) {
             self.intValue = intValue
-            stringValue = String(intValue)
+            self.stringValue = String(intValue)
         }
 
         init?(stringValue: String) {
             self.stringValue = stringValue
-            intValue = nil
+            self.intValue = nil
         }
 
         let intValue: Int?
@@ -67,21 +71,23 @@ internal final class KeyPathWrapper<T: Decodable>: Decodable {
 
     init(from decoder: Decoder) throws {
         guard let keyPath = decoder.userInfo[keyPathUserInfoKey] as? [String],
-            !keyPath.isEmpty
-            else { throw KeyPathError.internal }
+              !keyPath.isEmpty
+        else { throw KeyPathError.internal }
 
         /// Creates a `Key` from the first keypath element
         func getKey(from keyPath: [String]) throws -> Key {
             guard let first = keyPath.first,
-                let key = Key(stringValue: first)
-                else { throw KeyPathError.internal }
+                  let key = Key(stringValue: first)
+            else { throw KeyPathError.internal }
             return key
         }
 
         /// Finds nested container and returns it and the key for object
-        func objectContainer(for keyPath: [String],
-                             in currentContainer: KeyedContainer,
-                             key currentKey: Key) throws -> (KeyedContainer, Key) {
+        func objectContainer(
+            for keyPath: [String],
+            in currentContainer: KeyedContainer,
+            key currentKey: Key
+        ) throws -> (KeyedContainer, Key) {
             guard !keyPath.isEmpty else { return (currentContainer, currentKey) }
             let container = try currentContainer.nestedContainer(keyedBy: Key.self, forKey: currentKey)
             let key = try getKey(from: keyPath)
@@ -91,7 +97,7 @@ internal final class KeyPathWrapper<T: Decodable>: Decodable {
         let rootKey = try getKey(from: keyPath)
         let rooTContainer = try decoder.container(keyedBy: Key.self)
         let (keyedContainer, key) = try objectContainer(for: Array(keyPath.dropFirst()), in: rooTContainer, key: rootKey)
-        object = try keyedContainer.decode(T.self, forKey: key)
+        self.object = try keyedContainer.decode(T.self, forKey: key)
     }
 
     let object: T

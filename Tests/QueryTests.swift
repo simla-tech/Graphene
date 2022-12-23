@@ -5,22 +5,22 @@
 //  Created by Ilya Kharlamov on 22.01.2021.
 //
 
-import XCTest
 import Alamofire
+import XCTest
 @testable import Graphene
 
 class QueryTests: XCTestCase {
 
     func testVariableIdentifiers() {
         let allKeys = OrderDetailQuery.Variables.allKeys
-        let firstIdentifiers = Set(allKeys.map({ $0.identifier }))
-        let secondIdentifiers = Set(allKeys.map({ $0.identifier }))
+        let firstIdentifiers = Set(allKeys.map(\.identifier))
+        let secondIdentifiers = Set(allKeys.map(\.identifier))
         XCTAssertEqual(firstIdentifiers, secondIdentifiers)
     }
 
     func testVariableSchemaTypes() {
         let allKeys = OrderDetailQuery.Variables.allKeys
-        let types = Set(allKeys.map({ $0.variableType }))
+        let types = Set(allKeys.map(\.variableType))
         XCTAssertEqual(types, ["String!", "Int", "Unknown_Optional<Dictionary<String, Double>>"])
     }
 

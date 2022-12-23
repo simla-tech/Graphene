@@ -31,8 +31,8 @@ public struct GraphQLError: Error, Decodable {
 
 }
 
-extension GraphQLError {
-    public struct Location: Codable {
+public extension GraphQLError {
+    struct Location: Codable {
         public let line: Int
         public let column: Int
     }
@@ -40,16 +40,17 @@ extension GraphQLError {
 
 extension GraphQLError: LocalizedError {
     public var localizedDescription: String {
-        return self.message
+        self.message
     }
+
     public var errorDescription: String? {
-        return self.message
+        self.message
     }
 }
 
 extension GraphQLError: CustomNSError {
 
-    public static var errorDomain: String = "Graphene.GraphQLError"
+    public static var errorDomain = "Graphene.GraphQLError"
 
     public var errorUserInfo: [String: Any] {
         var result = [String: Any]()
@@ -95,7 +96,7 @@ private extension KeyedDecodingContainer {
         guard try decodeNil(forKey: key) == false else {
             return nil
         }
-        return try decode(type, forKey: key)
+        return try self.decode(type, forKey: key)
     }
 
     func decode(_ type: [Any].Type, forKey key: K) throws -> [Any] {
@@ -110,7 +111,7 @@ private extension KeyedDecodingContainer {
         guard try decodeNil(forKey: key) == false else {
             return nil
         }
-        return try decode(type, forKey: key)
+        return try self.decode(type, forKey: key)
     }
 
     func decode(_ type: [String: Any].Type) throws -> [String: Any] {
@@ -125,9 +126,9 @@ private extension KeyedDecodingContainer {
                 dictionary[key.stringValue] = intValue
             } else if let doubleValue = try? decode(Double.self, forKey: key) {
                 dictionary[key.stringValue] = doubleValue
-            } else if let nestedDictionary = try? decode(Dictionary<String, Any>.self, forKey: key) {
+            } else if let nestedDictionary = try? decode([String: Any].self, forKey: key) {
                 dictionary[key.stringValue] = nestedDictionary
-            } else if let nestedArray = try? decode(Array<Any>.self, forKey: key) {
+            } else if let nestedArray = try? decode([Any].self, forKey: key) {
                 dictionary[key.stringValue] = nestedArray
             }
         }
@@ -149,9 +150,9 @@ private extension UnkeyedDecodingContainer {
                 array.append(value)
             } else if let value = try? decode(String.self) {
                 array.append(value)
-            } else if let nestedDictionary = try? decode(Dictionary<String, Any>.self) {
+            } else if let nestedDictionary = try? decode([String: Any].self) {
                 array.append(nestedDictionary)
-            } else if let nestedArray = try? decode(Array<Any>.self) {
+            } else if let nestedArray = try? decode([Any].self) {
                 array.append(nestedArray)
             }
         }

@@ -6,8 +6,8 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
 public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
 
@@ -20,7 +20,7 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     private let monitor: CompositeGrapheneEventMonitor
     private let errorModifier: Client.Configuration.ErrorModifier?
     private let queue: DispatchQueue
-    private var isSent: Bool = false
+    private var isSent = false
     private var closureStorage = ExecuteClosureStorage<ResultValue>()
     public let context: OperationContext
     public var request: URLRequest? { self.alamofireRequest.request }
@@ -74,7 +74,9 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
             result = .success(mappedValues)
         } catch {
             var storedError = error
-            if let data = dataResponse.value, let errors = try? self.jsonDecoder.decode([GraphQLErrors].self, from: data).flatMap({ $0.errors }) {
+            if let data = dataResponse.value,
+               let errors = try? self.jsonDecoder.decode([GraphQLErrors].self, from: data).flatMap(\.errors)
+            {
                 if errors.count > 1 {
                     storedError = GraphQLErrors(errors)
                 } else if let error = errors.first {
@@ -89,24 +91,28 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
                 do {
                     try self.closureStorage.successClosure?(result.get())
                     if let client = self.client {
-                        let response = GrapheneResponse(context: self.context,
-                                                        request: dataResponse.request,
-                                                        response: dataResponse.response,
-                                                        error: nil,
-                                                        data: dataResponse.data,
-                                                        metrics: dataResponse.metrics)
+                        let response = GrapheneResponse(
+                            context: self.context,
+                            request: dataResponse.request,
+                            response: dataResponse.response,
+                            error: nil,
+                            data: dataResponse.data,
+                            metrics: dataResponse.metrics
+                        )
                         self.monitor.client(client, didReceive: response)
                     }
                 } catch {
                     let modifiedError = self.errorModifier?(error) ?? error
                     self.closureStorage.failureClosure?(modifiedError)
                     if let client = self.client {
-                        let response = GrapheneResponse(context: self.context,
-                                                        request: dataResponse.request,
-                                                        response: dataResponse.response,
-                                                        error: modifiedError,
-                                                        data: dataResponse.data,
-                                                        metrics: dataResponse.metrics)
+                        let response = GrapheneResponse(
+                            context: self.context,
+                            request: dataResponse.request,
+                            response: dataResponse.response,
+                            error: modifiedError,
+                            data: dataResponse.data,
+                            metrics: dataResponse.metrics
+                        )
                         self.monitor.client(client, didReceive: response)
                     }
                 }

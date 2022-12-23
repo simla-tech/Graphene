@@ -20,19 +20,19 @@ public protocol OperationSchema: Queryable {
     static var mode: OperationMode { get }
 }
 
-public protocol QuerySchema: OperationSchema {}
-extension QuerySchema {
-    public static var mode: OperationMode { .query }
+public protocol QuerySchema: OperationSchema { }
+public extension QuerySchema {
+    static var mode: OperationMode { .query }
 }
 
-public protocol MutationSchema: OperationSchema {}
-extension MutationSchema {
-    public static var mode: OperationMode { .mutation }
+public protocol MutationSchema: OperationSchema { }
+public extension MutationSchema {
+    static var mode: OperationMode { .mutation }
 }
 
-public protocol SubscriptionSchema: OperationSchema {}
-extension SubscriptionSchema {
-    public static var mode: OperationMode { .subscription }
+public protocol SubscriptionSchema: OperationSchema { }
+public extension SubscriptionSchema {
+    static var mode: OperationMode { .subscription }
 }
 
 public struct DefaultVariables: QueryVariables {
@@ -60,29 +60,29 @@ public protocol GraphQLOperation {
 
 }
 
-extension GraphQLOperation {
+public extension GraphQLOperation {
 
-    public var variables: DefaultVariables {
-        return DefaultVariables()
+    var variables: DefaultVariables {
+        DefaultVariables()
     }
 
-    public static var operationName: String {
-        return String(describing: self)
+    static var operationName: String {
+        String(describing: self)
     }
 
-    public static func mapResponse(_ response: Result<ResponseValue, Error>) -> Result<ResponseValue, Error> {
-        return response
+    static func mapResponse(_ response: Result<ResponseValue, Error>) -> Result<ResponseValue, Error> {
+        response
     }
 
     internal static var decodePath: String {
-        return ["data", Self.decodePath(of: ResponseValue.self)].compactMap({ $0 }).joined(separator: ".")
+        ["data", Self.decodePath(of: ResponseValue.self)].compactMap({ $0 }).joined(separator: ".")
     }
 
-    public static func buildQuery() -> String {
+    static func buildQuery() -> String {
         var query = "\(RootSchema.mode.rawValue) \(self.operationName)"
         if !Variables.allKeys.isEmpty {
             let variablesStrCompact = Variables.allKeys.map { variable -> String in
-                return "$\(variable.identifier):\(variable.variableType)"
+                "$\(variable.identifier):\(variable.variableType)"
             }
             query += "(\(variablesStrCompact.joined(separator: ",")))"
         }
@@ -90,7 +90,7 @@ extension GraphQLOperation {
         query += " {\(container.fields.map({ $0.buildField() }).joined(separator: ","))}"
         let fragments = self.searchFragments(in: container.fields)
         if !fragments.isEmpty {
-            query += fragments.map({ $0.fragmentBody }).joined()
+            query += fragments.map(\.fragmentBody).joined()
         }
         return query
     }

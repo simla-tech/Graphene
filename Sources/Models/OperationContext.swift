@@ -5,8 +5,8 @@
 //  Created by Ilya Kharlamov on 19.05.2021.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
 public protocol OperationContext {
     var mode: OperationMode { get }
@@ -36,13 +36,15 @@ internal struct BatchOperationContextData: OperationContext {
         self.mode = operation.RootSchema.mode
         self.operationName = "Batch_" + O.operationName
         self.query = O.buildQuery()
-        self.variables = operationContexts.filter({ !$0.variables.isEmpty }).map({ $0.variables })
+        self.variables = operationContexts.filter({ !$0.variables.isEmpty }).map(\.variables)
     }
 
     func variables(prettyPrinted: Bool) -> String? {
         guard let jsonVariables = self.jsonVariables else { return nil }
-        guard let variablesData = try? JSONSerialization.data(withJSONObject: jsonVariables,
-                                                              options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []) else {
+        guard let variablesData = try? JSONSerialization.data(
+            withJSONObject: jsonVariables,
+            options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []
+        ) else {
             return nil
         }
         return String(data: variablesData, encoding: .utf8)
@@ -77,18 +79,22 @@ internal struct OperationContextData: OperationContext {
 
     public func variables(prettyPrinted: Bool = false) -> String? {
         guard let jsonVariables = self.jsonVariables else { return nil }
-        guard let variablesData = try? JSONSerialization.data(withJSONObject: jsonVariables,
-                                                              options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []) else {
+        guard let variablesData = try? JSONSerialization.data(
+            withJSONObject: jsonVariables,
+            options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []
+        ) else {
             return nil
         }
         return String(data: variablesData, encoding: .utf8)
     }
 
     internal func getOperationJSON() -> String {
-        return String(format: "{\"query\":\"%@\",\"variables\": %@,\"operationName\":\"%@\"}",
-                      self.query.escaped,
-                      self.variables(prettyPrinted: false) ?? "{}",
-                      self.operationName)
+        String(
+            format: "{\"query\":\"%@\",\"variables\": %@,\"operationName\":\"%@\"}",
+            self.query.escaped,
+            self.variables(prettyPrinted: false) ?? "{}",
+            self.operationName
+        )
     }
 
     internal func getUploads() -> [String: Upload] {
@@ -110,10 +116,10 @@ internal struct OperationContextData: OperationContext {
                 result[resultPath] = value
             } else if let value = variable as? EncodableVariable {
                 let newResults = self.searchUploads(in: value.variables, currentPath: path)
-                result.merge(newResults, uniquingKeysWith: { aVar, _ in return aVar })
+                result.merge(newResults, uniquingKeysWith: { aVar, _ in aVar })
             } else if let value = variable as? Variables {
                 let newResults = self.searchUploads(in: value, currentPath: path)
-                result.merge(newResults, uniquingKeysWith: { aVar, _ in return aVar })
+                result.merge(newResults, uniquingKeysWith: { aVar, _ in aVar })
             }
         }
         return result

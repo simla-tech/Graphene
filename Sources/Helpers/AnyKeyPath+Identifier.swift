@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension AnyKeyPath {
+extension AnyKeyPath {
 
     var identifier: String {
         let hashids = Hashids(salt: "com.simla.Graphene")

@@ -5,8 +5,8 @@
 //  Created by Ilya Kharlamov on 28.01.2021.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 import os.log
 
 public protocol GrapheneEventMonitor: EventMonitor {
@@ -29,7 +29,7 @@ public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMoni
 
 }
 
-final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
+internal final class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
 
     public let queue = DispatchQueue(label: "com.simla.Graphene.CompositeGrapheneEventMonitor", qos: .utility)
 
@@ -48,11 +48,11 @@ final internal class CompositeGrapheneEventMonitor: GrapheneEventMonitor {
     }
 
     public func client(_ client: Client, willSend request: GrapheneRequest) {
-        performEvent { $0.client(client, willSend: request) }
+        self.performEvent { $0.client(client, willSend: request) }
     }
 
     public func client(_ client: Client, didReceive response: GrapheneResponse) {
-        performEvent { $0.client(client, didReceive: response) }
+        self.performEvent { $0.client(client, didReceive: response) }
     }
 
 }

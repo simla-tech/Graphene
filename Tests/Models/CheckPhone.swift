@@ -18,10 +18,10 @@ public struct CheckPhone: Decodable {
 
 extension CheckPhone: Queryable {
     public class QueryKeys: QueryKey {
-        static let phone          = QueryKeys(CodingKeys.phone)
-        static let isValid        = QueryKeys(CodingKeys.isValid)
-        static let region         = QueryKeys(CodingKeys.region)
+        static let phone = QueryKeys(CodingKeys.phone)
+        static let isValid = QueryKeys(CodingKeys.isValid)
+        static let region = QueryKeys(CodingKeys.region)
         static let timezoneOffset = QueryKeys(CodingKeys.timezoneOffset)
-        static let providerName   = QueryKeys(CodingKeys.providerName)
+        static let providerName = QueryKeys(CodingKeys.providerName)
     }
 }

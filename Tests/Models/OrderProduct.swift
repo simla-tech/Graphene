@@ -16,7 +16,7 @@ public struct OrderProduct: Codable, Identifiable {
 extension OrderProduct: Queryable {
 
     public class QueryKeys: QueryKey {
-        static let id           = QueryKeys(CodingKeys.id)
+        static let id = QueryKeys(CodingKeys.id)
         static let initialPrice = QueryKeys(Query(CodingKeys.initialPrice, fragment: MoneyFragment.self))
     }
 

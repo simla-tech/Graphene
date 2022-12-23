@@ -12,9 +12,9 @@ public protocol Queryable {
     static var schemaType: String { get }
 }
 
-extension Queryable {
-    public static var schemaType: String {
-        return String(describing: self)
+public extension Queryable {
+    static var schemaType: String {
+        String(describing: self)
     }
 }
 

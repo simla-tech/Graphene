@@ -10,7 +10,7 @@ import Foundation
 
 private func graphQLFieldUnwrapErrorString(operationName: String?, path: String) -> String {
     var result = path
-    if let operationName = operationName {
+    if let operationName {
         result += " from \"\(operationName)\" operation"
     }
     return "Value at path \(result) doesn't exists"
@@ -48,7 +48,7 @@ public enum GraphQLField<Wrapped> {
         }
     }
 
-    public func get(function: StaticString = #function, file: StaticString  = #file, line: UInt  = #line) throws -> Wrapped {
+    public func get(function: StaticString = #function, file: StaticString = #file, line: UInt = #line) throws -> Wrapped {
         switch self {
         case .empty(let operationName, let path):
             throw GraphQLFieldUnwrapError(operationName: operationName, path: path, function: function, file: file, line: line)
@@ -68,11 +68,11 @@ public struct GraphQLFieldUnwrapError: LocalizedError, CustomNSError {
     public let line: UInt
 
     public var errorDescription: String? {
-        return graphQLFieldUnwrapErrorString(operationName: self.operationName, path: self.path)
+        graphQLFieldUnwrapErrorString(operationName: self.operationName, path: self.path)
     }
 
     public var errorUserInfo: [String: Any] {
-        return [
+        [
             "path": self.path,
             "function": self.function,
             "line": self.line,
@@ -119,7 +119,7 @@ extension GraphQLField: Encodable where Wrapped: Encodable {
 
 extension GraphQLField: Equatable where Wrapped: Hashable {
     public static func == (lhs: GraphQLField<Wrapped>, rhs: GraphQLField<Wrapped>) -> Bool {
-        return lhs.hashValue == rhs.hashValue
+        lhs.hashValue == rhs.hashValue
     }
 }
 
@@ -145,11 +145,11 @@ extension GraphQLField: CustomStringConvertible {
     }
 }
 
-extension KeyedDecodingContainer {
+public extension KeyedDecodingContainer {
 
-    public func decode<T>(_ type: GraphQLField<T>.Type, forKey key: K) throws -> GraphQLField<T> where T: Decodable {
+    func decode<T>(_ type: GraphQLField<T>.Type, forKey key: K) throws -> GraphQLField<T> where T: Decodable {
         do {
-            return .some(try decode(T.self, forKey: key))
+            return .some(try self.decode(T.self, forKey: key))
         } catch DecodingError.keyNotFound(let key, _) {
             let userInfo = try? self.superDecoder().userInfo
             let path = (self.codingPath + [key]).map({ key -> String in

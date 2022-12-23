@@ -18,7 +18,7 @@ struct OrderEditMutation: GraphQLOperation {
     }
 
     static func decodePath(of decodable: Order.Type) -> String? {
-        return "editOrder.order"
+        "editOrder.order"
     }
 
     static func buildQuery(with builder: QueryContainer<APIMutationSchema>) {

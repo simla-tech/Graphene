@@ -6,16 +6,16 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 import Combine
 import CoreMedia
+import Foundation
 
 public class SubscribeRequest<O: GraphQLOperation> {
 
     public let context: OperationContext
 
-    @Published internal(set) public var state: SubscriptionState = .disconnected(.code(.invalid))
+    @Published public internal(set) var state: SubscriptionState = .disconnected(.code(.invalid))
 
     public let onValue = PassthroughSubject<O.Value, Never>()
     public var request: URLRequest? { self.client?.subscriptionManager?.request }
@@ -23,22 +23,24 @@ public class SubscribeRequest<O: GraphQLOperation> {
 
     internal weak var client: Client?
     internal let uuid = UUID()
-    internal var needsToRegister: Bool = true
-    internal var isRegistered: Bool = false
+    internal var needsToRegister = true
+    internal var isRegistered = false
     internal let errorModifier: Client.Configuration.ErrorModifier?
 
     internal let queue: DispatchQueue
-    internal var isSentToRegistration: Bool = false
+    internal var isSentToRegistration = false
     internal let deregisterClosure: (SubscriptionOperation) -> Void
     internal let registerClosure: (SubscriptionOperation) -> Void
     internal let decoder: JSONDecoder
     internal let monitor: CompositeGrapheneEventMonitor
 
-    init(client: Client,
-         context: OperationContext,
-         queue: DispatchQueue,
-         registerClosure: @escaping (SubscriptionOperation) -> Void,
-         deregisterClosure: @escaping (SubscriptionOperation) -> Void) {
+    init(
+        client: Client,
+        context: OperationContext,
+        queue: DispatchQueue,
+        registerClosure: @escaping (SubscriptionOperation) -> Void,
+        deregisterClosure: @escaping (SubscriptionOperation) -> Void
+    ) {
         self.client = client
         self.context = context
         self.queue = queue
@@ -67,7 +69,7 @@ extension SubscribeRequest: GrapheneRequest {
     }
 }
 
-internal class InternalSubscribeRequest<O: GraphQLOperation>: SubscribeRequest<O> {}
+internal class InternalSubscribeRequest<O: GraphQLOperation>: SubscribeRequest<O> { }
 
 extension InternalSubscribeRequest: SubscriptionOperation {
 
@@ -87,31 +89,38 @@ extension InternalSubscribeRequest: SubscriptionOperation {
         var responseResult: Result<O.ResponseValue, Error>
         do {
             let keyPath = "payload." + O.decodePath
-            responseResult = .success(try self.decoder.decode(O.ResponseValue.self, from: rawValue, keyPath: keyPath, keyPathSeparator: "."))
+            responseResult = .success(
+                try self.decoder
+                    .decode(O.ResponseValue.self, from: rawValue, keyPath: keyPath, keyPathSeparator: ".")
+            )
         } catch {
             responseResult = .failure(error)
         }
         switch O.mapResponse(responseResult) {
         case .success(let value):
             if let client = self.client {
-                let response = GrapheneResponse(context: self.context,
-                                                request: self.request,
-                                                response: nil,
-                                                error: nil,
-                                                data: rawValue,
-                                                metrics: client.subscriptionManager?.webSocketRequest?.metrics)
+                let response = GrapheneResponse(
+                    context: self.context,
+                    request: self.request,
+                    response: nil,
+                    error: nil,
+                    data: rawValue,
+                    metrics: client.subscriptionManager?.webSocketRequest?.metrics
+                )
                 self.monitor.client(client, didReceive: response)
             }
             self.onValue.send(value)
         case .failure(let error):
             let modifiedError = self.errorModifier?(error) ?? error
             if let client = self.client {
-                let response = GrapheneResponse(context: self.context,
-                                                request: self.request,
-                                                response: nil,
-                                                error: modifiedError,
-                                                data: rawValue,
-                                                metrics: client.subscriptionManager?.webSocketRequest?.metrics)
+                let response = GrapheneResponse(
+                    context: self.context,
+                    request: self.request,
+                    response: nil,
+                    error: modifiedError,
+                    data: rawValue,
+                    metrics: client.subscriptionManager?.webSocketRequest?.metrics
+                )
                 self.monitor.client(client, didReceive: response)
             }
         }

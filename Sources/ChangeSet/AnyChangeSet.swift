@@ -18,7 +18,7 @@ internal struct AnyChangeSet: SomeChangeSet {
     }
 
     init?<C: SomeChangeSet>(_ anotherChangeSet: C?) {
-        guard let anotherChangeSet = anotherChangeSet else { return nil }
+        guard let anotherChangeSet else { return nil }
         self.changes = anotherChangeSet.changes
     }
 

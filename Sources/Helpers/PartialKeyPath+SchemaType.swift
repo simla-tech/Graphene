@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension PartialKeyPath {
+extension PartialKeyPath {
 
     var variableType: String {
         let valueType = type(of: self).valueType

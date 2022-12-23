@@ -15,15 +15,15 @@ struct HashidsOptions {
 
     static let VERSION = "1.1.0"
 
-    static var MIN_ALPHABET_LENGTH: Int = 16
+    static var MIN_ALPHABET_LENGTH = 16
 
-    static var SEP_DIV: Double = 3.5
+    static var SEP_DIV = 3.5
 
     static var GUARD_DIV: Double = 12
 
-    static var ALPHABET: String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    static var ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-    static var SEPARATORS: String = "cfhistuCFHISTU"
+    static var SEPARATORS = "cfhistuCFHISTU"
 
 }
 
@@ -130,20 +130,20 @@ class Hashids_<T>: HashidsGenerator where T: UnsignedInteger {
     // MARK: public api
 
     func encode(_ value: Int64...) -> String? {
-        return encode(value)
+        self.encode(value)
     }
 
     func encode(_ values: [Int64]) -> String? {
-        return encode(values.map { Int($0) })
+        self.encode(values.map { Int($0) })
     }
 
     func encode(_ value: Int...) -> String? {
-        return encode(value)
+        self.encode(value)
     }
 
     func encode(_ values: [Int]) -> String? {
-        let ret = _encode(values)
-        return ret.reduce(String(), { ( so, i) in
+        let ret = self._encode(values)
+        return ret.reduce(String(), { so, i in
             var so = so
             let scalar: UInt32 = numericCast(i)
             if let uniscalar = UnicodeScalar(scalar) {
@@ -162,15 +162,15 @@ class Hashids_<T>: HashidsGenerator where T: UnsignedInteger {
     }
 
     func decode(_ value: [Char]) -> [Int] {
-        return self._decode(value)
+        self._decode(value)
     }
 
     func decode64(_ value: String) -> [Int64] {
-        return self.decode(value).map { Int64($0) }
+        self.decode(value).map { Int64($0) }
     }
 
     func decode64(_ value: [Char]) -> [Int64] {
-        return self.decode(value).map { Int64($0) }
+        self.decode(value).map { Int64($0) }
     }
 
     // MARK: private funcitons
@@ -187,12 +187,12 @@ class Hashids_<T>: HashidsGenerator where T: UnsignedInteger {
         var hash = [lottery]
 
         var lsalt = [Char]()
-        let (lsaltARange, lsaltRange) = _saltify(&lsalt, lottery, alphabet)
+        let (lsaltARange, lsaltRange) = self._saltify(&lsalt, lottery, alphabet)
 
         for (index, value) in numbers.enumerated() {
             shuffle(&alphabet, lsalt, lsaltRange)
             let lastIndex = hash.endIndex
-            _hash(&hash, value, alphabet)
+            self._hash(&hash, value, alphabet)
 
             if index + 1 < numbers.count {
                 let number = value % (numericCast(hash[lastIndex]) + index)
@@ -248,7 +248,7 @@ class Hashids_<T>: HashidsGenerator where T: UnsignedInteger {
         let hash = hashes[i]
         let hashStartIndex = hash.startIndex
 
-        if hash.count > 0 {
+        if !hash.isEmpty {
             let lottery = hash[hashStartIndex]
             let valuesHashes = hash[(hashStartIndex + 1) ..< (hashStartIndex + hash.count)]
 
@@ -256,7 +256,7 @@ class Hashids_<T>: HashidsGenerator where T: UnsignedInteger {
                 contains(self.seps, $0)
             }
             var lsalt = [Char]()
-            let (lsaltARange, lsaltRange) = _saltify(&lsalt, lottery, alphabet)
+            let (lsaltARange, lsaltRange) = self._saltify(&lsalt, lottery, alphabet)
 
             for subHash in valueHashes {
                 shuffle(&alphabet, lsalt, lsaltRange)
@@ -274,7 +274,7 @@ class Hashids_<T>: HashidsGenerator where T: UnsignedInteger {
         repeat {
             hash.insert(alphabet[number % length], at: index)
             number = number / length
-        } while (number != 0)
+        } while number != 0
     }
 
     fileprivate func _unhash<U: Collection>(_ hash: U, _ alphabet: [Char]) -> Int where U.Index == Int, U.Iterator.Element == Char {
@@ -312,10 +312,14 @@ class Hashids_<T>: HashidsGenerator where T: UnsignedInteger {
 // MARK: Internal functions
 
 internal func contains<T: Collection>(_ a: T, _ e: T.Iterator.Element) -> Bool where T.Iterator.Element: Equatable {
-    return (a.firstIndex(of: e) != nil)
+    a.firstIndex(of: e) != nil
 }
 
-internal func transform<T: Collection>(_ a: T, _ b: T, _ cmpr: (inout [T.Iterator.Element], T, T, T.Iterator.Element) -> Void) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
+internal func transform<T: Collection>(
+    _ a: T,
+    _ b: T,
+    _ cmpr: (inout [T.Iterator.Element], T, T, T.Iterator.Element) -> Void
+) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
     typealias U = T.Iterator.Element
     var c = [U]()
     for i in a {
@@ -325,8 +329,8 @@ internal func transform<T: Collection>(_ a: T, _ b: T, _ cmpr: (inout [T.Iterato
 }
 
 internal func unique<T: Collection>(_ a: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
-    return transform(a, a) {
-        ( c, _, _, e) in
+    transform(a, a) {
+        c, _, _, e in
         if !contains(c, e) {
             c.append(e)
         }
@@ -334,8 +338,8 @@ internal func unique<T: Collection>(_ a: T) -> [T.Iterator.Element] where T.Iter
 }
 
 internal func intersection<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
-    return transform(a, b) {
-        ( c, _, b, e) in
+    transform(a, b) {
+        c, _, b, e in
         if contains(b, e) {
             c.append(e)
         }
@@ -343,19 +347,24 @@ internal func intersection<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element
 }
 
 internal func difference<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
-    return transform(a, b) {
-        ( c, _, b, e) in
+    transform(a, b) {
+        c, _, b, e in
         if !contains(b, e) {
             c.append(e)
         }
     }
 }
-internal func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U) where T.Index == Int, T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index {
+
+internal func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U) where T.Index == Int,
+    T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index
+{
     let saltCount: Int = numericCast(salt.count)
     shuffle(&source, salt, 0 ..< saltCount)
 }
 
-internal func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U, _ saltRange: Range<Int>) where T.Index == Int, T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index {
+internal func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U, _ saltRange: Range<Int>) where T.Index == Int,
+    T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index
+{
     let sidx0 = saltRange.lowerBound, scnt = (saltRange.upperBound - saltRange.lowerBound)
     guard scnt != 0 else { return }
 

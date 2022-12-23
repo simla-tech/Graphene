@@ -15,8 +15,8 @@ public protocol AbstractDecodable: Decodable {
     init(schemaType: String, container: SingleValueDecodingContainer) throws
 }
 
-extension AbstractDecodable {
-    public init(from decoder: Decoder) throws {
+public extension AbstractDecodable {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: TypeNameCodingKey.self)
         let nestedType = try container.decode(String.self, forKey: .typename)
         let nestedContainer = try decoder.singleValueContainer()

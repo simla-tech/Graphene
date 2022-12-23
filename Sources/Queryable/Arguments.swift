@@ -17,20 +17,20 @@ public struct Argument<Value>: AnyArgument {
     public var rawValue: String
 }
 
-extension Argument {
-    public static func raw(_ value: String) -> Argument {
-        return .init(rawValue: value)
+public extension Argument {
+    static func raw(_ value: String) -> Argument {
+        .init(rawValue: value)
     }
 }
 
-extension Argument where Value: Variable {
+public extension Argument where Value: Variable {
 
-    public static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value>) -> Argument<Value> {
-        return .init(rawValue: "$\(value.identifier)")
+    static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value>) -> Argument<Value> {
+        .init(rawValue: "$\(value.identifier)")
     }
 
-    public static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value?>) -> Argument<Value> {
-        return .init(rawValue: "$\(value.identifier)")
+    static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value?>) -> Argument<Value> {
+        .init(rawValue: "$\(value.identifier)")
     }
 
 }
@@ -73,7 +73,7 @@ extension Argument: ExpressibleByBooleanLiteral {
 
 extension Argument: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: Argument<Value>...) {
-        self.rawValue = "[\(elements.map({ $0.rawValue }).joined(separator: ","))]"
+        self.rawValue = "[\(elements.map(\.rawValue).joined(separator: ","))]"
     }
 }
 
@@ -84,8 +84,8 @@ extension Argument: ExpressibleByDictionaryLiteral {
 }
 
 extension String {
-    internal var escaped: String {
-        var res: String = ""
+    var escaped: String {
+        var res = ""
         for char in self {
             switch char {
             case "\\": res += "\\\\"

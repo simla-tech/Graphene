@@ -6,9 +6,8 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import Foundation
-
 import Alamofire
+import Foundation
 import os.log
 
 public protocol GrapheneSubscriptionEventMonitor {
@@ -38,59 +37,64 @@ public protocol GrapheneSubscriptionEventMonitor {
 
 }
 
-extension GrapheneSubscriptionEventMonitor {
+public extension GrapheneSubscriptionEventMonitor {
 
-    public var subscriptionMonitorQueue: DispatchQueue { .main }
+    var subscriptionMonitorQueue: DispatchQueue { .main }
 
-    public func manager(_ manager: SubscriptionManager, willConnectTo url: URL) {
+    func manager(_ manager: SubscriptionManager, willConnectTo url: URL) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will connect to %@", url.absoluteString)
     }
 
-    public func manager(_ manager: SubscriptionManager, didConnectTo url: URL) {
+    func manager(_ manager: SubscriptionManager, didConnectTo url: URL) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager successfully connect to %@", url.absoluteString)
     }
 
-    public func managerWillEstablishConnection(_ manager: SubscriptionManager) {
+    func managerWillEstablishConnection(_ manager: SubscriptionManager) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will establish connection")
     }
 
-    public func managerDidEstablishConnection(_ manager: SubscriptionManager) {
+    func managerDidEstablishConnection(_ manager: SubscriptionManager) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager successfully establish connection")
     }
 
-    public func manager(_ manager: SubscriptionManager, receivedError error: Error, for context: OperationContext?) {
+    func manager(_ manager: SubscriptionManager, receivedError error: Error, for context: OperationContext?) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager received error: %@", error.localizedDescription)
     }
 
-    public func managerKeepAlive(_ manager: SubscriptionManager) {
+    func managerKeepAlive(_ manager: SubscriptionManager) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager keep alive")
     }
 
-    public func manager(_ manager: SubscriptionManager, willRegisterSubscription context: OperationContext) {
+    func manager(_ manager: SubscriptionManager, willRegisterSubscription context: OperationContext) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will register subscription \"%@\"", context.operationName)
     }
 
-    public func manager(_ manager: SubscriptionManager, didRegisterSubscription context: OperationContext) {
+    func manager(_ manager: SubscriptionManager, didRegisterSubscription context: OperationContext) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager successfully register subscription \"%@\"", context.operationName)
     }
 
-    public func manager(_ manager: SubscriptionManager, willDeregisterSubscription context: OperationContext) {
+    func manager(_ manager: SubscriptionManager, willDeregisterSubscription context: OperationContext) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will deregister subscription \"%@\"", context.operationName)
     }
 
-    public func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext) {
+    func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager successfully deregister subscription \"%@\"", context.operationName)
     }
 
-    public func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {
+    func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager will disconnect with code %d (.%@)", code.rawValue, code.stringValue)
     }
 
-    public func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, error: Error?) {
-        os_log("[GrapheneSubscriptionEventMonitor] Manager did disconnect with code %d (.%@), error \"%@\"", code.rawValue, code.stringValue, error?.localizedDescription ?? "none")
+    func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, error: Error?) {
+        os_log(
+            "[GrapheneSubscriptionEventMonitor] Manager did disconnect with code %d (.%@), error \"%@\"",
+            code.rawValue,
+            code.stringValue,
+            error?.localizedDescription ?? "none"
+        )
     }
 
-    public func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
+    func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
         os_log("[GrapheneSubscriptionEventMonitor] Manager tries to reconnect: %d attempt", attempt)
     }
 
@@ -174,7 +178,7 @@ public class GrapheneSubscriptionClosureEventMonitor: GrapheneSubscriptionEventM
 
 }
 
-final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionEventMonitor {
+internal final class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionEventMonitor {
 
     let subscriptionMonitorQueue = DispatchQueue(label: "com.simla.Graphene.CompositeGrapheneSubscriptionMonitor", qos: .utility)
 
@@ -193,55 +197,55 @@ final internal class CompositeGrapheneSubscriptionMonitor: GrapheneSubscriptionE
     }
 
     func manager(_ manager: SubscriptionManager, willConnectTo url: URL) {
-        performEvent { $0.manager(manager, willConnectTo: url) }
+        self.performEvent { $0.manager(manager, willConnectTo: url) }
     }
 
     func manager(_ manager: SubscriptionManager, didConnectTo url: URL) {
-        performEvent { $0.manager(manager, didConnectTo: url) }
+        self.performEvent { $0.manager(manager, didConnectTo: url) }
     }
 
     func managerWillEstablishConnection(_ manager: SubscriptionManager) {
-        performEvent { $0.managerWillEstablishConnection(manager) }
+        self.performEvent { $0.managerWillEstablishConnection(manager) }
     }
 
     func managerDidEstablishConnection(_ manager: SubscriptionManager) {
-        performEvent { $0.managerDidEstablishConnection(manager) }
+        self.performEvent { $0.managerDidEstablishConnection(manager) }
     }
 
     func manager(_ manager: SubscriptionManager, receivedError error: Error, for context: OperationContext?) {
-        performEvent { $0.manager(manager, receivedError: error, for: context) }
+        self.performEvent { $0.manager(manager, receivedError: error, for: context) }
     }
 
     func managerKeepAlive(_ manager: SubscriptionManager) {
-        performEvent { $0.managerKeepAlive(manager) }
+        self.performEvent { $0.managerKeepAlive(manager) }
     }
 
     func manager(_ manager: SubscriptionManager, willRegisterSubscription context: OperationContext) {
-        performEvent { $0.manager(manager, willRegisterSubscription: context) }
+        self.performEvent { $0.manager(manager, willRegisterSubscription: context) }
     }
 
     func manager(_ manager: SubscriptionManager, didRegisterSubscription context: OperationContext) {
-        performEvent { $0.manager(manager, didRegisterSubscription: context) }
+        self.performEvent { $0.manager(manager, didRegisterSubscription: context) }
     }
 
     func manager(_ manager: SubscriptionManager, willDeregisterSubscription context: OperationContext) {
-        performEvent { $0.manager(manager, willDeregisterSubscription: context) }
+        self.performEvent { $0.manager(manager, willDeregisterSubscription: context) }
     }
 
     func manager(_ manager: SubscriptionManager, didDeregisterSubscription context: OperationContext) {
-        performEvent { $0.manager(manager, didDeregisterSubscription: context) }
+        self.performEvent { $0.manager(manager, didDeregisterSubscription: context) }
     }
 
     func manager(_ manager: SubscriptionManager, willDisconnectWithCode code: URLSessionWebSocketTask.CloseCode) {
-        performEvent { $0.manager(manager, willDisconnectWithCode: code) }
+        self.performEvent { $0.manager(manager, willDisconnectWithCode: code) }
     }
 
     func manager(_ manager: SubscriptionManager, didDisconnectWithCode code: URLSessionWebSocketTask.CloseCode, error: Error?) {
-        performEvent { $0.manager(manager, didDisconnectWithCode: code, error: error) }
+        self.performEvent { $0.manager(manager, didDisconnectWithCode: code, error: error) }
     }
 
     func manager(_ manager: SubscriptionManager, triesToReconnectWith attempt: Int) {
-        performEvent { $0.manager(manager, triesToReconnectWith: attempt) }
+        self.performEvent { $0.manager(manager, triesToReconnectWith: attempt) }
     }
 
 }

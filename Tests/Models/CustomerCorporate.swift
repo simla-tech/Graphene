@@ -19,11 +19,11 @@ public struct CustomerCorporate: Decodable, Identifiable {
 extension CustomerCorporate: Queryable {
 
     public class QueryKeys: QueryKey {
-        static let id         = QueryKeys(CodingKeys.id)
-        static let createdAt  = QueryKeys(CodingKeys.createdAt)
-        static let vip        = QueryKeys(CodingKeys.vip)
-        static let bad        = QueryKeys(CodingKeys.bad)
-        static let nickName   = QueryKeys(CodingKeys.nickName)
+        static let id = QueryKeys(CodingKeys.id)
+        static let createdAt = QueryKeys(CodingKeys.createdAt)
+        static let vip = QueryKeys(CodingKeys.vip)
+        static let bad = QueryKeys(CodingKeys.bad)
+        static let nickName = QueryKeys(CodingKeys.nickName)
     }
 
 }

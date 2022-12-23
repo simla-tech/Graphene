@@ -13,18 +13,20 @@ struct APIQuerySchema: QuerySchema {
 
     final class QueryKeys: QueryKey {
 
-        static func orders(first: Argument<Int>? = nil,
-                           after: Argument<String>? = nil,
-                           _ builder: @escaping QueryBuilder<Connection<Order>>) -> QueryKeys {
-            return Query("orders", args: ["first": first, "after": after], builder).asKey()
+        static func orders(
+            first: Argument<Int>? = nil,
+            after: Argument<String>? = nil,
+            _ builder: @escaping QueryBuilder<Connection<Order>>
+        ) -> QueryKeys {
+            Query("orders", args: ["first": first, "after": after], builder).asKey()
         }
 
         static func order(id: Argument<Order.ID>, _ builder: @escaping QueryBuilder<Order>) -> QueryKeys {
-            return Query("order", args: ["id": id], builder).asKey()
+            Query("order", args: ["id": id], builder).asKey()
         }
 
         static func checkPhone(phone: Argument<String>, _ builder: @escaping QueryBuilder<CheckPhone>) -> QueryKeys {
-            return Query("checkPhone", args: ["phone": phone], builder).asKey()
+            Query("checkPhone", args: ["phone": phone], builder).asKey()
         }
 
     }

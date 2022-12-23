@@ -5,18 +5,19 @@
 //  Created by Ilya Kharlamov on 28.01.2021.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
-public class GrapheneValidator {
+public enum GrapheneValidator {
 
     public static func validateGraphQLError(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
-        guard let data = data else {
+        guard let data else {
             return .failure(GrapheneError.invalidResponse)
         }
 
-        if !(200..<300).contains(response.statusCode),
-            let errors = try? JSONDecoder().decode(GraphQLErrors.self, from: data) {
+        if !(200 ..< 300).contains(response.statusCode),
+           let errors = try? JSONDecoder().decode(GraphQLErrors.self, from: data)
+        {
             if errors.count > 1 {
                 return .failure(errors)
             } else if let error = errors.first {
@@ -30,7 +31,7 @@ public class GrapheneValidator {
 
     public static func validateStatus(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
         var rawResponse: String?
-        if let data = data {
+        if let data {
             rawResponse = String(decoding: data, as: UTF8.self)
         }
         switch response.statusCode {

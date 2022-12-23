@@ -41,5 +41,5 @@ extension ChangeSet: Codable {
         self.changes = []
     }
 
-    public func encode(to encoder: Encoder) throws {}
+    public func encode(to encoder: Encoder) throws { }
 }

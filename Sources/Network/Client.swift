@@ -5,8 +5,8 @@
 //  Created by Ilya Kharlamov on 28.01.2021.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
 public class Client: NSObject {
 
@@ -19,20 +19,24 @@ public class Client: NSObject {
     public let subscriptionManager: SubscriptionManager?
 
     /// Create Graphene client
-    public init(url: URLConvertible,
-                batchUrl: URLConvertible? = nil,
-                subscriptionManager: SubscriptionManager? = nil,
-                configuration: Configuration = .default) {
+    public init(
+        url: URLConvertible,
+        batchUrl: URLConvertible? = nil,
+        subscriptionManager: SubscriptionManager? = nil,
+        configuration: Configuration = .default
+    ) {
         self.url = url
         self.batchUrl = batchUrl
         self.configuration = configuration
-        let session = Alamofire.Session(rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
-                                        startRequestsImmediately: false,
-                                        interceptor: configuration.interceptor,
-                                        serverTrustManager: configuration.serverTrustManager,
-                                        redirectHandler: configuration.redirectHandler,
-                                        cachedResponseHandler: configuration.cachedResponseHandler,
-                                        eventMonitors: configuration.eventMonitors)
+        let session = Alamofire.Session(
+            rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
+            startRequestsImmediately: false,
+            interceptor: configuration.interceptor,
+            serverTrustManager: configuration.serverTrustManager,
+            redirectHandler: configuration.redirectHandler,
+            cachedResponseHandler: configuration.cachedResponseHandler,
+            eventMonitors: configuration.eventMonitors
+        )
         self.alamofireSession = session
         self.subscriptionManager = subscriptionManager
         self.subscriptionManager?.alamofireSession = session
@@ -41,8 +45,8 @@ public class Client: NSObject {
 
 }
 
-extension Client {
-    public struct Configuration {
+public extension Client {
+    struct Configuration {
         public typealias ErrorModifier = (Error) -> Error
         public static var `default`: Configuration { Configuration() }
         public var eventMonitors: [GrapheneEventMonitor] = []
@@ -54,35 +58,38 @@ extension Client {
         public var errorModifier: ErrorModifier?
         public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
-        public var muteCanceledRequests: Bool = true
+        public var muteCanceledRequests = true
         public var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
         public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
-        public var useOperationNameAsReferer: Bool = true
+        public var useOperationNameAsReferer = true
     }
 }
 
 extension Client.Configuration {
-    internal func prepareHttpHeaders() -> HTTPHeaders {
+    func prepareHttpHeaders() -> HTTPHeaders {
         var httpHeaders = self.httpHeaders ?? []
         if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
-           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
+           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String
+        {
             httpHeaders.add(.userAgent("Graphene/\(version)"))
         }
         return httpHeaders
     }
 }
 
-extension Client {
-    public struct SubscriptionConfiguration {
+public extension Client {
+    struct SubscriptionConfiguration {
         public let url: URL
         public let socketProtocol: String?
         public let eventMonitors: [GrapheneSubscriptionEventMonitor]
         public let timeoutInterval: TimeInterval
 
-        public init(url: URL,
-                    socketProtocol: String? = nil,
-                    eventMonitors: [GrapheneSubscriptionEventMonitor] = [],
-                    timeoutInterval: TimeInterval = 5) {
+        public init(
+            url: URL,
+            socketProtocol: String? = nil,
+            eventMonitors: [GrapheneSubscriptionEventMonitor] = [],
+            timeoutInterval: TimeInterval = 5
+        ) {
             self.url = url
             self.socketProtocol = socketProtocol
             self.eventMonitors = eventMonitors

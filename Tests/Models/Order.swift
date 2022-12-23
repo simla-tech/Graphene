@@ -34,38 +34,42 @@ extension Order: Queryable {
 
     public class QueryKeys: QueryKey {
 
-        static let id               = QueryKeys(CodingKeys.id)
-        static let number           = QueryKeys(CodingKeys.number)
-        static let createdAt        = QueryKeys(CodingKeys.createdAt)
-        static let nickName         = QueryKeys(CodingKeys.nickName)
-        static let firstName        = QueryKeys(CodingKeys.firstName)
-        static let lastName         = QueryKeys(CodingKeys.lastName)
-        static let patronymic       = QueryKeys(CodingKeys.patronymic)
-        static let updateStateDate  = QueryKeys(CodingKeys.updateStateDate)
-        static let externalId       = QueryKeys(CodingKeys.externalId)
+        static let id = QueryKeys(CodingKeys.id)
+        static let number = QueryKeys(CodingKeys.number)
+        static let createdAt = QueryKeys(CodingKeys.createdAt)
+        static let nickName = QueryKeys(CodingKeys.nickName)
+        static let firstName = QueryKeys(CodingKeys.firstName)
+        static let lastName = QueryKeys(CodingKeys.lastName)
+        static let patronymic = QueryKeys(CodingKeys.patronymic)
+        static let updateStateDate = QueryKeys(CodingKeys.updateStateDate)
+        static let externalId = QueryKeys(CodingKeys.externalId)
 
         static func payments(_ builder: @escaping QueryBuilder<Payment>) -> QueryKeys {
-            return Query(CodingKeys.payments, builder).asKey()
+            Query(CodingKeys.payments, builder).asKey()
         }
 
         static func manager(_ builder: @escaping QueryBuilder<User>) -> QueryKeys {
-            return Query(CodingKeys.manager, builder).asKey()
+            Query(CodingKeys.manager, builder).asKey()
         }
 
         static func orderType(_ builder: @escaping QueryBuilder<OrderType>) -> QueryKeys {
-            return Query(CodingKeys.orderType, builder).asKey()
+            Query(CodingKeys.orderType, builder).asKey()
         }
 
         static func contragent(_ builder: @escaping QueryBuilder<Contragent>) -> QueryKeys {
-            return Query(CodingKeys.contragent, builder).asKey()
+            Query(CodingKeys.contragent, builder).asKey()
         }
 
         static func unionCustomer(_ builder: @escaping QueryBuilder<AbstractCustomer>) -> QueryKeys {
-            return Query(CodingKeys.unionCustomer, builder).asKey()
+            Query(CodingKeys.unionCustomer, builder).asKey()
         }
 
-        static func orderProducts(first: Argument<Int>? = nil, after: Argument<String>? = nil, _ builder: @escaping QueryBuilder<Connection<OrderProduct>>) -> QueryKeys {
-            return Query(CodingKeys.orderProducts, args: ["first": first, "after": after], builder).asKey()
+        static func orderProducts(
+            first: Argument<Int>? = nil,
+            after: Argument<String>? = nil,
+            _ builder: @escaping QueryBuilder<Connection<OrderProduct>>
+        ) -> QueryKeys {
+            Query(CodingKeys.orderProducts, args: ["first": first, "after": after], builder).asKey()
         }
 
     }

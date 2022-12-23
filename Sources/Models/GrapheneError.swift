@@ -36,14 +36,14 @@ extension GrapheneError: LocalizedError {
     }
 
     public var errorDescription: String? {
-        return self.localizedDescription
+        self.localizedDescription
     }
 
 }
 
 extension GrapheneError: CustomNSError {
 
-    public static var errorDomain: String = "Graphene.GrapheneError"
+    public static var errorDomain = "Graphene.GrapheneError"
 
     public var errorCode: Int {
         switch self {

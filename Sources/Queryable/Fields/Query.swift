@@ -11,8 +11,8 @@ public struct Query: Field {
 
     public let name: String
     public let arguments: AnyArguments
-    internal(set) public var alias: String?
-    private(set) public var childrenFields: [Field]
+    public internal(set) var alias: String?
+    public private(set) var childrenFields: [Field]
 
     public init(_ name: String, args: AnyArguments = [:]) {
         self.name = name
@@ -59,9 +59,9 @@ public struct Query: Field {
 
 }
 
-extension Query {
+public extension Query {
 
-    public init<Q: Queryable>(_ name: String, args: AnyArguments = [:], _ builder: @escaping QueryBuilder<Q>) {
+    init<Q: Queryable>(_ name: String, args: AnyArguments = [:], _ builder: @escaping QueryBuilder<Q>) {
         self.init(name, args: args)
         let container = QueryContainer<Q>(builder)
         self.childrenFields = container.fields
@@ -70,27 +70,29 @@ extension Query {
         }
     }
 
-    public init<Q: Queryable>(alias: String, name: String, args: AnyArguments = [:], _ builder: @escaping QueryBuilder<Q>) {
+    init<Q: Queryable>(alias: String, name: String, args: AnyArguments = [:], _ builder: @escaping QueryBuilder<Q>) {
         self.init(name, args: args, builder)
         self.alias = alias
     }
 
-    public init<Key: CodingKey, Q: Queryable>(_ key: Key, args: AnyArguments = [:], _ builder: @escaping QueryBuilder<Q>) {
+    init<Key: CodingKey, Q: Queryable>(_ key: Key, args: AnyArguments = [:], _ builder: @escaping QueryBuilder<Q>) {
         self.init(key.stringValue, args: args, builder)
     }
 
-    public init<Key: CodingKey, Q: Queryable>(alias: Key,
-                                              name: String,
-                                              args: AnyArguments = [:],
-                                              _ builder: @escaping QueryBuilder<Q>) {
+    init<Q: Queryable>(
+        alias: some CodingKey,
+        name: String,
+        args: AnyArguments = [:],
+        _ builder: @escaping QueryBuilder<Q>
+    ) {
         self.init(alias: alias.stringValue, name: name, args: args, builder)
     }
 
 }
 
-extension Query {
+public extension Query {
 
-    public init<F: Fragment>(_ name: String, args: AnyArguments = [:], fragment: F.Type) {
+    init<F: Fragment>(_ name: String, args: AnyArguments = [:], fragment: F.Type) {
         self.init(name, args: args)
         self.childrenFields = [AnyFragment(fragment)]
         if F.self is AbstractDecodable.Type {
@@ -98,16 +100,16 @@ extension Query {
         }
     }
 
-    public init<F: Fragment>(alias: String, name: String, args: AnyArguments = [:], fragment: F.Type) {
+    init<F: Fragment>(alias: String, name: String, args: AnyArguments = [:], fragment: F.Type) {
         self.init(name, args: args, fragment: fragment)
         self.alias = alias
     }
 
-    public init<Key: CodingKey, F: Fragment>(_ key: Key, args: AnyArguments = [:], fragment: F.Type) {
+    init<Key: CodingKey, F: Fragment>(_ key: Key, args: AnyArguments = [:], fragment: F.Type) {
         self.init(key.stringValue, args: args, fragment: fragment)
     }
 
-    public init<Key: CodingKey, F: Fragment>(alias: Key, name: String, args: AnyArguments = [:], fragment: F.Type) {
+    init<Key: CodingKey, F: Fragment>(alias: Key, name: String, args: AnyArguments = [:], fragment: F.Type) {
         self.init(alias: alias.stringValue, name: name, args: args, fragment: fragment)
     }
 

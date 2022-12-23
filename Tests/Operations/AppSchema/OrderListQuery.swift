@@ -18,7 +18,7 @@ struct OrderListQuery: GraphQLOperation {
     }
 
     static func decodePath(of decodable: Connection<Order>.Type) -> String? {
-        return "orders"
+        "orders"
     }
 
     static func buildQuery(with builder: QueryContainer<APIQuerySchema>) {

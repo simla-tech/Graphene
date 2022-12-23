@@ -22,8 +22,8 @@ public struct PageInfo: Codable {
 extension PageInfo: Queryable {
 
     public class QueryKeys: QueryKey {
-        public static let hasNextPage  = QueryKeys(CodingKeys.hasNextPage)
-        public static let endCursor    = QueryKeys(CodingKeys.endCursor)
+        public static let hasNextPage = QueryKeys(CodingKeys.hasNextPage)
+        public static let endCursor = QueryKeys(CodingKeys.endCursor)
     }
 
 }

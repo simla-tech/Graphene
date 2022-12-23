@@ -19,16 +19,16 @@ public struct GraphQLErrors: Error, Decodable {
 
 extension GraphQLErrors: Collection {
 
-   public var startIndex: Int { return self.errors.startIndex }
-   public var endIndex: Int { return self.errors.endIndex }
+    public var startIndex: Int { self.errors.startIndex }
+    public var endIndex: Int { self.errors.endIndex }
 
-   public subscript(index: Int) -> GraphQLError {
-       return self.errors[index]
-   }
+    public subscript(index: Int) -> GraphQLError {
+        self.errors[index]
+    }
 
-   public func index(after i: Int) -> Int {
-       return self.errors.index(after: i)
-   }
+    public func index(after i: Int) -> Int {
+        self.errors.index(after: i)
+    }
 
 }
 
@@ -37,7 +37,7 @@ extension GraphQLErrors: CustomNSError {
     public static var errorDomain: String { "GraphQLErrors" }
 
     public var errorUserInfo: [String: Any] {
-        return ["errors": self.errors.map({ $0.errorUserInfo })]
+        ["errors": self.errors.map(\.errorUserInfo)]
     }
 
 }
@@ -45,7 +45,7 @@ extension GraphQLErrors: CustomNSError {
 extension GraphQLErrors: LocalizedError {
 
     public var errorDescription: String? {
-        return self.errors.map(\.localizedDescription).joined(separator: ", ")
+        self.errors.map(\.localizedDescription).joined(separator: ", ")
     }
 
 }

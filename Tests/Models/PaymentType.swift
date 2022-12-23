@@ -20,12 +20,12 @@ public struct PaymentType: Decodable, Identifiable {
 extension PaymentType: Queryable {
 
     public class QueryKeys: QueryKey {
-        static let id               = QueryKeys(CodingKeys.id)
-        static let name             = QueryKeys(CodingKeys.name)
-        static let active           = QueryKeys(CodingKeys.active)
-        static let description      = QueryKeys(CodingKeys.description)
-        static let defaultForCrm    = QueryKeys(CodingKeys.defaultForCrm)
-        static let defaultForApi    = QueryKeys(CodingKeys.defaultForApi)
+        static let id = QueryKeys(CodingKeys.id)
+        static let name = QueryKeys(CodingKeys.name)
+        static let active = QueryKeys(CodingKeys.active)
+        static let description = QueryKeys(CodingKeys.description)
+        static let defaultForCrm = QueryKeys(CodingKeys.defaultForCrm)
+        static let defaultForApi = QueryKeys(CodingKeys.defaultForApi)
     }
 
 }

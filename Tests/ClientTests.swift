@@ -6,8 +6,8 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import XCTest
 import Alamofire
+import XCTest
 @testable import Graphene
 
 class ClientTests: XCTestCase {

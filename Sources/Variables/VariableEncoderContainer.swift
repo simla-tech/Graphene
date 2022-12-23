@@ -14,18 +14,20 @@ private enum ApplyChangeSetResult {
 
 public class VariableEncoderContainer {
 
-    fileprivate var encoder: VariableEncoder
+    private var encoder: VariableEncoder
 
     internal init(_ encoder: VariableEncoder) {
         self.encoder = encoder
     }
 
-    private func applyChangeSet(to value: Variable?,
-                                forKey key: String,
-                                changeSet: AnyChangeSet?,
-                                required: Bool) -> ApplyChangeSetResult {
+    private func applyChangeSet(
+        to value: Variable?,
+        forKey key: String,
+        changeSet: AnyChangeSet?,
+        required: Bool
+    ) -> ApplyChangeSetResult {
 
-        guard let changeSet = changeSet else {
+        guard let changeSet else {
             return .value(value)
         }
 
@@ -44,7 +46,12 @@ public class VariableEncoderContainer {
             } else if let values = (value as Any) as? [AnyChangeSetIdentifiableVariable] {
 
                 let variables = values.compactMap({ value -> Variable? in
-                    switch self.applyChangeSet(to: value, forKey: "\(value.anyChangeSetIdentifier)", changeSet: childChangeSet, required: false) {
+                    switch self.applyChangeSet(
+                        to: value,
+                        forKey: "\(value.anyChangeSetIdentifier)",
+                        changeSet: childChangeSet,
+                        required: false
+                    ) {
                     case .value(let variable): return variable
                     default: return nil
                     }
@@ -74,7 +81,7 @@ public class VariableEncoderContainer {
     }
 
     public func encodeIfPresent(_ value: Variable?, forKey key: String, required: Bool = false) {
-        guard let value = value else { return }
+        guard let value else { return }
         self.encode(value, forKey: key, required: required)
     }
 
@@ -82,5 +89,5 @@ public class VariableEncoderContainer {
 
 private struct ArrayOfVariables: Variable {
     var variables: [Variable]
-    var json: Any? { self.variables.map({ $0.json }) }
+    var json: Any? { self.variables.map(\.json) }
 }
