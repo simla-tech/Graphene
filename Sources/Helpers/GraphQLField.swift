@@ -83,7 +83,7 @@ public struct GraphQLFieldUnwrapError: LocalizedError, CustomNSError {
 
 }
 
-private extension GraphQLField {
+internal extension GraphQLField {
     struct EmptyInfo: Codable {
         let operationName: String?
         let path: String
@@ -158,7 +158,11 @@ public extension KeyedDecodingContainer {
             }).joined(separator: ".")
             return .empty(operationName: userInfo?[.operationName] as? String, path: path)
         } catch {
-            throw error
+            if let emptyInfo = try? self.decode(GraphQLField<T>.EmptyInfo.self, forKey: key) {
+                return .empty(operationName: emptyInfo.operationName, path: emptyInfo.path)
+            } else {
+                throw error
+            }
         }
     }
 }
