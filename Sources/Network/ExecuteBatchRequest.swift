@@ -47,10 +47,10 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
     private func send() {
         guard !self.isSent else { return }
         self.isSent = true
-        if let client = self.client {
-            self.monitor.client(client, willSend: self)
-        }
         self.alamofireRequest.resume()
+        if let client = self.client {
+            self.monitor.client(client, didSend: self)
+        }
     }
 
     private func handleProgress(_ progress: Progress) {

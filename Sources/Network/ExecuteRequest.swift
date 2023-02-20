@@ -46,10 +46,10 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
     private func send() {
         guard !self.isSending else { return }
         self.isSending = true
-        if let client = self.client {
-            self.monitor.client(client, willSend: self)
-        }
         self.alamofireRequest.resume()
+        if let client = self.client {
+            self.monitor.client(client, didSend: self)
+        }
     }
 
     private func handleProgress(_ progress: Progress) {
