@@ -70,10 +70,10 @@ class QueryTests: XCTestCase {
     func testChangeSet() {
 
         var orignal = Order(id: Order.ID())
-        orignal.contragent = Contragent(contragentType: .enterpreneur)
+        orignal.contragent = APIContragent(contragentType: .enterpreneur)
         orignal.contragent?.INN = "1231232"
         orignal.contragent?.KPP = "31232"
-        orignal.deliveryContragent = Contragent(contragentType: .individual)
+        orignal.deliveryContragent = APIContragent(contragentType: .individual)
         orignal.deliveryContragent?.INN = "3232"
         orignal.deliveryContragent?.KPP = "3213"
         orignal.payments = [
@@ -88,7 +88,7 @@ class QueryTests: XCTestCase {
         clone.contragent?.KPP = nil
         clone.contragent?.OGRN = "1231232"
         clone.deliveryContragent = nil
-        clone.customerContragent = Contragent(contragentType: .legalEntity)
+        clone.customerContragent = APIContragent(contragentType: .legalEntity)
         clone.customerContragent?.INN = "4122"
         clone.customerContragent?.KPP = "123123"
         clone.payments?.remove(at: 0)

@@ -1,5 +1,5 @@
 //
-//  CustomerCorporate.swift
+//  APICustomerCorporate.swift
 //  GrapheneTests
 //
 //  Created by Ilya Kharlamov on 04.02.2021.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct CustomerCorporate: Decodable, Identifiable {
+public struct APICustomerCorporate: Decodable, Identifiable {
     public var id: String
     public var createdAt: Date?
     public var vip: Bool?
@@ -16,7 +16,7 @@ public struct CustomerCorporate: Decodable, Identifiable {
     public var nickName: String?
 }
 
-extension CustomerCorporate: Queryable {
+extension APICustomerCorporate: Queryable {
 
     public class QueryKeys: QueryKey {
         static let id = QueryKeys(CodingKeys.id)
@@ -28,7 +28,7 @@ extension CustomerCorporate: Queryable {
 
 }
 
-extension CustomerCorporate: EncodableVariable {
+extension APICustomerCorporate: EncodableVariable {
 
     public func encode(to encoder: VariableEncoder) {
         let container = encoder.container(keyedBy: CodingKeys.self)

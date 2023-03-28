@@ -49,7 +49,7 @@ public extension SomeChangeSet {
         let changesDesc = self.enumerated().map({
             $1.description(padding: 1, isLast: $0 == self.changes.endIndex - 1)
         })
-        return "{\n\(changesDesc.joined(separator: "\n"))\n}"
+        return String(describing: Self.self) + (changesDesc.isEmpty ? "()" : "(\n\(changesDesc.joined(separator: "\n"))\n)")
     }
 }
 

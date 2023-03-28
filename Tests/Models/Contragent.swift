@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct Contragent: Decodable {
+public struct APIContragent: Decodable {
     public var contragentType: ContragentType
     public var legalName: String?
     public var legalAddress: String?
@@ -19,7 +19,7 @@ public struct Contragent: Decodable {
     public var OGRNIP: String?
 }
 
-extension Contragent: Queryable {
+extension APIContragent: Queryable {
 
     public class QueryKeys: QueryKey {
         static let contragentType = QueryKeys(CodingKeys.contragentType)
@@ -34,7 +34,7 @@ extension Contragent: Queryable {
 
 }
 
-extension Contragent: EncodableVariable {
+extension APIContragent: EncodableVariable {
 
     public func encode(to encoder: VariableEncoder) {
         let container = encoder.container(keyedBy: CodingKeys.self)

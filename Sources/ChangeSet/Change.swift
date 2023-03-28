@@ -38,7 +38,7 @@ public struct FieldChange: Change, Hashable, Equatable {
         let oldValue = self.oldValue?.json ?? "nil"
         let newValue = self.newValue?.json ?? "nil"
         return [
-            paddingStr, "\"\(self.key)\"", ":", "\(oldValue)", "→", "\(newValue)\(isLast ? "" : ",")"
+            paddingStr, "\(self.key):", "\(oldValue)", "→", "\(newValue)\(isLast ? "" : ",")"
         ].joined(separator: " ")
     }
 

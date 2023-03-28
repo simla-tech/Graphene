@@ -21,10 +21,10 @@ public struct Order: Decodable, Identifiable {
     public var payments: [Payment]?
     public var manager: User?
     public var updateStateDate: String?
-    public var contragent: Contragent?
-    public var deliveryContragent: Contragent?
-    public var customerContragent: Contragent?
-    public var unionCustomer: AbstractCustomer?
+    public var contragent: APIContragent?
+    public var deliveryContragent: APIContragent?
+    public var customerContragent: APIContragent?
+    public var unionCustomer: APIAbstractCustomer?
     public var orderProducts: Connection<OrderProduct>?
 }
 
@@ -56,11 +56,11 @@ extension Order: Queryable {
             Query(CodingKeys.orderType, builder).asKey()
         }
 
-        static func contragent(_ builder: @escaping QueryBuilder<Contragent>) -> QueryKeys {
+        static func contragent(_ builder: @escaping QueryBuilder<APIContragent>) -> QueryKeys {
             Query(CodingKeys.contragent, builder).asKey()
         }
 
-        static func unionCustomer(_ builder: @escaping QueryBuilder<AbstractCustomer>) -> QueryKeys {
+        static func unionCustomer(_ builder: @escaping QueryBuilder<APIAbstractCustomer>) -> QueryKeys {
             Query(CodingKeys.unionCustomer, builder).asKey()
         }
 

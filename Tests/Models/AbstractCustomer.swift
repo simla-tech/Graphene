@@ -1,5 +1,5 @@
 //
-//  AbstractCustomer.swift
+//  APIAbstractCustomer.swift
 //  GrapheneTests
 //
 //  Created by Ilya Kharlamov on 04.02.2021.
@@ -8,10 +8,10 @@
 import Foundation
 @testable import Graphene
 
-public enum AbstractCustomer: Identifiable {
+public enum APIAbstractCustomer: Identifiable {
 
     case customer(Customer)
-    case corporate(CustomerCorporate)
+    case corporate(APICustomerCorporate)
 
     public var id: String {
         switch self {
@@ -22,13 +22,13 @@ public enum AbstractCustomer: Identifiable {
 
 }
 
-extension AbstractCustomer: AbstractDecodable {
+extension APIAbstractCustomer: AbstractDecodable {
 
     public init(schemaType: String, container: SingleValueDecodingContainer) throws {
         switch schemaType {
         case Customer.schemaType:
             self = .customer(try container.decode())
-        case CustomerCorporate.schemaType:
+        case APICustomerCorporate.schemaType:
             self = .corporate(try container.decode())
         default:
             throw GrapheneError.unknownSchemaType(schemaType)
@@ -37,7 +37,9 @@ extension AbstractCustomer: AbstractDecodable {
 
 }
 
-extension AbstractCustomer: Queryable {
+extension APIAbstractCustomer: Queryable {
+
+    public static var schemaType: String { "AbstractCustomer" }
 
     public class QueryKeys: QueryKey {
 
@@ -48,8 +50,8 @@ extension AbstractCustomer: Queryable {
             On(Customer.self, builder).asKey()
         }
 
-        static func onCorporateCustomer(_ builder: @escaping QueryBuilder<CustomerCorporate>) -> QueryKeys {
-            On(CustomerCorporate.self, builder).asKey()
+        static func onCorporateCustomer(_ builder: @escaping QueryBuilder<APICustomerCorporate>) -> QueryKeys {
+            On(APICustomerCorporate.self, builder).asKey()
         }
 
     }
