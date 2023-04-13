@@ -30,6 +30,22 @@ public protocol SuccessableRequest: ProgressableRequest {
     func onSuccess(_ closure: @escaping SuccessClosure) -> ProgressableRequest
 }
 
+public extension SuccessableRequest {
+    var result: ResultValue {
+        get async throws {
+            try await withTaskCancellationHandler(
+                operation: {
+                    try await withCheckedThrowingContinuation({ continuation in
+                        self.onSuccess({ continuation.resume(returning: $0) })
+                            .onFailure({ continuation.resume(throwing: $0) })
+                    })
+                },
+                onCancel: { self.cancel() }
+            )
+        }
+    }
+}
+
 public protocol ProgressableRequest: FailureableRequest {
     typealias ProgressClosure = (Double) -> Void
 
