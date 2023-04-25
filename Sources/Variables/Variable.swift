@@ -42,6 +42,16 @@ extension Array: Variable where Element: Variable {
     }
 }
 
+extension Set: Variable where Element: Variable {
+    public var json: Any? {
+        self.map(\.json)
+    }
+
+    public static var variableType: String {
+        "[\(Element.variableType)]!"
+    }
+}
+
 extension String: Variable {
     public var json: Any? {
         self
