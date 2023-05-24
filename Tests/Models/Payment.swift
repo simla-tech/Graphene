@@ -10,7 +10,7 @@ import Foundation
 
 public struct Payment: Decodable, Identifiable, ChangeSetIdentifiable {
     public var id: String
-    public var type: PaymentType?
+    public var type: APIPaymentType?
     public var amount: Money?
     public var paidAt: Date?
     public var comment: String?
@@ -31,7 +31,7 @@ extension Payment: Queryable {
             Query(CodingKeys.status, builder).asKey()
         }
 
-        static func type(_ builder: @escaping QueryBuilder<PaymentType>) -> QueryKeys {
+        static func type(_ builder: @escaping QueryBuilder<APIPaymentType>) -> QueryKeys {
             Query(CodingKeys.type, builder).asKey()
         }
 

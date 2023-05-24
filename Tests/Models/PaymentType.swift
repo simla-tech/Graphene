@@ -8,7 +8,7 @@
 import Foundation
 @testable import Graphene
 
-public struct PaymentType: Decodable, Identifiable {
+public struct APIPaymentType: Decodable, Identifiable {
     public var id: String
     public var name: String?
     public var active: Bool?
@@ -17,7 +17,9 @@ public struct PaymentType: Decodable, Identifiable {
     public var defaultForApi: Bool?
 }
 
-extension PaymentType: Queryable {
+extension APIPaymentType: Queryable {
+    
+    public static var schemaType: String { "PaymentType" }
 
     public class QueryKeys: QueryKey {
         static let id = QueryKeys(CodingKeys.id)
