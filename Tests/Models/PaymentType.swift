@@ -18,7 +18,7 @@ public struct APIPaymentType: Decodable, Identifiable {
 }
 
 extension APIPaymentType: Queryable {
-    
+
     public static var schemaType: String { "PaymentType" }
 
     public class QueryKeys: QueryKey {
