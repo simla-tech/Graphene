@@ -381,3 +381,5 @@ internal func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ 
         sidx = sidx - 1
     }
 }
+
+// swiftlint:enable all
