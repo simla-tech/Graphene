@@ -5,8 +5,8 @@
         "package": "Alamofire",
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
-          "branch": "feature/websocket-request",
-          "revision": "c09139d14ad25f9b97a9f8672f2b987dab5514c2",
+          "branch": "cb3d132",
+          "revision": "cb3d132649805874a4a0a3e5caa30360888e28e0",
           "version": null
         }
       }

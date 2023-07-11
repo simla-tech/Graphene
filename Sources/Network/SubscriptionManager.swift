@@ -134,7 +134,7 @@ public class SubscriptionManager: NSObject {
             var request = URLRequest(url: self.url)
             request.headers = self.headers
             self.webSocketRequest = self.alamofireSession
-                .websocketRequest(request, protocol: self.socketProtocol)
+                .websocketRequest(to: request, protocol: self.socketProtocol)
                 .responseMessage(on: self.eventQueue, handler: self.eventHandler(_:))
         }
         self.webSocketRequest?.resume()
