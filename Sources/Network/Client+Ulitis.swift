@@ -28,14 +28,6 @@ extension Client {
         }
     }
 
-    func httpHeaders<O: GraphQLOperation>(for type: O.Type) -> HTTPHeaders {
-        var httpHeaders = self.configuration.prepareHttpHeaders()
-        if self.configuration.useOperationNameAsReferer {
-            httpHeaders.add(name: "Referer", value: "/\(O.RootSchema.mode.rawValue)/\(O.operationName)")
-        }
-        return httpHeaders
-    }
-
     func prepareDataRequest<O: GraphQLOperation>(
         for type: O.Type,
         with multipartFormData: MultipartFormData,
@@ -47,7 +39,7 @@ extension Client {
             to: url,
             usingThreshold: MultipartFormData.encodingMemoryThreshold,
             method: .post,
-            headers: self.httpHeaders(for: type),
+            headers: [HTTPHeader(name: "Referer", value: "/\(O.RootSchema.mode.rawValue)/\(O.operationName)")],
             requestModifier: self.configuration.requestModifier
         )
 

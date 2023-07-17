@@ -49,7 +49,6 @@ public class SubscriptionManager: NSObject {
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
     var alamofireSession: Alamofire.Session!
-    var headers: HTTPHeaders!
     var webSocketRequest: WebSocketRequest?
 
     @Published public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
@@ -131,8 +130,7 @@ public class SubscriptionManager: NSObject {
         self.state = .connecting
         self.monitor.manager(self, willConnectTo: self.url)
         if self.webSocketRequest == nil || self.webSocketRequest?.state == .finished || self.webSocketRequest?.state == .cancelled {
-            var request = URLRequest(url: self.url)
-            request.headers = self.headers
+            let request = URLRequest(url: self.url)
             self.webSocketRequest = self.alamofireSession
                 .websocketRequest(to: request, protocol: self.socketProtocol)
                 .responseMessage(on: self.eventQueue, handler: self.eventHandler(_:))

@@ -29,6 +29,7 @@ public class Client: NSObject {
         self.batchUrl = batchUrl
         self.configuration = configuration
         let session = Alamofire.Session(
+            configuration: configuration.session,
             rootQueue: DispatchQueue(label: "com.graphene.client.rootQueue"),
             startRequestsImmediately: false,
             interceptor: configuration.interceptor,
@@ -40,7 +41,6 @@ public class Client: NSObject {
         self.alamofireSession = session
         self.subscriptionManager = subscriptionManager
         self.subscriptionManager?.alamofireSession = session
-        self.subscriptionManager?.headers = self.configuration.prepareHttpHeaders()
     }
 
 }
@@ -56,24 +56,17 @@ public extension Client {
         public var interceptor: RequestInterceptor?
         public var requestModifier: Alamofire.Session.RequestModifier?
         public var errorModifier: ErrorModifier?
-        public var httpHeaders: HTTPHeaders?
         public var validation: DataRequest.Validation?
         public var muteCanceledRequests = true
         public var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
         public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
-        public var useOperationNameAsReferer = true
-    }
-}
-
-extension Client.Configuration {
-    func prepareHttpHeaders() -> HTTPHeaders {
-        var httpHeaders = self.httpHeaders ?? []
-        if !httpHeaders.contains(where: { $0.name.lowercased() == "user-agent" }),
-           let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String
-        {
-            httpHeaders.add(.userAgent("Graphene/\(version)"))
-        }
-        return httpHeaders
+        public var session: URLSessionConfiguration = {
+            let config = URLSessionConfiguration.af.default
+            if let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
+                config.headers.add(.userAgent("Graphene/\(version)"))
+            }
+            return config
+        }()
     }
 }
 
