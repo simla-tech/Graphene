@@ -22,7 +22,7 @@ class ClientTests: XCTestCase {
 
     private lazy var client: Client = {
         var config: Client.Configuration = .default
-        config.httpHeaders = ["Authorization": "Bearer XXX"]
+        config.session.headers = ["Authorization": "Bearer XXX"]
         config.keyDecodingStrategy = .convertFromSnakeCase
         config.dateDecodingStrategy = self.dateDecodingStrategy
         config.muteCanceledRequests = false
