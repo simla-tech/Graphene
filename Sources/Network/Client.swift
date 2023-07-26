@@ -10,9 +10,7 @@ import Foundation
 
 public class Client: NSObject {
 
-    internal let alamofireSession: Alamofire.Session
-
-    public var session: URLSession { self.alamofireSession.session }
+    public let session: Session
     public let configuration: Configuration
     public var url: URLConvertible
     public var batchUrl: URLConvertible?
@@ -38,9 +36,9 @@ public class Client: NSObject {
             cachedResponseHandler: configuration.cachedResponseHandler,
             eventMonitors: configuration.eventMonitors
         )
-        self.alamofireSession = session
+        self.session = session
         self.subscriptionManager = subscriptionManager
-        self.subscriptionManager?.alamofireSession = session
+        self.subscriptionManager?.session = session
     }
 
 }

@@ -48,7 +48,7 @@ public class SubscriptionManager: NSObject {
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
     let systemDecoder: JSONDecoder
-    var alamofireSession: Alamofire.Session!
+    public internal(set) var session: Session!
     var webSocketRequest: WebSocketRequest?
 
     @Published public private(set) var state: ConnectionState = .disconnected(.code(.invalid))
@@ -60,7 +60,6 @@ public class SubscriptionManager: NSObject {
     private let eventQueue = DispatchQueue(label: "com.graphene.eventQueue", qos: .background)
     public var request: URLRequest? { self.webSocketRequest?.request }
     public var task: URLSessionTask? { self.webSocketRequest?.task }
-    public var session: URLSession { self.alamofireSession.session }
 
     public init(configuration: Client.SubscriptionConfiguration) {
         self.url = configuration.url
@@ -93,7 +92,7 @@ public class SubscriptionManager: NSObject {
     }
 
     public func resume() {
-        if self.alamofireSession == nil {
+        if self.session == nil {
             fatalError("You have to init Client(subscriptionManager:) firstly")
         }
         self.connect(isReconnect: false)
@@ -131,7 +130,7 @@ public class SubscriptionManager: NSObject {
         self.monitor.manager(self, willConnectTo: self.url)
         if self.webSocketRequest == nil || self.webSocketRequest?.state == .finished || self.webSocketRequest?.state == .cancelled {
             let request = URLRequest(url: self.url)
-            self.webSocketRequest = self.alamofireSession
+            self.webSocketRequest = self.session
                 .websocketRequest(to: request, protocol: self.socketProtocol)
                 .responseMessage(on: self.eventQueue, handler: self.eventHandler(_:))
         }

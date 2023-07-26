@@ -34,7 +34,7 @@ extension Client {
         url: URLConvertible
     ) -> UploadRequest {
 
-        var dataRequest = self.alamofireSession.upload(
+        var dataRequest = self.session.upload(
             multipartFormData: multipartFormData,
             to: url,
             usingThreshold: MultipartFormData.encodingMemoryThreshold,
