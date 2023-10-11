@@ -132,7 +132,9 @@ public class SubscriptionManager: NSObject {
             let request = URLRequest(url: self.url)
             self.webSocketRequest = self.session
                 .websocketRequest(to: request, protocol: self.socketProtocol)
-                .responseMessage(on: self.eventQueue, handler: self.eventHandler(_:))
+                .streamMessageEvents(on: self.eventQueue, handler: { [weak self] event in
+                    self?.eventHandler(event)
+                })
         }
         self.webSocketRequest?.resume()
     }
@@ -140,7 +142,7 @@ public class SubscriptionManager: NSObject {
     private func disconnect(with code: URLSessionWebSocketTask.CloseCode) {
         guard !self.state.isDisconnected else { return }
         self.monitor.manager(self, willDisconnectWithCode: code)
-        self.webSocketRequest?.cancel(with: code, reason: nil)
+        self.webSocketRequest?.close(sending: code, reason: nil)
     }
 
     internal func register(_ subscriptionOperation: SubscriptionOperation) {
