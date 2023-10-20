@@ -53,7 +53,7 @@ public extension Client {
         }
 
         let dataRequest = self.prepareDataRequest(for: O.self, with: multipartFormData, url: batchUrl)
-        return ExecuteBatchRequest(
+        return ExecuteBatchRequestImpl(
             client: self,
             alamofireRequest: dataRequest,
             decodePath: O.decodePath(of: O.ResponseValue.self),

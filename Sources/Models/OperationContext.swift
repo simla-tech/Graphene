@@ -67,14 +67,19 @@ internal struct OperationContextData: OperationContext {
     }
 
     init<O: GraphQLOperation>(operation: O) {
-        self.mode = O.RootSchema.mode
-        self.operationName = O.operationName
-        self.query = O.buildQuery()
-        self.variables = O.Variables.allKeys.reduce(into: [String: Variable](), {
+        let variables = O.Variables.allKeys.reduce(into: [String: Variable](), {
             guard let value = operation.variables[keyPath: $1] as? Variable else { return }
             if !operation.variables.encodeNull, value.json == nil { return }
             $0[$1.identifier] = value
         })
+        self.init(operation: O.self, variables: variables)
+    }
+
+    init<O: GraphQLOperation>(operation: O.Type, variables: [String: Variable]) {
+        self.mode = O.RootSchema.mode
+        self.operationName = O.operationName
+        self.query = O.buildQuery()
+        self.variables = variables
     }
 
     public func variables(prettyPrinted: Bool = false) -> String? {

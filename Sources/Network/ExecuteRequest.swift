@@ -13,17 +13,73 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
 
     public typealias ResultValue = O.Value
 
+    public let context: OperationContext
+    public fileprivate(set) var isSending = false
+
+    public var request: URLRequest? {
+        nil
+    }
+
+    public var task: URLSessionTask? {
+        nil
+    }
+
+    fileprivate let queue: DispatchQueue
+    fileprivate var closureStorage = ExecuteClosureStorage<ResultValue>()
+
+    init(context: OperationContext, queue: DispatchQueue) {
+        self.context = context
+        self.queue = queue
+    }
+
+    public func cancel() {
+        fatalError("Override cancel func in \(type(of: Self.self))")
+    }
+
+    fileprivate func send() {
+        fatalError("Override send func in \(type(of: Self.self))")
+    }
+
+    @discardableResult
+    public func onSuccess(_ closure: @escaping SuccessClosure) -> ProgressableRequest {
+        self.closureStorage.successClosure = closure
+        self.send()
+        return self
+    }
+
+    @discardableResult
+    public func onProgress(_ closure: @escaping ProgressClosure) -> FailureableRequest {
+        self.closureStorage.progressClosure = closure
+        self.send()
+        return self
+    }
+
+    @discardableResult
+    public func onFailure(_ closure: @escaping FailureClosure) -> FinishableRequest {
+        self.closureStorage.failureClosure = closure
+        self.send()
+        return self
+    }
+
+    @discardableResult
+    public func onFinish(_ closure: @escaping FinishClosure) -> GrapheneRequest {
+        self.closureStorage.finishClosure = closure
+        self.send()
+        return self
+    }
+
+}
+
+internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
+
     private let alamofireRequest: DataRequest
     private weak var client: Client?
     private let muteCanceledRequests: Bool
     private let monitor: CompositeGrapheneEventMonitor
-    private let queue: DispatchQueue
     private let errorModifier: Client.Configuration.ErrorModifier?
-    private var closureStorage = ExecuteClosureStorage<ResultValue>()
-    public let context: OperationContext
-    public private(set) var isSending = false
-    public var request: URLRequest? { self.alamofireRequest.request }
-    public var task: URLSessionTask? { self.alamofireRequest.task }
+
+    override var request: URLRequest? { self.alamofireRequest.request }
+    override var task: URLSessionTask? { self.alamofireRequest.task }
 
     internal init(client: Client, alamofireRequest: DataRequest, decodePath: String?, context: OperationContext, queue: DispatchQueue) {
         self.client = client
@@ -31,8 +87,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         self.muteCanceledRequests = client.configuration.muteCanceledRequests
         self.errorModifier = client.configuration.errorModifier
         self.alamofireRequest = alamofireRequest
-        self.context = context
-        self.queue = queue
+        super.init(context: context, queue: queue)
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = client.configuration.keyDecodingStrategy
         jsonDecoder.dateDecodingStrategy = client.configuration.dateDecodingStrategy
@@ -43,7 +98,7 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
             .responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
     }
 
-    private func send() {
+    override fileprivate func send() {
         guard !self.isSending else { return }
         self.isSending = true
         self.alamofireRequest.resume()
@@ -108,36 +163,44 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
 
     }
 
-    @discardableResult
-    public func onSuccess(_ closure: @escaping SuccessClosure) -> ProgressableRequest {
-        self.closureStorage.successClosure = closure
-        self.send()
-        return self
-    }
-
-    @discardableResult
-    public func onProgress(_ closure: @escaping ProgressClosure) -> FailureableRequest {
-        self.closureStorage.progressClosure = closure
-        self.send()
-        return self
-    }
-
-    @discardableResult
-    public func onFailure(_ closure: @escaping FailureClosure) -> FinishableRequest {
-        self.closureStorage.failureClosure = closure
-        self.send()
-        return self
-    }
-
-    @discardableResult
-    public func onFinish(_ closure: @escaping FinishClosure) -> GrapheneRequest {
-        self.closureStorage.finishClosure = closure
-        self.send()
-        return self
-    }
-
-    public func cancel() {
+    override func cancel() {
         self.alamofireRequest.cancel()
+    }
+
+}
+
+public class ExecuteRequestMock<O: GraphQLOperation>: ExecuteRequest<O> {
+
+    public let mockedResult: Result<ResultValue, Error>
+    public let timeout: TimeInterval
+    private var responseWorkItem: DispatchWorkItem?
+
+    public init(result: Result<ResultValue, Error>, timeout: TimeInterval, queue: DispatchQueue = .main) {
+        self.mockedResult = result
+        self.timeout = timeout
+        super.init(context: OperationContextData(operation: O.self, variables: [:]), queue: queue)
+    }
+
+    override func send() {
+        guard !self.isSending else { return }
+        self.isSending = true
+        let responseWorkItem = DispatchWorkItem(block: { [weak self] in
+            guard let self else { return }
+            do {
+                let value = try self.mockedResult.get()
+                try self.closureStorage.successClosure?(value)
+            } catch {
+                self.closureStorage.failureClosure?(error)
+            }
+            self.closureStorage.finishClosure?()
+        })
+        self.queue.asyncAfter(deadline: .now() + self.timeout, execute: responseWorkItem)
+        self.responseWorkItem = responseWorkItem
+    }
+
+    override public func cancel() {
+        self.responseWorkItem?.cancel()
+        self.isSending = false
     }
 
 }
