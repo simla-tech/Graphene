@@ -71,13 +71,13 @@ public extension Client {
 public extension Client {
     struct SubscriptionConfiguration {
         public let url: URL
-        public let socketProtocol: String?
+        public let socketProtocol: String
         public let eventMonitors: [GrapheneSubscriptionEventMonitor]
         public let timeoutInterval: TimeInterval
 
         public init(
             url: URL,
-            socketProtocol: String? = nil,
+            socketProtocol: String = "graphql-ws",
             eventMonitors: [GrapheneSubscriptionEventMonitor] = [],
             timeoutInterval: TimeInterval = 5
         ) {

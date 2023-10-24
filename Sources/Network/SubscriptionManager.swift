@@ -43,7 +43,7 @@ internal protocol SubscriptionOperation: AnyObject {
 public class SubscriptionManager: NSObject {
 
     let url: URL
-    let socketProtocol: String?
+    let socketProtocol: String
     let timeoutInterval: TimeInterval
     let monitor: CompositeGrapheneSubscriptionMonitor
     let encoder: JSONEncoder
@@ -131,7 +131,7 @@ public class SubscriptionManager: NSObject {
         if self.webSocketRequest == nil || self.webSocketRequest?.state == .finished || self.webSocketRequest?.state == .cancelled {
             let request = URLRequest(url: self.url)
             self.webSocketRequest = self.session
-                .websocketRequest(to: request, protocol: self.socketProtocol)
+                .webSocketRequest(performing: request, configuration: .protocol(self.socketProtocol))
                 .streamMessageEvents(on: self.eventQueue, handler: { [weak self] event in
                     self?.eventHandler(event)
                 })
