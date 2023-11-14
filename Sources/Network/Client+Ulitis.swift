@@ -28,18 +28,27 @@ extension Client {
         }
     }
 
-    func prepareDataRequest<O: GraphQLOperation>(
-        for type: O.Type,
+    func prepareDataRequest(
+        context: OperationContext,
         with multipartFormData: MultipartFormData,
         url: URLConvertible
     ) -> UploadRequest {
+
+        var headers: HTTPHeaders = [
+            HTTPHeader(name: "Referer", value: "/\(context.mode.rawValue)/\(context.operationName)"),
+            .operationName(context.operationName)
+        ]
+
+        if let variablesHash = context.variablesHash {
+            headers.add(.variablesHash(variablesHash))
+        }
 
         var dataRequest = self.session.upload(
             multipartFormData: multipartFormData,
             to: url,
             usingThreshold: MultipartFormData.encodingMemoryThreshold,
             method: .post,
-            headers: [HTTPHeader(name: "Referer", value: "/\(O.RootSchema.mode.rawValue)/\(O.operationName)")],
+            headers: headers,
             requestModifier: self.configuration.requestModifier
         )
 
@@ -52,6 +61,7 @@ extension Client {
             .validate(GrapheneValidator.validateGraphQLError(request:response:data:))
             .validate(GrapheneValidator.validateStatus(request:response:data:))
             .validate()
+
         return dataRequest
     }
 

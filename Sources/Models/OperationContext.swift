@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import CryptoKit
 import Foundation
 
 public protocol OperationContext {
@@ -13,7 +14,34 @@ public protocol OperationContext {
     var operationName: String { get }
     var query: String { get }
     var jsonVariables: [String: Any?]? { get }
-    func variables(prettyPrinted: Bool) -> String?
+}
+
+public extension OperationContext {
+
+    func variables(prettyPrinted: Bool) -> String? {
+        guard let variablesData = self.variablesData(prettyPrinted: prettyPrinted) else {
+            return nil
+        }
+        return String(data: variablesData, encoding: .utf8)
+    }
+
+    func variablesData(prettyPrinted: Bool) -> Data? {
+        guard let jsonVariables = self.jsonVariables else { return nil }
+        return try? JSONSerialization.data(
+            withJSONObject: jsonVariables,
+            options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : [.sortedKeys]
+        )
+    }
+
+    var variablesHash: String? {
+        guard let variablesData = self.variablesData(prettyPrinted: false) else {
+            return nil
+        }
+        return SHA256.hash(data: variablesData)
+            .compactMap({ String(format: "%02x", $0) })
+            .joined()
+    }
+
 }
 
 internal struct BatchOperationContextData: OperationContext {
@@ -39,17 +67,6 @@ internal struct BatchOperationContextData: OperationContext {
         self.variables = operationContexts.filter({ !$0.variables.isEmpty }).map(\.variables)
     }
 
-    func variables(prettyPrinted: Bool) -> String? {
-        guard let jsonVariables = self.jsonVariables else { return nil }
-        guard let variablesData = try? JSONSerialization.data(
-            withJSONObject: jsonVariables,
-            options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []
-        ) else {
-            return nil
-        }
-        return String(data: variablesData, encoding: .utf8)
-    }
-
 }
 
 internal struct OperationContextData: OperationContext {
@@ -67,10 +84,11 @@ internal struct OperationContextData: OperationContext {
     }
 
     init<O: GraphQLOperation>(operation: O) {
-        let variables = O.Variables.allKeys.reduce(into: [String: Variable](), {
-            guard let value = operation.variables[keyPath: $1] as? Variable else { return }
+        let variables = O.Variables.allKeys.enumerated().reduce(into: [String: Variable](), { dict, item in
+            let (index, keyPath) = item
+            guard let value = operation.variables[keyPath: keyPath] as? Variable else { return }
             if !operation.variables.encodeNull, value.json == nil { return }
-            $0[$1.identifier] = value
+            dict[argumentIdentifier(for: index)] = value
         })
         self.init(operation: O.self, variables: variables)
     }
@@ -80,17 +98,6 @@ internal struct OperationContextData: OperationContext {
         self.operationName = O.operationName
         self.query = O.buildQuery()
         self.variables = variables
-    }
-
-    public func variables(prettyPrinted: Bool = false) -> String? {
-        guard let jsonVariables = self.jsonVariables else { return nil }
-        guard let variablesData = try? JSONSerialization.data(
-            withJSONObject: jsonVariables,
-            options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : []
-        ) else {
-            return nil
-        }
-        return String(data: variablesData, encoding: .utf8)
     }
 
     internal func getOperationJSON() -> String {

@@ -68,6 +68,10 @@ public class ExecuteRequest<O: GraphQLOperation>: SuccessableRequest {
         return self
     }
 
+    public func withCacheIgnoringServer(maxAge: Int) -> Self {
+        fatalError("Override withCacheIgnoringServer func in \(type(of: Self.self))")
+    }
+
 }
 
 internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
@@ -96,6 +100,7 @@ internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
         self.alamofireRequest
             .uploadProgress(queue: self.queue, closure: self.handleProgress(_:))
             .responseDecodable(queue: .global(qos: .utility), decoder: decoder, completionHandler: self.handleResponse(_:))
+
     }
 
     override fileprivate func send() {
@@ -167,6 +172,15 @@ internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
         self.alamofireRequest.cancel()
     }
 
+    override func withCacheIgnoringServer(maxAge: Int) -> Self {
+        self.alamofireRequest.storeCacheIgnoringServer(
+            context: self.context,
+            maxAge: maxAge,
+            in: self.client?.session.sessionConfiguration.urlCache ?? .shared
+        )
+        return self
+    }
+
 }
 
 public class ExecuteRequestMock<O: GraphQLOperation>: ExecuteRequest<O> {
@@ -201,6 +215,10 @@ public class ExecuteRequestMock<O: GraphQLOperation>: ExecuteRequest<O> {
     override public func cancel() {
         self.responseWorkItem?.cancel()
         self.isSending = false
+    }
+
+    override public func withCacheIgnoringServer(maxAge: Int) -> Self {
+        self
     }
 
 }

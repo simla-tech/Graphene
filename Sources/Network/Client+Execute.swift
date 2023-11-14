@@ -41,7 +41,7 @@ public extension Client {
         }
         self.append(uploads: operationContext.getUploads(), to: multipartFormData)
 
-        let dataRequest = self.prepareDataRequest(for: O.self, with: multipartFormData, url: self.url)
+        let dataRequest = self.prepareDataRequest(context: operationContext, with: multipartFormData, url: self.url)
         return ExecuteRequestImpl(
             client: self,
             alamofireRequest: dataRequest,

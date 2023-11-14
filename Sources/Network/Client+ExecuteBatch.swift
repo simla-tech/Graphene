@@ -52,7 +52,7 @@ public extension Client {
             fatalError("To use batch request please provide batchUrl option in Client.init method")
         }
 
-        let dataRequest = self.prepareDataRequest(for: O.self, with: multipartFormData, url: batchUrl)
+        let dataRequest = self.prepareDataRequest(context: context, with: multipartFormData, url: batchUrl)
         return ExecuteBatchRequestImpl(
             client: self,
             alamofireRequest: dataRequest,

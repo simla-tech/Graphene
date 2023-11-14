@@ -49,7 +49,7 @@ public extension Client {
         public static var `default`: Configuration { Configuration() }
         public var eventMonitors: [GrapheneEventMonitor] = []
         public var serverTrustManager: ServerTrustManager?
-        public var cachedResponseHandler: CachedResponseHandler?
+        public var cachedResponseHandler: CachedResponseHandler? = .cache
         public var redirectHandler: RedirectHandler?
         public var interceptor: RequestInterceptor?
         public var requestModifier: Alamofire.Session.RequestModifier?
@@ -60,6 +60,7 @@ public extension Client {
         public var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
         public var session: URLSessionConfiguration = {
             let config = URLSessionConfiguration.af.default
+            config.timeoutIntervalForRequest = 30
             if let version = Bundle(for: Session.self).infoDictionary?["CFBundleShortVersionString"] as? String {
                 config.headers.add(.userAgent("Graphene/\(version)"))
             }

@@ -62,11 +62,15 @@ public class ExecuteBatchRequest<O: GraphQLOperation>: SuccessableRequest {
         return self
     }
 
+    public func withCacheIgnoringServer(maxAge: Int) -> Self {
+        fatalError("Override withCacheIgnoringServer func in \(type(of: Self.self))")
+    }
+
 }
 
 public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O> {
 
-    private let alamofireRequest: DataRequest
+    private var alamofireRequest: DataRequest
     private weak var client: Client?
     private let jsonDecoder: JSONDecoder
     private let muteCanceledRequests: Bool
@@ -93,6 +97,7 @@ public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O
         self.alamofireRequest
             .uploadProgress(queue: self.queue, closure: self.handleProgress(_:))
             .responseData(queue: .global(qos: .utility), completionHandler: self.handleResponse(_:))
+
     }
 
     override fileprivate func send() {
@@ -181,6 +186,16 @@ public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O
         self.alamofireRequest.cancel()
     }
 
+    override public func withCacheIgnoringServer(maxAge: Int) -> Self {
+        self.alamofireRequest
+            .storeCacheIgnoringServer(
+                context: self.context,
+                maxAge: maxAge,
+                in: self.client?.session.sessionConfiguration.urlCache ?? .shared
+            )
+        return self
+    }
+
 }
 
 public class ExecuteBatchRequestMock<O: GraphQLOperation>: ExecuteBatchRequest<O> {
@@ -215,6 +230,10 @@ public class ExecuteBatchRequestMock<O: GraphQLOperation>: ExecuteBatchRequest<O
     override public func cancel() {
         self.responseWorkItem?.cancel()
         self.isSending = false
+    }
+
+    override public func withCacheIgnoringServer(maxAge: Int) -> Self {
+        self
     }
 
 }

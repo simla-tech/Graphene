@@ -26,13 +26,27 @@ public extension Argument {
 public extension Argument where Value: Variable {
 
     static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value>) -> Argument<Value> {
-        .init(rawValue: "$\(value.identifier)")
+        if let i = Root.allKeys.firstIndex(of: value) {
+            return Argument(index: i)
+        } else {
+            fatalError("Can't find reference to \(value)")
+        }
     }
 
     static func reference<Root: QueryVariables>(to value: KeyPath<Root, Value?>) -> Argument<Value> {
-        .init(rawValue: "$\(value.identifier)")
+        if let i = Root.allKeys.firstIndex(of: value) {
+            return Argument(index: i)
+        } else {
+            fatalError("Can't find reference to \(value)")
+        }
     }
 
+}
+
+extension Argument {
+    init(index: Int) {
+        self.init(rawValue: "$\(argumentIdentifier(for: index))")
+    }
 }
 
 extension Argument: ExpressibleByIntegerLiteral where Value == IntegerLiteralType {
@@ -98,4 +112,8 @@ extension String {
         }
         return res
     }
+}
+
+func argumentIdentifier(for index: Int) -> String {
+    String(format: "var%03d", index + 1)
 }

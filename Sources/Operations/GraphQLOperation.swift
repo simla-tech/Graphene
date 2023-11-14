@@ -81,8 +81,8 @@ public extension GraphQLOperation {
     static func buildQuery() -> String {
         var query = "\(RootSchema.mode.rawValue) \(self.operationName)"
         if !Variables.allKeys.isEmpty {
-            let variablesStrCompact = Variables.allKeys.map { variable -> String in
-                "$\(variable.identifier):\(variable.variableType)"
+            let variablesStrCompact = Variables.allKeys.enumerated().map { index, variable -> String in
+                "$\(argumentIdentifier(for: index)):\(variable.variableType)"
             }
             query += "(\(variablesStrCompact.joined(separator: ",")))"
         }
