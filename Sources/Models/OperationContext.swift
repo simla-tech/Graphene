@@ -13,35 +13,7 @@ public protocol OperationContext {
     var mode: OperationMode { get }
     var operationName: String { get }
     var query: String { get }
-    var jsonVariables: [String: Any?]? { get }
-}
-
-public extension OperationContext {
-
-    func variables(prettyPrinted: Bool) -> String? {
-        guard let variablesData = self.variablesData(prettyPrinted: prettyPrinted) else {
-            return nil
-        }
-        return String(data: variablesData, encoding: .utf8)
-    }
-
-    func variablesData(prettyPrinted: Bool) -> Data? {
-        guard let jsonVariables = self.jsonVariables else { return nil }
-        return try? JSONSerialization.data(
-            withJSONObject: jsonVariables,
-            options: prettyPrinted ? [.prettyPrinted, .sortedKeys] : [.sortedKeys]
-        )
-    }
-
-    var variablesHash: String? {
-        guard let variablesData = self.variablesData(prettyPrinted: false) else {
-            return nil
-        }
-        return SHA256.hash(data: variablesData)
-            .compactMap({ String(format: "%02x", $0) })
-            .joined()
-    }
-
+    var variables: VariablesData? { get }
 }
 
 internal struct BatchOperationContextData: OperationContext {
@@ -49,39 +21,33 @@ internal struct BatchOperationContextData: OperationContext {
     let mode: OperationMode
     let operationName: String
     let query: String
-    private let variables: [[String: Variable]]
-
-    var jsonVariables: [String: Any?]? {
-        guard !self.variables.isEmpty else { return nil }
-        return self.variables.enumerated().reduce(into: [String: Any?](), {
-            for variable in $1.element {
-                $0["\($1.offset)-\(variable.key)"] = variable.value.json
-            }
-        })
-    }
+    let variables: VariablesData?
 
     init<O: GraphQLOperation>(operation: O.Type, operationContexts: [OperationContextData]) {
+        let variablesJson = operationContexts
+            .map(\.variablesDict)
+            .filter({ !$0.isEmpty })
+            .enumerated()
+            .reduce(into: [String: Any?](), {
+                for variable in $1.element {
+                    $0["\($1.offset)-\(variable.key)"] = variable.value.json
+                }
+            })
         self.mode = operation.RootSchema.mode
         self.operationName = "Batch_" + O.operationName
         self.query = O.buildQuery()
-        self.variables = operationContexts.filter({ !$0.variables.isEmpty }).map(\.variables)
+        self.variables = VariablesData(json: variablesJson)
     }
 
 }
 
 internal struct OperationContextData: OperationContext {
 
-    public let mode: OperationMode
-    public let operationName: String
-    public let query: String
-    fileprivate let variables: [String: Variable]
-
-    var jsonVariables: [String: Any?]? {
-        guard !self.variables.isEmpty else { return nil }
-        return self.variables.reduce(into: [String: Any?](), {
-            $0[$1.key] = $1.value.json
-        })
-    }
+    let mode: OperationMode
+    let operationName: String
+    let query: String
+    let variables: VariablesData?
+    fileprivate let variablesDict: [String: Variable]
 
     init<O: GraphQLOperation>(operation: O) {
         let variables = O.Variables.allKeys.enumerated().reduce(into: [String: Variable](), { dict, item in
@@ -97,20 +63,31 @@ internal struct OperationContextData: OperationContext {
         self.mode = O.RootSchema.mode
         self.operationName = O.operationName
         self.query = O.buildQuery()
-        self.variables = variables
+        self.variablesDict = variables
+        self.variables = VariablesData(
+            json: variables.reduce(into: [String: Any?](), {
+                $0[$1.key] = $1.value.json
+            })
+        )
     }
 
     internal func getOperationJSON() -> String {
-        String(
+        let variablesString: String? = {
+            if let variablesData = self.variables?.data {
+                return String(data: variablesData, encoding: .utf8)
+            }
+            return nil
+        }()
+        return String(
             format: "{\"query\":\"%@\",\"variables\": %@,\"operationName\":\"%@\"}",
             self.query.escaped,
-            self.variables(prettyPrinted: false) ?? "{}",
+            variablesString ?? "{}",
             self.operationName
         )
     }
 
     internal func getUploads() -> [String: Upload] {
-        let dictVariables = self.variables.reduce(into: Variables(), { $0["variables.\($1.key)"] = $1.value })
+        let dictVariables = self.variablesDict.reduce(into: Variables(), { $0["variables.\($1.key)"] = $1.value })
         return self.searchUploads(in: dictVariables, currentPath: [])
     }
 
@@ -137,4 +114,52 @@ internal struct OperationContextData: OperationContext {
         return result
     }
 
+}
+
+public struct VariablesData {
+    public let json: [String: Any?]
+    public let data: Data
+    public let hash: String
+
+    public var prettyJSON: String? {
+        if let data = try? JSONSerialization.data(
+            withJSONObject: json,
+            options: [.sortedKeys, .prettyPrinted]
+        ) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
+    }
+}
+
+extension VariablesData: Hashable {
+
+    public static func == (lhs: VariablesData, rhs: VariablesData) -> Bool {
+        lhs.hash == rhs.hash
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hash)
+    }
+
+}
+
+extension VariablesData {
+    init?(json: [String: Any?]) {
+        guard !json.isEmpty else { return nil }
+        do {
+            let data = try JSONSerialization.data(
+                withJSONObject: json,
+                options: [.sortedKeys]
+            )
+            self.json = json
+            self.data = data
+            self.hash = SHA256.hash(data: data)
+                .compactMap({ String(format: "%02x", $0) })
+                .joined()
+        } catch {
+            assertionFailure(error.localizedDescription)
+            return nil
+        }
+    }
 }

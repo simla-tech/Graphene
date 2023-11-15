@@ -39,7 +39,7 @@ extension Client {
             .operationName(context.operationName)
         ]
 
-        if let variablesHash = context.variablesHash {
+        if let variablesHash = context.variables?.hash {
             headers.add(.variablesHash(variablesHash))
         }
 
