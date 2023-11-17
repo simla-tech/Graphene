@@ -45,7 +45,7 @@ class ClientTests: XCTestCase {
         print("--\nQUERY:\n", OrderDetailQuery.buildQuery())
         let query = OrderDetailQuery(variables: OrderDetailQuery.Variables(orderId: "1", someString: "test", someInt: nil, someDict: nil))
         let request = self.client.execute(query)
-        print("-\nVARS:\n", request.context.variables(prettyPrinted: true) ?? "none")
+        print("-\nVARS:\n", request.context.variables?.prettyJSON ?? "none")
         request.onFinish(expectation.fulfill)
         wait(for: [expectation], timeout: 10.0)
     }
