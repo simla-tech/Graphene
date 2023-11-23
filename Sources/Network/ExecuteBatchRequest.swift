@@ -143,6 +143,7 @@ public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O
         }
 
         self.queue.async {
+            var muteClosures = false
             do {
                 try self.closureStorage.successClosure?(result.get())
                 if let client = self.client {
@@ -159,7 +160,8 @@ public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O
             } catch {
                 let modifiedError = self.errorModifier?(error) ?? error
                 let isCancelledError = modifiedError.asAFError?.isExplicitlyCancelledError ?? false
-                if !isCancelledError || !self.muteCanceledRequests {
+                muteClosures = isCancelledError && self.muteCanceledRequests
+                if !muteClosures {
                     self.closureStorage.failureClosure?(modifiedError)
                 }
                 if let client = self.client {
@@ -174,7 +176,9 @@ public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O
                     self.monitor.client(client, didReceive: response)
                 }
             }
-            self.closureStorage.finishClosure?()
+            if !muteClosures {
+                self.closureStorage.finishClosure?()
+            }
         }
 
     }

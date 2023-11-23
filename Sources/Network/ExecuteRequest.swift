@@ -128,6 +128,7 @@ internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
         let result = O.mapResponse(dataResponse.result.mapError({ $0.underlyingError ?? $0 }))
 
         self.queue.async {
+            var muteClosures = false
             do {
                 let result = try result.get()
                 try self.closureStorage.successClosure?(result)
@@ -145,7 +146,8 @@ internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
             } catch {
                 let modifiedError = self.errorModifier?(error) ?? error
                 let isCancelledError = modifiedError.asAFError?.isExplicitlyCancelledError ?? false
-                if !isCancelledError || !self.muteCanceledRequests {
+                muteClosures = isCancelledError && self.muteCanceledRequests
+                if !muteClosures {
                     self.closureStorage.failureClosure?(modifiedError)
                 }
                 if let client = self.client {
@@ -160,7 +162,9 @@ internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
                     self.monitor.client(client, didReceive: response)
                 }
             }
-            self.closureStorage.finishClosure?()
+            if !muteClosures {
+                self.closureStorage.finishClosure?()
+            }
         }
 
     }
