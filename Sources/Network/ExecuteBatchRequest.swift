@@ -122,10 +122,6 @@ public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O
             self.isSending = false
         }
 
-        if self.muteCanceledRequests, dataResponse.error?.isExplicitlyCancelledError ?? false {
-            return
-        }
-
         var result: Result<[O.Value], Error>
         do {
             let data = try dataResponse.result.mapError({ $0.underlyingError ?? $0 }).get()
@@ -147,37 +143,38 @@ public class ExecuteBatchRequestImpl<O: GraphQLOperation>: ExecuteBatchRequest<O
         }
 
         self.queue.async {
-            if !self.muteCanceledRequests || !self.alamofireRequest.isCancelled {
-                do {
-                    try self.closureStorage.successClosure?(result.get())
-                    if let client = self.client {
-                        let response = GrapheneResponse(
-                            context: self.context,
-                            request: dataResponse.request,
-                            response: dataResponse.response,
-                            error: nil,
-                            data: dataResponse.data,
-                            metrics: dataResponse.metrics
-                        )
-                        self.monitor.client(client, didReceive: response)
-                    }
-                } catch {
-                    let modifiedError = self.errorModifier?(error) ?? error
-                    self.closureStorage.failureClosure?(modifiedError)
-                    if let client = self.client {
-                        let response = GrapheneResponse(
-                            context: self.context,
-                            request: dataResponse.request,
-                            response: dataResponse.response,
-                            error: modifiedError,
-                            data: dataResponse.data,
-                            metrics: dataResponse.metrics
-                        )
-                        self.monitor.client(client, didReceive: response)
-                    }
+            do {
+                try self.closureStorage.successClosure?(result.get())
+                if let client = self.client {
+                    let response = GrapheneResponse(
+                        context: self.context,
+                        request: dataResponse.request,
+                        response: dataResponse.response,
+                        error: nil,
+                        data: dataResponse.data,
+                        metrics: dataResponse.metrics
+                    )
+                    self.monitor.client(client, didReceive: response)
                 }
-                self.closureStorage.finishClosure?()
+            } catch {
+                let modifiedError = self.errorModifier?(error) ?? error
+                let isCancelledError = modifiedError.asAFError?.isExplicitlyCancelledError ?? false
+                if !isCancelledError || !self.muteCanceledRequests {
+                    self.closureStorage.failureClosure?(modifiedError)
+                }
+                if let client = self.client {
+                    let response = GrapheneResponse(
+                        context: self.context,
+                        request: dataResponse.request,
+                        response: dataResponse.response,
+                        error: modifiedError,
+                        data: dataResponse.data,
+                        metrics: dataResponse.metrics
+                    )
+                    self.monitor.client(client, didReceive: response)
+                }
             }
+            self.closureStorage.finishClosure?()
         }
 
     }

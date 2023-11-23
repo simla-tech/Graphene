@@ -13,10 +13,10 @@ import Foundation
 
 public class SubscribeRequest<O: GraphQLOperation> {
 
+    @Published
+    public internal(set) var state: SubscriptionState = .disconnected(.code(.invalid))
+
     public let context: OperationContext
-
-    @Published public internal(set) var state: SubscriptionState = .disconnected(.code(.invalid))
-
     public let onValue = PassthroughSubject<O.Value, Never>()
     public var request: URLRequest? { self.client?.subscriptionManager?.request }
     public var task: URLSessionTask? { self.client?.subscriptionManager?.task }
