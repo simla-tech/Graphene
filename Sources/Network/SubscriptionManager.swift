@@ -6,7 +6,7 @@
 //  Copyright © 2021 DIGITAL RETAIL TECHNOLOGIES, S.L. All rights reserved.
 //
 
-import Alamofire
+@_spi(WebSocket) import Alamofire
 import Combine
 import Foundation
 
