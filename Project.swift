@@ -5,13 +5,13 @@ let project = Project(
     name: .Graphene,
     additionalBaseSettings: SettingsDictionary().allowAppExtensionAPIOnly(true),
     targets: [
-        Target(
+        .target(
             name: .Graphene,
             dependencies: [
                 .external(name: .Alamofire)
             ]
         ),
-        Target(
+        .target(
             name: .GrapheneInspector,
             sources: "Inspector/**",
             dependencies: [
@@ -20,7 +20,7 @@ let project = Project(
                 .external(name: .Alamofire)
             ]
         ),
-        Target(
+        .target(
             name: .GrapheneTests,
             product: .unitTests,
             sources: .defaultTestsPath,
