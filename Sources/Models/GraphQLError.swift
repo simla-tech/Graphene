@@ -10,13 +10,11 @@ import Foundation
 public struct GraphQLError: Error, Decodable {
 
     public let message: String
-    public let locations: [Location]?
     public let path: [String]?
     public let extensions: [String: Any]?
 
     private enum CodingKeys: String, CodingKey {
         case message
-        case locations
         case path
         case extensions
     }
@@ -24,18 +22,10 @@ public struct GraphQLError: Error, Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.message = try container.decode(String.self, forKey: .message)
-        self.locations = try? container.decodeIfPresent([Location].self, forKey: .locations)
         self.path = try? container.decodeIfPresent([String].self, forKey: .path)
         self.extensions = try? container.decodeIfPresent([String: Any].self, forKey: .extensions)
     }
 
-}
-
-public extension GraphQLError {
-    struct Location: Codable {
-        public let line: Int
-        public let column: Int
-    }
 }
 
 extension GraphQLError: LocalizedError {
@@ -54,9 +44,7 @@ extension GraphQLError: CustomNSError {
 
     public var errorUserInfo: [String: Any] {
         var result = [String: Any]()
-        if let locations = self.locations {
-            result["locations"] = locations
-        }
+
         if let path = self.path {
             result["path"] = path
         }

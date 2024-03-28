@@ -34,10 +34,6 @@ public extension SomeChangeSet {
         self.changes.index(before: i)
     }
 
-    func contains(where key: String) -> Bool {
-        self.contains(where: { $0.key == key })
-    }
-
     func first(where key: String) -> Change? {
         self.first(where: { $0.key == key })
     }
