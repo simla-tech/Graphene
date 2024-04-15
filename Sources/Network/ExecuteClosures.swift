@@ -67,7 +67,7 @@ public protocol FinishableRequest: GrapheneRequest {
     func onFinish(_ closure: @escaping FinishClosure) -> GrapheneRequest
 }
 
-public protocol GrapheneRequest {
+public protocol GrapheneRequest: AnyObject {
     var context: OperationContext { get }
     var request: URLRequest? { get }
     var task: URLSessionTask? { get }
