@@ -23,7 +23,7 @@ let project = Project(
         .target(
             name: .GrapheneTests,
             product: .unitTests,
-            sources: .defaultTestsPath,
+            sources: .tests,
             dependencies: [.target(name: .Graphene)]
         )
     ],
