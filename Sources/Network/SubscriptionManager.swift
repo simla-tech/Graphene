@@ -245,7 +245,7 @@ public class SubscriptionManager: NSObject {
                     operation.handleRawValue(data)
                 } else {
                     assertionFailure(
-                        "Can't find operation for data message \"\(String(data: data, encoding: .utf8) ?? String(describing: data))\""
+                        "Can't find operation for data message \"\(String(decoding: data, as: UTF8.self))\""
                     )
                 }
 

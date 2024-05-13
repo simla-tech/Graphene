@@ -36,9 +36,7 @@ public extension Client {
 
         let operationContexts = operations.map({ OperationContextData(operation: $0) })
         let operations = operationContexts.map({ $0.getOperationJSON() }).joined(separator: ",")
-        if let data = "[\(operations)]".data(using: .utf8) {
-            multipartFormData.append(data, withName: "operations")
-        }
+        multipartFormData.append(Data("[\(operations)]".utf8), withName: "operations")
         let uploads = operationContexts.enumerated().reduce(into: [String: Upload]()) { uploads, context in
             for upload in context.element.getUploads() {
                 uploads["\(context.offset).\(upload.key)"] = upload.value

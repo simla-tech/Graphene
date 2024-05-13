@@ -74,7 +74,7 @@ internal struct OperationContextData: OperationContext {
     internal func getOperationJSON() -> String {
         let variablesString: String? = {
             if let variablesData = self.variables?.data {
-                return String(data: variablesData, encoding: .utf8)
+                return String(decoding: variablesData, as: UTF8.self)
             }
             return nil
         }()
@@ -126,7 +126,7 @@ public struct VariablesData {
             withJSONObject: json,
             options: [.sortedKeys, .prettyPrinted]
         ) {
-            return String(data: data, encoding: .utf8)
+            return String(decoding: data, as: UTF8.self)
         }
         return nil
     }

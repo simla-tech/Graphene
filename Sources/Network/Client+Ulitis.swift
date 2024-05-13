@@ -15,9 +15,7 @@ extension Client {
         let mapStr = uploads.enumerated().map({ index, upload -> String in
             "\"\(index)\": [\"\(upload.key)\"]"
         }).joined(separator: ",")
-        if let data = "{\(mapStr)}".data(using: .utf8) {
-            multipartFormData.append(data, withName: "map")
-        }
+        multipartFormData.append(Data("{\(mapStr)}".utf8), withName: "map")
         for (index, upload) in uploads.enumerated() {
             multipartFormData.append(
                 upload.value.data,
