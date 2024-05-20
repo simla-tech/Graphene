@@ -23,4 +23,12 @@ open class QueryKey {
         self.object = Query(key)
     }
 
+    public init<T: CodingKey>(alias: T, key: String) {
+        self.object = Query(alias: alias, name: key)
+    }
+
+    public init(alias: String, key: String) {
+        self.object = Query(alias: alias, name: key)
+    }
+
 }
