@@ -146,7 +146,8 @@ internal class ExecuteRequestImpl<O: GraphQLOperation>: ExecuteRequest<O> {
             } catch {
                 let modifiedError = self.errorModifier?(error) ?? error
                 let isCancelledError = modifiedError.asAFError?.isExplicitlyCancelledError ?? false
-                muteClosures = isCancelledError && self.muteCanceledRequests
+                let isCancellationError = error is CancellationError
+                muteClosures = (isCancelledError || isCancellationError) && self.muteCanceledRequests
                 if !muteClosures {
                     self.closureStorage.failureClosure?(modifiedError)
                 }
