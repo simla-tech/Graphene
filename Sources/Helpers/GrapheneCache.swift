@@ -9,7 +9,7 @@
 import Alamofire
 import Foundation
 
-public class GrapheneCache: URLCache {
+public class GrapheneCache: URLCache, @unchecked Sendable {
 
     private func cachableRequest(for request: URLRequest) -> URLRequest? {
         guard let operationName = request.headers[HTTPHeader.operationNameKey] else {
