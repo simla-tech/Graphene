@@ -332,7 +332,9 @@ public class SubscriptionManager: NSObject {
             break
 
         case .completed:
-            self.pingDispatchWorkItem?.cancel()
+            if let workItem = self.pingDispatchWorkItem, !workItem.isCancelled {
+                workItem.cancel()
+            }
             let closeCode = (self.webSocketRequest?.lastTask as? URLSessionWebSocketTask)?.closeCode ?? .invalid
             let error = self.webSocketRequest?.error?.underlyingError ?? self.webSocketRequest?.error
             var reason: SocketDisconnectReason = .code(closeCode)
