@@ -14,7 +14,7 @@ public protocol GrapheneEventMonitor: EventMonitor {
     func client(_ client: Client, didReceive response: GrapheneResponse)
 }
 
-public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMonitor {
+public class GrapheneClosureEventMonitor: ClosureEventMonitor, GrapheneEventMonitor, @unchecked Sendable {
 
     open var clientWillSendRequest: ((Client, GrapheneRequest) -> Void)?
     open var clientDidReceiveResponse: ((Client, GrapheneResponse) -> Void)?
