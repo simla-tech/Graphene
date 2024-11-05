@@ -225,7 +225,7 @@ public class ExecuteRequestMock<O: GraphQLOperation>: ExecuteRequest<O> {
 
 }
 
-private class GraphQLDecoder: DataDecoder {
+private class GraphQLDecoder: DataDecoder, @unchecked Sendable {
 
     let decodePath: String
     let jsonDecoder: JSONDecoder
