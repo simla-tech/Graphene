@@ -29,7 +29,7 @@ public enum GrapheneValidator {
 
     }
 
-    public static func validateStatus(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
+    @Sendable public static func validateStatus(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
         var rawResponse: String?
         if let data {
             rawResponse = String(decoding: data, as: UTF8.self)
