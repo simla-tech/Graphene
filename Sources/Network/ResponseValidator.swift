@@ -29,7 +29,8 @@ public enum GrapheneValidator {
 
     }
 
-    @Sendable public static func validateStatus(
+    @Sendable
+    public static func validateStatus(
         request: URLRequest?,
         response: HTTPURLResponse,
         data: Data?
