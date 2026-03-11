@@ -10,8 +10,12 @@ import Foundation
 
 public enum GrapheneValidator {
 
-    @Sendable //@Sendable
-    public static func validateGraphQLError(request: URLRequest?, response: HTTPURLResponse, data: Data?) -> DataRequest.ValidationResult {
+    @Sendable
+    public static func validateGraphQLError(
+        request: URLRequest?,
+        response: HTTPURLResponse,
+        data: Data?
+    ) -> DataRequest.ValidationResult {
         guard let data else {
             return .failure(GrapheneError.invalidResponse)
         }
