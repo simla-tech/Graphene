@@ -13,7 +13,7 @@ struct StringParameterEncoding: ParameterEncoding {
 
     func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         var request = try urlRequest.asURLRequest()
-        request.httpBody = body.data(using: .utf8, allowLossyConversion: false)
+        request.httpBody = self.body.data(using: .utf8, allowLossyConversion: false)
         return request
     }
 }
