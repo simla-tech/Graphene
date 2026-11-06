@@ -33,7 +33,7 @@ public class GrapheneInspector {
             try self.session.request(
                 urlComponents.asURL(),
                 method: .post,
-                encoding: operationType.buildQuery(),
+                encoding: StringParameterEncoding(body: operationType.buildQuery()),
                 headers: [HTTPHeader.contentType("text/plain")]
             ).responseDecodable(
                 of: Response.self,
